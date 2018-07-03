@@ -143,7 +143,7 @@ export class LoginPage extends Component<IProps, IState> {
           // add token to localstorage
           localStorage.setItem('token', token)
 
-          this.props.history.push('/home')
+          this.props.history.push('/resetpassword')
           console.log(cognitoUser)
 
           /******************************************************************

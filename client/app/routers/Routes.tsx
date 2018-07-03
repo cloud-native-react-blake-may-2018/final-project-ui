@@ -15,6 +15,7 @@ import DashboardPage from '../components/DashboardPage'
 // import SettingsPage from '../components/SettingsPage'
 // import ProfilePage from '../components/ProfilePage'
 import NotFoundPage from '../components/NotFoundPage'
+import ResetPasswordPage from '../components/ResetPasswordPage';
 
 export const history = createHistory()
 const mql = window.matchMedia(`(min-width: 100px)`)
@@ -66,6 +67,7 @@ export class Pages extends Component<IProps, IState> {
           <PublicRoute exact path="/" component={SplashPage} />
           <PublicRoute path="/signup" component={SignupPage} />
           <PublicRoute path="/login" component={LoginPage} />
+          <PublicRoute path="/resetpassword" component = {ResetPasswordPage} />
           <Sidebar
             sidebar={sidebar}
             open={this.state.sidebarOpen}
