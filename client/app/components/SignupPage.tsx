@@ -71,8 +71,8 @@ export class SignupPage extends Component<ClassProps, ClassState> {
 
     // start of cognito logic
     const poolData = {
-      UserPoolId: 'us-east-2_LfGmk9qIA',
-      ClientId: '5lmmpid5kd4v4vibmvifhcm3re'
+      UserPoolId: 'us-east-2_fMMquWRem',
+      ClientId: '1q83lmu6khfnc0v8jjdrde9291'
     }
 
     // initialize pool of users
@@ -84,7 +84,10 @@ export class SignupPage extends Component<ClassProps, ClassState> {
       Name: 'email',
       Value: email
     }
-
+    const dataName = {
+      Name: 'name',
+      Value: this.state.fullname
+    }
     console.log('state email ', email)
     console.log('data email ', dataEmail)
 
@@ -93,12 +96,21 @@ export class SignupPage extends Component<ClassProps, ClassState> {
     const attributeEmail = new AmazonCognitoIdentity.CognitoUserAttribute(
       dataEmail
     )
+    const attributeName = new AmazonCognitoIdentity.CognitoUserAttribute(
+      dataName
+    )
 
     attributeList.push(attributeEmail)
-
+    attributeList.push(attributeName)
     // creates user
     userPool.signUp(username, password, attributeList, null, (err, result) => {
       if (err) {
+        this.setState({
+          errors: {
+            ...this.state.errors,
+            global: err.message
+          }
+        })
         return console.log('there was an error.', err)
       }
 
