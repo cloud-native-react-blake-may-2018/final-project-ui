@@ -35,7 +35,7 @@
     "@fortawesome/fontawesome-svg-core": "latest",
     "@fortawesome/react-fontawesome": "latest",
     "@types/react-dropzone": "latest",
-    "amazon-cognito-identity-js": "latest",
+    "amazon-cognito-identity-js": "^2.0.13",
     "aws-sdk": "latest",
     "axios": "latest",
     "classnames": "latest",
