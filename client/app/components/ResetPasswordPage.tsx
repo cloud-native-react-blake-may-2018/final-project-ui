@@ -65,7 +65,6 @@ public changePassword = (e:any) => {
     });     
 
     })
-   
 }
 
 onFieldChange = ({ target }) => {

@@ -6,6 +6,7 @@ import * as awsCognito from 'amazon-cognito-identity-js'
 import { startLogin } from '../actions/auth'
 
 import api from '../api'
+import { DashboardPage } from './DashboardPage';
 
 interface IData {
   username: string
