@@ -6,6 +6,7 @@ import * as awsCognito from 'amazon-cognito-identity-js'
 import { startLogin } from '../actions/auth'
 
 import api from '../api'
+import { DashboardPage } from './DashboardPage';
 
 interface IData {
   username: string
@@ -142,7 +143,7 @@ export class LoginPage extends Component<IProps, IState> {
           // add token to localstorage
           localStorage.setItem('token', token)
 
-          this.props.history.push('/dashboard')
+          this.props.history.push('/home')
           console.log(cognitoUser)
 
           /******************************************************************
