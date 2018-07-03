@@ -196,6 +196,7 @@ export class LoginPage extends Component<IProps, IState> {
   render = () => {
     const { errors } = this.state
     const responseGoogle = (response) => {
+      
       console.log(response)
     }
     return (
