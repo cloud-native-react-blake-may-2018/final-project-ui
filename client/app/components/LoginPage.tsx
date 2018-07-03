@@ -237,6 +237,9 @@ export class LoginPage extends Component<IProps, IState> {
             <Link to="/signup" className="signup-link">
               &nbsp;Signup
             </Link>
+            <Link to="/resetpassword" className="item">
+              Forgot Password?
+            </Link>
           </div>
         </form>
         <div className="overlay" />
