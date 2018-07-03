@@ -11,7 +11,7 @@ const signupUrl =
   'https://njn4fv1tr6.execute-api.us-east-2.amazonaws.com/prod/signup'
 
 const loginUrl =
-  'https://njn4fv1tr6.execute-api.us-east-2.amazonaws.com/prod/login'
+  'https://cloud-native-project-3-ui.s3-website.us-east-2.amazonaws.com'
 
 const persistUrl =
   'https://njn4fv1tr6.execute-api.us-east-2.amazonaws.com/prod/persist-user'
