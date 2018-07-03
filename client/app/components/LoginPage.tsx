@@ -3,6 +3,9 @@ import { Link, RouteComponentProps } from 'react-router-dom'
 import { connect } from 'react-redux'
 import ResetPasswordPage from './ResetPasswordPage'
 import * as awsCognito from 'amazon-cognito-identity-js'
+// import "https://apis.google.com/js/platform.js"
+import GoogleButton from 'react-google-button'
+import GoogleLogin from 'react-google-login'
 
 import { startLogin } from '../actions/auth'
 
@@ -186,6 +189,9 @@ export class LoginPage extends Component<IProps, IState> {
   // @ts-ignore
   render = () => {
     const { errors } = this.state
+    const responseGoogle = (response) => {
+      console.log(response)
+    }
     return (
       <div className="login-page">
         <div className="login-bg" />
@@ -225,6 +231,13 @@ export class LoginPage extends Component<IProps, IState> {
             <button type="submit" className="login-button button">
               Login
             </button>
+            {/* <GoogleButton onClick={() => {console.log('Google Button clicked!')}} /> */}
+            
+            <GoogleLogin 
+              clientId='636482594885-49889hn7ee5or2eduu5lrkq5ncngflng.apps.googleusercontent.com'
+              onSuccess={responseGoogle}
+              onFailure={responseGoogle}
+             />
           </div>
           <div className="switch-auth-form">
             <p className="text">Don't have an account?</p>
@@ -237,6 +250,10 @@ export class LoginPage extends Component<IProps, IState> {
         </form>
         <div className="overlay" />
         <div className="bg" />
+        {/* <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <meta name="google-signin-client_id" content="636482594885-aes4i0cj8l24nmc2f3nesc96hmiksmjh.apps.googleusercontent.com" />
+        <div className="g-signin2" data-onsuccess="onSignIn"></div> */}
+        
       </div>
     )
   }

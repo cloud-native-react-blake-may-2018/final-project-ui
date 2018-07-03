@@ -48,6 +48,8 @@
     "react": "latest",
     "react-dom": "latest",
     "react-dropzone": "latest",
+    "react-google-button": "^0.5.3",
+    "react-google-login": "^3.2.1",
     "react-hot-loader": "latest",
     "react-image-gallery": "latest",
     "react-input-autosize": "latest",
