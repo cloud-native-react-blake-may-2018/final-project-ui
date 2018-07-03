@@ -10,7 +10,6 @@ import { DashboardPage } from './DashboardPage';
 
 interface IData {
   username: string
-  password: string
   token: string
 }
 
@@ -117,7 +116,9 @@ export class LoginPage extends Component<IProps, IState> {
       }
 
       // store credentials in amazon object
-      const authenticationDetails = new awsCognito.AuthenticationDetails(authenticationData)
+      const authenticationDetails = new awsCognito.AuthenticationDetails(
+        authenticationData
+      )
       // data defined in cognito
       const poolData = {
         ClientId: '1q83lmu6khfnc0v8jjdrde9291', // Your client id here
@@ -141,39 +142,37 @@ export class LoginPage extends Component<IProps, IState> {
           const token = result.getIdToken().getJwtToken()
 
           // add token to localstorage
-          localStorage.setItem('token', token)
+          // localStorage.setItem('token', token)
 
-          this.props.history.push('/resetpassword')
-          console.log(cognitoUser)
+          // this.props.history.push('/dashboard')
+          // console.log('history object ', this.props.history)
+          // console.log(cc)
 
           /******************************************************************
-           * I Don't Know if this is needed 
+           * I Don't Know if this is needed
            ******************************************************************/
-          // const data = {
-          //   ...initialData,
-          //   token
-          // }
-          // this.props
-          //   .startLogin(data)
-          //   // console.log(this.props.startLogin(data))
-          //   .then(() => {
-          
-          //   })
-          //   .catch(err => {
-          //     console.log('front end error', err)
-          //     return this.setState({ errors: err.response.data.errors })
-          //   })
+          const data = {
+            username: cognitoUser.getUsername(),
+            token
+          }
+          this.props
+            .startLogin(data)
+            // console.log(this.props.startLogin(data))
+            // .then(() => {})         // .then(() => {})
+            .catch(err => {
+              console.log('front end error', err)
+              return this.setState({ errors: err.response.data.errors })
+            })
           // // this.props.setToken(token)
           /*******************************************************************/
-          
-          
+
           // console.log(userPool.getCurrentUser())
           // console.log(result.getIdToken().decodePayload())
           // const idtok: any = result.getIdToken();
           // console.log(idtok.payload['cognito:groups']) //payload has the user info on it
         },
         onFailure: err => {
-          console.log(err)
+          console.log('password error: ', err)
           if (
             err.code === 'UserNotFoundException' ||
             err.code === 'NotAuthorizedException'
@@ -238,6 +237,9 @@ export class LoginPage extends Component<IProps, IState> {
             <p className="text">Don't have an account?</p>
             <Link to="/signup" className="signup-link">
               &nbsp;Signup
+            </Link>
+            <Link to="/resetpassword" className="item">
+              Forgot Password?
             </Link>
           </div>
         </form>
