@@ -9,34 +9,29 @@ import {
 } from 'reactstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import SearchResults from './SearchResults'
+// import SearchResults from './SearchResults'
 import { startLogout } from '../actions/auth'
 
-interface StateProps {
+interface RProps {
   isAuthenticated: Boolean
-  name: string
-  words: any
-  results: any
-  photo: string
+  username: string
+  photo?: string
 }
 
-interface DispatchProps {
+interface RState {
   startLogout: () => void
 }
 
-type Props = StateProps & DispatchProps
+type Props = RProps & RState
 
 export class Header extends Component<Props> {
   state = {
-    dropdownOpen: false,
-    searchTerm: '',
-    showSearch: false
+    dropdownOpen: false
   }
 
   toggleDropdown = () =>
     this.setState({ dropdownOpen: !this.state.dropdownOpen })
 
-  // Probably will only use this for testing
   // @ts-ignore
   componentDidMount = () =>
     document.addEventListener('click', this.determineSelection, false)
@@ -69,34 +64,15 @@ export class Header extends Component<Props> {
 
   handleSubmit = e => {
     e.preventDefault()
-    // console.log('Reached submit')
-    // console.log(this.props.words)
-    const matches = this.props.words.filter(
-      word => word.word === this.state.searchTerm
-    )
-    // console.log(this.state.searchTerm)
-
-    let results = this.props.results
-    // console.log(matches[0])
-    this.setState({
-      results: matches
-    } as any)
-    // console.log('Results', this.props.results)
-
-    // alert('Found match' + match[0].word)
   }
 
   render() {
-    const { isAuthenticated, startLogout, photo } = this.props
-    const searchTerm = this.state.searchTerm
+    const { isAuthenticated, username, startLogout, photo } = this.props
 
     return (
       <header className="nav-header">
-        <SearchResults term={searchTerm} inputState={this.state.showSearch} />
+        {/* <SearchResults term={searchTerm} inputState={this.state.showSearch} /> */}
         <FontAwesomeIcon icon="bars" className="bars" />
-        <Link to="/dashboard" className="seam-sm">
-          Seam
-        </Link>
         <div className="search-group">
           <FontAwesomeIcon icon="search" className="icon" />
           <form className="submit" onSubmit={this.handleSubmit}>
@@ -104,11 +80,10 @@ export class Header extends Component<Props> {
               type="text"
               className="input spawnSearch"
               placeholder="Search"
-              value={searchTerm}
+              // value={searchTerm}
               data-search={true}
               onChange={this.onFieldChange}
               onFocus={this.searchFocus}
-              // onBlur={this.searchBlur}
             />
           </form>
         </div>
@@ -127,7 +102,7 @@ export class Header extends Component<Props> {
                 background: `url(${photo}) center / cover no-repeat`
               }}
             />
-            <p className="nav-username">{this.props.name}</p>
+            <p className="nav-username">{username}</p>
             <FontAwesomeIcon icon="angle-down" className="icon fa-angle-down" />
           </DropdownToggle>
           <DropdownMenu
@@ -155,20 +130,15 @@ export class Header extends Component<Props> {
   }
 }
 
-const mapStateToProps = (state): StateProps => {
+const mapStateToProps = (state): RProps => {
   return {
     isAuthenticated: !!state.auth.token,
-    name: state.auth.name,
-    words: state.lexica.words,
-    results: state.lexica.results,
-    photo: state.auth.profileImage
+    username: state.auth.username
+    // photo: state.auth.profileImage
   }
 }
 
-export default connect<StateProps, DispatchProps>(
+export default connect<RProps, RState>(
   mapStateToProps,
-  {
-    startLogout
-    // startGetEverything
-  }
+  { startLogout }
 )(Header)
