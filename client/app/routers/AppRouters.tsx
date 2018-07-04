@@ -6,7 +6,7 @@ import decode from 'jwt-decode'
 
 import { Pages } from './Routes'
 
-import { startPersist } from '../actions/auth'
+// import { startPersist } from '../actions/auth'
 import { configureStore } from '../store/configureStore'
 
 const store = configureStore()

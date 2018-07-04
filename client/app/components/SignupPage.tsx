@@ -4,7 +4,7 @@ import { CognitoUserPool, CognitoUser } from 'amazon-cognito-identity-js'
 import * as AmazonCognitoIdentity from 'amazon-cognito-identity-js'
 
 import { connect } from 'react-redux'
-import { startSignup } from '../actions/auth'
+// import { startSignup } from '../actions/auth'
 import { generateUuid } from '../helpers/helpers'
 
 interface ClassProps extends RouteComponentProps<any> {
@@ -232,6 +232,6 @@ export class SignupPage extends Component<ClassProps, ClassState> {
 }
 
 export default connect(
-  undefined,
-  { startSignup }
+  undefined
+  // { startSignup }
 )(SignupPage)
