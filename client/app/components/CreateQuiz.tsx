@@ -3,8 +3,9 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import fontawesome from '@fortawesome/fontawesome'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { startcreateNewQuiz } from '../actions/create'
 
-export class CreateQuizComponent extends Component {
+export class CreateQuiz extends Component {
   render() {
     return (
       <div>
@@ -17,15 +18,21 @@ export class CreateQuizComponent extends Component {
         <Link to="/view-quiz" className="create-quiz-page">
           View Quizzes
         </Link>
+        <Link to="/add-question" className="create-quiz-page">
+          Add Question
+        </Link>
       </div>
     )
   }
 }
 
-// const mapStateToProps = state => ({
-//   username: state.auth.username,
-//   email: state.auth.email,
-//   firstname: state.auth.firstname
-// })
+const mapStateToProps = state => ({
+  username: state.auth.username,
+  email: state.auth.email,
+  firstname: state.auth.firstname
+})
 
-// export default connect(mapStateToProps)(CreateQuizComponent)
+export default connect(
+  undefined,
+  { startcreateNewQuiz }
+)(CreateQuiz)
