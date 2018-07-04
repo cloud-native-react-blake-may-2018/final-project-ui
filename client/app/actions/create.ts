@@ -25,7 +25,7 @@ export const createNewQuestion = newQuestion => ({
   newQuestion
 });
 
-export const startcreateNewQuestion = newQuestion => dispatch => {
+export const startCreateNewQuestion = newQuestion => dispatch => {
   dispatch(createNewQuestion(newQuestion));
 };
 
@@ -34,7 +34,7 @@ export const createNewQuiz = newQuiz => ({
   newQuiz
 });
 
-export const startcreateNewQuiz = newQuiz => dispatch => {
+export const startCreateNewQuiz = newQuiz => dispatch => {
   dispatch(createNewQuiz(newQuiz));
 };
 
