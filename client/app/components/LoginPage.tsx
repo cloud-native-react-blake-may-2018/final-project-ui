@@ -6,6 +6,7 @@ import * as awsCognito from 'amazon-cognito-identity-js'
 import { startLogin } from '../actions/auth'
 
 import api from '../api'
+import { DashboardPage } from './DashboardPage';
 
 interface IData {
   username: string
@@ -237,6 +238,9 @@ export class LoginPage extends Component<IProps, IState> {
             <p className="text">Don't have an account?</p>
             <Link to="/signup" className="signup-link">
               &nbsp;Signup
+            </Link>
+            <Link to="/resetpassword" className="item">
+              Forgot Password?
             </Link>
           </div>
         </form>
