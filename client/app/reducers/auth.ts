@@ -6,12 +6,12 @@ export const authReducer = (state = {}, action: any = {}) => {
     case 'LOGIN':
       return {
         token: action.user.token,
-        uid: action.user.uid,
+        uid: action.user.sub, // what is this in cognito token?
         email: action.user.email,
-        name: action.user.firstname,
-        last: action.user.lastname,
-        username: action.user.username,
-        profileImage: action.user.profileImage
+        name: action.user.name,
+        username: action.user.username
+        // last: action.user.lastname,
+        // profileImage: action.user.profileImage
       }
 
     case 'PERSIST':

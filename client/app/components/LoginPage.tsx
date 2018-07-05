@@ -105,6 +105,7 @@ export class LoginPage extends Component<IProps, IState> {
     // if checks pass, send user data to the server
     if (this.state.username.length > 0 && this.state.password.length > 0) {
       const { username, password } = this.state
+      const arr = [...username]
 
       // gets credentials
       const credentials = { username, password }
