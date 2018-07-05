@@ -1,11 +1,19 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
 import fontawesome from '@fortawesome/fontawesome'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { startcreateNewQuestion } from '../actions/create'
+import { startCreateNewQuestion } from '../actions/create'
 
-export class AddQuestion extends Component {
+interface IProps {
+  startCreateNewQuestion: (any) => any
+}
+// interface IProps extends RouteComponentProps<any> {
+//   startCreateNewQuestion: (any) => any
+// }
+
+export class AddQuestion extends Component<IProps, any> {
   state = {
     newQuestions: [],
     currentQuestion: {
@@ -18,6 +26,8 @@ export class AddQuestion extends Component {
     },
     answerItem: {}
   }
+
+  private functionCall = e => console.log('props: ', this.props)
 
   private updateTitle = (e: any) => {
     const title = e.target.value
@@ -79,7 +89,7 @@ export class AddQuestion extends Component {
     switch (this.state.currentQuestion.format) {
       case 'true-false':
         return (
-          <form>
+          <div>
             <div className="row">
               <label htmlFor="true-false-answer">Answer</label>
               <input
@@ -138,11 +148,11 @@ export class AddQuestion extends Component {
                 }}
               />
             </div>
-          </form>
+          </div>
         )
       default:
         return (
-          <form>
+          <div>
             <div className="row">
               <label htmlFor="true-false-answer">Answer</label>
               <input
@@ -259,15 +269,24 @@ export class AddQuestion extends Component {
                 }}
               />
             </div>
-          </form>
+          </div>
         )
     }
   }
 
   render() {
+    const { startCreateNewQuestion } = this.props
     return (
       <div>
-        <form>
+        <button
+          type="button"
+          onClick={(e: any) =>
+            startCreateNewQuestion(this.state.currentQuestion)
+          }
+        >
+          Submit Question
+        </button>
+        {/* <form>
           <label htmlFor="title">Title</label>
           <input type="text" id="title" onChange={this.updateTitle} />
           <select
@@ -278,29 +297,36 @@ export class AddQuestion extends Component {
             <option value="true-false">true false</option>
             <option value="multiple-choice">multiple choice</option>
             <option value="best-choice">one right answer</option>
-          </select>
-          {this.createTable()}
-          <button
+          </select> */}
+        {/* {this.createTable()} */}
+        {/* <button
             type="button"
-            onClick={(e: any) => {
-              // this.props.startcreateNewQuestion(this.state.currentQuestion)
-            }}
+            onClick={(e: any) =>
+              startCreateNewQuestion(this.state.currentQuestion)
+            }
           >
             Submit Question
           </button>
-        </form>
+        </form> */}
       </div>
     )
   }
 }
 
 const mapStateToProps = state => ({
-  username: state.auth.username,
-  email: state.auth.email,
-  firstname: state.auth.firstname
+  username: state.auth.username
+  // email: state.auth.email,
+  // firstname: state.auth.firstname
+})
+
+const mapDispatchToProps = dispatch => ({
+  startCreateNewQuestion: data => {
+    console.log('in map dispatch to props...')
+    startCreateNewQuestion(data)
+  }
 })
 
 export default connect(
-  undefined,
-  { startcreateNewQuestion }
+  mapStateToProps,
+  mapDispatchToProps
 )(AddQuestion)

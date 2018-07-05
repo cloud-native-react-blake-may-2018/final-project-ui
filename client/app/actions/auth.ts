@@ -1,15 +1,15 @@
-import React from "react";
-import api from "../api";
+import React from 'react'
+import api from '../api'
 
 export const login = user => ({
-  type: "LOGIN",
+  type: 'LOGIN',
   user
-});
+})
 
-export const persist = identity => ({
-  type: "PERSIST",
-  identity
-});
+// export const persist = identity => ({
+//   type: 'PERSIST',
+//   identity
+// })
 
 // export const startPersist = identity => {
 //   return dispatch => {
@@ -26,9 +26,9 @@ export const persist = identity => ({
 // }
 
 export const startLogin = credentials => dispatch => {
-  localStorage.setItem("token", credentials.token);
-  dispatch(login(credentials));
-};
+  localStorage.setItem('token', credentials.token)
+  dispatch(login(credentials))
+}
 
 // export const startSignup = dossier => dispatch =>
 //   api.user.signup(dossier).then(data => {
@@ -43,42 +43,42 @@ export const startLogin = credentials => dispatch => {
 //   })
 
 export const updateUser = user => ({
-  type: "UPDATE_USER",
+  type: 'UPDATE_USER',
   user
-});
+})
 
-export const startUpdateUser = user => dispatch => dispatch(updateUser(user));
+export const startUpdateUser = user => dispatch => dispatch(updateUser(user))
 
 export const logout = () => ({
-  type: "LOGOUT"
-});
+  type: 'LOGOUT'
+})
 
 export const startLogout = () => dispatch => {
-  localStorage.removeItem("uid");
-  localStorage.removeItem("q");
+  localStorage.removeItem('uid')
+  localStorage.removeItem('q')
   localStorage.removeItem(
-    "CognitoIdentityServiceProvider.5lmmpid5kd4v4vibmvifhcm3re.LastAuthUser"
-  );
+    'CognitoIdentityServiceProvider.5lmmpid5kd4v4vibmvifhcm3re.LastAuthUser'
+  )
   localStorage.removeItem(
-    "CognitoIdentityServiceProvider.5lmmpid5kd4v4vibmvifhcm3re.malin1.accessToken"
-  );
+    'CognitoIdentityServiceProvider.5lmmpid5kd4v4vibmvifhcm3re.malin1.accessToken'
+  )
   localStorage.removeItem(
-    "CognitoIdentityServiceProvider.5lmmpid5kd4v4vibmvifhcm3re.malin1.clockDrift"
-  );
+    'CognitoIdentityServiceProvider.5lmmpid5kd4v4vibmvifhcm3re.malin1.clockDrift'
+  )
   localStorage.removeItem(
-    "CognitoIdentityServiceProvider.5lmmpid5kd4v4vibmvifhcm3re.malin1.deviceGroupKey"
-  );
+    'CognitoIdentityServiceProvider.5lmmpid5kd4v4vibmvifhcm3re.malin1.deviceGroupKey'
+  )
   localStorage.removeItem(
-    "CognitoIdentityServiceProvider.5lmmpid5kd4v4vibmvifhcm3re.malin1.deviceKey"
-  );
+    'CognitoIdentityServiceProvider.5lmmpid5kd4v4vibmvifhcm3re.malin1.deviceKey'
+  )
   localStorage.removeItem(
-    "CognitoIdentityServiceProvider.5lmmpid5kd4v4vibmvifhcm3re.malin1.idToken"
-  );
+    'CognitoIdentityServiceProvider.5lmmpid5kd4v4vibmvifhcm3re.malin1.idToken'
+  )
   localStorage.removeItem(
-    "CognitoIdentityServiceProvider.5lmmpid5kd4v4vibmvifhcm3re.malin1.randomPasswordKey"
-  );
+    'CognitoIdentityServiceProvider.5lmmpid5kd4v4vibmvifhcm3re.malin1.randomPasswordKey'
+  )
   localStorage.removeItem(
-    "CognitoIdentityServiceProvider.5lmmpid5kd4v4vibmvifhcm3re.malin1.refreshToken"
-  );
-  dispatch(logout());
-};
+    'CognitoIdentityServiceProvider.5lmmpid5kd4v4vibmvifhcm3re.malin1.refreshToken'
+  )
+  dispatch(logout())
+}

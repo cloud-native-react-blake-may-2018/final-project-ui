@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import fontawesome from '@fortawesome/fontawesome'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { startcreateNewQuiz } from '../actions/create'
+import { startCreateNewQuiz } from '../actions/create'
 
 export class CreateQuiz extends Component {
   render() {
@@ -34,5 +34,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   undefined,
-  { startcreateNewQuiz }
+  { startCreateNewQuiz }
 )(CreateQuiz)
