@@ -1,5 +1,6 @@
 import React from 'react'
 import api from '../api'
+import * as awsCognito from 'amazon-cognito-identity-js';
 
 export const login = user => ({
   type: 'LOGIN',
@@ -54,31 +55,33 @@ export const logout = () => ({
 })
 
 export const startLogout = () => dispatch => {
-  localStorage.removeItem('uid')
-  localStorage.removeItem('q')
-  localStorage.removeItem(
-    'CognitoIdentityServiceProvider.5lmmpid5kd4v4vibmvifhcm3re.LastAuthUser'
-  )
-  localStorage.removeItem(
-    'CognitoIdentityServiceProvider.5lmmpid5kd4v4vibmvifhcm3re.malin1.accessToken'
-  )
-  localStorage.removeItem(
-    'CognitoIdentityServiceProvider.5lmmpid5kd4v4vibmvifhcm3re.malin1.clockDrift'
-  )
-  localStorage.removeItem(
-    'CognitoIdentityServiceProvider.5lmmpid5kd4v4vibmvifhcm3re.malin1.deviceGroupKey'
-  )
-  localStorage.removeItem(
-    'CognitoIdentityServiceProvider.5lmmpid5kd4v4vibmvifhcm3re.malin1.deviceKey'
-  )
-  localStorage.removeItem(
-    'CognitoIdentityServiceProvider.5lmmpid5kd4v4vibmvifhcm3re.malin1.idToken'
-  )
-  localStorage.removeItem(
-    'CognitoIdentityServiceProvider.5lmmpid5kd4v4vibmvifhcm3re.malin1.randomPasswordKey'
-  )
-  localStorage.removeItem(
-    'CognitoIdentityServiceProvider.5lmmpid5kd4v4vibmvifhcm3re.malin1.refreshToken'
-  )
+  // user pool data from cognito
+  let data = {
+    UserPoolId : 'us-east-2_fMMquWRem', // Your user pool id here
+    ClientId : '1q83lmu6khfnc0v8jjdrde9291' // Your client id here
+  };
+
+  //gathers all cognito users from database in a variable
+  let userPool = new awsCognito.CognitoUserPool(data);
+
+  //gets current cognito user from database
+  let cognitoUser = userPool.getCurrentUser();
+  
+  // checks to see if there is a cognito user
+  if (cognitoUser != null) {
+    //invalidates all tokens
+    cognitoUser.globalSignOut({
+      onSuccess: msg => {
+        console.log('Result ', msg)
+      },
+      onFailure: err => {
+        console.log('error: ', err)
+      },
+    });
+  }
+
+  //clears all tokens from local storage
+  localStorage.clear();
+
   dispatch(logout())
 }
