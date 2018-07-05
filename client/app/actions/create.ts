@@ -32,14 +32,24 @@ export const startCreateNewQuestion = newQuestion => dispatch => {
     .catch(err => console.log(err))
 }
 
-export const createNewQuiz = newQuiz => ({
+export const createNewQuiz = quizID => ({
   type: 'CREATE_NEW_QUIZ',
-  newQuiz
+  quizID
 })
 
-export const startCreateNewQuiz = newQuiz => dispatch => {
-  dispatch(createNewQuiz(newQuiz))
-}
+export const startCreateNewQuiz = newQuiz => dispatch =>
+  new Promise(function(resolve, reject) {
+    api.create
+      .addQuiz(newQuiz)
+      .then(data => {
+        dispatch(createNewQuiz(data))
+        console.log(data)
+        resolve(data)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
 
 // export const updateUser = user => ({
 //   type: "UPDATE_USER",

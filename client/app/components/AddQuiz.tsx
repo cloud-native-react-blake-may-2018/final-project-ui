@@ -3,23 +3,24 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import fontawesome from '@fortawesome/fontawesome'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { startCreateNewQuestion } from '../actions/create'
+import { startCreateNewQuiz } from '../actions/create'
+import { truncateSync } from 'fs'
 
 interface IProps {
-  startCreateNewQuestion: (any) => any
+  startCreateNewQuiz: (any) => any
 }
 
-export class AddQuestion extends Component<IProps> {
+export class AddQuiz extends Component<IProps> {
   state = {
     quiz: {
-      author: '',
+      author: 'quiz author front end',
       title: '',
       description: '',
       isPrivate: true
     }
   }
 
-  private updateQuiz(e: any, arg1: string) {
+  private updateQuiz = (e: any, arg1: string) => {
     switch (arg1) {
       case 'title':
         this.setState({
@@ -39,7 +40,44 @@ export class AddQuestion extends Component<IProps> {
       default:
         break
     }
+    console.log(this.state)
   }
+
+  private updatePrivate = (e: any) => {
+    switch (e.target.value) {
+      case 'private':
+        this.setState({
+          quiz: {
+            ...this.state.quiz,
+            isPrivate: true
+          }
+        })
+        break
+
+      default:
+        this.setState({
+          quiz: {
+            ...this.state.quiz,
+            isPrivate: false
+          }
+        })
+        break
+    }
+  }
+
+  private submitQuiz = (e: any) => {
+    this.props
+      .startCreateNewQuiz(this.state.quiz)
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err =>
+        console.log(
+          'make sure the user knows that the quiz did not make it through'
+        )
+      )
+  }
+
   render() {
     return (
       <div>
@@ -62,6 +100,20 @@ export class AddQuestion extends Component<IProps> {
               this.updateQuiz(e, 'description')
             }}
           />
+          <select
+            name=""
+            id="question-options-dropdown"
+            onChange={this.updatePrivate}
+          >
+            <option value="choose" hidden>
+              select
+            </option>
+            <option value="private">private</option>
+            <option value="public">public</option>
+          </select>
+          <button type="button" onClick={this.submitQuiz}>
+            Submit Quiz
+          </button>
         </form>
       </div>
     )
@@ -69,12 +121,10 @@ export class AddQuestion extends Component<IProps> {
 }
 
 const mapStateToProps = state => ({
-  username: state.auth.username,
-  email: state.auth.email,
-  firstname: state.auth.firstname
+  username: state.auth.username
 })
 
 export default connect<any, IProps>(
   undefined,
-  { startCreateNewQuestion }
-)(AddQuestion)
+  { startCreateNewQuiz }
+)(AddQuiz)
