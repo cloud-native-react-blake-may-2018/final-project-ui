@@ -26,12 +26,10 @@ export const createNewQuestion = newQuestion => ({
 })
 
 export const startCreateNewQuestion = newQuestion => dispatch => {
-  console.log(api)
   api.create
     .addQuestion(newQuestion)
-    .then(data => console.log(data))
+    .then(data => console.log(data)) // add uid to the lambda dispatch(createNewQuestion(data)))
     .catch(err => console.log(err))
-  dispatch(createNewQuestion(newQuestion))
 }
 
 export const createNewQuiz = newQuiz => ({
