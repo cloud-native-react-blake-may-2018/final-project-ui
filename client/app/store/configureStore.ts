@@ -5,6 +5,7 @@ import thunk from 'redux-thunk'
 import { appReducer } from '../reducers/app'
 import { authReducer } from '../reducers/auth'
 import { modalReducer } from '../reducers/modal'
+import { quizReducer } from '../reducers/quiz'
 import { createReducer } from '../reducers/create.reducer'
 
 // middleware is called every store update
@@ -29,6 +30,7 @@ export const configureStore = () => {
       app: appReducer,
       auth: authReducer,
       modal: modalReducer,
+      quiz: quizReducer,
       create: createReducer
     }),
     composeEnhancers(applyMiddleware(thunk, checkTokenExpirationMiddleware))
