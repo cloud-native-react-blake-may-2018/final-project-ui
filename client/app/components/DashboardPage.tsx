@@ -6,9 +6,6 @@ import { Link } from 'react-router-dom'
 
 export class DashboardPage extends Component {
   //@ts-ignore
-  componentDidMount = () => console.log('props dash', this.props)
-
-  //@ts-ignore
   render = () => {
     return (
       <div className="dashboard-page">
