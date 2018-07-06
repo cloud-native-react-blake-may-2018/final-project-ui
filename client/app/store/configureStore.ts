@@ -32,7 +32,7 @@ export const configureStore = () => {
       auth: authReducer,
       modal: modalReducer,
       quizzes: quizzesReducer,
-      questions: questionsReducer,
+      // questions: questionsReducer,
       create: createReducer
     }),
     composeEnhancers(applyMiddleware(thunk, checkTokenExpirationMiddleware))
