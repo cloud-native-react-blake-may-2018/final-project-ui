@@ -1,6 +1,10 @@
 import React from 'react'
 
-export const quizReducer = (state = {}, action = {} as any) => {
+const initialState = {
+  quizzes: []
+}
+
+export const quizReducer = (state = initialState, action = {} as any) => {
   switch (action.type) {
     case 'DISPLAY_QUIZZES':
       return {
