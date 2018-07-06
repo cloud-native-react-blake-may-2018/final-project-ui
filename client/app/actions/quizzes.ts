@@ -9,10 +9,10 @@ export const editQuiz = quiz => ({
   quiz
 })
 
-export const startDisplayQuizzes = author => dispatch =>
-  pathList.quizzes.display(author).then(quiz => dispatch(displayQuizzes(quiz)))
+export const startGetUserQuizzes = author => dispatch =>
+  pathList.quizzes.display(author).then(quiz => dispatch(getUserQuizzes(quiz)))
 
-export const displayQuizzes = quiz => ({
+export const getUserQuizzes = quiz => ({
   type: 'DISPLAY_QUIZZES',
   quiz
 })
