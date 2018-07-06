@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Dropzone from 'react-dropzone'
 import axios from 'axios'
-import { startUpdateUser } from '../actions/auth'
+// import { startUpdateUser } from '../actions/auth'
 
 interface ClassProps {
   email: string
@@ -227,7 +227,4 @@ const mapStateToProps = state => ({
   photo: state.auth.photo
 })
 
-export default connect(
-  mapStateToProps,
-  { startUpdateUser }
-)(SettingsPage)
+export default connect(mapStateToProps)(SettingsPage)

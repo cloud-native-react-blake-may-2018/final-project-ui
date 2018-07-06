@@ -1,4 +1,3 @@
-
 export const loadModal = modalType => ({
   type: 'SHOW_MODAL',
   modalType

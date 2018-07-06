@@ -7,48 +7,10 @@ export const login = user => ({
   user
 })
 
-export const persist = identity => ({
-  type: 'PERSIST',
-  identity
-})
-
-export const startPersist = identity => {
-  return dispatch => {
-    dispatch(persist(identity))
-
-    return api.user.persistUser(identity).then(data => {
-      const user = {
-        ...data,
-        token: identity.token
-      }
-      return dispatch(login(user))
-    })
-  }
-}
-
 export const startLogin = credentials => dispatch => {
   localStorage.setItem('token', credentials.token)
   dispatch(login(credentials))
 }
-
-export const startSignup = dossier => dispatch =>
-  api.user.signup(dossier).then(data => {
-    // appends token to data from server
-    const user = {
-      ...data,
-      token: dossier.token
-    }
-    localStorage.uid = data.uid
-    localStorage.q = dossier.token
-    dispatch(login(user))
-  })
-
-export const updateUser = user => ({
-  type: 'UPDATE_USER',
-  user
-})
-
-export const startUpdateUser = user => dispatch => dispatch(updateUser(user))
 
 export const logout = () => ({
   type: 'LOGOUT'

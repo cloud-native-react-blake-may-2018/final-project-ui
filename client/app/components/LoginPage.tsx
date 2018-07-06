@@ -106,6 +106,7 @@ export class LoginPage extends Component<IProps, IState> {
     // if checks pass, send user data to the server
     if (this.state.username.length > 0 && this.state.password.length > 0) {
       const { username, password } = this.state
+      const arr = [...username]
 
       // gets credentials
       const credentials = { username, password }
@@ -155,21 +156,10 @@ export class LoginPage extends Component<IProps, IState> {
             username: cognitoUser.getUsername(),
             token
           }
-          this.props
-            .startLogin(data)
-            // console.log(this.props.startLogin(data))
-            // .then(() => {})         // .then(() => {})
-            .catch(err => {
-              console.log('front end error', err)
-              return this.setState({ errors: err.response.data.errors })
-            })
-          // // this.props.setToken(token)
-          /*******************************************************************/
-
-          // console.log(userPool.getCurrentUser())
-          // console.log(result.getIdToken().decodePayload())
-          // const idtok: any = result.getIdToken();
-          // console.log(idtok.payload['cognito:groups']) //payload has the user info on it
+          this.props.startLogin(data).catch(err => {
+            console.log('front end error', err)
+            return this.setState({ errors: err.response.data.errors })
+          })
         },
         onFailure: err => {
           console.log('password error: ', err)
