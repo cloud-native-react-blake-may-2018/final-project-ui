@@ -9,6 +9,7 @@ export const appReducer = (state = initialState, action = {} as any) => {
         ...state,
         dataIsHere: true
       }
+      
 
     case 'LOGOUT':
       return {}

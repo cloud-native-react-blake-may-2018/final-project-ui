@@ -3,8 +3,24 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 import numeral from 'numeral'
 import { Link } from 'react-router-dom'
+import { startGetUserQuizzes } from '../actions/quizzes'
 
-export class DashboardPage extends Component {
+interface IProps {
+  username: string
+  startGetUserQuizzes: any
+}
+
+export class DashboardPage extends Component<IProps> {
+  //@ts-ignore
+  componentDidMount = () => {
+    const username = 'Shawn'
+    const {
+      // username,
+      startGetUserQuizzes
+    } = this.props
+    startGetUserQuizzes(username)
+  }
+
   //@ts-ignore
   render = () => {
     return (
@@ -22,7 +38,11 @@ export class DashboardPage extends Component {
 }
 
 const mapStateToProps = state => ({
-  token: state.auth.token
+  token: state.auth.token,
+  username: state.auth.username
 })
 
-export default connect(mapStateToProps)(DashboardPage)
+export default connect(
+  mapStateToProps,
+  { startGetUserQuizzes }
+)(DashboardPage)

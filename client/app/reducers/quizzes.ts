@@ -1,26 +1,29 @@
 import React from 'react'
 
-const initialState = {
-  quizzes: [],
-  questions: [],
-  tags: []
-}
+// const initialState = {
+//   quizzes: [],
+//   questions: [],
+//   tags: []
+// }
 
-export const quizReducer = (state = initialState, action = {} as any) => {
+export const quizzesReducer = (state = {}, action = {} as any) => {
   switch (action.type) {
-    case 'DISPLAY_QUIZZES':
+    case 'ALL_QUIZZES':
+      console.log('quizzes ', action.quizzes)
       return {
         ...state,
-        quizzes: action.quiz
+        quizzes: [...action.quizzes]
       }
 
     case 'DISPLAY_QUIZ_QUESTIONS':
+      // console.log('questions ', action.questions)
       return {
         ...state,
         questions: action.questions
       }
 
     case 'DISPLAY_QUIZ_TAGS':
+      // console.log('tags ', action.tags)
       return {
         ...state,
         tags: action.tags

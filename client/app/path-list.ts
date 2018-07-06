@@ -21,7 +21,7 @@ const displayQuizQuestionsURL =
   'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/'
 
 const displayQuizTagsURL =
-  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/'
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/uuid/'
 
 const editQuizUrl = ''
 
