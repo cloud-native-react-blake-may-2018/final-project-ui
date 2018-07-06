@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom'
 import fontawesome from '@fortawesome/fontawesome'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { startCreateNewQuiz } from '../actions/create'
-import { truncateSync } from 'fs'
 
 interface IProps {
   startCreateNewQuiz: (any) => any
+  history?: any
 }
 
 export class AddQuiz extends Component<IProps> {
@@ -69,7 +69,9 @@ export class AddQuiz extends Component<IProps> {
     this.props
       .startCreateNewQuiz(this.state.quiz)
       .then(res => {
-        console.log(res)
+        console.log('add quiz props')
+        console.log(this.props)
+        this.props.history.push('/add-question')
       })
       .catch(err =>
         console.log(
