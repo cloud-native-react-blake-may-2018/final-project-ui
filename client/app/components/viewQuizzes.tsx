@@ -37,16 +37,14 @@ export class ViewQuizzesPage extends Component<IProps> {
       <div className="viewQuizzes-page">
         <h1>My Quizzes</h1>
 
-        {/* {console.log(username)} */}
         {this.props.quizzes.map((quiz: any) => (
           <div key={quiz.uuid}>
             <h1>{quiz.title}</h1>
-            {/* {console.log(quiz.uuid)} */}
-            {/* {startDisplayQuizQuestions(quiz.uuid)} */}
-            {/* {startDisplayQuizTags(quiz.uuid)} */}
+            {startDisplayQuizQuestions(quiz.uuid)}
+            {startDisplayQuizTags(quiz.uuid)}
 
             <h3>{this.props.questions.length} Questions</h3>
-            {/* <h3>{this.props.tags} Tags</h3> */}
+            <h3>{this.props.tags} Tags</h3>
           </div>
         ))}
       </div>

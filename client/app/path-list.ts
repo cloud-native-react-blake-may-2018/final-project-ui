@@ -45,14 +45,8 @@ export default {
     edit: question =>
       axios.post(editQuestionUrl, { question }).then(res => res.data),
     display: quizUUID =>
-      axios.get(displayQuizQuestionsURL + quizUUID).then(res => {
-        console.log(res)
-        res.data
-      }),
+      axios.get(displayQuizQuestionsURL + quizUUID).then(res => res.data),
     displayTags: quizUUID =>
-      axios.get(displayQuizTagsURL + quizUUID).then(res => {
-        console.log(res.data)
-        res.data
-      })
+      axios.get(displayQuizTagsURL + quizUUID).then(res => res.data)
   }
 }
