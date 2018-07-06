@@ -5,7 +5,7 @@ import thunk from 'redux-thunk'
 import { appReducer } from '../reducers/app'
 import { authReducer } from '../reducers/auth'
 import { modalReducer } from '../reducers/modal'
-import { quizReducer } from '../reducers/quiz'
+import { quizReducer } from '../reducers/quizzes'
 import { createReducer } from '../reducers/create.reducer'
 
 // middleware is called every store update

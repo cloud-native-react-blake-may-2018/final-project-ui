@@ -5,7 +5,7 @@ import {
   startDisplayQuizzes,
   startDisplayQuizQuestions,
   startDisplayQuizTags
-} from '../actions/quiz'
+} from '../actions/quizzes'
 import { connect } from 'react-redux'
 
 interface IProps {
