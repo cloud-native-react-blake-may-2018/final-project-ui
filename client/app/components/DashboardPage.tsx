@@ -9,6 +9,7 @@ export class DashboardPage extends Component {
   render = () => {
     return (
       <div className="dashboard-page">
+        {this.props.children}
         <h1>dashboard</h1>
         <Link to="/create-quiz" className="link">
           Create A Quiz

@@ -106,7 +106,7 @@
     "babel-preset-stage-0": "latest",
     "connect-history-api-fallback": "latest",
     "css-loader": "latest",
-    "enzyme": "latest",
+    "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "latest",
     "enzyme-to-json": "latest",
     "extract-css-chunks-webpack-plugin": "latest",

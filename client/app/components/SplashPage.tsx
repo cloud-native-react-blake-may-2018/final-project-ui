@@ -12,7 +12,7 @@ export const SplashPage = () => (
         <Link to="/" className="item">
           Logo
         </Link>
-        <Link to={redirectUrl} className="item">
+        <Link to={"/login"} className="item">
           Login
         </Link>
         <Link to="/signup" className="item">
