@@ -1,7 +1,9 @@
 import React from 'react'
 
 const initialState = {
-  quizzes: []
+  quizzes: [],
+  questions: [],
+  tags: []
 }
 
 export const quizReducer = (state = initialState, action = {} as any) => {
@@ -9,7 +11,19 @@ export const quizReducer = (state = initialState, action = {} as any) => {
     case 'DISPLAY_QUIZZES':
       return {
         ...state,
-        quizzes: action.quizzes
+        quizzes: action.quiz
+      }
+
+    case 'DISPLAY_QUIZ_QUESTIONS':
+      return {
+        ...state,
+        questions: action.questions
+      }
+
+    case 'DISPLAY_QUIZ_TAGS':
+      return {
+        ...state,
+        tags: action.tags
       }
 
     case 'CREATE_QUIZ':
