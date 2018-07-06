@@ -9,10 +9,16 @@ authAxios.interceptors.request.use(config => {
 const addQuestionUrl =
   'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/question'
 
+const batchAddQuestionsUrl =
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/question/batch'
+
 const editQuestionUrl = ''
 
 const addQuizUrl =
   'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz'
+
+const addJunctionUrl =
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/'
 
 const displayQuizzesURL =
   'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/author/'
@@ -47,6 +53,13 @@ export default {
     display: quizUUID =>
       axios.get(displayQuizQuestionsURL + quizUUID).then(res => res.data),
     displayTags: quizUUID =>
-      axios.get(displayQuizTagsURL + quizUUID).then(res => res.data)
+      axios.get(displayQuizTagsURL + quizUUID).then(res => res.data),
+    addQuiz: newQuiz => axios.post(addQuizUrl, newQuiz).then(res => res.data),
+    batchAddQuestion: newQuestions =>
+      axios.post(batchAddQuestionsUrl, newQuestions).then(res => res.data),
+    addJunction: (quizID, questionID) =>
+      axios
+        .post(`${addJunctionUrl}/${quizID}/${questionID}`, quizID, questionID)
+        .then(res => res.data)
   }
 }

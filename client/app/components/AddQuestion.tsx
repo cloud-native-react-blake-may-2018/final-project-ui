@@ -3,10 +3,19 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import fontawesome from '@fortawesome/fontawesome'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { startCreateNewQuestion } from '../actions/create'
+import {
+  startaddJunctionItem,
+  startBatchCreateQuestions,
+  startCreateNewQuestion
+} from '../actions/create'
 
 interface IProps {
+  username?: string
+  quizID?: string
+  questionIDs?: string[]
   startCreateNewQuestion: (any) => any
+  startBatchCreateQuestions: (any) => any
+  startaddJunctionItem: (quizID: string, questionIDs: string[]) => any
 }
 // interface IProps extends RouteComponentProps<any> {
 //   startCreateNewQuestion: (any) => any
@@ -16,15 +25,22 @@ export class AddQuestion extends Component<IProps, any> {
   state = {
     newQuestions: [],
     currentQuestion: {
-      author: 'front-end',
+      author: this.props.username,
       title: '',
       answers: [
-        { answer: '', percentPoints: 0, feedback: '' },
-        { answer: '', percentPoints: 0, feedback: '' }
+        {
+          answer: '',
+          percentPoints: 0,
+          feedback: 'no feedback for this question'
+        },
+        {
+          answer: '',
+          percentPoints: 0,
+          feedback: 'no feedback for this question'
+        }
       ],
       format: 'true-false'
-    },
-    answerItem: {}
+    }
   }
 
   private updateTitle = (e: any) => {
@@ -70,6 +86,35 @@ export class AddQuestion extends Component<IProps, any> {
     console.log(this.state)
   }
 
+  private addToList = (e: any) => {
+    if (this.state.currentQuestion.title) {
+      let questionArr = this.state.newQuestions
+      questionArr.push(this.state.currentQuestion)
+      this.setState({
+        ...this.state,
+        newQuestions: questionArr,
+        currentQuestion: {
+          author: this.props.username,
+          title: '',
+          answers: [
+            {
+              answer: '',
+              percentPoints: 0,
+              feedback: 'no feedback for this question'
+            },
+            {
+              answer: '',
+              percentPoints: 0,
+              feedback: 'no feedback for this question'
+            }
+          ],
+          format: 'true-false'
+        }
+      })
+      console.log('added Q to list', this.state)
+    } // else...
+  }
+
   private updateArr = (e: any, arg1: number, arg2: string) => {
     let newAnswersArr = this.state.currentQuestion.answers
     newAnswersArr[arg1][arg2] = e.target.value
@@ -79,8 +124,7 @@ export class AddQuestion extends Component<IProps, any> {
         answers: newAnswersArr
       }
     })
-    console.log('updateArr called')
-    console.log(this.props)
+    console.log(this.state)
   }
 
   private createTable = () => {
@@ -284,28 +328,56 @@ export class AddQuestion extends Component<IProps, any> {
         >
           Submit Question
         </button>
-        {/* <form>
+        <form>
           <label htmlFor="title">Title</label>
-          <input type="text" id="title" onChange={this.updateTitle} />
+          <input
+            type="text"
+            id="title"
+            value={this.state.currentQuestion.title}
+            onChange={this.updateTitle}
+          />
+          <br />
           <select
             name=""
             id="question-options-dropdown"
+            value={this.state.currentQuestion.format}
             onChange={this.updateFormat}
           >
             <option value="true-false">true false</option>
             <option value="multiple-choice">multiple choice</option>
-            <option value="best-choice">one right answer</option>
-          </select> */}
-        {/* {this.createTable()} */}
-        {/* <button
-            type="button"
-            onClick={(e: any) => {
-              this.props.startCreateNewQuestion(this.state.currentQuestion)
-            }}
-          >
-            Submit Question
+            <option value="multiple-select">multiple select</option>
+          </select>
+          {this.createTable()}
+          <button type="button" onClick={this.addToList}>
+            Add Question
           </button>
-        </form> */}
+          <br />
+        </form>
+        <button
+          type="button"
+          onClick={(e: any) => {
+            this.props
+              .startBatchCreateQuestions(this.state.newQuestions)
+              .then(res => {
+                console.log(res)
+                if (this.props.quizID) {
+                  this.props
+                    .startaddJunctionItem(
+                      this.props.quizID,
+                      this.props.questionIDs
+                    )
+                    .then(resp => {
+                      console.log(resp)
+                    })
+                    .catch(err => {})
+                }
+              })
+              .catch(err => {})
+            // this.props.startCreateNewQuestion(this.state.currentQuestion)
+          }}
+        >
+          Save
+        </button>
       </div>
     )
   }
@@ -313,11 +385,11 @@ export class AddQuestion extends Component<IProps, any> {
 
 const mapStateToProps = state => ({
   username: state.auth.username,
-  email: state.auth.email,
-  firstname: state.auth.firstname
+  quizID: state.create.quizID,
+  questionIDs: state.create.questionIDs
 })
 
 export default connect<any, IProps>(
-  undefined,
-  { startCreateNewQuestion }
+  mapStateToProps,
+  { startaddJunctionItem, startBatchCreateQuestions, startCreateNewQuestion }
 )(AddQuestion)
