@@ -1,14 +1,6 @@
 import React, { Component } from 'react'
 import moment from 'moment'
 import numeral from 'numeral'
-<<<<<<< HEAD
-import {
-  startDisplayQuizzes,
-  startDisplayQuizQuestions,
-  startDisplayQuizTags
-} from '../actions/quizzes'
-=======
->>>>>>> 5520c805e791a1e9bc18745e150a2f2446a9425b
 import { connect } from 'react-redux'
 
 interface IProps {
