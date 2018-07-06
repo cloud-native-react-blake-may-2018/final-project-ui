@@ -12,9 +12,12 @@ import SplashPage from '../components/SplashPage'
 import LoginPage from '../components/LoginPage'
 import SignupPage from '../components/SignupPage'
 import DashboardPage from '../components/DashboardPage'
+import ViewQuizzesPage from '../components/viewQuizzes'
 // import SettingsPage from '../components/SettingsPage'
 // import ProfilePage from '../components/ProfilePage'
 import NotFoundPage from '../components/NotFoundPage'
+import CreateQuiz from '../components/CreateQuiz'
+import AddQuestion from '../components/AddQuestion'
 
 export const history = createHistory()
 const mql = window.matchMedia(`(min-width: 100px)`)
@@ -77,6 +80,9 @@ export class Pages extends Component<IProps, IState> {
             overlayClassName="overlay-class"
           >
             <PrivateRoute path="/dashboard" component={DashboardPage} />
+            <PrivateRoute path="/view-quizzes" component={ViewQuizzesPage} />
+            <PrivateRoute path="/create-quiz" component={CreateQuiz} />
+            <PrivateRoute path="/add-question" component={AddQuestion} />
             {/* <PrivateRoute path="/settings" component={SettingsPage} /> */}
             {/* <PrivateRoute path="/profile" component={ProfilePage} /> */}
           </Sidebar>

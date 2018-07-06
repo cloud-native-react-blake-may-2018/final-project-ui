@@ -6,29 +6,34 @@ import decode from 'jwt-decode'
 
 import { Pages } from './Routes'
 
-import { startPersist } from '../actions/auth'
+import { startLogin } from '../actions/auth'
 import { configureStore } from '../store/configureStore'
 
 const store = configureStore()
 
 interface IPayload {
-  username: string
   email: string
-  token: string
-  split: any
+  sub: string
+  name: string
+  username: string
 }
 
 // TODO: data persistence from localhost
-if (localStorage.wa) {
-  const payload: IPayload = decode(localStorage.wa)
+if (localStorage.token) {
+  const payload: IPayload = decode(localStorage.token)
   const user = {
     email: payload.email,
-    token: localStorage.q,
-    uid: localStorage.uid
+    token: localStorage.token,
+    uid: payload.sub, // what is this in cognito token?
+    name: payload.name,
+    username: payload.username
   }
 
+  console.log('token: ', localStorage.token)
+  console.log('decoded token: ', payload)
+
   // @ts-ignore
-  store.dispatch(startPersist(user))
+  store.dispatch(startLogin(user))
 }
 
 export class AppRouter extends Component {
