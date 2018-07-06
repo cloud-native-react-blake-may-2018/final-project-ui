@@ -24,9 +24,8 @@ const deleteQuizUrl = ''
 export default {
   create: {
     addQuestion: newQuestion =>
-      axios.post(addQuestionUrl, { newQuestion }).then(res => res.data),
-    addQuiz: newQuiz =>
-      axios.post(addQuizUrl, { newQuiz }).then(res => res.data)
+      axios.post(addQuestionUrl, newQuestion).then(res => res.data),
+    addQuiz: newQuiz => axios.post(addQuizUrl, newQuiz).then(res => res.data)
   },
 
   quizzes: {
