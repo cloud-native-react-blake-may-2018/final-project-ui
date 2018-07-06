@@ -9,7 +9,7 @@ export const editQuiz = quiz => ({
   quiz
 })
 
-export const startGetUserQuizzes = author => dispatch => {
+export const startGetUserQuizzes = author => async dispatch => {
   console.log('getting user quizzes')
   pathList.quizzes.display(author).then(async quizzes => {
     const all = await Promise.all(
