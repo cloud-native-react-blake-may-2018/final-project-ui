@@ -69,3 +69,22 @@ export const startBatchCreateQuestions = newQuestions => dispatch =>
         reject(err);
       });
   });
+
+export const addJunctionItem = (quizID, questionID) => ({
+  type: "ADD_JUNCTION",
+  quizID,
+  questionID
+});
+
+export const startaddJunctionItem = (quizID, questionID) => dispatch =>
+  new Promise(function(resolve, reject) {
+    api.create
+      .addJunction(quizID, questionID)
+      .then(data => {
+        dispatch(addJunctionItem(quizID, questionID));
+        resolve(data);
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });

@@ -4,14 +4,18 @@ import { Link } from "react-router-dom";
 import fontawesome from "@fortawesome/fontawesome";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  startaddJunctionItem,
   startBatchCreateQuestions,
   startCreateNewQuestion
 } from "../actions/create";
 
 interface IProps {
   username?: string;
+  quizID?: string;
+  questionIDs?: string[];
   startCreateNewQuestion: (any) => any;
   startBatchCreateQuestions: (any) => any;
+  startaddJunctionItem: (quizID: string, questionIDs: string[]) => any;
 }
 
 export class AddQuestion extends Component<IProps> {
@@ -329,7 +333,7 @@ export class AddQuestion extends Component<IProps> {
           >
             <option value="true-false">true false</option>
             <option value="multiple-choice">multiple choice</option>
-            <option value="best-choice">one right answer</option>
+            <option value="multiple-select">multiple select</option>
           </select>
           {this.createTable()}
           <button type="button" onClick={this.addToList}>
@@ -340,11 +344,21 @@ export class AddQuestion extends Component<IProps> {
         <button
           type="button"
           onClick={(e: any) => {
-            this.addToList;
             this.props
               .startBatchCreateQuestions(this.state.newQuestions)
               .then(res => {
                 console.log(res);
+                if (this.props.quizID) {
+                  this.props
+                    .startaddJunctionItem(
+                      this.props.quizID,
+                      this.props.questionIDs
+                    )
+                    .then(resp => {
+                      console.log(resp);
+                    })
+                    .catch(err => {});
+                }
               })
               .catch(err => {});
             // this.props.startCreateNewQuestion(this.state.currentQuestion)
@@ -359,11 +373,11 @@ export class AddQuestion extends Component<IProps> {
 
 const mapStateToProps = state => ({
   username: state.auth.username,
-  email: state.auth.email,
-  firstname: state.auth.firstname
+  quizID: state.create.quizID,
+  questionIDs: state.create.questionIDs
 });
 
 export default connect<any, IProps>(
   mapStateToProps,
-  { startBatchCreateQuestions, startCreateNewQuestion }
+  { startaddJunctionItem, startBatchCreateQuestions, startCreateNewQuestion }
 )(AddQuestion);

@@ -1,7 +1,7 @@
 import React from "react";
 
 const initialState = {
-  quizID: "test",
+  quizID: "",
   questionIDs: []
 };
 
@@ -24,6 +24,12 @@ export const createReducer = (state = initialState, action = {} as any) => {
       return {
         ...state,
         questionIDs: idArr
+      };
+
+    case "ADD_JUNCTION":
+      return {
+        ...state,
+        questionIDs: []
       };
 
     default:
