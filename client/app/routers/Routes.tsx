@@ -17,8 +17,10 @@ import ViewQuizzesPage from '../components/viewQuizzes'
 // import SettingsPage from '../components/SettingsPage'
 // import ProfilePage from '../components/ProfilePage'
 import NotFoundPage from '../components/NotFoundPage'
+import ResetPasswordPage from '../components/ResetPasswordPage';
 import CreateQuiz from '../components/CreateQuiz'
 import AddQuestion from '../components/AddQuestion'
+import AddQuiz from '../components/AddQuiz'
 
 export const history = createHistory()
 const mql = window.matchMedia(`(min-width: 100px)`)
@@ -71,7 +73,8 @@ export class Pages extends Component<IProps, IState> {
         <Switch>
           <PublicRoute exact path="/" component={SplashPage} />
           <PublicRoute path="/signup" component={SignupPage} />
-          <PublicRoute path="/login" component={SignInRedirect} />
+          <PublicRoute path="/login" component={LoginPage} />
+          <PublicRoute path="/resetpassword" component={ResetPasswordPage} />
           <Sidebar
             sidebar={sidebar}
             open={this.state.sidebarOpen}
@@ -86,6 +89,7 @@ export class Pages extends Component<IProps, IState> {
             <PrivateRoute path="/view-quizzes" component={ViewQuizzesPage} />
             <PrivateRoute path="/create-quiz" component={CreateQuiz} />
             <PrivateRoute path="/add-question" component={AddQuestion} />
+            <PrivateRoute path="/add-quiz" component={AddQuiz} />
             {/* <PrivateRoute path="/settings" component={SettingsPage} /> */}
             {/* <PrivateRoute path="/profile" component={ProfilePage} /> */}
           </Sidebar>

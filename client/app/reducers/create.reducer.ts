@@ -1,6 +1,9 @@
 import React from 'react'
 
-const initialState = {}
+const initialState = {
+  quizID: 'test',
+  questionIDs: []
+}
 
 export const createReducer = (state = initialState, action = {} as any) => {
   switch (action.type) {
@@ -10,7 +13,8 @@ export const createReducer = (state = initialState, action = {} as any) => {
       }
     case 'CREATE_NEW_QUIZ':
       return {
-        ...state
+        ...state,
+        quizID: action.quizID
       }
 
     default:
