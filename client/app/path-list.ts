@@ -37,7 +37,13 @@ export default {
   create: {
     addQuestion: newQuestion =>
       axios.post(addQuestionUrl, newQuestion).then(res => res.data),
-    addQuiz: newQuiz => axios.post(addQuizUrl, newQuiz).then(res => res.data)
+    addQuiz: newQuiz => axios.post(addQuizUrl, newQuiz).then(res => res.data),
+    batchAddQuestion: newQuestions =>
+      axios.post(batchAddQuestionsUrl, newQuestions).then(res => res.data),
+    addJunction: (quizID, questionID) =>
+      axios
+        .post(`${addJunctionUrl}/${quizID}/${questionID}`, quizID, questionID)
+        .then(res => res.data)
   },
 
   quizzes: {
@@ -53,13 +59,6 @@ export default {
     display: quizUUID =>
       axios.get(displayQuizQuestionsURL + quizUUID).then(res => res.data),
     displayTags: quizUUID =>
-      axios.get(displayQuizTagsURL + quizUUID).then(res => res.data),
-    addQuiz: newQuiz => axios.post(addQuizUrl, newQuiz).then(res => res.data),
-    batchAddQuestion: newQuestions =>
-      axios.post(batchAddQuestionsUrl, newQuestions).then(res => res.data),
-    addJunction: (quizID, questionID) =>
-      axios
-        .post(`${addJunctionUrl}/${quizID}/${questionID}`, quizID, questionID)
-        .then(res => res.data)
+      axios.get(displayQuizTagsURL + quizUUID).then(res => res.data)
   }
 }
