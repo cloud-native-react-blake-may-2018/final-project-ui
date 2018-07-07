@@ -56,35 +56,60 @@ export const batchCreateQuestions = questions => ({
   questions
 });
 
-export const startBatchCreateQuestions = newQuestions => dispatch =>
-  new Promise(function(resolve, reject) {
-    api.create
-      .batchAddQuestion(newQuestions)
-      .then(data => {
-        dispatch(batchCreateQuestions(data));
-        console.log(data);
-        resolve(data);
-      })
-      .catch(err => {
-        reject(err);
-      });
-  });
+export const startBatchCreateQuestions = incoming => async dispatch => {
+  const data = await api.create.batchAddQuestion(incoming.newQuestions);
 
-export const addJunctionItem = (quizID, questionID) => ({
-  type: "ADD_JUNCTION",
-  quizID,
-  questionID
-});
+  const arrOfUuids = data.map(question => question.uuid);
+  const shouldBeStoredInJunctionTable = await api.create.addJunction(
+    incoming.quizID,
+    arrOfUuids
+  );
 
-export const startaddJunctionItem = (quizID, questionID) => dispatch =>
-  new Promise(function(resolve, reject) {
-    api.create
-      .addJunction(quizID, questionID)
-      .then(data => {
-        dispatch(addJunctionItem(quizID, questionID));
-        resolve(data);
-      })
-      .catch(err => {
-        reject(err);
-      });
-  });
+  return;
+  // return dispatch(batchCreateQuestions(data));
+};
+// new Promise(function(resolve, reject) {
+//   api.create
+//     .batchAddQuestion(newQuestions)
+//     .then(data => {
+//       dispatch(batchCreateQuestions(data));
+//       console.log(data);
+//       setTimeout(() => resolve(data), 3000);
+//     })
+//     .catch(err => {
+//       reject(err);
+//     });
+// });
+// original action
+// export const startBatchCreateQuestions = newQuestions => dispatch =>
+//   new Promise(function(resolve, reject) {
+//     api.create
+//       .batchAddQuestion(newQuestions)
+//       .then(data => {
+//         dispatch(batchCreateQuestions(data));
+//         console.log(data);
+//         setTimeout(() => resolve(data), 3000);
+//       })
+//       .catch(err => {
+//         reject(err);
+//       });
+//   });
+
+// export const addJunctionItem = (quizID, questionIDs) => ({
+//   type: "ADD_JUNCTION",
+//   quizID,
+//   questionIDs
+// });
+
+// export const startaddJunctionItem = (quizID, questionIDs) => dispatch =>
+//   new Promise(function(resolve, reject) {
+//     api.create
+//       .addJunction(quizID, questionIDs)
+//       .then(data => {
+//         dispatch(addJunctionItem(quizID, questionIDs));
+//         resolve(data);
+//       })
+//       .catch(err => {
+//         reject(err);
+//       });
+//   });

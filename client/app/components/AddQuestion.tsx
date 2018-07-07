@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import fontawesome from "@fortawesome/fontawesome";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  startaddJunctionItem,
   startBatchCreateQuestions,
   startCreateNewQuestion
 } from "../actions/create";
@@ -15,7 +14,6 @@ interface IProps {
   questionIDs?: string[];
   startCreateNewQuestion: (any) => any;
   startBatchCreateQuestions: (any) => any;
-  startaddJunctionItem: (quizID: string, questionIDs: string[]) => any;
 }
 
 export class AddQuestion extends Component<IProps> {
@@ -48,6 +46,27 @@ export class AddQuestion extends Component<IProps> {
         title
       }
     });
+  };
+
+  updateReducerStore = () => {
+    const data = {
+      quizID: this.props.quizID,
+      newQuestions: this.state.newQuestions
+    };
+    this.props.startBatchCreateQuestions(data); // works
+
+    // .then(res => {
+    //   if (this.props.questionIDs) {
+    //     this.props
+    //       .startaddJunctionItem(this.props.quizID, this.props.questionIDs)
+    //       .then(resp => {
+    //         console.log(resp);
+    //       })
+    //       .catch(err => {});
+    //   }
+    // })
+    // .catch(err => {});
+    // this.props.startCreateNewQuestion(this.state.currentQuestion)
   };
 
   private updateFormat = (e: any) => {
@@ -123,6 +142,10 @@ export class AddQuestion extends Component<IProps> {
     });
     console.log(this.state);
   };
+
+  // // @ts-ignore
+  // componentWillReceiveProps = (props, nextProps) =>
+  //   console.log("props: ", props, "nextProps: ", nextProps);
 
   private createTable = () => {
     switch (this.state.currentQuestion.format) {
@@ -341,29 +364,7 @@ export class AddQuestion extends Component<IProps> {
           </button>
           <br />
         </form>
-        <button
-          type="button"
-          onClick={(e: any) => {
-            this.props
-              .startBatchCreateQuestions(this.state.newQuestions)
-              .then(res => {
-                console.log(res);
-                if (this.props.quizID) {
-                  this.props
-                    .startaddJunctionItem(
-                      this.props.quizID,
-                      this.props.questionIDs
-                    )
-                    .then(resp => {
-                      console.log(resp);
-                    })
-                    .catch(err => {});
-                }
-              })
-              .catch(err => {});
-            // this.props.startCreateNewQuestion(this.state.currentQuestion)
-          }}
-        >
+        <button type="button" onClick={this.updateReducerStore}>
           Save
         </button>
       </div>
@@ -379,5 +380,5 @@ const mapStateToProps = state => ({
 
 export default connect<any, IProps>(
   mapStateToProps,
-  { startaddJunctionItem, startBatchCreateQuestions, startCreateNewQuestion }
+  { startBatchCreateQuestions, startCreateNewQuestion }
 )(AddQuestion);

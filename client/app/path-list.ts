@@ -16,7 +16,7 @@ const addQuizUrl =
   "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz";
 
 const addJunctionUrl =
-  "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/";
+  "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz";
 
 export default {
   create: {
@@ -25,9 +25,9 @@ export default {
     addQuiz: newQuiz => axios.post(addQuizUrl, newQuiz).then(res => res.data),
     batchAddQuestion: newQuestions =>
       axios.post(batchAddQuestionsUrl, newQuestions).then(res => res.data),
-    addJunction: (quizID, questionID) =>
+    addJunction: (quizID, questionIDs) =>
       axios
-        .post(`${addJunctionUrl}/${quizID}/${questionID}`, quizID, questionID)
+        .post(`${addJunctionUrl}/${quizID}/batch`, questionIDs)
         .then(res => res.data)
   }
 };
