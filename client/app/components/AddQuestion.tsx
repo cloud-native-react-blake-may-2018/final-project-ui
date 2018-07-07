@@ -82,8 +82,16 @@ export class AddQuestion extends Component<IProps, any> {
           ...this.state.currentQuestion,
           format: format,
           answers: [
-            { answer: "", percentPoints: 0, feedback: "" },
-            { answer: "", percentPoints: 0, feedback: "" }
+            {
+              answer: "",
+              percentPoints: 0,
+              feedback: "no feedback for this question"
+            },
+            {
+              answer: "",
+              percentPoints: 0,
+              feedback: "no feedback for this question"
+            }
           ]
         }
       });
@@ -93,10 +101,26 @@ export class AddQuestion extends Component<IProps, any> {
           ...this.state.currentQuestion,
           format: format,
           answers: [
-            { answer: "", percentPoints: 0, feedback: "" },
-            { answer: "", percentPoints: 0, feedback: "" },
-            { answer: "", percentPoints: 0, feedback: "" },
-            { answer: "", percentPoints: 0, feedback: "" }
+            {
+              answer: "",
+              percentPoints: 0,
+              feedback: "no feedback for this question"
+            },
+            {
+              answer: "",
+              percentPoints: 0,
+              feedback: "no feedback for this question"
+            },
+            {
+              answer: "",
+              percentPoints: 0,
+              feedback: "no feedback for this question"
+            },
+            {
+              answer: "",
+              percentPoints: 0,
+              feedback: "no feedback for this question"
+            }
           ]
         }
       });
@@ -343,14 +367,6 @@ export class AddQuestion extends Component<IProps, any> {
     const { startCreateNewQuestion } = this.props;
     return (
       <div>
-        <button
-          type="button"
-          onClick={(e: any) =>
-            startCreateNewQuestion(this.state.currentQuestion)
-          }
-        >
-          Submit Question
-        </button>
         <form>
           <label htmlFor="title">Title</label>
           <input
