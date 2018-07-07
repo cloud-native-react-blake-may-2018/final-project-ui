@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import fontawesome from "@fortawesome/fontawesome";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { startCreateNewQuiz } from "../actions/create";
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import fontawesome from '@fortawesome/fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { startCreateNewQuiz } from '../actions/create'
 
 export class CreateQuiz extends Component {
   render() {
@@ -22,7 +22,7 @@ export class CreateQuiz extends Component {
           Add Question
         </Link>
       </div>
-    );
+    )
   }
 }
 
@@ -30,9 +30,9 @@ const mapStateToProps = state => ({
   username: state.auth.username,
   email: state.auth.email,
   firstname: state.auth.firstname
-});
+})
 
 export default connect(
   undefined,
   { startCreateNewQuiz }
-)(CreateQuiz);
+)(CreateQuiz)

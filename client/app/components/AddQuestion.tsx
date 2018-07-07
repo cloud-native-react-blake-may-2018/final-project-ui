@@ -15,8 +15,11 @@ interface IProps {
   startCreateNewQuestion: (any) => any;
   startBatchCreateQuestions: (any) => any;
 }
+// interface IProps extends RouteComponentProps<any> {
+//   startCreateNewQuestion: (any) => any
+// }
 
-export class AddQuestion extends Component<IProps> {
+export class AddQuestion extends Component<IProps, any> {
   state = {
     newQuestions: [],
     currentQuestion: {
@@ -337,8 +340,17 @@ export class AddQuestion extends Component<IProps> {
   };
 
   render() {
+    const { startCreateNewQuestion } = this.props;
     return (
       <div>
+        <button
+          type="button"
+          onClick={(e: any) =>
+            startCreateNewQuestion(this.state.currentQuestion)
+          }
+        >
+          Submit Question
+        </button>
         <form>
           <label htmlFor="title">Title</label>
           <input
