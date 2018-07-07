@@ -13,7 +13,7 @@ interface IProps {
 export class DashboardPage extends Component<IProps> {
   //@ts-ignore
   componentDidMount = () => {
-    const username = 'Shawn'
+    const username = 'Medlock'
     const {
       // username,
       startGetUserQuizzes

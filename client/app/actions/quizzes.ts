@@ -49,3 +49,10 @@ export const displayQuizTags = tags => ({
   type: 'DISPLAY_QUIZ_TAGS',
   tags
 })
+export const startUpdateQuestionsDisplay = clickedQuestion => dispatch =>
+  dispatch(displayQuizTags(clickedQuestion))
+
+export const UpdateQuestionsDisplay = clickedQuestion => ({
+  type: 'DISPLAY_CLICKED_QUESTION',
+  clickedQuestion
+})
