@@ -9,7 +9,7 @@ import React from 'react'
 export const quizzesReducer = (state = {}, action = {} as any) => {
   switch (action.type) {
     case 'ALL_QUIZZES':
-      console.log('quizzes ', action.quizzes)
+      // console.log('quizzes ', action.quizzes)
       return {
         ...state,
         quizzes: [...action.quizzes]

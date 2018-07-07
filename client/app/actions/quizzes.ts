@@ -10,7 +10,7 @@ export const editQuiz = quiz => ({
 })
 
 export const startGetUserQuizzes = author => async dispatch => {
-  console.log('getting user quizzes')
+  // console.log('getting user quizzes')
   pathList.quizzes.display(author).then(async quizzes => {
     const all = await Promise.all(
       quizzes.map(async quiz => {

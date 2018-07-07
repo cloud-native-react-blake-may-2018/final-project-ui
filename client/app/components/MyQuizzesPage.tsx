@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 interface IProps {
-  username: any
+  username: string
   quizzes: any[]
   startGetUserQuizzes: (username: string) => any
 }
@@ -17,7 +17,7 @@ const quizStyle = {
   width: '20%'
 }
 
-export class ViewQuizzesPage extends Component<IProps> {
+export class MyQuizzesPage extends Component<IProps> {
   render() {
     const { quizzes } = this.props
     return (
@@ -27,7 +27,10 @@ export class ViewQuizzesPage extends Component<IProps> {
         {quizzes !== undefined &&
           quizzes.map((quiz: any) => (
             // <Link to="/view-quiz/ + {quiz} " className="unset-anchor nav-link">
-            <Link to={`/view-quiz/${quiz.uuid}`} className="unset-anchor nav-link">
+            <Link
+              to={`/view-quiz/${quiz.uuid}`}
+              className="unset-anchor nav-link"
+            >
               <div
                 style={quizStyle}
                 key={quiz.uuid}
@@ -39,7 +42,7 @@ export class ViewQuizzesPage extends Component<IProps> {
                   <div key={tag.allLowerCase}>{tag.allLowerCase}</div>
                 ))}
               </div>
-            // </Link>
+            </Link>
           ))}
       </div>
     )
@@ -51,4 +54,4 @@ const mapStateToProps = state => ({
   quizzes: state.quizzes.quizzes
 })
 
-export default connect(mapStateToProps)(ViewQuizzesPage)
+export default connect(mapStateToProps)(MyQuizzesPage)
