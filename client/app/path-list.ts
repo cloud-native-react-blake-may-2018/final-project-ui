@@ -59,7 +59,6 @@ export default {
     display: quizUUID =>
       axios.get(displayQuizQuestionsURL + quizUUID).then(res => res.data),
     displayTags: quizUUID =>
-      axios.get(displayQuizTagsURL + quizUUID).then(res => res.data),
-    addQuiz: newQuiz => axios.post(addQuizUrl, newQuiz).then(res => res.data)
+      axios.get(displayQuizTagsURL + quizUUID).then(res => res.data)
   }
 };
