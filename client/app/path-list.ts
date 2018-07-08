@@ -27,25 +27,41 @@ const editQuizUrl = ''
 
 const deleteQuizUrl = ''
 
+const searchByAuthorUrl =
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/author/'
+
+const searchByTagUrl =
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/tag/'
+
 export default {
   create: {
     addQuestion: newQuestion =>
       axios.post(addQuestionUrl, newQuestion).then(res => res.data),
+
     addQuiz: newQuiz => axios.post(addQuizUrl, newQuiz).then(res => res.data)
   },
 
   quizzes: {
     edit: quiz => axios.post(editQuizUrl, { quiz }).then(res => res.data),
+
     delete: quiz => axios.post(deleteQuizUrl, { quiz }).then(res => res.data),
+
     display: author =>
-      axios.get(displayQuizzesURL + author).then(res => res.data)
+      axios.get(displayQuizzesURL + author).then(res => res.data),
+
+    searchByAuthor: author =>
+      axios.get(searchByAuthorUrl + author).then(res => res.data),
+
+    searchByTag: tag => axios.get(searchByTagUrl + tag).then(res => res.data)
   },
 
   questions: {
     edit: question =>
       axios.post(editQuestionUrl, { question }).then(res => res.data),
+
     display: quizUUID =>
       axios.get(displayQuizQuestionsURL + quizUUID).then(res => res.data),
+
     displayTags: quizUUID =>
       axios.get(displayQuizTagsURL + quizUUID).then(res => res.data)
   }

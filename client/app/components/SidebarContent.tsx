@@ -2,6 +2,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import MenuIcon from '../../public/icons/menu-icon.svg'
+import AddQuizIcon from '../../public/icons/add-quiz-icon.svg'
+import ViewQuizzesIcon from '../../public/icons/view-quizzes-icon.svg'
+import AchievementsIcon from '../../public/icons/achievements-icon.svg'
+import CartIcon from '../../public/icons/cart-icon.svg'
+import SettingsIcon from '../../public/icons/settings-icon.svg'
 
 import { generateUuid } from '../helpers/helpers'
 import { loadModal } from '../actions/modal'
@@ -53,20 +59,24 @@ export class SidebarContent extends Component<IProps, IState> {
     const { topic } = this.state
     return (
       <div className="content">
+        <div className="cover" />
         <Link to="/dashboard" className="link">
-          <FontAwesomeIcon icon="home" className="icon fa-home" />
+          <MenuIcon className="svg menu" />
         </Link>
-        <Link to="/tags" className="link">
-          <FontAwesomeIcon icon="tags" className="icon fa-tags" />
+        <Link to="/add-quiz" className="link">
+          <AddQuizIcon className="svg add-quiz" />
         </Link>
-        <Link to="/glossary" className="link">
-          <FontAwesomeIcon icon="list" className="icon fa-list" />
+        <Link to="/view-quizzes" className="link">
+          <ViewQuizzesIcon className="svg view-quizzes" />
         </Link>
-        <Link to="/dashboard" className="link">
-          <FontAwesomeIcon icon="user" className="icon fa-user" />
+        <Link to="/achievements" className="link">
+          <AchievementsIcon className="svg achievements" />
+        </Link>
+        <Link to="/store" className="link">
+          <CartIcon className="svg store" />
         </Link>
         <Link to="/settings" className="link">
-          <FontAwesomeIcon icon="cog" className="icon fa-cog" />
+          <SettingsIcon className="svg settings" />
         </Link>
       </div>
     )

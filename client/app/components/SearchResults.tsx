@@ -1,136 +1,82 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import api from '../path-list'
 
 interface IState {
-  placeholder: string
+  results: any | string
 }
 
 interface IProps {
-  term: string
-  words?: any
-  topics?: any
-  tags?: any
-  inputState: any
+  query: string
+  showSearch: boolean
 }
 
-const matchFound = term => {
-  return x => {
-    return x.word.toLowerCase().includes(term.toLowerCase()) || !term
-  }
-}
-
-const keywordFound = term => {
-  return (
-    term.includes(':') &&
-    (term.substring(0, term.indexOf(':')) === 'tags' ||
-      term.substring(0, term.indexOf(':')) === 'topic')
-  )
-}
+const matchFound = term => x =>
+  x.word.toLowerCase().includes(term.toLowerCase()) || !term
 
 export class SearchResults extends Component<IProps, IState> {
   state = {
-    placeholder: 'placeholder'
+    results: []
   }
 
-  //@ts-ignore
-  componentWillReceiveProps = (props, nextProps) => {
-    // console.log('Input so far: ', props.term)
-    const wait = async () => {
-      await this.setState({
-        searchTerm: props.term
-      } as any)
-      keywordFound(this.props.term)
-      console.log(keywordFound(this.props.term))
-      // this.state.resultPool = props.words.filter(wordList => wordList.word === this.state.searchTerm)
-      // console.log('Words in state: ', this.state.words)
-    }
-    wait()
+  // @ts-ignore
+  componentWillReceiveProps = async props => {
+    const { query } = props
+    console.log('props', query)
+    if (query.length > 0) {
+      let resultSet1 = await api.quizzes.searchByAuthor(query)
+      let resultSet2 = await api.quizzes.searchByTag(query)
 
-    // this.setState(prevState => ({
-    //     results: resultPool
-    // }))
-  }
+      resultSet1 = resultSet1.filter(result => result !== null)
+      resultSet2 = resultSet2.filter(result => result !== null)
 
-  keyFilter = term => {
-    console.log('Stepped into keyFilter')
-    let keyword = term.substring(0, term.indexOf(':'))
-    let words = this.props.words
-    let termItems = term
-      .substring(term.indexOf(':') + 2, term.length)
-      .split(' ')
-    let allResults = []
-    let finalResults = []
-    // console.log(keyword)
-    // console.log(words)
-    // console.log('Tags to search: ', termItems)
-    // console.log('Results: ', results)
-    switch (keyword) {
-      case 'tags':
-        termItems.map(char => {
-          const stage1 = this.props.tags.filter(tag => tag.tag.includes(char))
-          allResults.push(stage1)
+      console.log('resultsSet2', resultSet2)
 
-          allResults.filter(
-            result =>
-              !finalResults.includes(result) && finalResults.push(result)
-          )
-        })
+      const results = [...resultSet1, ...resultSet2]
 
-        return finalResults
-
-      // Some logic
-      // for (let t of termItems) {
-      // console.log(words[0].tags)
-      // console.log(words.filter(word => word.tags.includes(t)))
-      //   allResults.push(words.filter(word => word.tags.includes(t)))
-      // }
-      // console.log(allResults)
-      // for (let i = 0; i < allResults.length; i++) {
-      //   for (let j of allResults[i]) {
-      //     if (!finalResults.includes(j)) {
-      //       finalResults.push(j)
-      //     }
-      //   }
-      // }
-      // return finalResults
-      // console.log(finalResults)
-      // To remove duplicate words
-      // for(let i=0; i<results.length; ++i) {
-      //     for(let j=i+1; j<results.length; ++j) {
-      //         if(results[i] === results[j])
-      //             results.splice(j--, 1);
-      //     }
-      // }
-      case 'topic':
-        // More logic
-        return words
-      default:
-        // Do nothing
-        return words
+      results.length > 0 && this.setState({ results })
+      results.length === 0 && this.setState({ results: ['none'] })
+      console.log('results: ', results)
     }
   }
 
   // @ts-ignore
   render = () => {
+    const { showSearch } = this.props
+    const { results } = this.state
     return (
-      <section
-        className={this.props.inputState ? 'section focus' : 'section blur'}
-      >
+      <div className={showSearch ? 'section focus' : 'section blur'}>
         <div className="search-results-bg" />
         <div className="search-results">
-          <h1 className="title">Results</h1>
+          <p className="header">Results</p>
+          <div className="container">
+            {results[0] === 'none' && (
+              <p key={0} className="none-found">
+                No results found.
+              </p>
+            )}
+            {results.length > 0 &&
+              results[0] !== 'none' &&
+              results.map(quiz => (
+                <div key={quiz.uuid} className="record">
+                  <p className="title">{quiz.title}</p>
+                  <p className="description">{quiz.description}</p>
+                  <p className="author">{quiz.author}</p>
+                </div>
+              ))}
+          </div>
         </div>
-      </section>
+      </div>
     )
   }
 }
 
-const mapStateToProps = (state): IState => {
-  return {
-    placeholder: 'placeholder'
-  }
-}
+const mapStateToProps = state => ({
+  username: state.auth.username,
+  searching: state.app.searching,
+  results: state.app.results
+})
 
 export default connect(
   mapStateToProps,

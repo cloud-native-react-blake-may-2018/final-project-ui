@@ -15,6 +15,9 @@
     "roots": [
       "<rootDir>/client"
     ],
+    "files": [
+      "client/app/typings/custom.d.ts"
+    ],
     "setupFiles": [
       "raf/polyfill",
       "<rootDir>/client/app/tests/setupTests.ts"
@@ -45,7 +48,7 @@
     "@fortawesome/fontawesome-free-solid": "latest",
     "@fortawesome/fontawesome-svg-core": "latest",
     "@fortawesome/react-fontawesome": "latest",
-    "amazon-cognito-identity-js": "^2.0.13",
+    "amazon-cognito-identity-js": "latest",
     "aws-sdk": "latest",
     "axios": "latest",
     "classnames": "latest",
@@ -77,7 +80,7 @@
   "devDependencies": {
     "@types/connect-history-api-fallback": "latest",
     "@types/enzyme": "latest",
-    "@types/enzyme-adapter-react-16": "^1.0.2",
+    "@types/enzyme-adapter-react-16": "latest",
     "@types/express": "latest",
     "@types/html-webpack-plugin": "latest",
     "@types/jest": "latest",
@@ -99,6 +102,7 @@
     "awesome-typescript-loader": "latest",
     "babel-core": "latest",
     "babel-loader": "latest",
+    "babel-plugin-inline-react-svg": "latest",
     "babel-preset-env": "latest",
     "babel-preset-react": "latest",
     "babel-preset-stage-0": "latest",
@@ -108,11 +112,11 @@
     "enzyme-adapter-react-16": "latest",
     "enzyme-to-json": "latest",
     "extract-css-chunks-webpack-plugin": "latest",
-    "file-loader": "latest",
     "html-webpack-plugin": "latest",
     "jest": "latest",
     "node-sass": "latest",
     "raf": "latest",
+    "react-svg-loader": "latest",
     "sass-loader": "latest",
     "source-map-loader": "latest",
     "style-loader": "latest",
