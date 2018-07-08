@@ -10,19 +10,19 @@ export const editQuiz = quiz => ({
 })
 
 export const startGetUserQuizzes = author => async dispatch => {
-  console.log('getting user quizzes')
-  const res = await pathList.quizzes.display(author)
-  const quizzes = await Promise.all(
-    res.map(async quiz => {
-      const questions = await pathList.questions.display(quiz.uuid)
-      const tags = await pathList.questions.displayTags(quiz.uuid)
+  // console.log('getting user quizzes')
+  pathList.quizzes.display(author).then(async quizzes => {
+    const all = await Promise.all(
+      quizzes.map(async quiz => {
+        const questions = await pathList.questions.display(quiz.uuid)
+        const tags = await pathList.questions.displayTags(quiz.uuid)
 
-      return { ...quiz, questions, tags }
-    })
-  )
-
-  console.log('all quizzes ', quizzes)
-  return dispatch(getUserQuizzes(quizzes))
+        // will contain quiz details, its questions, and tags
+        return { ...quiz, questions, tags }
+      })
+    )
+    dispatch(getUserQuizzes(all))
+  })
 }
 
 export const getUserQuizzes = quizzes => ({
@@ -30,24 +30,37 @@ export const getUserQuizzes = quizzes => ({
   quizzes
 })
 
-// DELETE
 export const startDisplayQuizQuestions = quizUUID => dispatch =>
   pathList.questions
     .display(quizUUID)
     .then(questions => dispatch(displayQuizQuestions(questions)))
 
-// DELETE
 export const displayQuizQuestions = questions => ({
   type: 'DISPLAY_QUIZ_QUESTIONS',
   questions
 })
 
-// DELETE
 export const startDisplayQuizTags = quizUUID => dispatch =>
-  pathList.questions.displayTags(quizUUID)
-// .then(tags => dispatch(displayQuizTags(tags)))
+  pathList.questions
+    .displayTags(quizUUID)
+    .then(tags => dispatch(displayQuizTags(tags)))
 
 export const displayQuizTags = tags => ({
   type: 'DISPLAY_QUIZ_TAGS',
   tags
+})
+export const startUpdateQuestionsDisplay = clickedQuestion => dispatch =>
+  dispatch(displayQuizTags(clickedQuestion))
+
+export const UpdateQuestionsDisplay = clickedQuestion => ({
+  type: 'DISPLAY_CLICKED_QUESTION',
+  clickedQuestion
+})
+
+export const startAddAnswerToObject = answer => dispatch =>
+  dispatch(addAnswerToObject(answer))
+
+export const addAnswerToObject = answer => ({
+  type: 'ADD_ANSWER_TO_OBJECT',
+  answer
 })

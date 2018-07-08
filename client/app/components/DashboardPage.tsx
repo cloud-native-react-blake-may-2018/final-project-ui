@@ -5,12 +5,23 @@ import numeral from 'numeral'
 import { Link } from 'react-router-dom'
 // import { startGetUserQuizzes } from '../actions/quizzes'
 
-// interface IProps {
-//   username: string
-//   startGetUserQuizzes: any
-// }
+interface IProps {
+  username: string
+  startGetUserQuizzes: any
+}
 
-export class DashboardPage extends Component {
+export class DashboardPage extends Component<IProps> {
+  //@ts-ignore
+  componentDidMount = () => {
+    const username = 'Medlock'
+    console.log(username)
+    const {
+      // username,
+      startGetUserQuizzes
+    } = this.props
+    // console.log(username)
+    startGetUserQuizzes(username)
+  }
   // @ts-ignore
   render = () => {
     return (
@@ -19,7 +30,7 @@ export class DashboardPage extends Component {
         <Link to="/create-quiz" className="link">
           Create A Quiz
         </Link>
-        <Link to="/view-quizzes" className="link">
+        <Link to="/my-quizzes" className="link">
           Take A Quiz
         </Link>
       </div>

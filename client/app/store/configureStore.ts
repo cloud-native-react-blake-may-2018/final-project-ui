@@ -6,7 +6,6 @@ import { appReducer } from '../reducers/app'
 import { authReducer } from '../reducers/auth'
 import { modalReducer } from '../reducers/modal'
 import { quizzesReducer } from '../reducers/quizzes'
-import { questionsReducer } from '../reducers/questions'
 import { createReducer } from '../reducers/create.reducer'
 
 // middleware is called every store update
