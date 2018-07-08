@@ -27,18 +27,24 @@ export class TakeQuizPage extends Component<IProps> {
   params = window.location.href.split('/')
   quizUUID = this.params[4]
 
-  public changeQuizQuestion = (count: number, e: any) => {
+  public previousQuizQuestion = (e: any) => {
     e.preventDefault()
     this.setState({
       ...this.state,
-      questionNumber: count
+      questionNumber: (this.state.questionNumber -= 1)
+    })
+  }
+  public nextQuizQuestion = (e: any) => {
+    e.preventDefault()
+    this.setState({
+      ...this.state,
+      questionNumber: (this.state.questionNumber += 1)
     })
   }
 
   render() {
     const { quiz } = this.props
-    console.log(quiz)
-    let count = 0
+    console.log(this.state.questionNumber)
     return (
       <div className="viewQuizzes-page">
         {/* DISPLAYS QUIZ TITLE */}
@@ -60,12 +66,8 @@ export class TakeQuizPage extends Component<IProps> {
           ))}
         </div>
 
-        <Link to={`/view-quiz/${quiz.uuid}`}>
-          <div style={quizButton}>previous</div>
-        </Link>
-        <button onClick={this.changeQuizQuestion.bind(this, count + 1)}>
-          next
-        </button>
+        <button onClick={this.previousQuizQuestion}>previous</button>
+        <button onClick={this.nextQuizQuestion}>next</button>
 
         {/* {console.log(this.state.clickedQuestion)}
         {this.state.clickedQuestion !== undefined
