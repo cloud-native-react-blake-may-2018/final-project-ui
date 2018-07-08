@@ -3,19 +3,18 @@ import moment from 'moment'
 import numeral from 'numeral'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { startUpdateQuestionsDisplay } from '../actions/quizzes'
+import { startAddAnswerToObject } from '../actions/quizzes'
+import { AnswersObj } from '../models/AnswersObj'
 
 interface IProps {
   username: any
   quiz: any
+  answers: AnswersObj[]
+  startAddAnswerToObject: (answers: AnswersObj[]) => any
 }
 
-const quizButton = {
-  background: '#86b2d8',
-  borderRadius: 20,
-  // margin: "20px",
-  padding: '20px',
-  width: '5%'
+const questionStyle = {
+  cursor: 'poninter'
 }
 
 export class TakeQuizPage extends Component<IProps> {
@@ -42,9 +41,20 @@ export class TakeQuizPage extends Component<IProps> {
     })
   }
 
+  public addAnswerToObject = (answer: any) => {
+    console.log(answer)
+    answer.selected = true
+    console.log(answer)
+    this.props.startAddAnswerToObject(answer)
+    // console.log(this.props.answerObject)
+  }
+
+  public submit = () => {
+    console.log(this.props.answers)
+  }
+
   render() {
     const { quiz } = this.props
-    console.log(this.state.questionNumber)
     return (
       <div className="viewQuizzes-page">
         {/* DISPLAYS QUIZ TITLE */}
@@ -59,15 +69,24 @@ export class TakeQuizPage extends Component<IProps> {
         </h3>
         {/* DISPLAYS THE CHOICES */}
         <div>
-          {quiz.questions[this.state.questionNumber].answers.map(question => (
-            <div key={question.answer}>
-              <p>{question.answer}</p>
+          {console.log(quiz.questions)}
+          {quiz.questions[this.state.questionNumber].answers.map(answers => (
+            <div style={questionStyle} key={answers.answer}>
+              <p onClick={this.addAnswerToObject.bind(this, answers.answer)}>
+                {answers.answer}
+              </p>
             </div>
           ))}
         </div>
 
-        <button onClick={this.previousQuizQuestion}>previous</button>
-        <button onClick={this.nextQuizQuestion}>next</button>
+        {this.state.questionNumber !== 0 ? (
+          <button onClick={this.previousQuizQuestion}>previous</button>
+        ) : null}
+        {this.state.questionNumber + 1 !== quiz.questions.length ? (
+          <button onClick={this.nextQuizQuestion}>next</button>
+        ) : (
+          <button onClick={this.submit}>Submit</button>
+        )}
 
         {/* {console.log(this.state.clickedQuestion)}
         {this.state.clickedQuestion !== undefined
@@ -92,8 +111,12 @@ const mapStateToProps = (state, props) => ({
   username: state.auth.username,
   quiz: state.quizzes.quizzes.find(
     quiz => quiz.uuid === props.match.params.uuid
-  )
+  ),
+  answers: state.quizzes.answers
   // clickedQuestion: state.quizzes.clickedQuestion
 })
 
-export default connect(mapStateToProps)(TakeQuizPage)
+export default connect(
+  mapStateToProps,
+  { startAddAnswerToObject }
+)(TakeQuizPage)

@@ -56,3 +56,11 @@ export const UpdateQuestionsDisplay = clickedQuestion => ({
   type: 'DISPLAY_CLICKED_QUESTION',
   clickedQuestion
 })
+
+export const startAddAnswerToObject = answer => dispatch =>
+  dispatch(addAnswerToObject(answer))
+
+export const addAnswerToObject = answer => ({
+  type: 'ADD_ANSWER_TO_OBJECT',
+  answer
+})
