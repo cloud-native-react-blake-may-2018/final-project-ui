@@ -1,8 +1,5 @@
 import React from 'react'
 
-<<<<<<< HEAD:client/app/reducers/quizzes.ts
-export const quizzesReducer = (state = {}, action = {} as any) => {
-=======
 const initialState = {
   quizzes: [],
   questions: [],
@@ -10,7 +7,6 @@ const initialState = {
 }
 
 export const quizReducer = (state = initialState, action = {} as any) => {
->>>>>>> 70c2e7c148814d528d1961a71c2ae55b882e8442:client/app/reducers/quiz.ts
   switch (action.type) {
     case 'DISPLAY_QUIZZES':
       return {

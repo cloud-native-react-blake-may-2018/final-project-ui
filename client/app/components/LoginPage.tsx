@@ -8,7 +8,7 @@ import GoogleLogin from 'react-google-login'
 
 import { startLogin } from '../actions/auth'
 
-import api from '../api'
+// import api from '../api'
 import { DashboardPage } from './DashboardPage';
 
 interface IData {

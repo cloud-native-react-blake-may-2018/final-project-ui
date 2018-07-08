@@ -73,7 +73,7 @@ export class Pages extends Component<IProps, IState> {
         <Switch>
           <PublicRoute exact path="/" component={SplashPage} />
           <PublicRoute path="/signup" component={SignupPage} />
-          <PublicRoute path="/login" component={LoginPage} />
+          <PublicRoute path="/login" component={SignInRedirect} />
           <PublicRoute path="/resetpassword" component={ResetPasswordPage} />
           <Sidebar
             sidebar={sidebar}

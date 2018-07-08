@@ -5,7 +5,7 @@ import thunk from 'redux-thunk'
 import { appReducer } from '../reducers/app'
 import { authReducer } from '../reducers/auth'
 import { modalReducer } from '../reducers/modal'
-import { quizzesReducer } from '../reducers/quizzes'
+import { quizReducer } from '../reducers/quizzes'
 import { questionsReducer } from '../reducers/questions'
 import { createReducer } from '../reducers/create.reducer'
 
@@ -31,7 +31,7 @@ export const configureStore = () => {
       app: appReducer,
       auth: authReducer,
       modal: modalReducer,
-      quizzes: quizzesReducer,
+      quizzes: quizReducer,
       questions: questionsReducer,
       create: createReducer
     }),

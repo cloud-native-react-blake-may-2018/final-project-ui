@@ -1,5 +1,5 @@
 import React from 'react'
-import api from '../api'
+// import api from '../api'
 import * as awsCognito from 'amazon-cognito-identity-js';
 
 export const login = user => ({
