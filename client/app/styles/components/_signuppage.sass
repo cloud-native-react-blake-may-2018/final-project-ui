@@ -4,76 +4,81 @@
   align-content: center
   justify-content: center
   height: 100vh
-  
-  .message
-    position: fixed
-    bottom: 0
-    padding: 15px 25px 15px 15px
-    font-size: 21px
-    font-weight: 500
-    color: $bronze
-    background-color: $done-gold
-    &:after
-      content: ''
-      position: absolute
-      right: -20px
-      height: 0px
-      width: 0px
-      border-left: 30px solid transparent
-      border-right: 30px solid transparent
-      border-top: 30px solid $done-gold
 
   .signup-bg
     position: absolute
     height: 100vh
-    width: 100vw
-    // background: url("https://image.ibb.co/fNpRny/agenda_analysis_business_990818.jpg") no-repeat
     background-color: red
     background-size: cover
     background-position: 6%
-    -webkit-filter: grayscale(100%) brightness(100%)
-    -moz-filter: grayscale(100%) brightness(100%)
-    -o-filter: grayscale(100%) brightness(100%)
-    -ms-filter: grayscale(100%) brightness(100%)
-    filter: grayscale(100%) brightness(100%)
     opacity: 1
     z-index: -1
+
+  .app-name
+    margin: 0
+    text-align: center
+    font: 700 36px Asap
+    color: $dark-blue
 
   .signup-form
     display: grid
     grid-template-columns: 1fr
     width: 35vw
     max-width: 600px
-    // padding: 30px 55px 45px
-    padding: 40px 55px
+    padding: 0 55px 40px
     border-radius: 3px
     background-color: rgba(255, 255, 255, 1)
-    // background-color: rgba(255, 255, 255, .9)
   
     .input-group
       display: grid
-      margin: 10px 0
+      position: relative
+      align-items: center
+      grid-column-gap: 10px
 
-      .title
-        padding-bottom: 5px
+      label
+        padding: 10px 0
         text-transform: uppercase
-        letter-spacing: 1px
-        font-size: 18px
-        font-weight: 600
-        color: $titlegrey
+        font: normal 18px Asap
+        color: $grey
 
-        &:last-of-type
-          padding: 10px 0 5px
-      
+        &:first-of-type
+          margin-top: 15px
+
       input
-        height: 35px
         padding: 10px 15px
         border: none
-        border-radius: 3px
-        font-size: 21px
-        background-color: lighten($buttongrey, 10%)
-        color: $sidebar-black
-        opacity: .8
+        border-radius: 8px
+        outline: none
+        font: normal 18px Asap
+        color: $grey
+        background-color: $white-grey
+
+        &::placeholder
+          font: normal 18px Asap
+          color: $grey
+
+    .button
+      justify-self: end
+      grid-column: 2
+      margin: 35px 0 0
+      padding: 10px 50px
+      border: none
+      outline: none
+      border-radius: 8px
+      font: normal 18px Asap
+      color: $white
+      background-color: $blue
+      box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
+      transition: .3s all
+
+      &:hover
+        cursor: pointer
+        transform: translateY(-2px)
+
+      &:active
+        cursor: pointer
+        transform: scale(.9)
+        filter: brightness(93%)
 
     .global-errors
       padding: 5px 0
@@ -90,25 +95,16 @@
       color: $error-red
       font-size: 18px
 
-    .signup-button
-      padding: 8px 15px
-      margin: 15px 0 5px
-      width: 100%
-      border: none
-      border-radius: 3px
-      font: 500 22px montserrat, sans-serif
-      color: $white
-      background-color: $create-blue
-
-    .switch-auth-form
+    .switch-page
       display: flex
+      align-self: end
       align-items: center
-      font-size: 18px
-      color: $td-text
+      font: normal 18px Asap
+      color: darken($light-grey, 5%)
 
-    p
-      margin: 0
+      p
+        margin: 0
 
-    .login-link
-      margin: 0
-      color: $create-blue
+      .login-link
+        margin: 0
+        color: $blue

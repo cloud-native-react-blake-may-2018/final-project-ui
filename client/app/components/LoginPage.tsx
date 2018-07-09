@@ -164,7 +164,12 @@ export class LoginPage extends Component<IProps, IState> {
             err.code === 'UserNotFoundException' ||
             err.code === 'NotAuthorizedException'
           ) {
-            console.log('Invalid Credentials, try again.')
+            this.setState({
+              errors: {
+                ...this.state.errors,
+                global: 'Invalid Credentials, try again.'
+              }
+            })
             // this.props.updateError('Invalid Credentials, try again.')
           } else {
             console.log('Unable to login at this time, please try again later')
@@ -183,6 +188,9 @@ export class LoginPage extends Component<IProps, IState> {
     return (
       <div className="login-page">
         <div className="login-bg" />
+        <Link to="/">
+          <h1 className="app-name">Quizzard</h1>
+        </Link>
         <form
           className="login-form"
           onChange={this.onFieldChange}
@@ -216,15 +224,15 @@ export class LoginPage extends Component<IProps, IState> {
             )}
           </div>
           <div className="input-group">
+            <div className="switch-page">
+              <p className="text">Don't have an account?</p>
+              <Link to="/signup" className="signup-link">
+                &nbsp;Signup
+              </Link>
+            </div>
             <button type="submit" className="login-button button">
               Login
             </button>
-          </div>
-          <div className="switch-auth-form">
-            <p className="text">Don't have an account?</p>
-            <Link to="/signup" className="signup-link">
-              &nbsp;Signup
-            </Link>
           </div>
         </form>
         <div className="overlay" />

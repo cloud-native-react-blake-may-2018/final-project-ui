@@ -164,18 +164,10 @@ export class SignupPage extends Component<ClassProps, ClassState> {
     const { errors, admin, message } = this.state
     return (
       <div className="signup-page">
-        {admin && (
-          <img
-            src="https://png.icons8.com/color/160/crown.png"
-            style={{
-              margin: '0 auto',
-              width: '100px',
-              height: '100px',
-              filter: 'brightness(110%)'
-            }}
-          />
-        )}
         <div className="signup-bg" />
+        <Link to="/">
+          <h1 className="app-name">Quizzard</h1>
+        </Link>
         <form
           autoComplete="off"
           className="signup-form"
@@ -211,15 +203,15 @@ export class SignupPage extends Component<ClassProps, ClassState> {
             />
           </div>
           <div className="input-group">
+            <div className="switch-page">
+              <p className="text">Already have an account?</p>
+              <Link to="/login" className="login-link">
+                &nbsp;Login
+              </Link>
+            </div>
             <button type="submit" className="signup-button button">
               Signup
             </button>
-          </div>
-          <div className="switch-auth-form">
-            <p className="text">Already have an account?</p>
-            <Link to="/login" className="login-link">
-              &nbsp;Login
-            </Link>
           </div>
         </form>
         {!!errors.global && <p>{errors.global}</p>}
