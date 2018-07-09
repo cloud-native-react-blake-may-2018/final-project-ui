@@ -55,6 +55,7 @@
     "jwt-decode": "latest",
     "moment": "latest",
     "numeral": "latest",
+    "query-string": "^6.1.0",
     "react": "latest",
     "react-dom": "latest",
     "react-dropzone": "latest",
