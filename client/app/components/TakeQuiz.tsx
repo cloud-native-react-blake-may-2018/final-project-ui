@@ -4,7 +4,6 @@ import numeral from 'numeral'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { startAddAnswerToArray } from '../actions/quizzes'
-import { AnswersObj } from '../models/AnswersObj'
 
 interface IProps {
   username: any
