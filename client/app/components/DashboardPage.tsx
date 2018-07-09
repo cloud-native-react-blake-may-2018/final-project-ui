@@ -16,7 +16,7 @@ export class DashboardPage extends Component<IProps> {
     const username = 'Medlock'
     console.log(username)
     const {
-      // username,
+      //  username,
       startGetUserQuizzes
     } = this.props
     // console.log(username)
