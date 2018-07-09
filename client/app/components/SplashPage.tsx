@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import * as awsCognito from 'amazon-cognito-identity-js'
 import AWS = require('aws-sdk')
 
-let redirectUrl = 'https://quizard.auth.us-east-2.amazoncognito.com/login?response_type=code&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=http://localhost:3222/?code=1055adc3-2668-4679-9fe0-731f518e5485'
+// let redirectUrl = 'https://quizard.auth.us-east-2.amazoncognito.com/login?response_type=code&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=http://localhost:3222/?code=1055adc3-2668-4679-9fe0-731f518e5485'
 // Old routes: "/login"
 
 let id_token = location.hash.substr(1)
