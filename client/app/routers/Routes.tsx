@@ -13,7 +13,10 @@ import LoginPage from '../components/LoginPage'
 import SignupPage from '../components/SignupPage'
 import SignInRedirect from '../components/SignInRedirect'
 import DashboardPage from '../components/DashboardPage'
-import ViewQuizzesPage from '../components/viewQuizzes'
+import MyQuizzesPage from '../components/MyQuizzesPage'
+import EditQuizPage from '../components/EditQuizPage'
+import ViewQuizPage from '../components/ViewQuizPage'
+import TakeQuizPage from '../components/TakeQuiz'
 // import SettingsPage from '../components/SettingsPage'
 // import ProfilePage from '../components/ProfilePage'
 import NotFoundPage from '../components/NotFoundPage'
@@ -86,7 +89,10 @@ export class Pages extends Component<IProps, IState> {
             overlayClassName="overlay-class"
           >
             <PrivateRoute path="/dashboard" component={DashboardPage} />
-            <PrivateRoute path="/view-quizzes" component={ViewQuizzesPage} />
+            <PrivateRoute path="/my-quizzes" component={MyQuizzesPage} />
+            <PrivateRoute path="/view-quiz/:uuid" component={ViewQuizPage} />
+            <PrivateRoute path="/edit-quiz/:uuid" component={EditQuizPage} />
+            <PrivateRoute path="/take-quiz/:uuid" component={TakeQuizPage} />
             <PrivateRoute path="/create-quiz" component={CreateQuiz} />
             <PrivateRoute path="/add-question" component={AddQuestion} />
             <PrivateRoute path="/add-quiz" component={AddQuiz} />
