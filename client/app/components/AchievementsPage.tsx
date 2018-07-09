@@ -5,8 +5,15 @@ export class AchievementsPage extends Component {
   //@ts-ignore
   render = () => {
     return (
-      <div>
-        <h1>Achievements</h1>
+      <div className="achievements-page">
+        <div className="main">
+          <header>
+            <h1 className="title">Achievements</h1>
+          </header>
+          <main>
+            <p className="placeholder-text">List all achievements here.</p>
+          </main>
+        </div>
       </div>
     )
   }

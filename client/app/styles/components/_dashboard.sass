@@ -1,3 +1,13 @@
+@keyframes oscillate 
+  0% 
+    right: 0px
+    
+  50% 
+    right: -20px
+
+  100%
+    right: 0px
+
 // .dashboard-page
 .nav-header + div
   display: grid
@@ -46,11 +56,12 @@
           grid-template-columns: repeat(2, max-content)
           grid-template-rows: repeat(2, max-content)
           justify-content: center
-          grid-column-gap: 25px
-          margin: 30px 0
+          grid-column-gap: 100px
+          margin: 50px 0
 
           .quizzes-taken, .quizzes-created
             display: grid
+            position: relative
             grid-auto-flow: column
             grid-template-rows: repeat(2, max-content)
             grid-column-gap: 10px
@@ -61,14 +72,25 @@
               font: normal 84px Asap
               color: $white
               margin: 0
-              
+            
             .arrow
-              grid-row: 1
-              grid-column: 2
-              margin: 0
-              justify-self: end
+              position: absolute
+              top: 15px
+              right: 0px
+
+              &:hover
+                transition: all 1s ease-in-out
+                animation: oscillate .7s infinite
+                cursor: pointer
+
+              &:hover path
+                cursor: pointer
+                fill: $pink
+              
+            .arrow path
+              transform: scale(.8)
               font: normal 22px Asap
-              color: $white
+              fill: $white
 
             .label
               grid-row: 2
@@ -94,18 +116,27 @@
 
       main
         display: grid
-        grid-row-gap: 30px
+        grid-row-gap: 15px
         margin: 15px 0
 
         .container
           display: grid
           grid-template-columns: 65px 80px 30px
           grid-column-gap: 10px
+          align-items: center
 
           .icon
+            justify-self: center
+            transform: scale(.5)
+            height: max-content
+            width: max-content
             margin: 0
             font: normal 18px Asap
             color: $light-grey
+
+          .present
+            height: 25px
+            transform: scale(1)
 
           .name
             margin: 0

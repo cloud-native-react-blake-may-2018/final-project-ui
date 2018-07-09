@@ -14,12 +14,13 @@
     border-radius: 8px
     background-color: $white
     box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
+    overflow-y: hidden
 
     aside
       padding: 0 35px
       background: linear-gradient(40deg, $teal, $midnight)
       border-radius: 8px 0 0 8px
-      height: fill
+      height: 100%
 
       p
         margin: 30px 0
@@ -52,7 +53,6 @@
             position: relative
             width: max-content
             transition: .3s all
-            
             &:hover
               cursor: pointer
               filter: brightness(80%)
@@ -83,8 +83,10 @@
           input
             padding: 10px 15px
             border: none
+            outline: none
             border-radius: 8px
             font: normal 18px Asap
+            color: $grey
             background-color: $white-grey
 
             &::placeholder

@@ -194,8 +194,12 @@ export class SettingsPage extends Component<ClassProps> {
             <main>
               <form className="settings-form" onChange={this.onFieldChange}>
                 <div className="input-group">
-                  <label htmlFor="interest">Change website theme:</label>
-                  <input type="text" name="interest" />
+                  <label htmlFor="interest">Theme</label>
+                  <input
+                    type="text"
+                    name="interest"
+                    placeholder="Coming soon!"
+                  />
                 </div>
                 <div className="input-group">
                   <button className="save-button" type="submit">

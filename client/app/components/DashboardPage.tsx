@@ -5,6 +5,10 @@ import numeral from 'numeral'
 import { Link } from 'react-router-dom'
 import { startGetUserQuizzes } from '../actions/quizzes'
 import CoinIcon from '../../public/icons/coin-icon.svg'
+import ArrowIcon from '../../public/icons/arrow-icon.svg'
+import ParseIcon from '../../public/icons/parse-icon.svg'
+import DoubleIcon from '../../public/icons/double-icon.svg'
+import ForgiveIcon from '../../public/icons/forgive-icon.svg'
 
 interface IProps {
   username: string
@@ -36,12 +40,12 @@ export class DashboardPage extends Component<IProps> {
                 <div className="quizzes-taken">
                   <p className="count">44</p>
                   <p className="label">/taken</p>
-                  <p className="arrow">--></p>
+                  <ArrowIcon className="arrow" />
                 </div>
                 <div className="quizzes-created">
                   <p className="count">8</p>
                   <p className="label">/created</p>
-                  <p className="arrow">--></p>
+                  <ArrowIcon className="arrow" />
                 </div>
               </main>
             </section>
@@ -54,17 +58,17 @@ export class DashboardPage extends Component<IProps> {
             <h2 className="header-title">Power-ups</h2>
             <main>
               <div className="container">
-                <p className="icon">x2</p>
+                <DoubleIcon className="icon" />
                 <p className="name">Multiplier</p>
                 <p className="amount">x8</p>
               </div>
               <div className="container">
-                <p className="icon">**x*</p>
+                <ParseIcon className="icon" />
                 <p className="name">Parser</p>
                 <p className="amount">x3</p>
               </div>
               <div className="container">
-                <p className="icon">present</p>
+                <ForgiveIcon className="icon present" />
                 <p className="name">Forgiving</p>
                 <p className="amount">x1</p>
               </div>
