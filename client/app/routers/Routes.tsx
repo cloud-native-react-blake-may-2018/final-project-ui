@@ -11,6 +11,7 @@ import PublicRoute from './PublicRoute'
 import SplashPage from '../components/SplashPage'
 import LoginPage from '../components/LoginPage'
 import SignupPage from '../components/SignupPage'
+import SignInRedirect from '../components/SignInRedirect'
 import DashboardPage from '../components/DashboardPage'
 import MyQuizzesPage from '../components/MyQuizzesPage'
 import EditQuizPage from '../components/EditQuizPage'
@@ -68,12 +69,14 @@ export class Pages extends Component<IProps, IState> {
 
   // @ts-ignore
   render = () => {
+    // let redirectUrl = 'https://quizard.auth.us-east-2.amazoncognito.com/login?response_type=code&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=http://localhost:3222/'
+    // () => {window.location = redirectUrl}
     return (
       <Router history={history}>
         <Switch>
           <PublicRoute exact path="/" component={SplashPage} />
           <PublicRoute path="/signup" component={SignupPage} />
-          <PublicRoute path="/login" component={LoginPage} />
+          <PublicRoute path="/login" component={SignInRedirect} />
           <PublicRoute path="/resetpassword" component={ResetPasswordPage} />
           <Sidebar
             sidebar={sidebar}

@@ -62,10 +62,11 @@ export const SplashPage = () => (
   <div>
     <header>
       <nav className="splash-nav">
+        
         <Link to="/" className="item">
           Logo
         </Link>
-        <Link to="/login" className="item">
+        <Link to={"/login"} className="item">
           Login
         </Link>
         <Link to="/signup" className="item">
