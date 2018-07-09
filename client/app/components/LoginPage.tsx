@@ -3,7 +3,6 @@ import { Link, RouteComponentProps } from 'react-router-dom'
 import { connect } from 'react-redux'
 import * as awsCognito from 'amazon-cognito-identity-js'
 
-import { startGetUserQuizzes } from '../actions/quizzes'
 import { startLogin } from '../actions/auth'
 
 interface IData {
@@ -154,12 +153,10 @@ export class LoginPage extends Component<IProps, IState> {
             username: cognitoUser.getUsername(),
             token
           }
-          this.props
-            .startLogin(data)
-            .catch(err => {
-              console.log('front end error', err)
-              return this.setState({ errors: err.response.data.errors })
-            })
+          this.props.startLogin(data).catch(err => {
+            console.log('front end error', err)
+            return this.setState({ errors: err.response.data.errors })
+          })
         },
         onFailure: err => {
           console.log('password error: ', err)

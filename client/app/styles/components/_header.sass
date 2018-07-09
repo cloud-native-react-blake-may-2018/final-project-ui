@@ -1,6 +1,9 @@
 a
   text-decoration: none
-  color: black
+  color: $light-grey
+
+  &:hover
+    color: $grey
 
 .nav-header
   display: flex
@@ -13,19 +16,30 @@ a
     color: $dark-blue
 
   .nav-username
-    font-size: 22px
-    margin-right: 22px
+    margin-right: 10px
+    font: 500 22px Asap
+    color: $grey
+
+    &:hover
+      cursor: pointer
 
   .fa-angle-down
     font-size: 24px
+    color: $light-grey
+
+    &:hover
+      cursor: pointer
 
   .profile
     padding: 0 10px
     font-size: 20px
+    // color: $light-grey
 
   .logout
     padding: 0 10px
+    margin: 0
     font-size: 20px
+    // color: $light-grey
 
 
 
@@ -48,7 +62,7 @@ a
     border-radius: 4px
     border: none
     outline: none
-    font: 300 22px Asap
+    font: 500 22px Asap
     color: $grey
 
     &::placeholder

@@ -16,6 +16,9 @@ import MyQuizzesPage from '../components/MyQuizzesPage'
 import EditQuizPage from '../components/EditQuizPage'
 import ViewQuizPage from '../components/ViewQuizPage'
 import TakeQuizPage from '../components/TakeQuiz'
+import AchievementsPage from '../components/AchievementsPage'
+import StorePage from '../components/StorePage'
+
 import CreateQuiz from '../components/CreateQuiz'
 import AddQuestion from '../components/AddQuestion'
 import AddQuiz from '../components/AddQuiz'
@@ -103,8 +106,10 @@ export class Pages extends Component<IProps, IState> {
             <PrivateRoute path="/create-quiz" component={CreateQuiz} />
             <PrivateRoute path="/add-question" component={AddQuestion} />
             <PrivateRoute path="/add-quiz" component={AddQuiz} />
-            <PrivateRoute path="/settings" component={SettingsPage} />
+            <PrivateRoute path="/achievements" component={AchievementsPage} />
+            <PrivateRoute path="/store" component={StorePage} />
             <PrivateRoute path="/profile" component={ProfilePage} />
+            <PrivateRoute path="/settings" component={SettingsPage} />
           </Sidebar>
           <Route component={NotFoundPage} />
         </Switch>

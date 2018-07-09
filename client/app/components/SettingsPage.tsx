@@ -8,8 +8,7 @@ interface ClassProps {
   email: string
   username: string
   photo: string
-  firstname: string
-  lastname: string
+  name: string
   file
   startUpdateUser: (any) => any
 }
@@ -17,8 +16,8 @@ interface ClassProps {
 export class SettingsPage extends Component<ClassProps> {
   state = {
     page: 'General',
-    fullname: `${this.props.firstname} ${this.props.lastname}`,
-    email: '',
+    name: this.props.name,
+    email: this.props.email,
     url: '',
     file: ''
   }
@@ -43,7 +42,7 @@ export class SettingsPage extends Component<ClassProps> {
   generalUploadHandler = async e => {
     e.preventDefault()
 
-    const { file, url, fullname: name, email } = this.state
+    const { file, url, name, email } = this.state
 
     const { username, startUpdateUser } = this.props
 
@@ -95,36 +94,35 @@ export class SettingsPage extends Component<ClassProps> {
   }
 
   render() {
-    const { email, username, photo } = this.props
-    let { page, fullname } = this.state
+    const { username, email, photo } = this.props
+    let { page, name } = this.state
     page = page.toLowerCase()
 
     return (
-      <div className="main-body">
-        <div className="settings-page">
-          <aside className="settings-side-menu">
+      <div className="settings-page">
+        <div className="main">
+          <aside>
             <p
-              className={page === 'general' ? 'is-active' : null}
+              className={page === 'general' ? 'active' : null}
               onClick={this.setPage}
             >
               General
             </p>
             <p
-              className={page === 'password' ? 'is-active' : null}
+              className={page === 'password' ? 'active' : null}
               onClick={this.setPage}
             >
               Password
             </p>
             <p
-              className={page === 'transfers' ? 'is-active' : null}
+              className={page === 'transfers' ? 'active' : null}
               onClick={this.setPage}
             >
               Themes
             </p>
           </aside>
           {this.state.page.toLowerCase() == 'general' && (
-            <div>
-              <h2>Settings</h2>
+            <main>
               <form
                 className="settings-form"
                 onChange={this.onFieldChange}
@@ -136,16 +134,13 @@ export class SettingsPage extends Component<ClassProps> {
                     className="photo-container"
                     onClick={() => this.photoUpload.click()}
                   >
-                    <Dropzone onDrop={this.onDrop}>
-                      <p>drop files here:</p>
-                    </Dropzone>
+                    <Dropzone onDrop={this.onDrop} className="dropzone" />
                     {/* <div
                       className="photo"
                       style={{
                         background: `url(${photo}) center / cover no-repeat`
                       }}
                     /> */}
-                    <p className="text">Edit</p>
                   </div>
                   <input
                     className="file-upload"
@@ -159,23 +154,22 @@ export class SettingsPage extends Component<ClassProps> {
                 </div>
                 <div className="input-group">
                   <label htmlFor="fullname">Full Name</label>
-                  <input type="text" name="fullname" placeholder={fullname} />
+                  <input type="text" name="fullname" placeholder={name} />
                 </div>
                 <div className="input-group">
                   <label htmlFor="email">Email</label>
                   <input type="email" name="email" placeholder={email} />
                 </div>
                 <div className="input-group">
-                  <button className="save" type="submit">
+                  <button className="save-button" type="submit">
                     Save changes
                   </button>
                 </div>
               </form>
-            </div>
+            </main>
           )}
           {this.state.page.toLowerCase() == 'password' && (
-            <div>
-              <h2>Reset Password</h2>
+            <main>
               <form className="settings-form" onChange={this.onFieldChange}>
                 <div className="input-group">
                   <label htmlFor="old">Old Password</label>
@@ -190,28 +184,27 @@ export class SettingsPage extends Component<ClassProps> {
                   <input type="text" name="retype" />
                 </div>
                 <div className="input-group">
-                  <button className="save" type="submit">
+                  <button className="save-button" type="submit">
                     Save changes
                   </button>
                 </div>
               </form>
-            </div>
+            </main>
           )}
           {this.state.page.toLowerCase() == 'themes' && (
-            <div>
-              <h2>Themes</h2>
+            <main>
               <form className="settings-form" onChange={this.onFieldChange}>
                 <div className="input-group">
                   <label htmlFor="interest">Change website theme:</label>
                   <input type="text" name="interest" />
                 </div>
                 <div className="input-group">
-                  <button className="save" type="submit">
+                  <button className="save-button" type="submit">
                     Save changes
                   </button>
                 </div>
               </form>
-            </div>
+            </main>
           )}
         </div>
       </div>
@@ -220,11 +213,10 @@ export class SettingsPage extends Component<ClassProps> {
 }
 
 const mapStateToProps = state => ({
-  firstname: state.auth.name,
-  lastname: state.auth.last,
+  name: state.auth.name,
   username: state.auth.username,
   email: state.auth.email,
-  photo: state.auth.photo
+  photo: state.auth.profileImage
 })
 
 export default connect(mapStateToProps)(SettingsPage)

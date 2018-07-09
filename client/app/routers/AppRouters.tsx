@@ -3,6 +3,7 @@ import { Router, Route, Switch, RouteComponentProps } from 'react-router-dom'
 import { Provider, connect } from 'react-redux'
 import { hot } from 'react-hot-loader'
 import decode from 'jwt-decode'
+import * as awsCognito from 'amazon-cognito-identity-js'
 
 import { Pages } from './Routes'
 
@@ -20,17 +21,25 @@ interface IPayload {
 
 // TODO: data persistence from localhost
 if (localStorage.token) {
+  const data = {
+    ClientId: '1q83lmu6khfnc0v8jjdrde9291', // Your client id here
+    UserPoolId: 'us-east-2_fMMquWRem' // Your user pool id here
+  }
+  const userPool = new awsCognito.CognitoUserPool(data)
+  const cognitoUser = userPool.getCurrentUser()
+
   const payload: IPayload = decode(localStorage.token)
   const user = {
     email: payload.email,
     token: localStorage.token,
     uid: payload.sub, // what is this in cognito token?
     name: payload.name,
-    username: payload.username
+    // @ts-ignore
+    username: cognitoUser.username
   }
 
-  console.log('token: ', localStorage.token)
-  console.log('decoded token: ', payload)
+  // console.log('token: ', localStorage.token)
+  // console.log('decoded token: ', payload)
 
   // @ts-ignore
   store.dispatch(startLogin(user))

@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 import numeral from 'numeral'
 import { Link } from 'react-router-dom'
-// import { startGetUserQuizzes } from '../actions/quizzes'
+import { startGetUserQuizzes } from '../actions/quizzes'
+import CoinIcon from '../../public/icons/coin-icon.svg'
 
 interface IProps {
   username: string
@@ -12,28 +13,94 @@ interface IProps {
 
 export class DashboardPage extends Component<IProps> {
   //@ts-ignore
-  componentDidMount = () => {
-    const username = 'Medlock'
-    console.log(username)
-    const {
-      // username,
-      startGetUserQuizzes
-    } = this.props
-    // console.log(username)
-    startGetUserQuizzes(username)
-  }
+  // componentDidMount = () => {
+  //   const username = 'Medlock'
+  //   console.log(username)
+  //   const {
+  //     // username,
+  //     startGetUserQuizzes
+  //   } = this.props
+  //   // console.log(username)
+  //   startGetUserQuizzes(username)
+  // }
+
   // @ts-ignore
   render = () => {
     return (
       <div className="dashboard-page">
-        <h1>dashboard</h1>
-        <Link to="/create-quiz" className="link">
-          Create A Quiz
-        </Link>
-        <Link to="/my-quizzes" className="link">
-          Take A Quiz
-        </Link>
+        <div className="blocks">
+          <div className="main">
+            <section className="quizzes">
+              <h2 className="quizzes-title">Quizzes</h2>
+              <main>
+                <div className="quizzes-taken">
+                  <p className="count">44</p>
+                  <p className="label">/taken</p>
+                  <p className="arrow">--></p>
+                </div>
+                <div className="quizzes-created">
+                  <p className="count">8</p>
+                  <p className="label">/created</p>
+                  <p className="arrow">--></p>
+                </div>
+              </main>
+            </section>
+            <section className="achievements">
+              <h2 className="header-title">Achievements</h2>
+              <p className="text">You have not earned any achievements yet.</p>
+            </section>
+          </div>
+          <aside className="side-top">
+            <h2 className="header-title">Power-ups</h2>
+            <main>
+              <div className="container">
+                <p className="icon">x2</p>
+                <p className="name">Multiplier</p>
+                <p className="amount">x8</p>
+              </div>
+              <div className="container">
+                <p className="icon">**x*</p>
+                <p className="name">Parser</p>
+                <p className="amount">x3</p>
+              </div>
+              <div className="container">
+                <p className="icon">present</p>
+                <p className="name">Forgiving</p>
+                <p className="amount">x1</p>
+              </div>
+            </main>
+          </aside>
+          <aside className="side-bottom">
+            <h2 className="header-title">Leaderboards</h2>
+            <main>
+              <div className="container">
+                <p className="username">wave_forms</p>
+                <p className="total">217</p>
+                <CoinIcon className="coin" />
+              </div>
+              <div className="container">
+                <p className="username">pillowlava</p>
+                <p className="total">138</p>
+                <CoinIcon className="coin" />
+              </div>
+              <div className="container">
+                <p className="username">malin_2</p>
+                <p className="total">74</p>
+                <CoinIcon className="coin" />
+              </div>
+            </main>
+          </aside>
+        </div>
       </div>
+      // <div className="dashboard-page">
+      //   <h1>dashboard</h1>
+      //   <Link to="/create-quiz" className="link">
+      //     Create A Quiz
+      //   </Link>
+      //   <Link to="/my-quizzes" className="link">
+      //     Take A Quiz
+      //   </Link>
+      // </div>
     )
   }
 }
@@ -43,4 +110,7 @@ const mapStateToProps = state => ({
   username: state.auth.username
 })
 
-export default connect(mapStateToProps)(DashboardPage)
+export default connect(
+  mapStateToProps,
+  { startGetUserQuizzes }
+)(DashboardPage)
