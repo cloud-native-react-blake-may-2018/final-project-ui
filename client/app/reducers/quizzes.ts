@@ -9,7 +9,7 @@ import React from 'react'
 export const quizzesReducer = (state = {}, action = {} as any) => {
   switch (action.type) {
     case 'ALL_QUIZZES':
-      console.log('quizzes ', action.quizzes)
+      // console.log('quizzes ', action.quizzes)
       return {
         ...state,
         quizzes: [...action.quizzes]
@@ -20,6 +20,28 @@ export const quizzesReducer = (state = {}, action = {} as any) => {
       return {
         ...state,
         questions: action.questions
+      }
+
+    case 'DISPLAY_CLICKED_QUESTION':
+      // console.log('questions ', action.questions)
+      return {
+        ...state,
+        clickedQuestion: action.clickedQuestion
+      }
+
+    case 'ADD_ANSWER_TO_OBJECT':
+      console.log('answer ', action.answer)
+      return {
+        ...state,
+        // answerObject: [...action.answer]
+        answerArray: action.answerObj
+      }
+
+    case 'DISPLAY_CLICKED_QUESTION':
+      // console.log('questions ', action.questions)
+      return {
+        ...state,
+        clickedQuestion: action.clickedQuestion
       }
 
     case 'DISPLAY_QUIZ_TAGS':
