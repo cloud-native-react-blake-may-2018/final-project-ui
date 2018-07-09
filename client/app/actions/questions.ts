@@ -1,5 +1,5 @@
-import React from 'react'
-import api from '../path-list'
+import React from "react";
+import pathlist from "../path-list";
 
 // export const createNewQuestion = newQuestion => ({
 //   type: 'CREATE_NEW_QUESTION',
@@ -17,3 +17,14 @@ import api from '../path-list'
 // export const startCreateNewQuiz = newQuiz => dispatch => {
 //   dispatch(createNewQuiz(newQuiz))
 // }
+
+export const editQuestion = question => ({
+  type: "EDIT_QUESTION",
+  question
+});
+
+export const startEditQuestion = question => dispatch => {
+  pathlist.questions
+    .edit(question)
+    .then(question => dispatch(editQuestion(question)));
+};

@@ -12,7 +12,8 @@ const addQuestionUrl =
 const batchAddQuestionsUrl =
   "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/question/batch";
 
-const editQuestionUrl = "";
+const editQuestionUrl =
+  "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/question/edit";
 
 const addQuizUrl =
   "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz";
@@ -55,7 +56,7 @@ export default {
 
   questions: {
     edit: question =>
-      axios.post(editQuestionUrl, { question }).then(res => res.data),
+      axios.post(editQuestionUrl, question).then(res => res.data),
     display: quizUUID =>
       axios.get(displayQuizQuestionsURL + quizUUID).then(res => res.data),
     displayTags: quizUUID =>
