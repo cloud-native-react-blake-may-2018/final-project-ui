@@ -10,7 +10,7 @@ export const editQuiz = quiz => ({
 })
 
 export const startGetUserQuizzes = author => async dispatch => {
-  console.log('getting user quizzes')
+  // console.log('getting user quizzes')
   pathList.quizzes.display(author).then(async quizzes => {
     const all = await Promise.all(
       quizzes.map(async quiz => {
@@ -48,4 +48,19 @@ export const startDisplayQuizTags = quizUUID => dispatch =>
 export const displayQuizTags = tags => ({
   type: 'DISPLAY_QUIZ_TAGS',
   tags
+})
+export const startUpdateQuestionsDisplay = clickedQuestion => dispatch =>
+  dispatch(displayQuizTags(clickedQuestion))
+
+export const UpdateQuestionsDisplay = clickedQuestion => ({
+  type: 'DISPLAY_CLICKED_QUESTION',
+  clickedQuestion
+})
+
+export const startAddAnswerToArray = answerObj => dispatch =>
+  dispatch(addAnswerToArray(answerObj))
+
+export const addAnswerToArray = answerObj => ({
+  type: 'ADD_ANSWER_TO_OBJECT',
+  answerObj
 })

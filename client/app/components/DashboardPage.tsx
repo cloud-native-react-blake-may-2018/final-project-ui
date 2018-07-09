@@ -13,11 +13,13 @@ interface IProps {
 export class DashboardPage extends Component<IProps> {
   //@ts-ignore
   componentDidMount = () => {
-    const username = 'Shawn'
+    const username = 'Medlock'
+    console.log(username)
     const {
-      // username,
+      //  username,
       startGetUserQuizzes
     } = this.props
+    // console.log(username)
     startGetUserQuizzes(username)
   }
 
@@ -29,7 +31,7 @@ export class DashboardPage extends Component<IProps> {
         <Link to="/create-quiz" className="link">
           Create A Quiz
         </Link>
-        <Link to="/view-quizzes" className="link">
+        <Link to="/my-quizzes" className="link">
           Take A Quiz
         </Link>
       </div>
