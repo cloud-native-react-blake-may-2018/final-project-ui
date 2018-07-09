@@ -49,9 +49,9 @@ export class Header extends Component<Props> {
   componentWillUnmount = () =>
     document.removeEventListener('click', this.determineClick)
 
-  determineClick = ({ target }) => {
+  determineClick = e => {
     // if click outside modal or not typing in input, hide search
-    if (!target.closest('.section') && !target.dataset.search) {
+    if ((!e.target.closest('.section') && !e.target.dataset.search)) {
       this.hideSearch()
     }
 

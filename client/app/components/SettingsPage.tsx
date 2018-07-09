@@ -25,19 +25,18 @@ export class SettingsPage extends Component<ClassProps> {
   // declare ref
   private photoUpload: HTMLInputElement
 
-  setPage = ({ target }) => {
-    console.log('target: ', target.textContent)
-    this.setState({ page: target.textContent })
+  setPage = e => {
+    console.log('target: ', e.target.textContent)
+    this.setState({ page: e.target.textContent })
   }
 
-  onFieldChange = ({ target }) => {
+  onFieldChange = e => {
     this.setState({
-      [target.name]: target.value
+      [e.target.name]: e.target.value
     })
   }
 
-  fileSelectedHandler = ({ target }) =>
-    this.setState({ selectedFile: target.files[0] })
+  fileSelectedHandler = e => this.setState({ selectedFile: e.target.files[0] })
 
   generalUploadHandler = async e => {
     e.preventDefault()
