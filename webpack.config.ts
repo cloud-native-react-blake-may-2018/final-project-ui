@@ -91,12 +91,12 @@ const config: webpack.Configuration = {
     })
   ],
 
-  devServer: {
-    hot: true,
-    contentBase: './client/public',
-    historyApiFallback: true,
-    stats: 'minimal' // none (or false), errors-only, minimal, normal (or true) and verbose
-  }
+  // devServer: {
+  //   hot: true,
+  //   contentBase: './client/public',
+  //   historyApiFallback: true,
+  //   stats: 'minimal' // none (or false), errors-only, minimal, normal (or true) and verbose
+  // }
 }
 
 export default config

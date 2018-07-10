@@ -11,6 +11,7 @@ import PublicRoute from './PublicRoute'
 import SplashPage from '../components/SplashPage'
 import LoginPage from '../components/LoginPage'
 import SignupPage from '../components/SignupPage'
+import SignInRedirect from '../components/SignInRedirect'
 import DashboardPage from '../components/DashboardPage'
 import MyQuizzesPage from '../components/MyQuizzesPage'
 import EditQuizPage from '../components/EditQuizPage'
@@ -18,7 +19,7 @@ import ViewQuizPage from '../components/ViewQuizPage'
 import TakeQuizPage from '../components/TakeQuiz'
 import AchievementsPage from '../components/AchievementsPage'
 import StorePage from '../components/StorePage'
-
+import ResetPasswordPage from '../components/ResetPasswordPage';
 import CreateQuiz from '../components/CreateQuiz'
 import AddQuestion from '../components/AddQuestion'
 import AddQuiz from '../components/AddQuiz'
@@ -86,7 +87,8 @@ export class Pages extends Component<IProps, IState> {
         <Switch>
           <PublicRoute exact path="/" component={SplashPage} />
           <PublicRoute path="/signup" component={SignupPage} />
-          <PublicRoute path="/login" component={LoginPage} />
+          <PublicRoute path="/login" component={SignInRedirect} />
+          <PublicRoute path="/resetpassword" component={ResetPasswordPage} />
           <Sidebar
             sidebar={sidebar}
             docked={sidebarDocked}
