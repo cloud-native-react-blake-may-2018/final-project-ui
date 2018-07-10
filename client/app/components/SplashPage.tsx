@@ -9,7 +9,7 @@ const uri = document.location.href;
 /** Start after access_token= */
 const startIndex = uri.indexOf('access_token=') + 13;
 /** End on & before id_token= */
-const endIndex = uri.indexOf('id_token=') - 1;
+const endIndex = uri.indexOf('&', startIndex);
 const access_token = uri.slice(startIndex, endIndex);
 console.log(access_token);
 
