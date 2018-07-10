@@ -3,20 +3,25 @@ import moment from 'moment'
 import numeral from 'numeral'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { startAddAnswerToArray } from '../actions/quizzes'
+import { startAddAnswerToArray, changeQuestionNumber } from '../actions/quizzes'
+import Spinner from 'react-spinkit'
 
 interface IProps {
   username: any
   quiz: any
-  answerArray: object[]
-  startAddAnswerToArray: (answers: {}) => any
+  questionNumber: any
+  changeQuestionNumber: (questionNumber: number) => void
+  startAddAnswerToArray: (answerObj: {}) => void
 }
 
 const questionStyle = {
   cursor: 'poninter'
 }
 
-export class TakeQuizPage extends Component<IProps> {
+export class TakeQuizPage extends Component<IProps, any> {
+  constructor(props) {
+    super(props)
+  }
   state = {
     clickedQuestion: [],
     questionNumber: 0,
@@ -37,49 +42,36 @@ export class TakeQuizPage extends Component<IProps> {
 
   public previousQuizQuestion = (e: any) => {
     e.preventDefault()
-    this.setState({
-      ...this.state,
-      questionNumber: (this.state.questionNumber -= 1)
-    })
+    this.props.changeQuestionNumber(this.props.questionNumber - 1)
   }
   public nextQuizQuestion = (choices: object) => {
-    console.log(choices[this.state.questionNumber].format)
+    console.log(choices[this.props.questionNumber].format)
     if (
-      choices[this.state.questionNumber].format === 'multiple-choice' ||
-      choices[this.state.questionNumber].format === 'true-false'
+      choices[this.props.questionNumber].format === 'multiple-choice' ||
+      choices[this.props.questionNumber].format === 'true-false'
     ) {
       this.props.startAddAnswerToArray(
         this.state.answerTrueFalseOrMultipleChoice
       )
-      this.setState({
-        ...this.state,
-        questionNumber: (this.state.questionNumber += 1)
-      })
-    } else {
+      this.props.changeQuestionNumber(this.props.questionNumber + 1)
+      console.log(this.props.questionNumber)
+    } else if (
+      choices[this.props.questionNumber].format === 'multiple-select'
+    ) {
       this.props.startAddAnswerToArray(this.state.answerMultipleSelect)
-      this.setState({
-        ...this.state,
-        questionNumber: (this.state.questionNumber += 1)
-      })
+      console.log(this.props.questionNumber)
+      this.props.changeQuestionNumber(this.props.questionNumber + 1)
     }
   }
 
   public addAnswerToObject = (choices: object, answer: any) => {
-    // SPECIFIC ANSWER THAT USER HAS SELECTED
-    console.log(answer.answer)
-    // FORMAT OF THE QUESTION
-    console.log(choices[this.state.questionNumber].title)
-    console.log(choices[this.state.questionNumber].author)
-    console.log(choices[this.state.questionNumber].format)
-    // console.log(choices[this.state.questionNumber].answers)
-
     switch (choices[this.state.questionNumber].format) {
       case 'multiple-choice':
         this.setState({
           ...this.state,
           answerTrueFalseOrMultipleChoice: {
-            author: choices[this.state.questionNumber].author,
-            title: choices[this.state.questionNumber].title,
+            author: choices[this.props.questionNumber].author,
+            title: choices[this.props.questionNumber].title,
             answer: answer.answer
           }
         })
@@ -94,8 +86,8 @@ export class TakeQuizPage extends Component<IProps> {
           this.setState({
             ...this.state,
             answerMultipleSelect: {
-              author: choices[this.state.questionNumber].author,
-              title: choices[this.state.questionNumber].title,
+              author: choices[this.props.questionNumber].author,
+              title: choices[this.props.questionNumber].title,
               answer: this.state.answerMultipleSelect.answer
             }
           })
@@ -103,75 +95,94 @@ export class TakeQuizPage extends Component<IProps> {
           this.setState({
             ...this.state,
             answerMultipleSelect: {
-              author: choices[this.state.questionNumber].author,
-              title: choices[this.state.questionNumber].title,
+              author: choices[this.props.questionNumber].author,
+              title: choices[this.props.questionNumber].title,
               answer: [...this.state.answerMultipleSelect.answer, answer.answer]
             }
           })
         }
-
-        console.log(this.state.answerMultipleSelect)
+        // console.log(this.state.answerMultipleSelect)
         break
 
       case 'true-false':
         this.setState({
           ...this.state,
           answerTrueFalseOrMultipleChoice: {
-            author: choices[this.state.questionNumber].author,
-            title: choices[this.state.questionNumber].title,
+            author: choices[this.props.questionNumber].author,
+            title: choices[this.props.questionNumber].title,
             answer: answer.answer
           }
         })
-        console.log(this.state.answerTrueFalseOrMultipleChoice)
+        // console.log(this.state.answerTrueFalseOrMultipleChoice)
         break
     }
   }
 
-  public submit = () => {
-    console.log(this.props.answerArray)
-  }
+  public submit = () => {}
 
-  render() {
-    const { quiz } = this.props
+  // @ts-ignore
+  render = () => {
+    const { quiz, questionNumber } = this.props
+    console.log('in render' + this.props.questionNumber)
     return (
-      <div className="viewQuizzes-page">
-        {/* DISPLAYS QUIZ TITLE */}
-        <h1>{quiz.title}</h1>
-        {/* DISPLAYS WHAT QUESTION NUMBER THE USER IS ON */}
-        <h3>Question {this.state.questionNumber + 1}</h3>
-        {/* DISPLAYS THE QUESTION */}
-        <h5>{quiz.questions[this.state.questionNumber].title}</h5>
-        {/* DISPLAYS THE QUESTION NUMBER THEY ARE ON OUT OF TOTAL */}
-        <h3>
-          Question {this.state.questionNumber + 1}/{quiz.questions.length}
-        </h3>
-        {/* DISPLAYS THE CHOICES */}
-        <div>
-          {/* {console.log(quiz.questions)} */}
-          {quiz.questions[this.state.questionNumber].answers.map(answers => (
-            <div style={questionStyle} key={answers.answer}>
-              <p
-                onClick={this.addAnswerToObject.bind(
-                  this,
-                  quiz.questions,
-                  answers
+      <div className="take-quiz-page">
+        {quiz.questions === undefined && (
+          <Spinner className="loading-indicator" name="ball-spin-fade-loader" />
+        )}
+        {quiz.questions !== undefined && (
+          <div className="main">
+            <header>
+              <div className="meta">
+                <p className="current">Question {questionNumber + 1}</p>
+                <p className="title">{quiz.title}</p>
+                <p className="progress">
+                  Question {questionNumber + 1}/{quiz.questions.length}
+                </p>
+              </div>
+              <p className="question">{quiz.questions[questionNumber].title}</p>
+            </header>
+            {/* DISPLAYS THE CHOICES */}
+            <main>
+              <div className="choices">
+                {/* {console.log(quiz.questions)} */}
+                {quiz.questions[questionNumber].answers.map(answers => (
+                  <div key={answers.answer} className="choice">
+                    <p
+                      onClick={this.addAnswerToObject.bind(
+                        this,
+                        quiz.questions,
+                        answers
+                      )}
+                    >
+                      {answers.answer}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              <div className="buttons">
+                {questionNumber !== 0 && (
+                  <button
+                    onClick={this.previousQuizQuestion}
+                    className="previous-button"
+                  >
+                    previous
+                  </button>
                 )}
-              >
-                {answers.answer}
-              </p>
-            </div>
-          ))}
-        </div>
-
-        {this.state.questionNumber !== 0 ? (
-          <button onClick={this.previousQuizQuestion}>previous</button>
-        ) : null}
-        {this.state.questionNumber + 1 !== quiz.questions.length ? (
-          <button onClick={this.nextQuizQuestion.bind(this, quiz.questions)}>
-            next
-          </button>
-        ) : (
-          <button onClick={this.submit}>Submit</button>
+                {questionNumber + 1 !== quiz.questions.length ? (
+                  <button
+                    onClick={this.nextQuizQuestion.bind(this, quiz.questions)}
+                    className="next-button"
+                  >
+                    next
+                  </button>
+                ) : (
+                  <button onClick={this.submit} className="submit-button">
+                    Submit
+                  </button>
+                )}
+              </div>
+            </main>
+          </div>
         )}
       </div>
     )
@@ -180,14 +191,15 @@ export class TakeQuizPage extends Component<IProps> {
 
 const mapStateToProps = (state, props) => ({
   username: state.auth.username,
-  quiz: state.quizzes.quizzes.find(
-    quiz => quiz.uuid === props.match.params.uuid
-  ),
-  answers: state.quizzes.answers
+  quiz:
+    state.quizzes.all !== undefined &&
+    state.quizzes.all.find(quiz => quiz.uuid === props.match.params.uuid),
+  answers: state.takeQuiz.answers,
+  questionNumber: state.takeQuiz.questionNumber
   // clickedQuestion: state.quizzes.clickedQuestion
 })
 
 export default connect(
   mapStateToProps,
-  { startAddAnswerToArray }
+  { startAddAnswerToArray, changeQuestionNumber }
 )(TakeQuizPage)

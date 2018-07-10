@@ -3,36 +3,24 @@ import moment from 'moment'
 import numeral from 'numeral'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { startUpdateQuestionsDisplay } from '../actions/quizzes'
+import ArrowIcon from '../../public/icons/arrow-icon.svg'
+import Spinner from 'react-spinkit'
+import { startGetSearchedQuiz, startQuizAttempt } from '../actions/quizzes'
 
 interface IProps {
+  history?: any
+  match?: any
   username: any
+  quizzes: any
   quiz: any
-}
-const tagStyle = {
-  background: 'green',
-  borderRadius: 20,
-  // margin: "20px",
-  padding: '20px',
-  width: '10%'
-}
-const questionsStyle = {
-  background: '#86b2d8',
-  borderRadius: 20,
-  // margin: "20px",
-  padding: '20px',
-  width: '20%',
-  cursor: 'pointer'
-}
-const quizButton = {
-  background: '#86b2d8',
-  borderRadius: 20,
-  // margin: "20px",
-  padding: '20px',
-  width: '5%'
+  startQuizAttempt: (quizUUID: any, username: any) => void
+  startGetSearchedQuiz: (uuid: any) => any
 }
 
 export class ViewQuizPage extends Component<IProps> {
+  constructor(props) {
+    super(props)
+  }
   state = {
     clickedQuestion: [],
     questionNumber: 0
@@ -49,40 +37,68 @@ export class ViewQuizPage extends Component<IProps> {
       clickedQuestion: [question]
     })
   }
+  public startQuizAttempt = (e: any) => {
+    this.props.startQuizAttempt(this.quizUUID, this.props.username)
+  }
 
-  render() {
+  goBack = () => this.props.history.goBack()
+
+  // @ts-ignore
+  componentDidMount = () => {
+    const { quizzes, startGetSearchedQuiz } = this.props
+    const uuid = this.props.match.params.uuid
+    console.log('quizzes', quizzes)
+    const localQuiz =
+      quizzes !== undefined && quizzes.some(quiz => quiz.uuid === uuid)
+    !localQuiz && startGetSearchedQuiz(uuid)
+  }
+
+  // @ts-ignore
+  render = () => {
     const { quiz } = this.props
-    let count = 0
     return (
-      <div className="viewQuizzes-page">
-        <h4>By: {quiz.author}</h4>
-        <h1>{quiz.title}</h1>
-        <h3>{quiz.questions.length} questions</h3>
-        <div>
-          <Link
-            to={`/edit-quiz/${quiz.uuid}`}
-            className="unset-anchor nav-link"
-          >
-            <div style={quizButton}>Edit Quiz</div>
-          </Link>
-          <Link
-            to={`/take-quiz/${quiz.uuid}`}
-            className="unset-anchor nav-link"
-          >
-            <div style={quizButton}>Take Quiz</div>
-          </Link>
-        </div>
+      <div className="view-quiz-page">
+        {quiz.questions === undefined && (
+          <Spinner className="loading-indicator" name="ball-spin-fade-loader" />
+        )}
+        {quiz.questions !== undefined && (
+          <div className="main">
+            <main>
+              <ArrowIcon className="back" onClick={this.goBack} />
+              <p className="author">By: {quiz.author}</p>
+              <h1 className="title">{quiz.title}</h1>
+              <h2 className="total">{quiz.questions.length} questions</h2>
+            </main>
+            <footer>
+              <Link to={`/edit-quiz/${quiz.uuid}`} className="link">
+                <p className="edit-button">Edit quiz</p>
+              </Link>
+              <Link
+                to={`/take-quiz/${quiz.uuid}`}
+                onClick={this.startQuizAttempt}
+                className="link"
+              >
+                <p className="take-button">Take quiz</p>
+              </Link>
+            </footer>
+          </div>
+        )}
       </div>
     )
   }
 }
 
+// flag 1: quizzes.quizzes -> quizzes.all
 const mapStateToProps = (state, props) => ({
   username: state.auth.username,
-  quiz: state.quizzes.quizzes.find(
-    quiz => quiz.uuid === props.match.params.uuid
-  )
+  quiz:
+    state.quizzes.all !== undefined &&
+    state.quizzes.all.find(quiz => quiz.uuid === props.match.params.uuid),
+  quizzes: state.quizzes.all
   // clickedQuestion: state.quizzes.clickedQuestion
 })
 
-export default connect(mapStateToProps)(ViewQuizPage)
+export default connect(
+  mapStateToProps,
+  { startGetSearchedQuiz, startQuizAttempt }
+)(ViewQuizPage)
