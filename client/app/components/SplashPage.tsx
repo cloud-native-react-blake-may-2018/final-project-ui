@@ -7,11 +7,17 @@ import Querystring from 'query-string';
 const uri = document.location.href;
 // console.log(uri);
 /** Start after access_token= */
-const startIndex = uri.indexOf('access_token=') + 13;
+const startAccessIndex = uri.indexOf('access_token=') + 13;
 /** End on & before id_token= */
-const endIndex = uri.indexOf('&',startIndex);
-const access_token = uri.slice(startIndex, endIndex);
-console.log(access_token);
+const endAccessIndex = uri.indexOf('&',startAccessIndex);
+const access_token = uri.slice(startAccessIndex, endAccessIndex);
+console.log("access_token:\n"+access_token);
+/** Start after id_token= */
+const startIdIndex = uri.indexOf('id_token=') + 9;
+/** End on & */
+const endIdIndex = uri.indexOf('&',startIdIndex);
+const id_token = uri.slice(startIdIndex, endIdIndex);
+console.log("id_token:\n"+id_token);
 
 // Axios.get("https://quizard.auth.us-east-1.amazoncognito.com/oauth2/authorize?response_type=code&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=https://localhost:3222/dashboard")
 //   .then(resp => {
@@ -51,11 +57,13 @@ const axiosConfig = {
 Axios.get('https://quizard.auth.us-east-2.amazoncognito.com/oauth2/userInfo', axiosConfig)
   .then(resp => {
     const stringResp = JSON.stringify(resp.data);
-    localStorage.setItem('token', stringResp);
+    localStorage.setItem('userInfoToken', stringResp);
     localStorage.setItem('name', JSON.stringify(resp.data.name));
+    localStorage.setItem('access_token', access_token);
+    localStorage.setItem('token', id_token);
   })
   .catch(err => {
-    console.log(err);
+    console.log(err.stack);
   })
 
 export const SplashPage = () => (
