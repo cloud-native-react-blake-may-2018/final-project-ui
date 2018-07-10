@@ -3,6 +3,7 @@ import moment from 'moment'
 import numeral from 'numeral'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import Spinner from 'react-spinkit'
 import { startUpdateQuestionsDisplay } from '../actions/quizzes'
 
 interface IProps {
@@ -50,68 +51,75 @@ export class EditQuizPage extends Component<IProps> {
     })
   }
 
-  render() {
+  // @ts-ignore
+  render = () => {
     const { quiz } = this.props
     let count = 0
     return (
       <div className="viewQuizzes-page">
-        <h1>{quiz.title}</h1>
+        {quiz.tags === undefined && (
+          <Spinner className="loading-indicator" name="ball-spin-fade-loader" />
+        )}
+        {quiz.tags !== undefined && (
+          <main>
+            <h1>{quiz.title}</h1>
 
-        {/* THERE IS STYLING BELOW THAT CAN BE TAKEN OUT, JUST THERE TO SHOW THAT QUESTIONS ARE IN THERE OWN DIV
+            {/* THERE IS STYLING BELOW THAT CAN BE TAKEN OUT, JUST THERE TO SHOW THAT QUESTIONS ARE IN THERE OWN DIV
         SO THEY CAN BE PUT INTO SOME KIND OF SCROLLABLE OBJECT LIKE THE FIGMA */}
-        {quiz.tags.map(tag => (
-          <div style={tagStyle} key={tag.allLowerCase}>
-            {tag.allLowerCase}
-          </div>
-        ))}
-
-        {/* THERE IS STYLING BELOW THAT CAN BE TAKEN OUT, JUST THERE TO SHOW THAT QUESTIONS ARE IN THERE OWN DIV
-        SO THEY CAN BE PUT INTO SOME KIND OF SCROLLABLE OBJECT LIKE THE FIGMA */}
-        <div style={questionsStyle}>
-          {quiz.questions.map(tag => (
-            <div key={tag.allLowerCase}>
-              <h4
-                onClick={this.showQuizQuestion.bind(
-                  this,
-                  quiz.questions[count],
-                  count + 1
-                )}
-              >
-                Question {(count += 1)}
-              </h4>
-            </div>
-          ))}
-        </div>
-        {/* <button> */}
-        <Link to={`/take-quiz/${quiz.uuid}`} className="unset-anchor nav-link">
-          <div style={quizButton}>Take Quiz!</div>
-        </Link>
-        {/* </button> */}
-
-        {console.log(this.state.clickedQuestion)}
-        {this.state.clickedQuestion !== undefined
-          ? this.state.clickedQuestion.map(question => (
-              <div key={question.uuid}>
-                <h1>Question {this.state.questionNumber}</h1>
-                <h3>{question.title}</h3>
-                {this.state.clickedQuestion[0].answers.map(question => (
-                  <div key={question.answer}>
-                    <p>{question.answer}</p>
-                  </div>
-                ))}
+            {quiz.tags.map(tag => (
+              <div style={tagStyle} key={tag.allLowerCase}>
+                {tag.allLowerCase}
               </div>
-            ))
-          : null}
+            ))}
+
+            {/* THERE IS STYLING BELOW THAT CAN BE TAKEN OUT, JUST THERE TO SHOW THAT QUESTIONS ARE IN THERE OWN DIV
+        SO THEY CAN BE PUT INTO SOME KIND OF SCROLLABLE OBJECT LIKE THE FIGMA */}
+            <div style={questionsStyle}>
+              {quiz.questions.map(tag => (
+                <div key={tag.allLowerCase}>
+                  <h4
+                    onClick={this.showQuizQuestion.bind(
+                      this,
+                      quiz.questions[count],
+                      count + 1
+                    )}
+                  >
+                    Question {(count += 1)}
+                  </h4>
+                </div>
+              ))}
+            </div>
+            <Link
+              to={`/take-quiz/${quiz.uuid}`}
+              className="unset-anchor nav-link"
+            />
+
+            {console.log(this.state.clickedQuestion)}
+            {this.state.clickedQuestion !== undefined &&
+              this.state.clickedQuestion.map(question => (
+                <div key={question.uuid}>
+                  <h1>Question {this.state.questionNumber}</h1>
+                  <h3>{question.title}</h3>
+                  {this.state.clickedQuestion[0].answers.map(question => (
+                    <div key={question.answer}>
+                      <p>{question.answer}</p>
+                    </div>
+                  ))}
+                </div>
+              ))}
+          </main>
+        )}
       </div>
     )
   }
 }
 
+// flag 2: quizzes.quizzes -> quizzes.all
 const mapStateToProps = (state, props) => ({
   username: state.auth.username,
-  quiz: state.quizzes.quizzes.find(
-    quiz => quiz.uuid === props.match.params.uuid
-  )
+  quiz:
+    state.quizzes.all !== undefined &&
+    state.quizzes.all.find(quiz => quiz.uuid === props.match.params.uuid)
   // clickedQuestion: state.quizzes.clickedQuestion
 })
 

@@ -6,17 +6,25 @@ import React from 'react'
 //   tags: []
 // }
 
-export const quizzesReducer = (state = {}, action = {} as any) => {
+interface SProps {
+  quizzes: any
+}
+
+export const quizzesReducer = (state = {} as any, action = {} as any) => {
   switch (action.type) {
     case 'ALL_QUIZZES':
-      // console.log('quizzes ', action.quizzes)
       return {
         ...state,
-        quizzes: [...action.quizzes]
+        all: [...action.quizzes]
+      }
+
+    case 'SEARCHED_QUIZ':
+      return {
+        ...state,
+        all: [...state.quizzes.all, action.quiz]
       }
 
     case 'DISPLAY_QUIZ_QUESTIONS':
-      // console.log('questions ', action.questions)
       return {
         ...state,
         questions: action.questions
@@ -34,7 +42,7 @@ export const quizzesReducer = (state = {}, action = {} as any) => {
       return {
         ...state,
         // answerObject: [...action.answer]
-        answers: action.answer
+        answerArray: action.answerObj
       }
 
     case 'DISPLAY_CLICKED_QUESTION':
