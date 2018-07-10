@@ -19,6 +19,18 @@ interface IProps {
 // interface IProps extends RouteComponentProps<any> {
 //   startCreateNewQuestion: (any) => any
 // }
+interface AnswerFormat {
+  answer: string
+  percentPoints: number
+  feedback: string
+}
+
+interface QuestionFormat {
+  author: string
+  title: string
+  tags: string
+  answers: AnswerFormat[]
+}
 
 export class AddQuestion extends Component<IProps, any> {
   state = {
@@ -26,6 +38,7 @@ export class AddQuestion extends Component<IProps, any> {
     currentQuestion: {
       author: this.props.username,
       title: '',
+      tags: '',
       answers: [
         {
           answer: '',
@@ -44,9 +57,11 @@ export class AddQuestion extends Component<IProps, any> {
       display: 'inputDisplay',
       questionToDisplay: {
         title: '',
+        tags: '',
         answers: []
       }
-    }
+    },
+    editQuestion: 0
   }
 
   private updateTitle = (e: any) => {
@@ -138,6 +153,10 @@ export class AddQuestion extends Component<IProps, any> {
   }
 
   private addToList = (e: any) => {
+    // let testValidator = this.formatValidator(this.state.currentQuestion)
+    // if (!testValidator) {
+    //   return
+    // }
     if (this.state.currentQuestion.title) {
       let questionArr = this.state.newQuestions
       questionArr.push(this.state.currentQuestion)
@@ -147,6 +166,7 @@ export class AddQuestion extends Component<IProps, any> {
         currentQuestion: {
           author: this.props.username,
           title: '',
+          tags: '',
           answers: [
             {
               answer: '',
@@ -195,6 +215,14 @@ export class AddQuestion extends Component<IProps, any> {
               onChange={this.updateTitle}
             />
             <br />
+            {/* <label htmlFor="tags">Tags</label>
+            <input
+              type="text"
+              id="tags"
+              value={this.state.currentQuestion.tags}
+              onChange={this.editTagElement}
+            />
+            <br /> */}
             <select
               name=""
               id="question-options-dropdown"
@@ -278,6 +306,14 @@ export class AddQuestion extends Component<IProps, any> {
               value={this.state.currentQuestion.title}
               onChange={this.updateTitle}
             />
+            {/* <label htmlFor="tags">Tags</label>
+            <input
+              type="text"
+              id="tags"
+              value={this.state.currentQuestion.tags}
+              onChange={this.editTagElement}
+            />
+            <br /> */}
             <br />
             <select
               name=""
@@ -413,24 +449,47 @@ export class AddQuestion extends Component<IProps, any> {
     }
   }
 
-  private changeView = (typeOfView: string, questionToView?: {}) => {
+  private changeView = (
+    typeOfView: string,
+    questionToView?: {},
+    i?: number
+  ) => {
     if (typeOfView === 'questionDisplay') {
       this.setState({
         mainView: {
           display: 'questionDisplay',
           questionToDisplay: questionToView
-        }
+        },
+        editQuestion: i
       })
-      console.log('got to questioView', questionToView)
     } else {
       this.setState({
         mainView: {
           display: 'inputDisplay',
           questionToDisplay: {}
-        }
+        },
+        editQuestion: 0
       })
     }
     console.log('changeViewCalled', this.state)
+  }
+
+  private formatValidator = (questionToValidate: QuestionFormat) => {
+    let validObject = true
+    let percentPoints = 0
+
+    if (!questionToValidate.title || !questionToValidate.author) {
+      return (validObject = false)
+    } else {
+      for (let item of questionToValidate.answers) {
+        if (!item.answer) {
+          return (validObject = false)
+        }
+        percentPoints = percentPoints + item.percentPoints
+      }
+    }
+    console.log('Indside Validator Function', percentPoints, validObject)
+    return percentPoints > 99 || false
   }
 
   private printQuestionsArr = () => {
@@ -438,7 +497,10 @@ export class AddQuestion extends Component<IProps, any> {
       <div>
         {this.state.newQuestions.map((item, i) => {
           return (
-            <div onClick={event => this.changeView('questionDisplay', item)}>
+            <div
+              key={'questions' + i}
+              onClick={event => this.changeView('questionDisplay', item, i)}
+            >
               Question {i + 1}
             </div>
           )
@@ -447,14 +509,53 @@ export class AddQuestion extends Component<IProps, any> {
     )
   }
 
+  private editQuestionElements = (e: any) => {
+    const index = this.state.editQuestion
+    let updatedQuestions = this.state.newQuestions
+    updatedQuestions[index] = {
+      ...updatedQuestions[index],
+      title: e.target.value
+    }
+    this.setState({
+      newQuestions: updatedQuestions,
+      mainView: {
+        ...this.state.mainView,
+        questionToDisplay: updatedQuestions[index]
+      }
+    })
+    console.log(this.state)
+  }
+
+  private editTagElement = (e: any) => {
+    this.setState({
+      currentQuestion: {
+        ...this.state.currentQuestion,
+        tags: e.target.value
+      }
+    })
+  }
+
   private renderMainDisplayElement = () => {
     switch (this.state.mainView.display) {
       case 'questionDisplay':
         return (
           <div>
-            <div>Title: {this.state.mainView.questionToDisplay.title}</div>
+            <label htmlFor="editQuestionTitle">Title:</label>
+            <input
+              type="text"
+              id="editQuestionTitle"
+              value={this.state.mainView.questionToDisplay.title}
+              onChange={this.editQuestionElements}
+            />
+            {/* <label htmlFor="editQuestionTag">Tags:</label>
+            <input
+              type="text"
+              id="editQuestionTag"
+              value={this.state.mainView.questionToDisplay.tags}
+              onChange={this.editTagElement}
+            /> */}
             {this.state.mainView.questionToDisplay.answers.map(item => {
-              return <div>{item.answer}</div>
+              return <div>Answers : {item.answer}</div>
             })}
             <button
               onClick={() => {
