@@ -3,20 +3,22 @@ import React from 'react'
 interface ITakeQuiz {
   questionNumber: number
   quizAttemptInfoObj: any
+  answerArray: object[]
 }
 
 const initialState: ITakeQuiz = {
   questionNumber: 0,
-  quizAttemptInfoObj: null
+  quizAttemptInfoObj: null,
+  answerArray: []
 }
 
 export const takeQuizReducer = (state = initialState, action = {} as any) => {
   switch (action.type) {
-    case 'ALL_QUIZZES':
-      // console.log('quizzes ', action.quizzes)
+    case 'ADD_ANSWER_TO_OBJECT':
+      console.log('answer ', action.answerObj)
       return {
         ...state,
-        quizzes: [...action.quizzes]
+        answerArray: [...state.answerArray, action.answerObj]
       }
 
     case 'CHANGE_QUESTION_NUMBER':

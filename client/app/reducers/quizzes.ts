@@ -1,10 +1,11 @@
 import React from 'react'
 
-// const initialState = {
-//   quizzes: [],
-//   questions: [],
-//   tags: []
-// }
+const initialState = {
+  quizzes: [],
+  editedQuiz: {}
+  //   questions: [],
+  //   tags: []
+}
 
 interface SProps {
   quizzes: any
@@ -37,14 +38,6 @@ export const quizzesReducer = (state = {} as any, action = {} as any) => {
         clickedQuestion: action.clickedQuestion
       }
 
-    case 'ADD_ANSWER_TO_OBJECT':
-      console.log('answer ', action.answer)
-      return {
-        ...state,
-        // answerObject: [...action.answer]
-        answerArray: action.answerObj
-      }
-
     case 'DISPLAY_CLICKED_QUESTION':
       // console.log('questions ', action.questions)
       return {
@@ -68,9 +61,14 @@ export const quizzesReducer = (state = {} as any, action = {} as any) => {
     case 'EDIT_QUIZ':
       return {
         ...state,
-        quizzes: action.quizzes
+        quizzes: action.quiz
       }
 
+    case 'EDIT_STORE_QUIZ':
+      return {
+        ...state,
+        quizzes: action.quizzes
+      }
     default:
       return state
   }

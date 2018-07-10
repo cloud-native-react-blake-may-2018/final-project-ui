@@ -12,7 +12,8 @@ const addQuestionUrl =
 const batchAddQuestionsUrl =
   'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/question/batch'
 
-const editQuestionUrl = ''
+const editQuestionUrl =
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/question/edit'
 
 const addQuizUrl =
   'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz'
@@ -44,6 +45,12 @@ const searchByUuidUrl =
 
 const getQuizAttempt =
   'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/'
+
+const deleteQuestionUrl =
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/question/author'
+
+const deleteJunctionUrl =
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz'
 
 export default {
   create: {
@@ -79,18 +86,28 @@ export default {
 
     startQuizAttempt: (quizUUID, username) =>
       axios
-        .get(`${searchByUuidUrl}${quizUUID}/user/${username}`)
+        .get(`${getQuizAttempt}${quizUUID}/user/${username}`)
         .then(res => res.data)
   },
 
   questions: {
     edit: question =>
-      axios.post(editQuestionUrl, { question }).then(res => res.data),
+      axios.post(editQuestionUrl, question).then(res => res.data),
 
     display: quizUUID =>
       axios.get(displayQuizQuestionsURL + quizUUID).then(res => res.data),
 
     displayTags: quizUUID =>
-      axios.get(displayQuizTagsURL + quizUUID).then(res => res.data)
+      axios.get(displayQuizTagsURL + quizUUID).then(res => res.data),
+
+    deleteQuestion: (author, title) =>
+      axios
+        .delete(`${deleteQuestionUrl}/${author}/title`, { data: { title } })
+        .then(res => res.data),
+
+    deleteJunction: (quizUUID, questionUUID) =>
+      axios
+        .delete(`${deleteJunctionUrl}/${quizUUID}/question/${questionUUID}`)
+        .then(res => res.data)
   }
 }
