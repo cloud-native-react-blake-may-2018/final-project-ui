@@ -3,12 +3,15 @@ import moment from 'moment'
 import numeral from 'numeral'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { startAddAnswerToArray } from '../actions/quizzes'
+import { startAddAnswerToArray, changeQuestionNumber } from '../actions/quizzes'
 
 interface IProps {
   username: any
   quiz: any
   answerArray: object[]
+  questionNumber: number
+  setQuestionNumber: (questionNumber: number) => void
+  changeQuestionNumber: (questionNumber: number) => void
   startAddAnswerToArray: (answers: {}) => any
 }
 
@@ -17,6 +20,9 @@ const questionStyle = {
 }
 
 export class TakeQuizPage extends Component<IProps> {
+  constructor(props) {
+    super(props)
+  }
   state = {
     clickedQuestion: [],
     questionNumber: 0,
@@ -48,18 +54,22 @@ export class TakeQuizPage extends Component<IProps> {
       choices[this.state.questionNumber].format === 'multiple-choice' ||
       choices[this.state.questionNumber].format === 'true-false'
     ) {
-      this.props.startAddAnswerToArray(
-        this.state.answerTrueFalseOrMultipleChoice
-      )
+      // this.props.startAddAnswerToArray(
+      //   this.state.answerTrueFalseOrMultipleChoice
+      // )
       this.setState({
         ...this.state,
-        questionNumber: (this.state.questionNumber += 1)
+        questionNumber: this.state.questionNumber + 1
       })
+      // this.props.changeQuestionNumber(this.props.questionNumber + 1)
+      console.log(this.props.questionNumber)
     } else {
-      this.props.startAddAnswerToArray(this.state.answerMultipleSelect)
+      // this.props.startAddAnswerToArray(this.state.answerMultipleSelect)
+      console.log(this.props.questionNumber)
+      // this.props.changeQuestionNumber(this.props.questionNumber + 1)
       this.setState({
         ...this.state,
-        questionNumber: (this.state.questionNumber += 1)
+        questionNumber: this.state.questionNumber + 1
       })
     }
   }
@@ -189,5 +199,5 @@ const mapStateToProps = (state, props) => ({
 
 export default connect(
   mapStateToProps,
-  { startAddAnswerToArray }
+  { startAddAnswerToArray, changeQuestionNumber }
 )(TakeQuizPage)

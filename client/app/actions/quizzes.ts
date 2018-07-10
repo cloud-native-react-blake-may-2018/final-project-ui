@@ -64,3 +64,11 @@ export const addAnswerToArray = answerObj => ({
   type: 'ADD_ANSWER_TO_OBJECT',
   answerObj
 })
+
+export const changeQuestionNumber = questionNumber => dispatch =>
+  dispatch(startChangeQuestionNumber(questionNumber))
+
+export const startChangeQuestionNumber = questionNumber => ({
+  type: 'CHANGE_QUESTION_NUMBER',
+  questionNumber
+})
