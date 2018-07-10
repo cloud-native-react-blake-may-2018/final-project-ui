@@ -28,6 +28,21 @@ export const getUserQuizzes = quizzes => ({
   quizzes
 })
 
+export const startGetSearchedQuiz = uuid => async dispatch =>
+  pathList.quizzes.searchByUuid(uuid).then(async meta => {
+    const questions = await pathList.questions.display(meta.uuid)
+    const tags = await pathList.questions.displayTags(meta.uuid)
+
+    // will contain quiz details, its questions, and its tags
+    const quiz = { ...meta, questions, tags }
+    dispatch(getSearchedQuiz(quiz))
+  })
+
+export const getSearchedQuiz = quiz => ({
+  type: 'SEARCHED_QUIZ',
+  quiz
+})
+
 export const startDisplayQuizQuestions = quizUUID => dispatch =>
   pathList.questions
     .display(quizUUID)

@@ -12,6 +12,7 @@
 
     main
       display: grid
+      position: relative
       grid-template-columns: 1fr
       align-items: center
       justify-item: center
@@ -23,7 +24,7 @@
 
       .author
         margin: 30px 0 60px
-        font: 500 28px Asap
+        font: italic 500 28px Asap
         color: $dark-red
 
       .title
@@ -35,6 +36,20 @@
         margin: 0 0 60px
         font: 900 36px Asap
         color: $burgundy
+
+      .back
+        position: absolute
+        top: 50px
+        left: 50px
+        transform: scale(.8) scaleX(-1)
+
+        &:hover
+          transition: all 1s ease-in-out
+          animation: back-oscillate .7s infinite
+          cursor: pointer
+
+      .back path
+        fill: $white-grey
 
 
     footer
@@ -76,3 +91,15 @@
             cursor: pointer
             transform: scale(.9)
             filter: brightness(93%)
+
+
+
+@keyframes back-oscillate 
+  0% 
+    left: 50px
+    
+  50% 
+    left: 40px
+
+  100%
+    left: 50px

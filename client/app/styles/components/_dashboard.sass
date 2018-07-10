@@ -1,12 +1,3 @@
-@keyframes oscillate 
-  0% 
-    right: 0px
-    
-  50% 
-    right: -15px
-
-  100%
-    right: 0px
 
 // .dashboard-page
 .nav-header + div
@@ -84,7 +75,7 @@
 
               &:hover
                 transition: all 1s ease-in-out
-                animation: oscillate .7s infinite
+                animation: dash-oscillate .7s infinite
                 cursor: pointer
 
               &:hover path
@@ -184,3 +175,15 @@
             justify-self: end
             transform: scale(.5)
             z-index: 0
+
+
+
+@keyframes dash-oscillate 
+  0% 
+    right: 0px
+    
+  50% 
+    right: -15px
+
+  100%
+    right: 0px

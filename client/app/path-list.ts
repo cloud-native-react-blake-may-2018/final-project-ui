@@ -39,6 +39,9 @@ const searchByAuthorUrl =
 const searchByTagUrl =
   'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/tag/'
 
+const searchByUuidUrl =
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/'
+
 export default {
   create: {
     addQuestion: newQuestion =>
@@ -66,7 +69,10 @@ export default {
     searchByAuthor: author =>
       axios.get(searchByAuthorUrl + author).then(res => res.data),
 
-    searchByTag: tag => axios.get(searchByTagUrl + tag).then(res => res.data)
+    searchByTag: tag => axios.get(searchByTagUrl + tag).then(res => res.data),
+
+    searchByUuid: uuid =>
+      axios.get(searchByUuidUrl + uuid).then(res => res.data)
   },
 
   questions: {

@@ -59,11 +59,13 @@ export class SearchResults extends Component<IProps, IState> {
             {results.length > 0 &&
               results[0] !== 'none' &&
               results.map(quiz => (
-                <div key={quiz.uuid} className="record">
-                  <p className="title">{quiz.title}</p>
-                  <p className="description">{quiz.description}</p>
-                  <p className="author">{quiz.author}</p>
-                </div>
+                <Link key={quiz.uuid} to={`/view-quiz/${quiz.uuid}`}>
+                  <div className="record">
+                    <p className="title">{quiz.title}</p>
+                    <p className="description">{quiz.description}</p>
+                    <p className="author">{quiz.author}</p>
+                  </div>
+                </Link>
               ))}
           </div>
         </div>
