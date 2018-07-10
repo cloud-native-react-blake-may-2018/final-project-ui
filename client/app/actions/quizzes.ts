@@ -9,6 +9,13 @@ export const editQuiz = quiz => ({
   quiz
 })
 
+export const editStoreQuiz = quizzes => dispatch => {
+  return dispatch({
+    type: 'EDIT_STORE_QUIZ',
+    quizzes
+  })
+}
+
 export const startGetUserQuizzes = author => async dispatch =>
   pathList.quizzes.display(author).then(async quizzes => {
     const all = await Promise.all(
