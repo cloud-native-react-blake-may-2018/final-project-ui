@@ -215,14 +215,14 @@ export class AddQuestion extends Component<IProps, any> {
               onChange={this.updateTitle}
             />
             <br />
-            {/* <label htmlFor="tags">Tags</label>
+            <label htmlFor="tags">Tags</label>
             <input
               type="text"
               id="tags"
               value={this.state.currentQuestion.tags}
               onChange={this.editTagElement}
             />
-            <br /> */}
+            <br />
             <select
               name=""
               id="question-options-dropdown"
@@ -306,14 +306,14 @@ export class AddQuestion extends Component<IProps, any> {
               value={this.state.currentQuestion.title}
               onChange={this.updateTitle}
             />
-            {/* <label htmlFor="tags">Tags</label>
+            <label htmlFor="tags">Tags</label>
             <input
               type="text"
               id="tags"
               value={this.state.currentQuestion.tags}
               onChange={this.editTagElement}
             />
-            <br /> */}
+            <br />
             <br />
             <select
               name=""
@@ -566,13 +566,15 @@ export class AddQuestion extends Component<IProps, any> {
                 this.editQuestionElements(e, 'title')
               }}
             />
-            {/* <label htmlFor="editQuestionTag">Tags:</label>
+            <label htmlFor="editQuestionTag">Tags:</label>
             <input
               type="text"
               id="editQuestionTag"
               value={this.state.mainView.questionToDisplay.tags}
-              onChange={this.editTagElement}
-            /> */}
+              onChange={e => {
+                this.editQuestionElements(e, 'tags')
+              }}
+            />
             {this.state.mainView.questionToDisplay.answers.map((item, i) => {
               return (
                 <div>
