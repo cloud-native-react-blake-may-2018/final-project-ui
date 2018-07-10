@@ -34,7 +34,7 @@ export const quizzesReducer = (state = {}, action = {} as any) => {
       return {
         ...state,
         // answerObject: [...action.answer]
-        answers: action.answer
+        answerArray: action.answerObj
       }
 
     case 'DISPLAY_CLICKED_QUESTION':

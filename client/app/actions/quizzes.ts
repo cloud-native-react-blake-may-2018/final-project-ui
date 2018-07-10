@@ -57,10 +57,18 @@ export const UpdateQuestionsDisplay = clickedQuestion => ({
   clickedQuestion
 })
 
-export const startAddAnswerToObject = answer => dispatch =>
-  dispatch(addAnswerToObject(answer))
+export const startAddAnswerToArray = answerObj => dispatch =>
+  dispatch(addAnswerToArray(answerObj))
 
-export const addAnswerToObject = answer => ({
+export const addAnswerToArray = answerObj => ({
   type: 'ADD_ANSWER_TO_OBJECT',
-  answer
+  answerObj
+})
+
+export const changeQuestionNumber = questionNumber => dispatch =>
+  dispatch(startChangeQuestionNumber(questionNumber))
+
+export const startChangeQuestionNumber = questionNumber => ({
+  type: 'CHANGE_QUESTION_NUMBER',
+  questionNumber
 })
