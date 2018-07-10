@@ -5,6 +5,9 @@ import fontawesome from '@fortawesome/fontawesome'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { startCreateNewQuiz } from '../actions/create'
 
+// get - quiz/author/{author}
+// get - quiz/tag/{tag}
+
 export class CreateQuiz extends Component {
   render() {
     return (

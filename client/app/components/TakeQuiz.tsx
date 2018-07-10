@@ -4,6 +4,7 @@ import numeral from 'numeral'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { startAddAnswerToArray, changeQuestionNumber } from '../actions/quizzes'
+import Spinner from 'react-spinkit'
 
 interface IProps {
   username: any
@@ -145,43 +146,54 @@ export class TakeQuizPage extends Component<IProps> {
     const { quiz } = this.props
     return (
       <div className="viewQuizzes-page">
-        {/* DISPLAYS QUIZ TITLE */}
-        <h1>{quiz.title}</h1>
-        {/* DISPLAYS WHAT QUESTION NUMBER THE USER IS ON */}
-        <h3>Question {this.state.questionNumber + 1}</h3>
-        {/* DISPLAYS THE QUESTION */}
-        <h5>{quiz.questions[this.state.questionNumber].title}</h5>
-        {/* DISPLAYS THE QUESTION NUMBER THEY ARE ON OUT OF TOTAL */}
-        <h3>
-          Question {this.state.questionNumber + 1}/{quiz.questions.length}
-        </h3>
-        {/* DISPLAYS THE CHOICES */}
-        <div>
-          {/* {console.log(quiz.questions)} */}
-          {quiz.questions[this.state.questionNumber].answers.map(answers => (
-            <div style={questionStyle} key={answers.answer}>
-              <p
-                onClick={this.addAnswerToObject.bind(
-                  this,
-                  quiz.questions,
-                  answers
-                )}
-              >
-                {answers.answer}
-              </p>
+        {quiz.questions === undefined && (
+          <Spinner className="loading-indicator" name="ball-spin-fade-loader" />
+        )}
+        {quiz.questions !== undefined && (
+          <div>
+            {/* DISPLAYS QUIZ TITLE */}
+            <h1>{quiz.title}</h1>
+            {/* DISPLAYS WHAT QUESTION NUMBER THE USER IS ON */}
+            <h3>Question {this.state.questionNumber + 1}</h3>
+            {/* DISPLAYS THE QUESTION */}
+            <h5>{quiz.questions[this.state.questionNumber].title}</h5>
+            {/* DISPLAYS THE QUESTION NUMBER THEY ARE ON OUT OF TOTAL */}
+            <h3>
+              Question {this.state.questionNumber + 1}/{quiz.questions.length}
+            </h3>
+            {/* DISPLAYS THE CHOICES */}
+            <div>
+              {/* {console.log(quiz.questions)} */}
+              {quiz.questions[this.state.questionNumber].answers.map(
+                answers => (
+                  <div style={questionStyle} key={answers.answer}>
+                    <p
+                      onClick={this.addAnswerToObject.bind(
+                        this,
+                        quiz.questions,
+                        answers
+                      )}
+                    >
+                      {answers.answer}
+                    </p>
+                  </div>
+                )
+              )}
             </div>
-          ))}
-        </div>
 
-        {this.state.questionNumber !== 0 ? (
-          <button onClick={this.previousQuizQuestion}>previous</button>
-        ) : null}
-        {this.state.questionNumber + 1 !== quiz.questions.length ? (
-          <button onClick={this.nextQuizQuestion.bind(this, quiz.questions)}>
-            next
-          </button>
-        ) : (
-          <button onClick={this.submit}>Submit</button>
+            {this.state.questionNumber !== 0 ? (
+              <button onClick={this.previousQuizQuestion}>previous</button>
+            ) : null}
+            {this.state.questionNumber + 1 !== quiz.questions.length ? (
+              <button
+                onClick={this.nextQuizQuestion.bind(this, quiz.questions)}
+              >
+                next
+              </button>
+            ) : (
+              <button onClick={this.submit}>Submit</button>
+            )}
+          </div>
         )}
       </div>
     )
@@ -190,9 +202,9 @@ export class TakeQuizPage extends Component<IProps> {
 
 const mapStateToProps = (state, props) => ({
   username: state.auth.username,
-  quiz: state.quizzes.quizzes.find(
-    quiz => quiz.uuid === props.match.params.uuid
-  ),
+  quiz:
+    state.quizzes.all !== undefined &&
+    state.quizzes.all.find(quiz => quiz.uuid === props.match.params.uuid),
   answers: state.quizzes.answers
   // clickedQuestion: state.quizzes.clickedQuestion
 })

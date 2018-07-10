@@ -9,25 +9,38 @@ export const editQuiz = quiz => ({
   quiz
 })
 
-export const startGetUserQuizzes = author => async dispatch => {
-  // console.log('getting user quizzes')
+export const startGetUserQuizzes = author => async dispatch =>
   pathList.quizzes.display(author).then(async quizzes => {
     const all = await Promise.all(
       quizzes.map(async quiz => {
         const questions = await pathList.questions.display(quiz.uuid)
         const tags = await pathList.questions.displayTags(quiz.uuid)
 
-        // will contain quiz details, its questions, and tags
+        // will contain quiz details, its questions, and its tags
         return { ...quiz, questions, tags }
       })
     )
     dispatch(getUserQuizzes(all))
   })
-}
 
 export const getUserQuizzes = quizzes => ({
   type: 'ALL_QUIZZES',
   quizzes
+})
+
+export const startGetSearchedQuiz = uuid => async dispatch =>
+  pathList.quizzes.searchByUuid(uuid).then(async meta => {
+    const questions = await pathList.questions.display(meta.uuid)
+    const tags = await pathList.questions.displayTags(meta.uuid)
+
+    // will contain quiz details, its questions, and its tags
+    const quiz = { ...meta, questions, tags }
+    dispatch(getSearchedQuiz(quiz))
+  })
+
+export const getSearchedQuiz = quiz => ({
+  type: 'SEARCHED_QUIZ',
+  quiz
 })
 
 export const startDisplayQuizQuestions = quizUUID => dispatch =>
