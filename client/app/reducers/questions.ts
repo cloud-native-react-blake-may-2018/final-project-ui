@@ -20,6 +20,16 @@ export const questionsReducer = (state = {}, action = {} as any) => {
         // questions: action.questions
       };
 
+    case "DELETE_QUESTION":
+      return {
+        ...state
+      };
+
+    case "DELETE_JUNCTION":
+      return {
+        ...state
+      };
+
     default:
       return state;
   }

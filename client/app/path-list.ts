@@ -34,6 +34,12 @@ const editQuizUrl = "";
 
 const deleteQuizUrl = "";
 
+const deleteQuestionUrl =
+  "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/question/author";
+
+const deleteJunctionUrl =
+  "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz";
+
 export default {
   create: {
     addQuestion: newQuestion =>
@@ -48,8 +54,8 @@ export default {
   },
 
   quizzes: {
-    edit: quiz => axios.post(editQuizUrl, { quiz }).then(res => res.data),
-    delete: quiz => axios.post(deleteQuizUrl, { quiz }).then(res => res.data),
+    edit: quiz => axios.post(editQuizUrl, quiz).then(res => res.data),
+    delete: quiz => axios.post(deleteQuizUrl, quiz).then(res => res.data),
     display: author =>
       axios.get(displayQuizzesURL + author).then(res => res.data)
   },
@@ -60,6 +66,14 @@ export default {
     display: quizUUID =>
       axios.get(displayQuizQuestionsURL + quizUUID).then(res => res.data),
     displayTags: quizUUID =>
-      axios.get(displayQuizTagsURL + quizUUID).then(res => res.data)
+      axios.get(displayQuizTagsURL + quizUUID).then(res => res.data),
+    deleteQuestion: (author, title) =>
+      axios
+        .delete(`${deleteQuestionUrl}/${author}/title`, title)
+        .then(res => res.data),
+    deleteJunction: (quizUUID, questionUUID) =>
+      axios
+        .delete(`${deleteJunctionUrl}/${quizUUID}/question/${questionUUID}`)
+        .then(res => res.data)
   }
 };

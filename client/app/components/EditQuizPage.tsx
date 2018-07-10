@@ -3,13 +3,19 @@ import moment from "moment";
 import numeral from "numeral";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { startEditQuestion } from "../actions/questions";
+import {
+  startDeleteJunction,
+  startDeleteQuestion,
+  startEditQuestion
+} from "../actions/questions";
 import { startUpdateQuestionsDisplay } from "../actions/quizzes";
 
 interface IProps {
   username: any;
   quiz: any;
   startEditQuestion: (any) => any;
+  startDeleteQuestion: (author: string, title: string) => any;
+  startDeleteJunction: (quizUUID: string, questionUUID: string) => any;
 }
 const tagStyle = {
   background: "green",
@@ -83,6 +89,35 @@ export class EditQuizPage extends Component<IProps> {
     console.log(this.state.updatedQuestions);
   };
 
+  private deletedTitle = (e: any) => {
+    let title = this.state.clickedQuestion.title;
+    title + "--This Question has been deleted";
+    this.setState({
+      clickedQuestion: {
+        ...this.state.clickedQuestion,
+        title: title
+      }
+    });
+  };
+
+  private deleteQuestion = (e: any) => {
+    // Something that asks them if they really want to delete it
+    this.props.startDeleteQuestion(
+      this.state.clickedQuestion.author,
+      this.state.clickedQuestion.title
+    );
+    console.log(
+      this.state.clickedQuestion.author,
+      this.state.clickedQuestion.title
+    );
+    // this.props.startDeleteJunction(
+    //   this.props.quiz.uuid,
+    //   this.state.clickedQuestion.uuid
+    // );
+    //worked
+    this.deletedTitle; //doesn't do much since it's not on the store. But If I knew how to reach the store I would just delete it from there!
+  };
+
   public showQuizQuestion = (question: any, count: number, e: any) => {
     e.preventDefault();
     this.setState({
@@ -129,7 +164,9 @@ export class EditQuizPage extends Component<IProps> {
           <div style={quizButton}>Take Quiz!</div>
         </Link>
         {/* </button> */}
-        {/* <button style={quizButton} onClick={this.deleteQuestion}>Delete this Question</button> */}
+        <button style={quizButton} onClick={this.deleteQuestion}>
+          Delete this Question
+        </button>
         <button
           style={quizButton}
           onClick={this.saveChangeToState}
@@ -210,5 +247,5 @@ const mapStateToProps = (state, props) => ({
 
 export default connect(
   mapStateToProps,
-  { startEditQuestion }
+  { startDeleteJunction, startDeleteQuestion, startEditQuestion }
 )(EditQuizPage);

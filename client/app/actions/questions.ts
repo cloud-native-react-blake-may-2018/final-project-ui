@@ -28,3 +28,25 @@ export const startEditQuestion = question => dispatch => {
     .edit(question)
     .then(question => dispatch(editQuestion(question)));
 };
+
+export const deleteQuestion = question => ({
+  type: "DELETE_QUESTION",
+  question
+});
+
+export const startDeleteQuestion = (author, title) => dispatch => {
+  pathlist.questions
+    .deleteQuestion(author, title)
+    .then(question => dispatch(deleteQuestion(question)));
+};
+
+export const deleteJunction = question => ({
+  type: "DELETE_JUNCTION",
+  question
+});
+
+export const startDeleteJunction = (quizUUID, questionUUID) => dispatch => {
+  pathlist.questions
+    .deleteJunction(quizUUID, questionUUID)
+    .then(question => dispatch(deleteJunction(question)));
+};
