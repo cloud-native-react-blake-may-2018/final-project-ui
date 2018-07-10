@@ -9,6 +9,11 @@ const uri = document.location.href;
 /** Start after access_token= */
 const startAccessIndex = uri.indexOf('access_token=') + 13;
 /** End on & before id_token= */
+<<<<<<< HEAD
+const endIndex = uri.indexOf('&', startIndex);
+const access_token = uri.slice(startIndex, endIndex);
+console.log(access_token);
+=======
 const endAccessIndex = uri.indexOf('&',startAccessIndex);
 const access_token = uri.slice(startAccessIndex, endAccessIndex);
 console.log("access_token:\n"+access_token);
@@ -18,6 +23,7 @@ const startIdIndex = uri.indexOf('id_token=') + 9;
 const endIdIndex = uri.indexOf('&',startIdIndex);
 const id_token = uri.slice(startIdIndex, endIdIndex);
 console.log("id_token:\n"+id_token);
+>>>>>>> 3daec01723d4bd5fd175f8f2c337addec8c90012
 
 // Axios.get("https://quizard.auth.us-east-1.amazoncognito.com/oauth2/authorize?response_type=code&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=https://localhost:3222/dashboard")
 //   .then(resp => {
