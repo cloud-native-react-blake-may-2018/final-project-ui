@@ -1,6 +1,7 @@
 import React from 'react'
 import { startGetUserQuizzes } from './quizzes'
-
+// import api from '../api'
+import * as awsCognito from 'amazon-cognito-identity-js'
 export const login = user => ({
   type: 'LOGIN',
   user

@@ -18,7 +18,7 @@ import ViewQuizPage from '../components/ViewQuizPage'
 import TakeQuizPage from '../components/TakeQuiz'
 import AchievementsPage from '../components/AchievementsPage'
 import StorePage from '../components/StorePage'
-
+import ResetPasswordPage from '../components/ResetPasswordPage'
 import CreateQuiz from '../components/CreateQuiz'
 import AddQuestion from '../components/AddQuestion'
 import AddQuiz from '../components/AddQuiz'
