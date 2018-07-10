@@ -1,27 +1,27 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import moment from 'moment'
-import numeral from 'numeral'
-import { Link } from 'react-router-dom'
-import { startGetUserQuizzes } from '../actions/quizzes'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import moment from "moment";
+import numeral from "numeral";
+import { Link } from "react-router-dom";
+import { startGetUserQuizzes } from "../actions/quizzes";
 
 interface IProps {
-  username: string
-  startGetUserQuizzes: any
+  username: string;
+  startGetUserQuizzes: any;
 }
 
 export class DashboardPage extends Component<IProps> {
   //@ts-ignore
   componentDidMount = () => {
-    const username = 'Medlock'
-    console.log(username)
+    const username = "malin1";
+    console.log(username);
     const {
       //  username,
       startGetUserQuizzes
-    } = this.props
+    } = this.props;
     // console.log(username)
-    startGetUserQuizzes(username)
-  }
+    startGetUserQuizzes(username);
+  };
 
   //@ts-ignore
   render = () => {
@@ -35,16 +35,16 @@ export class DashboardPage extends Component<IProps> {
           Take A Quiz
         </Link>
       </div>
-    )
-  }
+    );
+  };
 }
 
 const mapStateToProps = state => ({
   token: state.auth.token,
   username: state.auth.username
-})
+});
 
 export default connect(
   mapStateToProps,
   { startGetUserQuizzes }
-)(DashboardPage)
+)(DashboardPage);

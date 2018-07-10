@@ -8,13 +8,15 @@ import {
   startDeleteQuestion,
   startEditQuestion
 } from "../actions/questions";
-import { startUpdateQuestionsDisplay } from "../actions/quizzes";
+import { editStoreQuiz, startUpdateQuestionsDisplay } from "../actions/quizzes";
 
 interface IProps {
   username: any;
   quiz: any;
+  quizzes: any[];
+  editStoreQuiz: (any) => any;
   startEditQuestion: (any) => any;
-  startDeleteQuestion: (author: string, title: string) => any;
+  startDeleteQuestion: (author: string, title: any) => any;
   startDeleteJunction: (quizUUID: string, questionUUID: string) => any;
 }
 const tagStyle = {
@@ -102,6 +104,7 @@ export class EditQuizPage extends Component<IProps> {
 
   private deleteQuestion = (e: any) => {
     // Something that asks them if they really want to delete it
+    this.updateStore();
     this.props.startDeleteQuestion(
       this.state.clickedQuestion.author,
       this.state.clickedQuestion.title
@@ -114,8 +117,26 @@ export class EditQuizPage extends Component<IProps> {
     //   this.props.quiz.uuid,
     //   this.state.clickedQuestion.uuid
     // );
-    //worked
-    this.deletedTitle; //doesn't do much since it's not on the store. But If I knew how to reach the store I would just delete it from there!
+    //we don't need because it does it automatically
+  };
+
+  private updateStore = () => {
+    let modQuiz = this.props.quiz;
+    for (let i = 0; i < modQuiz.questions.length; i++) {
+      if ((modQuiz.questions[i].uuid = this.state.clickedQuestion.uuid)) {
+        modQuiz.questions.splice(i, 1);
+        //here is where we delete a question
+      }
+    }
+    console.log("without deleted question: ", modQuiz);
+    let quizList = this.props.quizzes;
+    for (let i = 0; i < quizList.length; i++) {
+      if ((quizList[i].uuid = this.props.quiz.uuid)) {
+        quizList.splice(i, 1, modQuiz);
+      }
+    }
+    console.log("Changed:", quizList);
+    this.props.editStoreQuiz(quizList);
   };
 
   public showQuizQuestion = (question: any, count: number, e: any) => {
@@ -241,11 +262,12 @@ const mapStateToProps = (state, props) => ({
   username: state.auth.username,
   quiz: state.quizzes.quizzes.find(
     quiz => quiz.uuid === props.match.params.uuid
-  )
+  ),
+  quizzes: state.quizzes.quizzes
   // clickedQuestion: state.quizzes.clickedQuestion
 });
 
 export default connect(
   mapStateToProps,
-  { startDeleteJunction, startDeleteQuestion, startEditQuestion }
+  { editStoreQuiz, startDeleteJunction, startDeleteQuestion, startEditQuestion }
 )(EditQuizPage);

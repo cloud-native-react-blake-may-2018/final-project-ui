@@ -64,6 +64,11 @@ export const quizzesReducer = (state = {}, action = {} as any) => {
         quizzes: action.quiz
       };
 
+    case "EDIT_STORE_QUIZ":
+      return {
+        ...state,
+        quizzes: action.quizzes
+      };
     default:
       return state;
   }

@@ -69,7 +69,7 @@ export default {
       axios.get(displayQuizTagsURL + quizUUID).then(res => res.data),
     deleteQuestion: (author, title) =>
       axios
-        .delete(`${deleteQuestionUrl}/${author}/title`, title)
+        .delete(`${deleteQuestionUrl}/${author}/title`, { data: { title } })
         .then(res => res.data),
     deleteJunction: (quizUUID, questionUUID) =>
       axios

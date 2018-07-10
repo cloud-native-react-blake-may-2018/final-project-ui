@@ -9,6 +9,13 @@ export const editQuiz = quiz => ({
   quiz
 });
 
+export const editStoreQuiz = quizzes => dispatch => {
+  return dispatch({
+    type: "EDIT_STORE_QUIZ",
+    quizzes
+  });
+};
+
 export const startGetUserQuizzes = author => async dispatch => {
   // console.log('getting user quizzes')
   pathList.quizzes.display(author).then(async quizzes => {
