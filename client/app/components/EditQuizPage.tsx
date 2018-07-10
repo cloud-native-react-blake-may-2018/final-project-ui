@@ -56,7 +56,7 @@ export class EditQuizPage extends Component<IProps> {
     const { quiz } = this.props
     let count = 0
     return (
-      <div className="viewQuizzes-page">
+      <div className="edit-quiz-page">
         {quiz.tags === undefined && (
           <Spinner className="loading-indicator" name="ball-spin-fade-loader" />
         )}

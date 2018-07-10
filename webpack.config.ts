@@ -91,6 +91,7 @@ const config: webpack.Configuration = {
     })
   ],
 
+  // @ts-ignore
   devServer: {
     hot: true,
     contentBase: './client/public',
