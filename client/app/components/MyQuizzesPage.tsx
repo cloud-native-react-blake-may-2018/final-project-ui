@@ -7,51 +7,58 @@ import { Link } from 'react-router-dom'
 interface IProps {
   username: string
   quizzes: any[]
-  startGetUserQuizzes: (username: string) => any
-}
-const quizStyle = {
-  background: '#86b2d8',
-  borderRadius: 20,
-  margin: '20px',
-  padding: '20px',
-  width: '20%'
+  type: string
 }
 
 export class MyQuizzesPage extends Component<IProps> {
-  render() {
-    const { quizzes } = this.props
+  //@ts-ignore
+  render = () => {
+    const { quizzes, type } = this.props
     return (
-      <div className="viewQuizzes-page">
-        <h1>My Quizzes</h1>
-
-        {quizzes !== undefined &&
-          quizzes.map((quiz: any) => (
-            // <Link to="/view-quiz/ + {quiz} " className="unset-anchor nav-link">
-            <Link
-              to={`/view-quiz/${quiz.uuid}`}
-              className="unset-anchor nav-link"
+      <div className="my-quizzes-page">
+        {type === 'created' && (
+          <p className="links">
+            <Link to="/quizzes/created" className="quiz-type">
+              created
+            </Link>&nbsp;/&nbsp;<Link to="/quizzes/taken">taken</Link>
+          </p>
+        )}
+        {type === 'taken' && (
+          <p className="links">
+            <Link to="/quizzes/created">created</Link>&nbsp;/&nbsp;<Link
+              to="/quizzes/taken"
+              className="quiz-type"
             >
-              <div
-                style={quizStyle}
-                key={quiz.uuid}
-                // onClick={this.showQuiz.bind(this, quiz.uuid)}
-              >
-                <h1>{quiz.title}</h1>
-                <p>{quiz.questions.length} questions</p>
-                {quiz.tags.map(tag => (
-                  <div key={tag.allLowerCase}>{tag.allLowerCase}</div>
-                ))}
-              </div>
+              taken
             </Link>
-          ))}
+          </p>
+        )}
+
+        <div className="blocks">
+          {quizzes !== undefined &&
+            quizzes.map((quiz: any) => (
+              <Link to={`/view-quiz/${quiz.uuid}`} key={quiz.uuid}>
+                <div className="block">
+                  <h1 className="name">{quiz.title}</h1>
+                  <p className="amount">{quiz.questions.length} questions</p>
+                  {quiz.tags.map(tag => (
+                    <div key={tag.allLowerCase} className="tag">
+                      {tag.allLowerCase}
+                    </div>
+                  ))}
+                </div>
+              </Link>
+            ))}
+        </div>
       </div>
     )
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, props) => ({
   username: state.auth.username,
-  quizzes: state.quizzes.quizzes
+  quizzes: state.quizzes.all,
+  type: props.match.params.type
 })
 
 export default connect(mapStateToProps)(MyQuizzesPage)

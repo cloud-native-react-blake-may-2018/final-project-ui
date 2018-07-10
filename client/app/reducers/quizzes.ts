@@ -15,7 +15,6 @@ export const quizzesReducer = (state = {}, action = {} as any) => {
       }
 
     case 'DISPLAY_QUIZ_QUESTIONS':
-      // console.log('questions ', action.questions)
       return {
         ...state,
         questions: action.questions

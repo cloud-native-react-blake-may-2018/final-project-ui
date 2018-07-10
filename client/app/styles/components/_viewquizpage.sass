@@ -1,0 +1,78 @@
+
+.view-quiz-page
+  .main
+    display: grid
+    margin: auto
+    width: 50%
+    min-width: 600px
+    max-width: 700px
+    border-radius: 8px
+    background-color: $white
+    box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
+
+    main
+      display: grid
+      grid-template-columns: 1fr
+      align-items: center
+      justify-item: center
+      padding: 20px 30px
+      margin: 0
+      text-align: center
+      border-radius: 8px 8px 0 0
+      background: linear-gradient(40deg, $red, $orange)
+
+      .author
+        margin: 30px 0 60px
+        font: 500 28px Asap
+        color: $dark-red
+
+      .title
+        margin: 0 0 15px
+        font: 700 60px Asap
+        color: $white
+
+      .total
+        margin: 0 0 60px
+        font: 900 36px Asap
+        color: $burgundy
+
+
+    footer
+      display: grid
+      grid-template-columns: 1fr 1fr
+      padding: 25px 25px 15px
+
+      .link
+        display: grid
+        align-self: center
+        justify-self: center
+
+        .edit-button
+          justify-self: center
+          font: 700 21px Asap
+          color: $light-grey
+          transition: .3s all ease-in-out
+
+          &:hover
+            color: darken($light-grey, 10%)
+
+        .take-button
+          justify-self: center
+          padding: 10px 75px
+          border: none
+          outline: none
+          border-radius: 8px
+          font: normal 18px Asap
+          color: $white
+          background-color: $blue
+          box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
+          transition: .3s all ease-in-out
+
+          &:hover
+            cursor: pointer
+            transform: translateY(-2px)
+
+          &:active
+            cursor: pointer
+            transform: scale(.9)
+            filter: brightness(93%)

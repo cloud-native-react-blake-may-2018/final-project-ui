@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Router, Route, Switch, RouteComponentProps } from 'react-router-dom'
+import { Router, Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Sidebar from 'react-sidebar'
 import createHistory from 'history/createBrowserHistory'
@@ -99,7 +99,7 @@ export class Pages extends Component<IProps, IState> {
             shadow={false}
           >
             <PrivateRoute path="/dashboard" component={DashboardPage} />
-            <PrivateRoute path="/my-quizzes" component={MyQuizzesPage} />
+            <PrivateRoute path="/quizzes/:type" component={MyQuizzesPage} />
             <PrivateRoute path="/view-quiz/:uuid" component={ViewQuizPage} />
             <PrivateRoute path="/edit-quiz/:uuid" component={EditQuizPage} />
             <PrivateRoute path="/take-quiz/:uuid" component={TakeQuizPage} />
