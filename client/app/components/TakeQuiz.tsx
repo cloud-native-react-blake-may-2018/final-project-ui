@@ -33,20 +33,6 @@ export class TakeQuizPage extends Component<IProps, any> {
   constructor(props) {
     super(props)
   }
-  // state = {
-  //   clickedQuestion: [],
-  //   questionNumber: 0,
-  //   answerTrueFalseOrMultipleChoice: {
-  //     author: '',
-  //     title: '',
-  //     answer: ''
-  //   },
-  //   answerMultipleSelect: {
-  //     author: '',
-  //     title: '',
-  //     answer: []
-  //   }
-  // }
 
   params = window.location.href.split('/')
   quizUUID = this.params[4]
@@ -136,7 +122,7 @@ export class TakeQuizPage extends Component<IProps, any> {
             <header>
               <div className="meta">
                 <p className="current">Question {questionNumber + 1}</p>
-                <p className="title">{quiz.title}</p>
+                {/* <p className="title">{quiz.title}</p> */}
                 <p className="progress">
                   Question {questionNumber + 1}/{quiz.questions.length}
                 </p>
@@ -147,7 +133,7 @@ export class TakeQuizPage extends Component<IProps, any> {
             <main>
               <div className="choices">
                 {quiz.questions[questionNumber].answers.map(answers => (
-                  <div key={answers.answer} className="choice">
+                  <div key={answers.answer.answer} className="choice">
                     <p
                       onClick={this.addAnswerToObject.bind(
                         this,
@@ -155,7 +141,7 @@ export class TakeQuizPage extends Component<IProps, any> {
                         answers
                       )}
                     >
-                      {answers.answer}
+                      {answers.answer.answer}
                     </p>
                   </div>
                 ))}
@@ -192,9 +178,10 @@ export class TakeQuizPage extends Component<IProps, any> {
 
 const mapStateToProps = (state, props) => ({
   username: state.auth.username,
+  // quiz: state.takeQuiz.quizAttemptInfoObj,
   quiz:
-    state.quizzes.all !== undefined &&
-    state.quizzes.all.find(quiz => quiz.uuid === props.match.params.uuid),
+    state.takeQuiz.quizAttemptInfoObj !== null &&
+    state.takeQuiz.quizAttemptInfoObj,
   answers: state.takeQuiz.answers,
   questionNumber: state.takeQuiz.questionNumber,
   multipleSelectAnswer: state.takeQuiz.multipleSelectAnswer,
