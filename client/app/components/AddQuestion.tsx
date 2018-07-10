@@ -509,13 +509,14 @@ export class AddQuestion extends Component<IProps, any> {
     )
   }
 
-  private editQuestionElements = (e: any) => {
+  private editQuestionElements = (e: any, propertyName) => {
     const index = this.state.editQuestion
     let updatedQuestions = this.state.newQuestions
     updatedQuestions[index] = {
       ...updatedQuestions[index],
-      title: e.target.value
+      [propertyName]: e.target.value
     }
+    console.log('propertyname', propertyName)
     this.setState({
       newQuestions: updatedQuestions,
       mainView: {
@@ -524,6 +525,22 @@ export class AddQuestion extends Component<IProps, any> {
       }
     })
     console.log(this.state)
+  }
+
+  private editQuizAnswers = (e: any, propertyName, i: number) => {
+    const index = this.state.editQuestion
+    let updatedQuestions = this.state.newQuestions
+    updatedQuestions[index].answers[i] = {
+      ...updatedQuestions[index].answers[i],
+      [propertyName]: e.target.value
+    }
+    this.setState({
+      newQuestions: updatedQuestions,
+      mainView: {
+        ...this.state.mainView,
+        questionToDisplay: updatedQuestions[index]
+      }
+    })
   }
 
   private editTagElement = (e: any) => {
@@ -545,7 +562,9 @@ export class AddQuestion extends Component<IProps, any> {
               type="text"
               id="editQuestionTitle"
               value={this.state.mainView.questionToDisplay.title}
-              onChange={this.editQuestionElements}
+              onChange={e => {
+                this.editQuestionElements(e, 'title')
+              }}
             />
             {/* <label htmlFor="editQuestionTag">Tags:</label>
             <input
@@ -554,8 +573,40 @@ export class AddQuestion extends Component<IProps, any> {
               value={this.state.mainView.questionToDisplay.tags}
               onChange={this.editTagElement}
             /> */}
-            {this.state.mainView.questionToDisplay.answers.map(item => {
-              return <div>Answers : {item.answer}</div>
+            {this.state.mainView.questionToDisplay.answers.map((item, i) => {
+              return (
+                <div>
+                  <label htmlFor="true-false-answer">Answer</label>
+                  <input
+                    type="text"
+                    id="true-false-answer"
+                    value={item.answer}
+                    onChange={e => {
+                      this.editQuizAnswers(e, 'answer', i)
+                    }}
+                  />
+                  <label htmlFor="true-false-percent-points">
+                    Percent Points
+                  </label>
+                  <input
+                    type="text"
+                    id="true-false-percent-points"
+                    value={item.percentPoints}
+                    onChange={e => {
+                      this.editQuizAnswers(e, 'percentPoints', i)
+                    }}
+                  />
+                  <label htmlFor="true-false-feed-back">feed Back</label>
+                  <input
+                    type="text"
+                    id="true-false-feed-back"
+                    value={item.feedback}
+                    onChange={e => {
+                      this.editQuizAnswers(e, 'feedback', i)
+                    }}
+                  />
+                </div>
+              )
             })}
             <button
               onClick={() => {
