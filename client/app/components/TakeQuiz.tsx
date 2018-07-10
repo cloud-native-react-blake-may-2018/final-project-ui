@@ -9,6 +9,7 @@ import Spinner from 'react-spinkit'
 interface IProps {
   username: any
   quiz: any
+  questionNumber: any
   answerArray: object[]
   setQuestionNumber: (questionNumber: number) => void
   changeQuestionNumber: (questionNumber: number) => void
@@ -19,7 +20,7 @@ const questionStyle = {
   cursor: 'poninter'
 }
 
-export class TakeQuizPage extends Component<any, any> {
+export class TakeQuizPage extends Component<IProps, any> {
   constructor(props) {
     super(props)
   }

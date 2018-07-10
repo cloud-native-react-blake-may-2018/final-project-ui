@@ -85,3 +85,12 @@ export const startChangeQuestionNumber = questionNumber => ({
   type: 'CHANGE_QUESTION_NUMBER',
   questionNumber
 })
+export const startQuizAttempt = (quizUUID: any, username: string) => dispatch =>
+  pathList.quizzes
+    .startQuizAttempt(quizUUID, username)
+    .then(quizAttemptInfo => dispatch(beginQuizAttempt(quizAttemptInfo)))
+
+export const beginQuizAttempt = quizAttemptInfo => ({
+  type: 'QUIZ_ATTEMPT_INFO',
+  quizAttemptInfo
+})

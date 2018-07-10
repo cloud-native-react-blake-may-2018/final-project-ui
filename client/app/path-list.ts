@@ -42,6 +42,9 @@ const searchByTagUrl =
 const searchByUuidUrl =
   'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/'
 
+const getQuizAttempt =
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/'
+
 export default {
   create: {
     addQuestion: newQuestion =>
@@ -72,7 +75,12 @@ export default {
     searchByTag: tag => axios.get(searchByTagUrl + tag).then(res => res.data),
 
     searchByUuid: uuid =>
-      axios.get(searchByUuidUrl + uuid).then(res => res.data)
+      axios.get(searchByUuidUrl + uuid).then(res => res.data),
+
+    startQuizAttempt: (quizUUID, username) =>
+      axios
+        .get(`${searchByUuidUrl}${quizUUID}/user/${username}`)
+        .then(res => res.data)
   },
 
   questions: {

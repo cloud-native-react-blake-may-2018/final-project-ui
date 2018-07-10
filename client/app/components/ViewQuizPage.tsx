@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import ArrowIcon from '../../public/icons/arrow-icon.svg'
 import Spinner from 'react-spinkit'
-import { startGetSearchedQuiz } from '../actions/quizzes'
+import { startGetSearchedQuiz, startQuizAttempt } from '../actions/quizzes'
 
 interface IProps {
   history?: any
@@ -13,10 +13,14 @@ interface IProps {
   username: any
   quizzes: any
   quiz: any
+  startQuizAttempt: (quizUUID: any, username: any) => void
   startGetSearchedQuiz: (uuid: any) => any
 }
 
 export class ViewQuizPage extends Component<IProps> {
+  constructor(props) {
+    super(props)
+  }
   state = {
     clickedQuestion: [],
     questionNumber: 0
@@ -32,6 +36,9 @@ export class ViewQuizPage extends Component<IProps> {
       questionNumber: count,
       clickedQuestion: [question]
     })
+  }
+  public startQuizAttempt = (e: any) => {
+    this.props.startQuizAttempt(this.quizUUID, this.props.username)
   }
 
   goBack = () => this.props.history.goBack()
@@ -66,7 +73,11 @@ export class ViewQuizPage extends Component<IProps> {
               <Link to={`/edit-quiz/${quiz.uuid}`} className="link">
                 <p className="edit-button">Edit quiz</p>
               </Link>
-              <Link to={`/take-quiz/${quiz.uuid}`} className="link">
+              <Link
+                to={`/take-quiz/${quiz.uuid}`}
+                onClick={this.startQuizAttempt}
+                className="link"
+              >
                 <p className="take-button">Take quiz</p>
               </Link>
             </footer>
@@ -89,5 +100,5 @@ const mapStateToProps = (state, props) => ({
 
 export default connect(
   mapStateToProps,
-  { startGetSearchedQuiz }
+  { startGetSearchedQuiz, startQuizAttempt }
 )(ViewQuizPage)
