@@ -7,9 +7,10 @@ import Querystring from 'query-string';
 const uri = document.location.href;
 // console.log(uri);
 /** Start after access_token= */
+console.log(uri)
 const startIndex = uri.indexOf('access_token=') + 13;
 /** End on & before id_token= */
-const endIndex = uri.indexOf('id_token=') - 1;
+const endIndex = uri.indexOf('&', startIndex);
 const access_token = uri.slice(startIndex, endIndex);
 console.log(access_token);
 
