@@ -3,15 +3,26 @@ import moment from 'moment'
 import numeral from 'numeral'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { startAddAnswerToArray, changeQuestionNumber } from '../actions/quizzes'
+import {
+  startAddAnswerToArray,
+  changeQuestionNumber,
+  addMultipleSelectAnswer,
+  addMultipleChoiceAnswer,
+  updateMultipleSelectAnswer
+} from '../actions/quizzes'
 import Spinner from 'react-spinkit'
 
 interface IProps {
   username: any
   quiz: any
   questionNumber: any
+  multipleSelectAnswer: any
+  multipleChoiceAnswer: any[]
   changeQuestionNumber: (questionNumber: number) => void
   startAddAnswerToArray: (answerObj: {}) => void
+  addMultipleChoiceAnswer: (answerObj: {}) => void
+  addMultipleSelectAnswer: (answerObj: {}) => void
+  updateMultipleSelectAnswer: (answerArray: any[]) => void
 }
 
 const questionStyle = {
@@ -22,20 +33,20 @@ export class TakeQuizPage extends Component<IProps, any> {
   constructor(props) {
     super(props)
   }
-  state = {
-    clickedQuestion: [],
-    questionNumber: 0,
-    answerTrueFalseOrMultipleChoice: {
-      author: '',
-      title: '',
-      answer: ''
-    },
-    answerMultipleSelect: {
-      author: '',
-      title: '',
-      answer: []
-    }
-  }
+  // state = {
+  //   clickedQuestion: [],
+  //   questionNumber: 0,
+  //   answerTrueFalseOrMultipleChoice: {
+  //     author: '',
+  //     title: '',
+  //     answer: ''
+  //   },
+  //   answerMultipleSelect: {
+  //     author: '',
+  //     title: '',
+  //     answer: []
+  //   }
+  // }
 
   params = window.location.href.split('/')
   quizUUID = this.params[4]
@@ -47,73 +58,65 @@ export class TakeQuizPage extends Component<IProps, any> {
   public nextQuizQuestion = (choices: object) => {
     console.log(choices[this.props.questionNumber].format)
     if (
-      choices[this.props.questionNumber].format === 'multiple-choice' ||
-      choices[this.props.questionNumber].format === 'true-false'
+      this.props.multipleSelectAnswer.answer.length > 0 ||
+      this.props.multipleChoiceAnswer !== null
     ) {
-      this.props.startAddAnswerToArray(
-        this.state.answerTrueFalseOrMultipleChoice
-      )
-      this.props.changeQuestionNumber(this.props.questionNumber + 1)
-      console.log(this.props.questionNumber)
-    } else if (
-      choices[this.props.questionNumber].format === 'multiple-select'
-    ) {
-      this.props.startAddAnswerToArray(this.state.answerMultipleSelect)
-      console.log(this.props.questionNumber)
+      if (
+        choices[this.props.questionNumber].format === 'multiple-choice' ||
+        choices[this.props.questionNumber].format === 'true-false'
+      ) {
+        this.props.startAddAnswerToArray(this.props.multipleChoiceAnswer)
+        this.props.changeQuestionNumber(this.props.questionNumber + 1)
+      } else if (
+        choices[this.props.questionNumber].format === 'multiple-select'
+      ) {
+        this.props.startAddAnswerToArray(this.props.multipleSelectAnswer)
+        this.props.changeQuestionNumber(this.props.questionNumber + 1)
+      }
+    } else {
       this.props.changeQuestionNumber(this.props.questionNumber + 1)
     }
   }
 
   public addAnswerToObject = (choices: object, answer: any) => {
-    switch (choices[this.state.questionNumber].format) {
+    switch (choices[this.props.questionNumber].format) {
       case 'multiple-choice':
-        this.setState({
-          ...this.state,
-          answerTrueFalseOrMultipleChoice: {
-            author: choices[this.props.questionNumber].author,
-            title: choices[this.props.questionNumber].title,
-            answer: answer.answer
-          }
+        this.props.addMultipleChoiceAnswer({
+          author: choices[this.props.questionNumber].author,
+          title: choices[this.props.questionNumber].title,
+          answer: answer.answer
         })
-        console.log(this.state.answerTrueFalseOrMultipleChoice)
         break
       case 'multiple-select':
-        if (this.state.answerMultipleSelect.answer.includes(answer.answer)) {
-          const index = this.state.answerMultipleSelect.answer.indexOf(
+        let newArray: any[]
+        if (this.props.multipleSelectAnswer.answer.includes(answer.answer)) {
+          console.log('here')
+          const index = this.props.multipleSelectAnswer.answer.indexOf(
             answer.answer
           )
-          this.state.answerMultipleSelect.answer.splice(index, 1)
-          this.setState({
-            ...this.state,
-            answerMultipleSelect: {
-              author: choices[this.props.questionNumber].author,
-              title: choices[this.props.questionNumber].title,
-              answer: this.state.answerMultipleSelect.answer
-            }
-          })
+          console.log(`index: ${index}`)
+          newArray = this.props.multipleSelectAnswer.answer
+          console.log(`index: ${newArray}`)
+          newArray.splice(index, 1)
+          console.log(`index: ${newArray}`)
+          this.props.updateMultipleSelectAnswer(newArray)
         } else {
-          this.setState({
-            ...this.state,
-            answerMultipleSelect: {
-              author: choices[this.props.questionNumber].author,
-              title: choices[this.props.questionNumber].title,
-              answer: [...this.state.answerMultipleSelect.answer, answer.answer]
-            }
+          newArray = this.props.multipleSelectAnswer.answer
+          newArray.push(answer.answer)
+          this.props.addMultipleSelectAnswer({
+            author: choices[this.props.questionNumber].author,
+            title: choices[this.props.questionNumber].title,
+            answer: newArray
           })
         }
-        // console.log(this.state.answerMultipleSelect)
         break
 
       case 'true-false':
-        this.setState({
-          ...this.state,
-          answerTrueFalseOrMultipleChoice: {
-            author: choices[this.props.questionNumber].author,
-            title: choices[this.props.questionNumber].title,
-            answer: answer.answer
-          }
+        this.props.addMultipleChoiceAnswer({
+          author: choices[this.props.questionNumber].author,
+          title: choices[this.props.questionNumber].title,
+          answer: answer.answer
         })
-        // console.log(this.state.answerTrueFalseOrMultipleChoice)
         break
     }
   }
@@ -123,7 +126,6 @@ export class TakeQuizPage extends Component<IProps, any> {
   // @ts-ignore
   render = () => {
     const { quiz, questionNumber } = this.props
-    console.log('in render' + this.props.questionNumber)
     return (
       <div className="take-quiz-page">
         {quiz.questions === undefined && (
@@ -144,7 +146,6 @@ export class TakeQuizPage extends Component<IProps, any> {
             {/* DISPLAYS THE CHOICES */}
             <main>
               <div className="choices">
-                {/* {console.log(quiz.questions)} */}
                 {quiz.questions[questionNumber].answers.map(answers => (
                   <div key={answers.answer} className="choice">
                     <p
@@ -195,11 +196,19 @@ const mapStateToProps = (state, props) => ({
     state.quizzes.all !== undefined &&
     state.quizzes.all.find(quiz => quiz.uuid === props.match.params.uuid),
   answers: state.takeQuiz.answers,
-  questionNumber: state.takeQuiz.questionNumber
+  questionNumber: state.takeQuiz.questionNumber,
+  multipleSelectAnswer: state.takeQuiz.multipleSelectAnswer,
+  multipleChoiceAnswer: state.takeQuiz.multipleChoiceAnswer
   // clickedQuestion: state.quizzes.clickedQuestion
 })
 
 export default connect(
   mapStateToProps,
-  { startAddAnswerToArray, changeQuestionNumber }
+  {
+    startAddAnswerToArray,
+    changeQuestionNumber,
+    addMultipleChoiceAnswer,
+    addMultipleSelectAnswer,
+    updateMultipleSelectAnswer
+  }
 )(TakeQuizPage)
