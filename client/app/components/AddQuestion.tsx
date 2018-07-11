@@ -35,6 +35,7 @@ interface QuestionFormat {
   author: string;
   title: string;
   tags: string;
+  image: string;
   answers: AnswerFormat[];
 }
 
@@ -45,6 +46,7 @@ export class AddQuestion extends Component<IProps, any> {
       author: "dserna", // this.props.username,
       title: "",
       tags: "",
+      image: "",
       answers: [
         {
           answer: "",
@@ -180,6 +182,7 @@ export class AddQuestion extends Component<IProps, any> {
           author: this.props.username,
           title: "",
           tags: "",
+          image: "",
           answers: [
             {
               answer: "",
@@ -544,7 +547,18 @@ export class AddQuestion extends Component<IProps, any> {
     );
   };
 
-  private onDrop = () => {};
+  private onDrop = (files: any) => {
+    const file = files[0];
+    let codeString = "";
+    this.setState({
+      ...this.state,
+      image: codeString
+    });
+    // encode thing I get as a base 64 string
+    // look up how to do it
+    // image field of question will be that.
+    // when in db, will be replaced with URL of s3
+  };
 
   private editQuestionElements = (e: any, propertyName) => {
     const index = this.state.editQuestion;
