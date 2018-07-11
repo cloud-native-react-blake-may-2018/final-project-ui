@@ -57,6 +57,7 @@
     "jsonwebtoken": "latest",
     "jwt-decode": "latest",
     "moment": "latest",
+    "npm": "^6.1.0",
     "numeral": "latest",
     "query-string": "^6.1.0",
     "react": "latest",
