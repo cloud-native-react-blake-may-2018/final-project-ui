@@ -133,16 +133,16 @@ export class TakeQuizPage extends Component<IProps, any> {
             <main>
               <div className="choices">
                 {quiz.questions[questionNumber].answers.map(answers => (
-                  <div key={answers.answer.answer} className="choice">
-                    <p
-                      onClick={this.addAnswerToObject.bind(
-                        this,
-                        quiz.questions,
-                        answers
-                      )}
-                    >
-                      {answers.answer.answer}
-                    </p>
+                  <div
+                    key={answers.answer.answer}
+                    className="choice"
+                    onClick={this.addAnswerToObject.bind(
+                      this,
+                      quiz.questions,
+                      answers
+                    )}
+                  >
+                    <p>{answers.answer.answer}</p>
                   </div>
                 ))}
               </div>
