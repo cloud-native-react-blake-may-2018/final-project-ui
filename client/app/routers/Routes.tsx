@@ -27,6 +27,7 @@ import AddQuiz from '../components/AddQuiz'
 import SettingsPage from '../components/SettingsPage'
 import ProfilePage from '../components/ProfilePage'
 import NotFoundPage from '../components/NotFoundPage'
+import { SetupLogin } from '../components/loginSetup';
 
 export const history = createHistory()
 const mql = window.matchMedia(`(min-width: 800px)`)
@@ -89,6 +90,7 @@ export class Pages extends Component<IProps, IState> {
           <PublicRoute path="/signup" component={SignupPage} />
           <PublicRoute path="/login" component={SignInRedirect} />
           <PublicRoute path="/resetpassword" component={ResetPasswordPage} />
+          <PublicRoute path="/redirect" component={SetupLogin}/>
           <Sidebar
             sidebar={sidebar}
             docked={sidebarDocked}
