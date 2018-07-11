@@ -1,10 +1,11 @@
 import React from 'react'
 
-// const initialState = {
-//   quizzes: [],
-//   questions: [],
-//   tags: []
-// }
+const initialState = {
+  quizzes: [],
+  editedQuiz: {}
+  //   questions: [],
+  //   tags: []
+}
 
 interface SProps {
   quizzes: any
@@ -68,9 +69,14 @@ export const quizzesReducer = (state = {} as any, action = {} as any) => {
     case 'EDIT_QUIZ':
       return {
         ...state,
-        quizzes: action.quizzes
+        quizzes: action.quiz
       }
 
+    case 'EDIT_STORE_QUIZ':
+      return {
+        ...state,
+        quizzes: action.quizzes
+      }
     default:
       return state
   }

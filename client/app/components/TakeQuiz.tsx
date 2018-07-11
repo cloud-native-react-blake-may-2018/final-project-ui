@@ -123,32 +123,34 @@ export class TakeQuizPage extends Component<any, any> {
     console.log(this.props.answerArray)
   }
 
-  render() {
+  // @ts-ignore
+  render = () => {
     const { quiz } = this.props
     console.log('in render' + this.props.questionNumber)
+    const { questionNumber } = this.state
     return (
-      <div className="viewQuizzes-page">
+      <div className="take-quiz-page">
         {quiz.questions === undefined && (
           <Spinner className="loading-indicator" name="ball-spin-fade-loader" />
         )}
         {quiz.questions !== undefined && (
-          <div>
-            {/* DISPLAYS QUIZ TITLE */}
-            <h1>{quiz.title}</h1>
-            {/* DISPLAYS WHAT QUESTION NUMBER THE USER IS ON */}
-            <h3>Question {this.props.questionNumber + 1}</h3>
-            {/* DISPLAYS THE QUESTION */}
-            <h5>{quiz.questions[this.props.questionNumber].title}</h5>
-            {/* DISPLAYS THE QUESTION NUMBER THEY ARE ON OUT OF TOTAL */}
-            <h3>
-              Question {this.props.questionNumber + 1}/{quiz.questions.length}
-            </h3>
+          <div className="main">
+            <header>
+              <div className="meta">
+                <p className="current">Question {questionNumber + 1}</p>
+                <p className="title">{quiz.title}</p>
+                <p className="progress">
+                  Question {questionNumber + 1}/{quiz.questions.length}
+                </p>
+              </div>
+              <p className="question">{quiz.questions[questionNumber].title}</p>
+            </header>
             {/* DISPLAYS THE CHOICES */}
-            <div>
-              {/* {console.log(quiz.questions)} */}
-              {quiz.questions[this.props.questionNumber].answers.map(
-                answers => (
-                  <div style={questionStyle} key={answers.answer}>
+            <main>
+              <div className="choices">
+                {/* {console.log(quiz.questions)} */}
+                {quiz.questions[questionNumber].answers.map(answers => (
+                  <div key={answers.answer} className="choice">
                     <p
                       onClick={this.addAnswerToObject.bind(
                         this,
@@ -159,22 +161,31 @@ export class TakeQuizPage extends Component<any, any> {
                       {answers.answer}
                     </p>
                   </div>
-                )
-              )}
-            </div>
-
-            {this.props.questionNumber !== 0 ? (
-              <button onClick={this.previousQuizQuestion}>previous</button>
-            ) : null}
-            {this.props.questionNumber + 1 !== quiz.questions.length ? (
-              <button
-                onClick={this.nextQuizQuestion.bind(this, quiz.questions)}
-              >
-                next
-              </button>
-            ) : (
-              <button onClick={this.submit}>Submit</button>
-            )}
+                ))}
+              </div>
+              <div className="buttons">
+                {questionNumber !== 0 && (
+                  <button
+                    onClick={this.previousQuizQuestion}
+                    className="previous-button"
+                  >
+                    previous
+                  </button>
+                )}
+                {questionNumber + 1 !== quiz.questions.length ? (
+                  <button
+                    onClick={this.nextQuizQuestion.bind(this, quiz.questions)}
+                    className="next-button"
+                  >
+                    next
+                  </button>
+                ) : (
+                  <button onClick={this.submit} className="submit-button">
+                    Submit
+                  </button>
+                )}
+              </div>
+            </main>
           </div>
         )}
       </div>
