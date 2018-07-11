@@ -9,8 +9,9 @@ export const login = user => ({
 
 export const startLogin = credentials => {
   return async dispatch => {
+    console.log('credentials', credentials)
     await dispatch(login(credentials))
-    localStorage.setItem('token', credentials.token)
+    // localStorage.setItem('token', credentials.token)
 
     return await dispatch(startGetUserQuizzes(credentials.username))
   }
