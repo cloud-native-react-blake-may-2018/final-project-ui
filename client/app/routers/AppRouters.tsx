@@ -26,11 +26,14 @@ if (localStorage.token) {
     token: localStorage.token,
     uid: payload.sub, // what is this in cognito token?
     name: payload.name,
-    username: payload.username
+    username: payload['cognito:username']
   }
 
-  console.log('token: ', localStorage.token)
+  console.log('User: ', user)
+
+  // console.log('token: ', localStorage.token)
   console.log('decoded token: ', payload)
+  console.log('Target Username: ', payload['cognito:username'])
 
   // @ts-ignore
   store.dispatch(startLogin(user))
