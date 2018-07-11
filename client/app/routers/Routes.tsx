@@ -23,9 +23,7 @@ import TakeQuizPage from '../components/TakeQuiz';
 import ViewQuizPage from '../components/ViewQuizPage';
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
-
-
-
+import { SetupLogin } from '../components/loginSetup';
 
 export const history = createHistory()
 const mql = window.matchMedia(`(min-width: 800px)`)
@@ -88,6 +86,7 @@ export class Pages extends Component<IProps, IState> {
           <PublicRoute path="/signup" component={SignupPage} />
           <PublicRoute path="/login" component={SignInRedirect} />
           <PublicRoute path="/resetpassword" component={ResetPasswordPage} />
+          <PublicRoute path="/redirect" component={SetupLogin}/>
           <Sidebar
             sidebar={sidebar}
             docked={sidebarDocked}
