@@ -1,7 +1,7 @@
 import React from "react";
 
 const initialState = {
-  quizID: "",
+  quizID: "a05189ad-4ada-4794-ab86-9be8d779328f",
   questionIDs: []
 };
 

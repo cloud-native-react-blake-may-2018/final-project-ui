@@ -106,7 +106,7 @@ export class EditQuizPage extends Component<IProps> {
   private updateStore = () => {
     let modQuiz = this.props.quiz;
     for (let i = 0; i < modQuiz.questions.length; i++) {
-      if ((modQuiz.questions[i].uuid = this.state.clickedQuestion.uuid)) {
+      if (modQuiz.questions[i].uuid === this.state.clickedQuestion.uuid) {
         modQuiz.questions.splice(i, 1);
         //here is where we delete a question
       }
@@ -114,7 +114,7 @@ export class EditQuizPage extends Component<IProps> {
     console.log("without deleted question: ", modQuiz);
     let quizList = this.props.quizzes;
     for (let i = 0; i < quizList.length; i++) {
-      if ((quizList[i].uuid = this.props.quiz.uuid)) {
+      if (quizList[i].uuid === this.props.quiz.uuid) {
         quizList.splice(i, 1, modQuiz);
       }
     }

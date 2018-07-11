@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import fontawesome from "@fortawesome/fontawesome";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Dropzone from "react-dropzone";
 import {
   startBatchCreateQuestions,
   startCreateNewQuestion
@@ -202,6 +203,10 @@ export class AddQuestion extends Component<IProps, any> {
       }
     });
     console.log(this.state);
+  };
+
+  private sendOneQuestion = (e: any) => {
+    this.props.startCreateNewQuestion(this.state.currentQuestion);
   };
 
   // // @ts-ignore
@@ -515,6 +520,8 @@ export class AddQuestion extends Component<IProps, any> {
     );
   };
 
+  private onDrop = () => {};
+
   private editQuestionElements = (e: any, propertyName) => {
     const index = this.state.editQuestion;
     let updatedQuestions = this.state.newQuestions;
@@ -638,8 +645,16 @@ export class AddQuestion extends Component<IProps, any> {
           {this.renderMainDisplayElement()}
           <br />
         </form>
+        <Dropzone onDrop={this.onDrop}>
+          Drop your files here,
+          <br />
+          or click to select one.
+        </Dropzone>
         <button type="button" onClick={this.updateReducerStore}>
           Save
+        </button>
+        <button onClick={this.sendOneQuestion}>
+          Just add this one Question
         </button>
         <div>{this.printQuestionsArr()}</div>
       </div>
