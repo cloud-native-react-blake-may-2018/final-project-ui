@@ -8,8 +8,10 @@ import {
   DropdownItem
 } from 'reactstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import CoinIcon from '../../public/icons/coin-icon.svg'
 
-// import SearchResults from './SearchResults'
+import SearchResults from './SearchResults'
+import { sidebar, startSearch } from '../actions/app'
 import { startLogout } from '../actions/auth'
 
 interface RProps {
@@ -19,6 +21,8 @@ interface RProps {
 }
 
 interface RState {
+  sidebar?: any
+  startSearch?: (query: string) => any
   startLogout: () => void
 }
 
@@ -26,53 +30,67 @@ type Props = RProps & RState
 
 export class Header extends Component<Props> {
   state = {
-    dropdownOpen: false
+    dropdownOpen: false,
+    showSearch: false,
+    term: '',
+    query: ''
   }
 
   toggleDropdown = () =>
     this.setState({ dropdownOpen: !this.state.dropdownOpen })
 
   // @ts-ignore
+  // needs to be attached to document for click detection
   componentDidMount = () =>
-    document.addEventListener('click', this.determineSelection, false)
+    document.addEventListener('click', this.determineClick, false)
 
   //@ts-ignore
+  // needs to be attached to document for click detection
   componentWillUnmount = () =>
-    document.removeEventListener('click', this.determineSelection)
+    document.removeEventListener('click', this.determineClick)
 
-  determineSelection = ({ target }) => {
-    // if you click outside, some code runs
-    if (!target.closest('.section') && !target.dataset.search) this.searchBlur()
+  determineClick = e => {
+    // if click outside modal or not typing in input, hide search
+    if ((!e.target.closest('.section') && !e.target.dataset.search)) {
+      this.hideSearch()
+    }
 
-    // else if you click inside, some other code runs
+    // else if you click inside or type in input, ...
   }
 
-  searchFocus = () => {
-    this.setState({ showSearch: true })
-  }
+  showSearch = () => this.setState({ showSearch: true })
 
-  searchBlur = () => {
-    this.setState({ showSearch: false })
-  }
+  hideSearch = () => this.setState({ showSearch: false })
 
-  onFieldChange = e => {
-    let value = e.target.value
+  onFieldChange = async e => {
+    const {
+      target: { value }
+    } = e
+    const { startSearch } = this.props
     this.setState({
-      searchTerm: value
+      term: value
     } as any)
+    // send term to database
+    // await startSearch(query)
   }
 
   handleSubmit = e => {
     e.preventDefault()
+    this.setState({
+      query: this.state.term
+    })
   }
 
   render() {
-    const { isAuthenticated, username, startLogout, photo } = this.props
+    const { isAuthenticated, username, photo, startLogout } = this.props
+    const { showSearch, term, query } = this.state
 
     return (
       <header className="nav-header">
-        {/* <SearchResults term={searchTerm} inputState={this.state.showSearch} /> */}
-        <FontAwesomeIcon icon="bars" className="bars" />
+        <SearchResults query={query} showSearch={showSearch} />
+        <Link to="/dashboard">
+          <h2 className="home-button">Quizzard</h2>
+        </Link>
         <div className="search-group">
           <FontAwesomeIcon icon="search" className="icon" />
           <form className="submit" onSubmit={this.handleSubmit}>
@@ -80,15 +98,18 @@ export class Header extends Component<Props> {
               type="text"
               className="input spawnSearch"
               placeholder="Search"
-              // value={searchTerm}
               data-search={true}
+              onFocus={this.showSearch}
               onChange={this.onFieldChange}
-              onFocus={this.searchFocus}
+              value={term}
             />
           </form>
         </div>
 
-        <FontAwesomeIcon icon="bell" className="alerts" />
+        <div className="coin-group">
+          <CoinIcon className="coin-icon" />
+          <p className="coin-total">0</p>
+        </div>
 
         <Dropdown
           isOpen={this.state.dropdownOpen}
@@ -130,15 +151,13 @@ export class Header extends Component<Props> {
   }
 }
 
-const mapStateToProps = (state): RProps => {
-  return {
-    isAuthenticated: !!state.auth.token,
-    username: state.auth.username
-    // photo: state.auth.profileImage
-  }
-}
+const mapStateToProps = state => ({
+  isAuthenticated: !!state.auth.token,
+  username: state.auth.username
+  // photo: state.auth.profileImage
+})
 
 export default connect<RProps, RState>(
   mapStateToProps,
-  { startLogout }
+  { sidebar, startSearch, startLogout }
 )(Header)

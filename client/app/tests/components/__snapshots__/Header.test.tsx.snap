@@ -55,23 +55,6 @@ exports[`should render Header component 1`] = `
       />
     </form>
   </div>
-  <FontAwesomeIcon
-    border={false}
-    className="alerts"
-    fixedWidth={false}
-    flip={null}
-    icon="bell"
-    inverse={false}
-    listItem={false}
-    mask={null}
-    pull={null}
-    pulse={false}
-    rotation={null}
-    size={null}
-    spin={false}
-    symbol={false}
-    transform={null}
-  />
   <Dropdown
     active={false}
     addonType={false}

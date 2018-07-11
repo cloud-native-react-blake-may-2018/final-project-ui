@@ -1,6 +1,10 @@
 import React from 'react'
 
-const initialState = {
+interface ITakeQuiz {
+  questionNumber: number
+}
+
+const initialState: ITakeQuiz = {
   questionNumber: 0
 }
 

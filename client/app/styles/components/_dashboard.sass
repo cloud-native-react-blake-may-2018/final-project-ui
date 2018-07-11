@@ -1,4 +1,198 @@
-.dashboard-page
+
+// .dashboard-page
+.nav-header + div
   display: grid
-  grid-template-columns: minmax(300px, max-content) 60%
-  // border: 2px solid red
+  grid-column-gap: 15px
+  height: calc(100% - 90px)
+  background-color: $white-grey
+
+.dashboard-page
+  .blocks
+    display: grid
+    grid-template-columns: max-content 1fr
+    grid-template-rows: repeat(2, max-content)
+    grid-gap: 25px
+    margin: auto
+    
+    // global constants
+    .quizzes-title
+      margin: 0
+      text-transform: uppercase
+      font: normal 18px Asap
+      color: $white
+
+    .header-title
+      margin: 0
+      text-transform: uppercase
+      font: normal 18px Asap
+      color: $light-grey
+
+    .main, .side-top, .side-bottom
+      box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
+
+    // blocks
+    .main
+      grid-row: 1 / span 2
+      min-width: 475px
+      width: 45vw
+      border-radius: 8px
+      background-color: $white
+
+      .quizzes
+        padding: 15px
+        border-radius: 8px 8px 0 0
+        background: linear-gradient(40deg, $teal, $midnight)
+        // background: linear-gradient(40deg, $pink, $lavender)
+
+        main
+          display: grid
+          grid-template-columns: repeat(2, max-content)
+          grid-template-rows: repeat(2, max-content)
+          justify-content: center
+          grid-column-gap: 100px
+          margin: 50px 0
+
+          @media(max-width: 799px)
+            grid-column-gap: 25px
+
+          @media(min-width: 800px)
+            grid-column-gap: 50px
+
+          @media(min-width: 1250px)
+            grid-column-gap: 100px
+
+          .quizzes-taken, .quizzes-created
+            display: grid
+            position: relative
+            grid-auto-flow: column
+            grid-template-rows: repeat(2, max-content)
+            grid-column-gap: 10px
+            align-items: center
+            z-index: 0
+
+            .count
+              grid-row: 1 / span 2
+              letter-spacing: 2px
+              font: 600 96px Asap
+              color: $white
+              margin: 0
+            
+            .arrow
+              position: absolute
+              top: 15px
+              right: 0px
+
+              &:hover
+                transition: all 1s ease-in-out
+                animation: dash-oscillate .7s infinite
+                cursor: pointer
+
+              &:hover path
+                cursor: pointer
+                fill: $blue
+              
+            .arrow path
+              transform: scale(.7)
+              font: normal 22px Asap
+              fill: $white
+
+            .label
+              grid-row: 2
+              margin: 0
+              font: 500 22px Asap
+              color: $light-teal
+
+      .achievements
+        padding: 15px
+        border-radius: 8px 8px 0 0
+
+        .text
+          font: 500 18px Asap
+          color: $light-grey
+
+
+    .side-top
+      grid-row: 1
+      padding: 15px
+      border-radius: 8px
+      border-bottom: 5px solid $midnight
+      background-color: $white
+
+      main
+        display: grid
+        grid-row-gap: 15px
+        margin: 15px 0
+
+        .container
+          display: grid
+          grid-template-columns: 65px 80px 30px
+          grid-column-gap: 10px
+          align-items: center
+
+          .icon
+            justify-self: center
+            transform: scale(.5)
+            height: max-content
+            width: max-content
+            margin: 0
+            font: normal 18px Asap
+            color: $light-grey
+            z-index: 0
+
+          .present
+            height: 25px
+            transform: scale(1)
+
+          .name
+            margin: 0
+            font: normal 18px Asap
+            color: $light-grey
+
+          .amount
+            justify-self: end
+            margin: 0
+            font: italic 600 18px Asap
+            color: $light-grey
+
+    .side-bottom
+      grid-row: 2
+      padding: 15px
+      border-radius: 8px
+      border-bottom: 5px solid $teal
+      background-color: $white
+
+      main
+        .container
+          display: grid
+          grid-template-columns: minmax(max-content, 100px) 40px 40px
+          grid-column-gap: 10px
+          align-items: center
+
+          .username
+            margin: 0
+            font: normal 18px Asap
+            color: $grey
+          
+          .total
+            margin: 0
+            justify-self: end
+            font: normal 18px Asap
+            color: $gold
+
+          .coin
+            margin: 0
+            justify-self: end
+            transform: scale(.5)
+            z-index: 0
+
+
+
+@keyframes dash-oscillate 
+  0% 
+    right: 0px
+    
+  50% 
+    right: -15px
+
+  100%
+    right: 0px
