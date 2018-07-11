@@ -36,6 +36,19 @@ export const takeQuizReducer = (state = initialState, action = {} as any) => {
         multipleChoiceAnswer: null
       }
 
+    case 'UPDAE_ANSWER_ARRAY':
+      // console.log('answer ', action.answerObj)
+      return {
+        ...state,
+        answerArray: action.answerArray,
+        multipleSelectAnswer: {
+          author: '',
+          title: '',
+          answer: []
+        },
+        multipleChoiceAnswer: null
+      }
+
     case 'CHANGE_QUESTION_NUMBER':
       return {
         ...state,

@@ -108,6 +108,14 @@ export const startAddMultipleChoiceAnswer = answerObj => ({
   answerObj
 })
 
+export const updateAnswerArray = answerArray => dispatch =>
+  dispatch(startupdateAnswerArray(answerArray))
+
+export const startupdateAnswerArray = answerArray => ({
+  type: 'UPDATE_ANSWER_ARRAY',
+  answerArray
+})
+
 export const changeQuestionNumber = questionNumber => dispatch =>
   dispatch(startChangeQuestionNumber(questionNumber))
 

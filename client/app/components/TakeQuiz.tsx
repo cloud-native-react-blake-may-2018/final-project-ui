@@ -8,7 +8,8 @@ import {
   changeQuestionNumber,
   addMultipleSelectAnswer,
   addMultipleChoiceAnswer,
-  updateMultipleSelectAnswer
+  updateMultipleSelectAnswer,
+  updateAnswerArray
 } from '../actions/quizzes'
 import Spinner from 'react-spinkit'
 
@@ -24,6 +25,7 @@ interface IProps {
   addMultipleChoiceAnswer: (answerObj: {}) => void
   addMultipleSelectAnswer: (answerObj: {}) => void
   updateMultipleSelectAnswer: (answerArray: any[]) => void
+  updateAnswerArray: (answerArray: any[]) => void
 }
 
 const questionStyle = {
@@ -38,11 +40,30 @@ export class TakeQuizPage extends Component<IProps, any> {
   params = window.location.href.split('/')
   quizUUID = this.params[4]
 
-  public previousQuizQuestion = (e: any) => {
+  public previousQuizQuestion = (choices: object) => (e: any) => {
     e.preventDefault()
-    this.props.changeQuestionNumber(this.props.questionNumber - 1)
+    if (
+      this.props.multipleSelectAnswer.answer.length > 0 ||
+      this.props.multipleChoiceAnswer !== null
+    ) {
+      if (
+        choices[this.props.questionNumber].format === 'multiple-choice' ||
+        choices[this.props.questionNumber].format === 'true-false'
+      ) {
+        this.props.startAddAnswerToArray(this.props.multipleChoiceAnswer)
+        this.props.changeQuestionNumber(this.props.questionNumber - 1)
+      } else if (
+        choices[this.props.questionNumber].format === 'multiple-select'
+      ) {
+        this.props.startAddAnswerToArray(this.props.multipleSelectAnswer)
+        this.props.changeQuestionNumber(this.props.questionNumber - 1)
+      }
+    } else {
+      this.props.changeQuestionNumber(this.props.questionNumber - 1)
+    }
   }
-  public nextQuizQuestion = (choices: object) => {
+  public nextQuizQuestion = (choices: object) => (e: any) => {
+    e.preventDefault()
     // console.log(choices[this.props.questionNumber].format)
     if (
       this.props.multipleSelectAnswer.answer.length > 0 ||
@@ -66,16 +87,26 @@ export class TakeQuizPage extends Component<IProps, any> {
   }
 
   public addAnswerToObject = (choices: object, answer: any) => {
+    let index
     switch (choices[this.props.questionNumber].format) {
       case 'multiple-choice':
         // console.log(choices[this.props.questionNumber])
         console.log(this.props.answerArray)
-        //   if(this.props.answerArray.includes(choices[this.props.questionNumber].title)){
-
-        //   }
-        //   else{
-
-        //   }
+        if (
+          this.props.answerArray.some((obj, i) => {
+            if (obj.title === choices[this.props.questionNumber].title) {
+              console.log('checking answerArray')
+              console.log(obj.title)
+              index = i
+              return true
+            }
+          })
+        ) {
+          let newArray = this.props.answerArray
+          newArray.splice(index, 1)
+          console.log(newArray)
+          updateAnswerArray(newArray)
+        }
         this.props.addMultipleChoiceAnswer({
           author: choices[this.props.questionNumber].author,
           title: choices[this.props.questionNumber].title,
@@ -84,7 +115,21 @@ export class TakeQuizPage extends Component<IProps, any> {
         break
       case 'multiple-select':
         console.log(this.props.answerArray)
-
+        if (
+          this.props.answerArray.some((obj, i) => {
+            if (obj.title === choices[this.props.questionNumber].title) {
+              console.log('checking answerArray')
+              console.log(obj.title)
+              index = i
+              return true
+            }
+          })
+        ) {
+          let newArray = this.props.answerArray
+          newArray.splice(index, 1)
+          console.log(newArray)
+          updateAnswerArray(newArray)
+        }
         let newArray: any[]
         if (this.props.multipleSelectAnswer.answer.includes(answer.answer)) {
           console.log('here')
@@ -110,7 +155,21 @@ export class TakeQuizPage extends Component<IProps, any> {
 
       case 'true-false':
         console.log(this.props.answerArray)
-
+        if (
+          this.props.answerArray.some((obj, i) => {
+            if (obj.title === choices[this.props.questionNumber].title) {
+              console.log('checking answerArray')
+              console.log(obj.title)
+              index = i
+              return true
+            }
+          })
+        ) {
+          let newArray = this.props.answerArray
+          newArray.splice(index, 1)
+          console.log(newArray)
+          updateAnswerArray(newArray)
+        }
         this.props.addMultipleChoiceAnswer({
           author: choices[this.props.questionNumber].author,
           title: choices[this.props.questionNumber].title,
@@ -162,7 +221,7 @@ export class TakeQuizPage extends Component<IProps, any> {
               <div className="buttons">
                 {questionNumber !== 0 && (
                   <button
-                    onClick={this.previousQuizQuestion}
+                    onClick={this.previousQuizQuestion(quiz.questions)}
                     className="previous-button"
                   >
                     previous
@@ -170,7 +229,7 @@ export class TakeQuizPage extends Component<IProps, any> {
                 )}
                 {questionNumber + 1 !== quiz.questions.length ? (
                   <button
-                    onClick={this.nextQuizQuestion.bind(this, quiz.questions)}
+                    onClick={this.nextQuizQuestion(quiz.questions)}
                     className="next-button"
                   >
                     next
@@ -210,6 +269,7 @@ export default connect(
     changeQuestionNumber,
     addMultipleChoiceAnswer,
     addMultipleSelectAnswer,
-    updateMultipleSelectAnswer
+    updateMultipleSelectAnswer,
+    updateAnswerArray
   }
 )(TakeQuizPage)
