@@ -16,11 +16,6 @@ export const createReducer = (state = initialState, action = {} as any) => {
         ...state,
         quizID: action.quizID
       };
-    case "UPDATE_QUIZ_ID":
-      return {
-        ...state,
-        quizID: action.quizID
-      };
     case "BATCH_CREATE_QUESTIONS":
       return {
         ...state,
