@@ -124,15 +124,16 @@ export class EditQuizPage extends Component<IProps> {
 
   public showQuizQuestion = (question: any, count: number, e: any) => {
     e.preventDefault();
+
     this.setState({
       ...this.state,
       questionNumber: count,
-      clickedQuestion: question
+      clickedQuestion: question,
+      clickedAddQuestion: false
     });
   };
 
-  private setAddQuestion = (e: any) => {
-    // this.props.updateQuizIdStore(this.props.quiz.uuid)
+  private setAddQuestion = (e: any, hideAdd: boolean) => {
     this.setState({
       ...this.state,
       clickedQuestion: {
@@ -221,7 +222,10 @@ export class EditQuizPage extends Component<IProps> {
                     </p>
                   </div>
                 ))}
-                <p onClick={this.setAddQuestion} className="add-question">
+                <p
+                  onClick={e => this.setAddQuestion(e, false)}
+                  className="add-question"
+                >
                   + question
                 </p>
               </div>
