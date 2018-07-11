@@ -9,13 +9,18 @@ import {
   startCreateNewQuestion
 } from "../actions/create";
 import { faDivide } from "@fortawesome/fontawesome-free-solid";
+import { editStoreQuiz } from "../actions/quizzes";
 
 interface IProps {
   username?: string;
   quizID?: string;
   questionIDs?: string[];
-  startCreateNewQuestion: (any) => any;
-  startBatchCreateQuestions: (any) => any;
+  quizUUID?: string;
+  quizzes?: any[];
+  quiz?: any;
+  editStoreQuiz?: (any) => any;
+  startCreateNewQuestion?: (any) => any;
+  startBatchCreateQuestions?: (any) => any;
 }
 // interface IProps extends RouteComponentProps<any> {
 //   startCreateNewQuestion: (any) => any
@@ -37,7 +42,7 @@ export class AddQuestion extends Component<IProps, any> {
   state = {
     newQuestions: [],
     currentQuestion: {
-      author: this.props.username,
+      author: "dserna", // this.props.username,
       title: "",
       tags: "",
       answers: [
@@ -96,6 +101,7 @@ export class AddQuestion extends Component<IProps, any> {
       newQuestions: sendQuestionList
     };
     this.props.startBatchCreateQuestions(data);
+    this.updateStore(sendQuestionList);
     this.setState({
       ...this.state,
       newQuestions: []
@@ -203,6 +209,24 @@ export class AddQuestion extends Component<IProps, any> {
       }
     });
     console.log(this.state);
+  };
+
+  private updateStore = questionList => {
+    if (this.props.quizzes !== []) {
+      let modQuiz = this.props.quiz;
+      console.log("here is the new question list ", questionList);
+      modQuiz.questions = modQuiz.questions.concat(questionList);
+      console.log("with the new questions: ", modQuiz);
+
+      let quizList = this.props.quizzes;
+      for (let i = 0; i < quizList.length; i++) {
+        if (quizList[i].uuid === this.props.quizID) {
+          quizList.splice(i, 1, modQuiz);
+        }
+      }
+      console.log("Changed:", quizList);
+      this.props.editStoreQuiz(quizList);
+    }
   };
 
   private sendOneQuestion = (e: any) => {
@@ -662,13 +686,19 @@ export class AddQuestion extends Component<IProps, any> {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, parentProps) => ({
   username: state.auth.username,
-  quizID: state.create.quizID,
-  questionIDs: state.create.questionIDs
+  quizID: parentProps.quizID || state.create.quizID,
+  questionIDs: state.create.questionIDs,
+  quizzes: state.quizzes.all,
+  quiz:
+    state.quizzes.all !== [] &&
+    state.quizzes.all.find(
+      quiz => quiz.uuid === parentProps.quizID || state.create.quizID
+    )
 });
 
 export default connect<any, IProps>(
   mapStateToProps,
-  { startBatchCreateQuestions, startCreateNewQuestion }
+  { startBatchCreateQuestions, startCreateNewQuestion, editStoreQuiz }
 )(AddQuestion);

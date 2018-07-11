@@ -7,6 +7,8 @@ import Spinner from "react-spinkit";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { startDeleteQuestion, startEditQuestion } from "../actions/questions";
 import { editStoreQuiz, startUpdateQuestionsDisplay } from "../actions/quizzes";
+import AddQuestion from "../components/AddQuestion";
+import { updateQuizIdStore } from "../actions/create";
 
 interface IProps {
   username: any;
@@ -16,6 +18,7 @@ interface IProps {
   startEditQuestion: (any) => any;
   startDeleteQuestion: (author: string, title: any) => any;
   startDeleteJunction: (quizUUID: string, questionUUID: string) => any;
+  updateQuizIdStore: (any) => any;
 }
 const quizButton = {
   background: "#86b2d8",
@@ -42,7 +45,8 @@ export class EditQuizPage extends Component<IProps> {
       ]
     },
     questionNumber: 0,
-    updatedQuestions: []
+    updatedQuestions: [],
+    clickedAddQuestion: false
   };
 
   params = window.location.href.split("/");
@@ -51,6 +55,11 @@ export class EditQuizPage extends Component<IProps> {
   page1 = () => this.setState({ page: 1 });
 
   page2 = () => this.setState({ page: 2 });
+
+  // public componentDidMount() {
+  //   console.log('component mounted', updateQuizIdStore)
+  //   this.props.updateQuizIdStore(this.props.quiz.uuid)
+  // }
 
   private updateArr = (e: any, arg1: number, arg2: string) => {
     let newAnswersArr = this.state.clickedQuestion.answers;
@@ -131,10 +140,36 @@ export class EditQuizPage extends Component<IProps> {
     });
   };
 
+  private setAddQuestion = (e: any) => {
+    // this.props.updateQuizIdStore(this.props.quiz.uuid)
+    this.setState({
+      ...this.state,
+      clickedQuestion: {
+        author: "",
+        title: "",
+        uuid: "",
+        format: "",
+        answers: [
+          {
+            answer: "",
+            percentPoints: 0,
+            feedback: ""
+          }
+        ]
+      },
+      clickedAddQuestion: true
+    });
+  };
+
   // @ts-ignore
   render = () => {
     const { quiz } = this.props;
-    const { page, clickedQuestion, questionNumber } = this.state;
+    const {
+      page,
+      clickedQuestion,
+      questionNumber,
+      clickedAddQuestion
+    } = this.state;
     let count = 0;
     return (
       <div className="edit-quiz-page">
@@ -174,7 +209,9 @@ export class EditQuizPage extends Component<IProps> {
                     </p>
                   </div>
                 ))}
-                <p className="add-question">+ question</p>
+                <p onClick={this.setAddQuestion} className="add-question">
+                  + question
+                </p>
               </div>
 
               <Link
@@ -200,7 +237,7 @@ export class EditQuizPage extends Component<IProps> {
             </div>
 
             {/* {console.log(clickedQuestion)} */}
-            {clickedQuestion.uuid && (
+            {clickedQuestion.title && (
               <div key={clickedQuestion.uuid} className="question-container">
                 <p className="title">Edit question</p>
                 <div className="close" onClick={this.deleteQuestion}>
@@ -297,6 +334,10 @@ export class EditQuizPage extends Component<IProps> {
                 </div>
               </div>
             )}
+
+            {clickedAddQuestion && (
+              <AddQuestion quizID={this.props.quiz.uuid} />
+            )}
           </main>
         )}
       </div>
@@ -315,5 +356,5 @@ const mapStateToProps = (state, props) => ({
 
 export default connect(
   mapStateToProps,
-  { editStoreQuiz, startDeleteQuestion, startEditQuestion }
+  { editStoreQuiz, startDeleteQuestion, startEditQuestion, updateQuizIdStore }
 )(EditQuizPage);
