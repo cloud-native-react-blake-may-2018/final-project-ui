@@ -5,6 +5,7 @@ import fontawesome from '@fortawesome/fontawesome'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { startCreateNewQuiz } from '../actions/create'
 import Axios from '../../../node_modules/axios';
+import ReactLoading from 'react-loading';
 
 export class SetupLogin extends Component {
     componentDidMount () {
@@ -73,6 +74,9 @@ export class SetupLogin extends Component {
       
     }
 
+// const Example = ({ type, color }) => (
+//     <ReactLoading type={balls} color={color} height={667} width={375} />
+// );
   render() {
     
     return (
@@ -80,6 +84,11 @@ export class SetupLogin extends Component {
 
         <h1> Loading .......... </h1>
         {console.log('inside login setup')}
+        
+ 
+
+ 
+export default Example;
         
       </div>
     )
