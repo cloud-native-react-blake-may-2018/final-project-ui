@@ -2,13 +2,14 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 // import all modal components
+import SubmitQuizModal from './modals/SubmitQuizModal'
 
 // import modal type constants
-import { NEW_WORD_MODAL } from '../constants/modaltypes'
+import { SUBMIT_QUIZ_MODAL } from '../constants/modaltypes'
 
 // modal directory based on props.modalType
 const MODAL_COMPONENTS = {
-  // NEW_WORD_MODAL: NewWordModal
+  SUBMIT_QUIZ_MODAL: SubmitQuizModal
 }
 
 const ModalContainer = props => {
