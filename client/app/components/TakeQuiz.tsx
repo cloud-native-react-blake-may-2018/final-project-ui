@@ -18,6 +18,7 @@ interface IProps {
   questionNumber: any
   multipleSelectAnswer: any
   multipleChoiceAnswer: any[]
+  answerArray: any
   changeQuestionNumber: (questionNumber: number) => void
   startAddAnswerToArray: (answerObj: {}) => void
   addMultipleChoiceAnswer: (answerObj: {}) => void
@@ -42,7 +43,7 @@ export class TakeQuizPage extends Component<IProps, any> {
     this.props.changeQuestionNumber(this.props.questionNumber - 1)
   }
   public nextQuizQuestion = (choices: object) => {
-    console.log(choices[this.props.questionNumber].format)
+    // console.log(choices[this.props.questionNumber].format)
     if (
       this.props.multipleSelectAnswer.answer.length > 0 ||
       this.props.multipleChoiceAnswer !== null
@@ -67,6 +68,14 @@ export class TakeQuizPage extends Component<IProps, any> {
   public addAnswerToObject = (choices: object, answer: any) => {
     switch (choices[this.props.questionNumber].format) {
       case 'multiple-choice':
+        // console.log(choices[this.props.questionNumber])
+        console.log(this.props.answerArray)
+        //   if(this.props.answerArray.includes(choices[this.props.questionNumber].title)){
+
+        //   }
+        //   else{
+
+        //   }
         this.props.addMultipleChoiceAnswer({
           author: choices[this.props.questionNumber].author,
           title: choices[this.props.questionNumber].title,
@@ -74,6 +83,8 @@ export class TakeQuizPage extends Component<IProps, any> {
         })
         break
       case 'multiple-select':
+        console.log(this.props.answerArray)
+
         let newArray: any[]
         if (this.props.multipleSelectAnswer.answer.includes(answer.answer)) {
           console.log('here')
@@ -98,6 +109,8 @@ export class TakeQuizPage extends Component<IProps, any> {
         break
 
       case 'true-false':
+        console.log(this.props.answerArray)
+
         this.props.addMultipleChoiceAnswer({
           author: choices[this.props.questionNumber].author,
           title: choices[this.props.questionNumber].title,
@@ -183,6 +196,7 @@ const mapStateToProps = (state, props) => ({
     state.takeQuiz.quizAttemptInfoObj !== null &&
     state.takeQuiz.quizAttemptInfoObj,
   answers: state.takeQuiz.answers,
+  answerArray: state.takeQuiz.answerArray,
   questionNumber: state.takeQuiz.questionNumber,
   multipleSelectAnswer: state.takeQuiz.multipleSelectAnswer,
   multipleChoiceAnswer: state.takeQuiz.multipleChoiceAnswer

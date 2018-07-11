@@ -24,7 +24,7 @@ const initialState: ITakeQuiz = {
 export const takeQuizReducer = (state = initialState, action = {} as any) => {
   switch (action.type) {
     case 'ADD_ANSWER_TO_OBJECT':
-      console.log('answer ', action.answerObj)
+      // console.log('answer ', action.answerObj)
       return {
         ...state,
         answerArray: [...state.answerArray, action.answerObj],
@@ -43,7 +43,7 @@ export const takeQuizReducer = (state = initialState, action = {} as any) => {
       }
 
     case 'ADD_MULTIPLE_SELECT_ANSWER':
-      console.log('multiple select ', action.answerObj.answer)
+      // console.log('multiple select ', action.answerObj.answer)
       return {
         ...state,
         multipleSelectAnswer: {
@@ -53,7 +53,7 @@ export const takeQuizReducer = (state = initialState, action = {} as any) => {
         }
       }
     case 'UPDATE_MULTIPLE_SELECT_ANSWER':
-      console.log('multiple select ', action.answerArray)
+      // console.log('multiple select ', action.answerArray)
       return {
         ...state,
         multipleSelectAnswer: {
@@ -62,14 +62,14 @@ export const takeQuizReducer = (state = initialState, action = {} as any) => {
         }
       }
     case 'ADD_MULTIPLE_CHOICE_ANSWER':
-      console.log('multiple choice ', action.answerObj)
+      // console.log('multiple choice ', action.answerObj)
       return {
         ...state,
         multipleChoiceAnswer: action.answerObj
       }
 
     case 'QUIZ_ATTEMPT_INFO':
-      console.log('questions ', action.quizAttemptInfo)
+      // console.log('questions ', action.quizAttemptInfo)
       return {
         ...state,
         quizAttemptInfoObj: action.quizAttemptInfo
