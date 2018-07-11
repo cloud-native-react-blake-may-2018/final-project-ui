@@ -2,6 +2,7 @@ import React from 'react'
 import { startGetUserQuizzes } from './quizzes'
 // import api from '../api'
 import * as awsCognito from 'amazon-cognito-identity-js'
+import Axios from '../../../node_modules/axios'
 export const login = user => ({
   type: 'LOGIN',
   user
@@ -22,7 +23,9 @@ export const logout = () => ({
 })
 
 export const startLogout = () => dispatch => {
-  // removes everything from aws
+  // user pool data from cognito
   localStorage.clear()
-  dispatch(logout())
+  let redirectUrl =
+    'https://quizard.auth.us-east-2.amazoncognito.com/logout?response_type=token&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=http://localhost:3222/redirect'
+  window.location.href = redirectUrl
 }
