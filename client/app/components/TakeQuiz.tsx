@@ -298,7 +298,7 @@ export class TakeQuizPage extends Component<IProps, any> {
             <header>
               <div className="meta">
                 <p className="current">Question {questionNumber + 1}</p>
-                {/* <p className="title">{quiz.title}</p> */}
+                <p className="title">{quiz.title}</p>
                 <p className="progress">
                   Question {questionNumber + 1}/{quiz.questions.length}
                 </p>

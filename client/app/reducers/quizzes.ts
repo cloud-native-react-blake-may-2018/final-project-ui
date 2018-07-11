@@ -39,6 +39,14 @@ export const quizzesReducer = (state = {} as any, action = {} as any) => {
         clickedQuestion: action.clickedQuestion
       }
 
+    case 'ADD_ANSWER_TO_OBJECT':
+      console.log('answer ', action.answer)
+      return {
+        ...state,
+        // answerObject: [...action.answer]
+        answerArray: action.answerObj
+      }
+
     case 'DISPLAY_CLICKED_QUESTION':
       // console.log('questions ', action.questions)
       return {

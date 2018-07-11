@@ -1,3 +1,322 @@
 .edit-quiz-page
   main
-    
+    display: grid
+    grid-template-columns: max-content minmax(700px, 1fr)
+    grid-template-rows: repeat(2, max-content)
+    grid-gap: 25px
+    margin: auto
+
+    .quiz-container
+      display: grid
+      grid-auto-rows: max-content
+      grid-template-rows: repeat(5, max-content) 1fr max-content
+      position: relative
+      padding: 10px 30px
+      height: 70vh
+      min-width: 250px
+      width: 25vw
+      box-sizing: border-box
+      border-radius: 8px
+      border-bottom: 5px solid $blue
+      background-color: $white
+      box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
+
+      .title
+        margin: 10px 0
+        padding: 0
+        width: max-content
+        height: 15px
+        font: normal 24px Asap
+        color: $grey
+
+      .close
+        position: absolute
+        top: 20px
+        right: 25px
+        cursor: pointer
+        color: $light-grey
+        transition: .3s all ease-in-out
+
+        &:hover
+          color: $red
+          animation: wiggle .5s infinite
+          -ms-animation: wiggle .5s infinite
+          -moz-animation: wiggle .5s infinite
+          -webkit-animation: wiggle .5s infinite
+
+      .tags
+        display: grid
+        grid-auto-flow: column
+        margin: 10px 0 5px
+
+        .tag
+          margin: 0
+          width: max-content
+          font: normal 18px Asap
+          color: $light-grey
+
+      .add-tag
+        margin: 5px 0 0
+        width: max-content
+        font: italic 16px Asap
+        color: $light-grey
+        transition: .3s all ease-in-out
+
+        &:hover
+          cursor: pointer
+          color: darken($light-grey, 10%)
+          
+      .add-question
+        margin: 0 0 10px
+        width: max-content
+        font: italic 16px Asap
+        color: $light-grey
+        transition: .3s all ease-in-out
+
+        &:hover
+          cursor: pointer
+          color: darken($light-grey, 10%)  
+
+      .questions
+        display: grid
+        grid-auto-rows: max-content
+        height: max-content
+        max-height: 35vh
+        margin: 10px 0 0
+        padding: 10px 0
+        box-sizing: border-box
+        overflow-y: scroll
+
+        &::-webkit-scrollbar
+          // size
+          width: 7px
+          // scroll background
+          -webkit-box-shadow: none
+
+        &::-webkit-scrollbar-thumb
+          // bar color
+          background-color: $blue
+          // bar curve
+          border-radius: 25px
+
+        .question
+          margin: 0
+          padding: 0
+          width: max-width
+          font: normal 18px Asap
+          color: $blue
+          transition: .3s all ease-in-out
+
+          &:hover
+            cursor: pointer
+            filter: brightness(90%)
+
+      .save-quiz
+        grid-row: 7
+        justify-self: center
+        padding: 10px 50px
+        margin: 10px 0 
+        border: none
+        outline: none
+        border-radius: 8px
+        font: normal 18px Asap
+        color: $white
+        background-color: $blue
+        box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
+        transition: .3s all
+
+        &:hover
+          cursor: pointer
+          transform: translateY(-2px)
+
+        &:active
+          cursor: pointer
+          transform: scale(.9)
+          filter: brightness(93%)
+
+    .question-container
+      display: grid
+      grid-auto-rows: max-content
+      position: relative
+      padding: 10px 30px
+      height: 70vh
+      min-width: 250px
+      width: 40vw
+      box-sizing: border-box
+      border-radius: 8px
+      border-bottom: 5px solid $light-teal
+      background-color: $white
+      box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
+
+      .title
+        margin: 15px 0 10px
+        width: max-content
+        padding: 0
+        text-transform: uppercase
+        font: normal 18px Asap
+        color: $light-grey
+
+      .close
+        position: absolute
+        top: 20px
+        right: 25px
+        cursor: pointer
+        color: $light-grey
+        transition: .3s all ease-in-out
+
+        &:hover
+          color: $red
+          animation: wiggle .5s infinite
+          -ms-animation: wiggle .5s infinite
+          -moz-animation: wiggle .5s infinite
+          -webkit-animation: wiggle .5s infinite
+
+      .group
+        display: grid
+        grid-template-rows: repeat(2, max-content)
+
+      .details
+        display: grid
+
+        .group
+          display: grid
+          grid-template-columns: repeat(2, 1fr)
+
+          label, .label
+            grid-column: 1 / span 2
+            margin: 10px 0
+            font: normal 18px Asap
+            color: $grey          
+
+          input, textarea
+            grid-column: 1 / span 2
+            padding: 10px 15px
+            margin: 0 0 10px
+            border: none
+            border-radius: 8px
+            outline: none
+            resize: none
+            font: normal 18px Asap
+            color: $grey
+            background-color: $white-grey
+
+      .options
+        margin: 15px 0 65px
+        padding-right: 15px
+        height: 40vh
+        overflow-y: scroll
+
+        &::-webkit-scrollbar
+          // size
+          width: 7px
+          // scroll background
+          -webkit-box-shadow: none
+
+        &::-webkit-scrollbar-thumb
+          // bar color
+          background-color: $light-teal
+          // bar curve
+          border-radius: 25px
+
+        .group
+
+          textarea
+            padding: 10px 15px
+            border: none
+            border-radius: 8px
+            outline: none
+            resize: none
+            font: normal 18px Asap
+            color: $grey
+            background-color: $white-grey
+
+        .answer
+        
+        .value
+
+        .feedback
+        
+      .page-navigation
+        display: grid
+        position: absolute
+        bottom: 6px
+        right: 30px
+        grid-template-columns: repeat(2, max-content)
+        grid-column-gap: 10px
+        align-self: end
+        justify-self: center
+        margin: 5px 0 15px
+        width: max-content
+
+        .page-1, .page-2
+          margin: 0
+          padding: 10px 15px
+          border-radius: 50%
+          font: normal 18px Asap
+          color: $white
+          background-color: $blue
+          transition: .2s all ease-in-out
+
+          &:hover
+            cursor: pointer
+            filter: brightness(90%)
+
+        .active
+          background-color: $light-teal
+
+      .save-question
+        align-self: end
+        justify-self: center
+        padding: 10px 50px
+        border: none
+        outline: none
+        border-radius: 8px
+        font: normal 18px Asap
+        color: $white
+        background-color: $light-teal
+        box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
+        transition: .3s all
+
+        &:hover
+          cursor: pointer
+          transform: translateY(-2px)
+
+        &:active
+          cursor: pointer
+          transform: scale(.9)
+          filter: brightness(93%)
+
+
+
+@-ms-keyframes wiggle 
+  0%
+    -ms-transform: rotate(12deg)
+  50%
+    -ms-transform: rotate(-12deg)
+  100%
+    -ms-transform: rotate(12deg)
+
+@-moz-keyframes wiggle
+  0%
+    -moz-transform: rotate(12deg)
+  50%
+    -moz-transform: rotate(-12deg)
+  100%
+    -moz-transform: rotate(12deg)
+
+@-webkit-keyframes wiggle
+  0%
+    -webkit-transform: rotate(12deg)
+  50%
+    -webkit-transform: rotate(-12deg)
+  100%
+    -webkit-transform: rotate(12deg)
+
+@keyframes wiggle
+  0%
+    transform: rotate(12deg)
+  50%
+    transform: rotate(-12deg)
+  100%
+    transform: rotate(12deg)
+		
