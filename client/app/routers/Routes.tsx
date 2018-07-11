@@ -1,32 +1,31 @@
-import React, { Component } from 'react'
-import { Router, Route, Switch } from 'react-router-dom'
-import { connect } from 'react-redux'
-import Sidebar from 'react-sidebar'
-import createHistory from 'history/createBrowserHistory'
-
-import SidebarContent from '../components/SidebarContent'
-import PrivateRoute from './PrivateRoute'
-import PublicRoute from './PublicRoute'
-
-import SplashPage from '../components/SplashPage'
-import LoginPage from '../components/LoginPage'
-import SignupPage from '../components/SignupPage'
-import SignInRedirect from '../components/SignInRedirect'
-import DashboardPage from '../components/DashboardPage'
-import MyQuizzesPage from '../components/MyQuizzesPage'
-import EditQuizPage from '../components/EditQuizPage'
-import ViewQuizPage from '../components/ViewQuizPage'
-import TakeQuizPage from '../components/TakeQuiz'
-import AchievementsPage from '../components/AchievementsPage'
-import StorePage from '../components/StorePage'
+import createHistory from 'history/createBrowserHistory';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Route, Router, Switch } from 'react-router-dom';
+import Sidebar from 'react-sidebar';
+import AchievementsPage from '../components/AchievementsPage';
+import AddQuestion from '../components/AddQuestion';
+import AddQuiz from '../components/AddQuiz';
+import CreateQuiz from '../components/CreateQuiz';
+import DashboardPage from '../components/DashboardPage';
+import EditQuizPage from '../components/EditQuizPage';
+import MyQuizzesPage from '../components/MyQuizzesPage';
+import NotFoundPage from '../components/NotFoundPage';
+import ProfilePage from '../components/ProfilePage';
 import ResetPasswordPage from '../components/ResetPasswordPage';
-import CreateQuiz from '../components/CreateQuiz'
-import AddQuestion from '../components/AddQuestion'
-import AddQuiz from '../components/AddQuiz'
+import SettingsPage from '../components/SettingsPage';
+import SidebarContent from '../components/SidebarContent';
+import SignInRedirect from '../components/SignInRedirect';
+import SignupPage from '../components/SignupPage';
+import SplashPage from '../components/SplashPage';
+import StorePage from '../components/StorePage';
+import TakeQuizPage from '../components/TakeQuiz';
+import ViewQuizPage from '../components/ViewQuizPage';
+import PrivateRoute from './PrivateRoute';
+import PublicRoute from './PublicRoute';
 
-import SettingsPage from '../components/SettingsPage'
-import ProfilePage from '../components/ProfilePage'
-import NotFoundPage from '../components/NotFoundPage'
+
+
 
 export const history = createHistory()
 const mql = window.matchMedia(`(min-width: 800px)`)

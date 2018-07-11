@@ -1,3 +1,4 @@
+import Axios from 'axios'
 import React from 'react'
 import { startGetUserQuizzes } from './quizzes'
 // import api from '../api'
@@ -22,33 +23,25 @@ export const logout = () => ({
 })
 
 export const startLogout = () => dispatch => {
-  // user pool data from cognito
-  let data = {
-    UserPoolId : 'us-east-2_fMMquWRem', // Your user pool id here
-    ClientId : '1q83lmu6khfnc0v8jjdrde9291' // Your client id here
-  };
-
-  //gathers all cognito users from database in a variable
-  let userPool = new awsCognito.CognitoUserPool(data);
-
-  //gets current cognito user from database
-  let cognitoUser = userPool.getCurrentUser();
   
   // checks to see if there is a cognito user
-  if (cognitoUser != null) {
-    //invalidates all tokens
-    cognitoUser.globalSignOut({
-      onSuccess: msg => {
-        console.log('Result ', msg)
-      },
-      onFailure: err => {
-        console.log('error: ', err)
-      },
+   
+  const url = 'https://quizard.auth.us-east-2.amazoncognito.com/logout?client_id=1q83lmu6khfnc0v8jjdrde9291&logout_uri=http://localhost:3222/'; // site that doesn’t send Access-Control-*
+    fetch(url, {mode: 'no-cors'})
+    .then((Response) => {
+      console.log('Sucessful Logout')
+      console.log(Response)
+      alert('success')
+      alert('success')
+      setTimeout(alert('success'), 8000);
+    })
+    .catch((err) => {
+      console.log('err', err)
+      setTimeout(alert(err), 8000);
     });
-  }
-
-  //clears all tokens from local storage
-  localStorage.clear();
-
+    //clears all tokens from local storage
+    // localStorage.clear();
   dispatch(logout())
-}
+  }
+// https://quizard.auth.us-east-2.amazoncognito.com/login?client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=http://localhost:3222/dashboard
+// https://quizard.auth.us-east-2.amazoncognito.com/logout?client_id=1q83lmu6khfnc0v8jjdrde9291&logout_uri=http://localhost:3222/

@@ -21,7 +21,7 @@ interface IPayload {
 }
 
 // TODO: data persistence from localhost
-if (localStorage.token) {
+if (localStorage.userInfoToken) {
   const data = {
     ClientId: '1q83lmu6khfnc0v8jjdrde9291', // Your client id here
     UserPoolId: 'us-east-2_fMMquWRem' // Your user pool id here
