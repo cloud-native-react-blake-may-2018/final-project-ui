@@ -4,7 +4,6 @@ import React from 'react'
 export const authReducer = (state = {}, action: any = {}) => {
   switch (action.type) {
     case 'LOGIN':
-      alert(action.user.username)
       return {
         token: action.user.token,
         uid: action.user.sub, // what is this in cognito token?
