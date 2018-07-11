@@ -3,11 +3,7 @@ import moment from "moment";
 import numeral from "numeral";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import {
-  startDeleteJunction,
-  startDeleteQuestion,
-  startEditQuestion
-} from "../actions/questions";
+import { startDeleteQuestion, startEditQuestion } from "../actions/questions";
 import { editStoreQuiz, startUpdateQuestionsDisplay } from "../actions/quizzes";
 
 interface IProps {
@@ -259,5 +255,5 @@ const mapStateToProps = (state, props) => ({
 
 export default connect(
   mapStateToProps,
-  { editStoreQuiz, startDeleteJunction, startDeleteQuestion, startEditQuestion }
+  { editStoreQuiz, startDeleteQuestion, startEditQuestion }
 )(EditQuizPage);
