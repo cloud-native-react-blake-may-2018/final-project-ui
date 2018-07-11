@@ -1,3 +1,209 @@
 .edit-quiz-page
   main
-    
+    display: grid
+    grid-template-columns: max-content minmax(700px, 1fr)
+    grid-template-rows: repeat(2, max-content)
+    grid-gap: 25px
+    margin: auto
+
+    .quiz-container
+      display: grid
+      position: relative
+      padding: 10px 30px
+      min-width: 250px
+      width: 25vw
+      box-sizing: border-box
+      border-radius: 8px
+      border-bottom: 5px solid $blue
+      background-color: $white
+      box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
+
+      .title
+        margin: 10px 0
+        padding: 0
+        width: max-width
+        font: normal 24px Asap
+        color: $grey
+      
+      .close
+        position: absolute
+        top: 20px
+        right: 25px
+        cursor: pointer
+        color: $light-grey
+        transition: .3s all ease-in-out
+
+        &:hover
+          color: $red
+          animation: wiggle .5s infinite
+          -ms-animation: wiggle .5s infinite
+          -moz-animation: wiggle .5s infinite
+          -webkit-animation: wiggle .5s infinite
+
+      .tags
+        display: grid
+        grid-auto-flow: column
+        margin: 0
+
+        .tag
+          margin: 0
+          width: max-width
+          font: normal 18px Asap
+          color: $light-grey
+
+      .add-tag
+        margin: 5px 0 0
+        width: max-width
+        font: italic 16px Asap
+        color: $light-grey
+        transition: .3s all ease-in-out
+
+        &:hover
+          cursor: pointer
+          color: darken($light-grey, 10%)
+          
+      .add-question
+        margin: 5px 0 0
+        width: max-width
+        font: italic 16px Asap
+        color: $light-grey
+        transition: .3s all ease-in-out
+
+        &:hover
+          cursor: pointer
+          color: darken($light-grey, 10%)  
+
+      .questions
+        display: grid
+        border: 1px solid red
+
+        .question
+          margin: 10px 0
+          padding: 0
+          width: max-width
+          font: normal 18px Asap
+          color: $blue
+
+          &:hover
+            cursor: pointer
+
+    .question-container
+      display: grid
+      position: relative
+      padding: 30px
+      min-width: 250px
+      width: 25vw
+      box-sizing: border-box
+      border-radius: 8px
+      border-bottom: 5px solid $light-teal
+      background-color: $white
+      box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
+
+      .title
+        margin: 0
+        text-transform: uppercase
+        font: normal 18px Asap
+        color: $light-grey
+
+      .close
+        position: absolute
+        top: 20px
+        right: 25px
+        cursor: pointer
+        color: $light-grey
+        transition: .3s all ease-in-out
+
+        &:hover
+          color: $red
+          animation: wiggle .5s infinite
+          -ms-animation: wiggle .5s infinite
+          -moz-animation: wiggle .5s infinite
+          -webkit-animation: wiggle .5s infinite
+
+      .options
+        margin: 15px 0
+        max-height: 300px
+        overflow-y: scroll
+        border: 1px solid red
+
+
+        .group
+          display: grid
+          grid-template-rows: repeat(2, max-content)
+
+          textarea
+            padding: 10px 15px
+            border: none
+            border-radius: 8px
+            outline: none
+            resize: none
+            font: normal 18px Asap
+            color: $grey
+            background-color: $white-grey
+
+        .answer
+        
+        .value
+
+        .feedback
+        
+      .page-navigation
+        display: grid
+        grid-template-columns: repeat(2, max-content)
+        grid-column-gap: 10px
+        align-self: end
+        justify-self: center
+        width: max-content
+
+        .page-1, .page-2
+          margin: 0
+          padding: 10px 15px
+          border-radius: 50%
+          font: normal 18px Asap
+          color: $white
+          transition: .3s all ease-in-out
+
+          &:hover
+            cursor: pointer
+            filter: brightness(90%)
+
+        .page-1
+          background-color: $blue
+
+        .page-2
+          background-color: $light-teal
+
+
+
+@-ms-keyframes wiggle 
+  0%
+    -ms-transform: rotate(12deg)
+  50%
+    -ms-transform: rotate(-12deg)
+  100%
+    -ms-transform: rotate(12deg)
+
+@-moz-keyframes wiggle
+  0%
+    -moz-transform: rotate(12deg)
+  50%
+    -moz-transform: rotate(-12deg)
+  100%
+    -moz-transform: rotate(12deg)
+
+@-webkit-keyframes wiggle
+  0%
+    -webkit-transform: rotate(12deg)
+  50%
+    -webkit-transform: rotate(-12deg)
+  100%
+    -webkit-transform: rotate(12deg)
+
+@keyframes wiggle
+  0%
+    transform: rotate(12deg)
+  50%
+    transform: rotate(-12deg)
+  100%
+    transform: rotate(12deg)
+		
