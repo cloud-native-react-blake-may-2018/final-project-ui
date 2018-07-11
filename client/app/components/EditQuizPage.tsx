@@ -8,7 +8,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { startDeleteQuestion, startEditQuestion } from '../actions/questions'
 import { editStoreQuiz, startUpdateQuestionsDisplay } from '../actions/quizzes'
 import AddQuestion from '../components/AddQuestion'
-import { updateQuizIdStore } from '../actions/create'
 
 interface IProps {
   username: any
@@ -18,7 +17,6 @@ interface IProps {
   startEditQuestion: (any) => any
   startDeleteQuestion: (author: string, title: any) => any
   startDeleteJunction: (quizUUID: string, questionUUID: string) => any
-  updateQuizIdStore: (any) => any
 }
 const quizButton = {
   background: '#86b2d8',
@@ -133,15 +131,16 @@ export class EditQuizPage extends Component<IProps> {
 
   public showQuizQuestion = (question: any, count: number, e: any) => {
     e.preventDefault()
+
     this.setState({
       ...this.state,
       questionNumber: count,
-      clickedQuestion: question
+      clickedQuestion: question,
+      clickedAddQuestion: false
     })
   }
 
-  private setAddQuestion = (e: any) => {
-    // this.props.updateQuizIdStore(this.props.quiz.uuid)
+  private setAddQuestion = (e: any, hideAdd: boolean) => {
     this.setState({
       ...this.state,
       clickedQuestion: {
@@ -209,7 +208,10 @@ export class EditQuizPage extends Component<IProps> {
                     </p>
                   </div>
                 ))}
-                <p onClick={this.setAddQuestion} className="add-question">
+                <p
+                  onClick={e => this.setAddQuestion(e, false)}
+                  className="add-question"
+                >
                   + question
                 </p>
               </div>
@@ -356,5 +358,5 @@ const mapStateToProps = (state, props) => ({
 
 export default connect(
   mapStateToProps,
-  { editStoreQuiz, startDeleteQuestion, startEditQuestion, updateQuizIdStore }
+  { editStoreQuiz, startDeleteQuestion, startEditQuestion }
 )(EditQuizPage)
