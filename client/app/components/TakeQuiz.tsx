@@ -142,7 +142,7 @@ export class TakeQuizPage extends Component<IProps, any> {
                       answers
                     )}
                   >
-                    <p>{answers.answer.answer}</p>
+                    <p className="choice">{answers.answer.answer}</p>
                   </div>
                 ))}
               </div>
