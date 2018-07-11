@@ -83,9 +83,9 @@ export default {
   },
 
   quizzes: {
-    edit: quiz => axios.post(editQuizUrl, { quiz }).then(res => res.data),
+    edit: quiz => axios.post(editQuizUrl, quiz).then(res => res.data),
 
-    delete: quiz => axios.post(deleteQuizUrl, { quiz }).then(res => res.data),
+    delete: quiz => axios.post(deleteQuizUrl, quiz).then(res => res.data),
 
     display: author =>
       axios.get(displayQuizzesURL + author).then(res => res.data),

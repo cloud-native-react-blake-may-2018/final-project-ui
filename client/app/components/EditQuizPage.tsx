@@ -108,13 +108,8 @@ export class EditQuizPage extends Component<IProps> {
     console.log(
       this.state.clickedQuestion.author,
       this.state.clickedQuestion.title
-    );
-    // this.props.startDeleteJunction(
-    //   this.props.quiz.uuid,
-    //   this.state.clickedQuestion.uuid
-    // );
-    //we don't need because it does it automatically
-  };
+    )
+  }
 
   private updateStore = () => {
     let modQuiz = this.props.quiz;
@@ -144,103 +139,107 @@ export class EditQuizPage extends Component<IProps> {
     });
   };
 
-  render() {
-    const { quiz } = this.props;
-    let count = 0;
+  // @ts-ignore
+  render = () => {
+    const { quiz } = this.props
+    let count = 0
     return (
-      <div className="viewQuizzes-page">
-        <h1>{quiz.title}</h1>
-
-        {/* THERE IS STYLING BELOW THAT CAN BE TAKEN OUT, JUST THERE TO SHOW THAT QUESTIONS ARE IN THEIR OWN DIV
-        SO THEY CAN BE PUT INTO SOME KIND OF SCROLLABLE OBJECT LIKE THE FIGMA */}
-        {quiz.tags.map(tag => (
-          <div style={tagStyle} key={tag.allLowerCase}>
-            {tag.allLowerCase}
-          </div>
-        ))}
-
-        {/* THERE IS STYLING BELOW THAT CAN BE TAKEN OUT, JUST THERE TO SHOW THAT QUESTIONS ARE IN THEIR OWN DIV
-        SO THEY CAN BE PUT INTO SOME KIND OF SCROLLABLE OBJECT LIKE THE FIGMA */}
-        <div style={questionsStyle}>
-          {quiz.questions.map(tag => (
-            <div key={tag.allLowerCase}>
-              <h4
-                onClick={this.showQuizQuestion.bind(
-                  this,
-                  quiz.questions[count],
-                  count + 1
-                )}
-              >
-                Question {(count += 1)}
-              </h4>
-            </div>
-          ))}
-        </div>
-        {/* <button> */}
-        <Link to={`/take-quiz/${quiz.uuid}`} className="unset-anchor nav-link">
-          <div style={quizButton}>Take Quiz!</div>
-        </Link>
-        {/* </button> */}
-        <button style={quizButton} onClick={this.deleteQuestion}>
-          Delete this Question
-        </button>
-        <button
-          style={quizButton}
-          onClick={this.saveChangeToState}
-          className="btn btn-success"
-        >
-          Save Changes to Question
-        </button>
-        <button
-          style={quizButton}
-          onClick={this.updateQuiz}
-          className="btn btn-success"
-        >
-          Save Changes to Quiz
-        </button>
-
-        {console.log(this.state.clickedQuestion)}
-        {this.state.clickedQuestion.uuid ? (
-          <div key={this.state.clickedQuestion.uuid}>
-            <h1>Question {this.state.questionNumber}</h1>
-            <h3>{this.state.clickedQuestion.title}</h3>
-            <form>
-              {this.state.clickedQuestion.answers.map((ans, index) => (
-                <div className="row" key={index}>
-                  <label htmlFor="true-false-answer">Answer</label>
-                  <input
-                    type="text"
-                    id="true-false-answer"
-                    value={ans.answer}
-                    onChange={(e: any) => {
-                      this.updateArr(e, index, "answer");
-                    }}
-                  />
-                  <label htmlFor="true-false-percent-points">
-                    Percent Points
-                  </label>
-                  <input
-                    type="text"
-                    id="true-false-percent-points"
-                    value={ans.percentPoints}
-                    onChange={(e: any) => {
-                      this.updateArr(e, index, "percentPoints");
-                    }}
-                  />
-                  <label htmlFor="true-false-feed-back">feed Back</label>
-                  <input
-                    type="text"
-                    id="true-false-feed-back"
-                    value={ans.feedback}
-                    onChange={(e: any) => {
-                      this.updateArr(e, index, "feedback");
-                    }}
-                  />
+      <div className="edit-quiz-page">
+        {/* {quiz.tags === undefined && (
+          <Spinner className="loading-indicator" name="ball-spin-fade-loader" />
+        )} */}
+        {quiz.tags !== undefined && (
+          <main>
+            <h1>{quiz.title}</h1>
+            {quiz.tags.map(tag => (
+              <div style={tagStyle} key={tag.allLowerCase}>
+                {tag.allLowerCase}
+              </div>
+            ))}
+            <div style={questionsStyle}>
+              {quiz.questions.map(tag => (
+                <div key={tag.allLowerCase}>
+                  <h4
+                    onClick={this.showQuizQuestion.bind(
+                      this,
+                      quiz.questions[count],
+                      count + 1
+                    )}
+                  >
+                    Question {(count += 1)}
+                  </h4>
                 </div>
               ))}
-            </form>
-          </div>
-        ) : null}
+            </div>
+
+            <Link
+              to={`/take-quiz/${quiz.uuid}`}
+              className="unset-anchor nav-link"
+            >
+              <div style={quizButton}>Take Quiz!</div>
+            </Link>
+            <button style={quizButton} onClick={this.deleteQuestion}>
+              Delete this Question
+            </button>
+            <button
+              style={quizButton}
+              onClick={this.saveChangeToState}
+              className="btn btn-success"
+            >
+              Save Changes to Question
+            </button>
+            <button
+              style={quizButton}
+              onClick={this.updateQuiz}
+              className="btn btn-success"
+            >
+              Save Changes to Quiz
+            </button>
+
+            {console.log(this.state.clickedQuestion)}
+            {this.state.clickedQuestion.uuid && (
+              <div key={this.state.clickedQuestion.uuid}>
+                <h1>Question {this.state.questionNumber}</h1>
+                <h3>{this.state.clickedQuestion.title}</h3>
+                <form>
+                  {this.state.clickedQuestion.answers.map((ans, index) => (
+                    <div className="row" key={index}>
+                      <label htmlFor="true-false-answer">Answer</label>
+                      <input
+                        type="text"
+                        id="true-false-answer"
+                        value={ans.answer}
+                        onChange={(e: any) => {
+                          this.updateArr(e, index, 'answer')
+                        }}
+                      />
+                      <label htmlFor="true-false-percent-points">
+                        Percent Points
+                      </label>
+                      <input
+                        type="text"
+                        id="true-false-percent-points"
+                        value={ans.percentPoints}
+                        onChange={(e: any) => {
+                          this.updateArr(e, index, 'percentPoints')
+                        }}
+                      />
+                      <label htmlFor="true-false-feed-back">feed Back</label>
+                      <input
+                        type="text"
+                        id="true-false-feed-back"
+                        value={ans.feedback}
+                        onChange={(e: any) => {
+                          this.updateArr(e, index, 'feedback')
+                        }}
+                      />
+                    </div>
+                  ))}
+                </form>
+              </div>
+            )}
+          </main>
+        )}
       </div>
     );
   }

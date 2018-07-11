@@ -85,6 +85,29 @@ export const addAnswerToArray = answerObj => ({
   answerObj
 })
 
+export const addMultipleSelectAnswer = answerObj => dispatch =>
+  dispatch(startAddMultipleSelectAnswer(answerObj))
+
+export const startAddMultipleSelectAnswer = answerObj => ({
+  type: 'ADD_MULTIPLE_SELECT_ANSWER',
+  answerObj
+})
+export const updateMultipleSelectAnswer = answerArray => dispatch =>
+  dispatch(startUpdateMultipleSelectAnswer(answerArray))
+
+export const startUpdateMultipleSelectAnswer = answerArray => ({
+  type: 'UPDATE_MULTIPLE_SELECT_ANSWER',
+  answerArray
+})
+
+export const addMultipleChoiceAnswer = answerObj => dispatch =>
+  dispatch(startAddMultipleChoiceAnswer(answerObj))
+
+export const startAddMultipleChoiceAnswer = answerObj => ({
+  type: 'ADD_MULTIPLE_CHOICE_ANSWER',
+  answerObj
+})
+
 export const changeQuestionNumber = questionNumber => dispatch =>
   dispatch(startChangeQuestionNumber(questionNumber))
 
