@@ -2,7 +2,8 @@ import React from 'react'
 
 const initialState = {
   quizzes: [],
-  editedQuiz: {}
+  editedQuiz: {},
+  done: false
   //   questions: [],
   //   tags: []
 }
@@ -69,6 +70,7 @@ export const quizzesReducer = (state = {} as any, action = {} as any) => {
         ...state,
         quizzes: action.quizzes
       }
+
     default:
       return state
   }

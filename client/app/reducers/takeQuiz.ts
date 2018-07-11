@@ -7,6 +7,8 @@ interface ITakeQuiz {
   multipleChoiceAnswer: any
   multipleSelectAnswer: any
   answerArray: any[]
+  results: any
+  done: any
 }
 
 const initialState: ITakeQuiz = {
@@ -18,7 +20,9 @@ const initialState: ITakeQuiz = {
     title: '',
     answer: []
   },
-  answerArray: []
+  answerArray: [],
+  results: null,
+  done: false
 }
 
 export const takeQuizReducer = (state = initialState, action = {} as any) => {
@@ -33,10 +37,11 @@ export const takeQuizReducer = (state = initialState, action = {} as any) => {
           title: '',
           answer: []
         },
-        multipleChoiceAnswer: null
+        multipleChoiceAnswer: null,
+        done: action.answerObj.done && action.answerObj.done
       }
 
-    case 'UPDAE_ANSWER_ARRAY':
+    case 'UPDATE_ANSWER_ARRAY':
       // console.log('answer ', action.answerObj)
       return {
         ...state,
@@ -46,7 +51,8 @@ export const takeQuizReducer = (state = initialState, action = {} as any) => {
           title: '',
           answer: []
         },
-        multipleChoiceAnswer: null
+        multipleChoiceAnswer: null,
+        done: action.done
       }
 
     case 'CHANGE_QUESTION_NUMBER':
@@ -63,7 +69,8 @@ export const takeQuizReducer = (state = initialState, action = {} as any) => {
           author: action.answerObj.author,
           title: action.answerObj.title,
           answer: action.answerObj.answer
-        }
+        },
+        done: action.done
       }
     case 'UPDATE_MULTIPLE_SELECT_ANSWER':
       // console.log('multiple select ', action.answerArray)
@@ -78,7 +85,8 @@ export const takeQuizReducer = (state = initialState, action = {} as any) => {
       // console.log('multiple choice ', action.answerObj)
       return {
         ...state,
-        multipleChoiceAnswer: action.answerObj
+        multipleChoiceAnswer: action.answerObj,
+        done: action.done
       }
 
     case 'QUIZ_ATTEMPT_INFO':
@@ -86,6 +94,20 @@ export const takeQuizReducer = (state = initialState, action = {} as any) => {
       return {
         ...state,
         quizAttemptInfoObj: action.quizAttemptInfo
+      }
+
+    case 'SUBMIT_QUIZ_ATTEMPT':
+      // console.log('answer ', action.answerObj)
+      return {
+        ...state,
+        answerArray: [],
+        multipleSelectAnswer: {
+          author: '',
+          title: '',
+          answer: []
+        },
+        multipleChoiceAnswer: null,
+        results: action.quizResults
       }
 
     default:
