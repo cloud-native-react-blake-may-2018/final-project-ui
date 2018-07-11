@@ -1,0 +1,88 @@
+
+.my-quizzes-page
+  display: grid
+  grid-template-rows: repeat(2, max-content)
+  padding: 25px
+
+  .links
+    height: max-content
+    margin: 0
+    padding: 10px 0
+    font: normal 18px Asap
+    color: $light-grey
+    transition: .3s all ease-in-out
+
+    a
+      color: $light-grey
+
+    .quiz-type
+      color: $blue
+
+
+  .blocks
+    display: grid
+    grid-template-columns: repeat(3, 250px)
+    grid-gap: 25px
+    padding: 25px 0
+    
+    .block
+      padding: 15px 25px
+      height: 200px
+      width: 250px
+      box-sizing: border-box
+      border-radius: 8px
+      border-bottom: 5px solid $blue
+      background-color: $white
+      box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
+      transition: .3s all ease-in-out
+
+      &:hover
+        transform: translateY(-3px)
+        border-bottom: 5px solid $violet
+        animation: twinkle 1s infinite
+
+        .name
+          color: $violet
+
+
+        .amount
+          color: lighten($violet, 10%)
+        
+
+      .name
+        margin: 10px 0
+        font: 500 24px Asap
+        color: $blue
+
+      .amount
+        margin: 0
+        font: normal 18px Asap
+        color: lighten($blue, 10%)
+
+      .tag
+      
+
+@keyframes twinkle 
+  0% 
+    box-shadow: 0 10px 24px hsla(284,51,55,.5)
+    
+  50% 
+    box-shadow: 0 10px 32px hsla(284,51,55,.5)
+
+  100%
+    box-shadow: 0 10px 24px hsla(284,51,55,.5)
+
+
+// not working
+@keyframes shine
+	0%, 10%
+		background-position: -1000px
+
+	20%
+		background-position: top left
+
+	90%
+		background-position: top right
+
+	100%
+		background-position: 1000px
