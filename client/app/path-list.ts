@@ -43,6 +43,9 @@ const searchByTagUrl =
 const searchByUuidUrl =
   'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/'
 
+const getQuizAttempt =
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/'
+
 const deleteQuestionUrl =
   'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/question/author'
 
@@ -79,7 +82,12 @@ export default {
     searchByTag: tag => axios.get(searchByTagUrl + tag).then(res => res.data),
 
     searchByUuid: uuid =>
-      axios.get(searchByUuidUrl + uuid).then(res => res.data)
+      axios.get(searchByUuidUrl + uuid).then(res => res.data),
+
+    startQuizAttempt: (quizUUID, username) =>
+      axios
+        .get(`${getQuizAttempt}${quizUUID}/user/${username}`)
+        .then(res => res.data)
   },
 
   questions: {
@@ -91,10 +99,12 @@ export default {
 
     displayTags: quizUUID =>
       axios.get(displayQuizTagsURL + quizUUID).then(res => res.data),
+
     deleteQuestion: (author, title) =>
       axios
         .delete(`${deleteQuestionUrl}/${author}/title`, { data: { title } })
         .then(res => res.data),
+
     deleteJunction: (quizUUID, questionUUID) =>
       axios
         .delete(`${deleteJunctionUrl}/${quizUUID}/question/${questionUUID}`)

@@ -233,6 +233,22 @@ export class LoginPage extends Component<IProps, IState> {
             <button type="submit" className="login-button button">
               Login
             </button>
+            {/* <GoogleButton onClick={() => {console.log('Google Button clicked!')}} /> */}
+
+            {/* <GoogleLogin 
+              clientId='636482594885-49889hn7ee5or2eduu5lrkq5ncngflng.apps.googleusercontent.com'
+              onSuccess={responseGoogle}
+              onFailure={responseGoogle}
+             /> */}
+          </div>
+          <div className="switch-auth-form">
+            <p className="text">Don't have an account?</p>
+            <Link to="/signup" className="signup-link">
+              &nbsp;Signup
+            </Link>
+            <Link to="/resetpassword" className="item">
+              Forgot Password?
+            </Link>
           </div>
         </form>
         <div className="overlay" />

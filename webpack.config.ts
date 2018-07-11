@@ -95,7 +95,7 @@ const config: webpack.Configuration = {
   //   hot: true,
   //   contentBase: './client/public',
   //   historyApiFallback: true,
-  //   stats: 'minimal'
+  //   stats: 'minimal' // none (or false), errors-only, minimal, normal (or true) and verbose
   // }
 }
 

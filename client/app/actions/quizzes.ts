@@ -84,3 +84,43 @@ export const addAnswerToArray = answerObj => ({
   type: 'ADD_ANSWER_TO_OBJECT',
   answerObj
 })
+
+export const addMultipleSelectAnswer = answerObj => dispatch =>
+  dispatch(startAddMultipleSelectAnswer(answerObj))
+
+export const startAddMultipleSelectAnswer = answerObj => ({
+  type: 'ADD_MULTIPLE_SELECT_ANSWER',
+  answerObj
+})
+export const updateMultipleSelectAnswer = answerArray => dispatch =>
+  dispatch(startUpdateMultipleSelectAnswer(answerArray))
+
+export const startUpdateMultipleSelectAnswer = answerArray => ({
+  type: 'UPDATE_MULTIPLE_SELECT_ANSWER',
+  answerArray
+})
+
+export const addMultipleChoiceAnswer = answerObj => dispatch =>
+  dispatch(startAddMultipleChoiceAnswer(answerObj))
+
+export const startAddMultipleChoiceAnswer = answerObj => ({
+  type: 'ADD_MULTIPLE_CHOICE_ANSWER',
+  answerObj
+})
+
+export const changeQuestionNumber = questionNumber => dispatch =>
+  dispatch(startChangeQuestionNumber(questionNumber))
+
+export const startChangeQuestionNumber = questionNumber => ({
+  type: 'CHANGE_QUESTION_NUMBER',
+  questionNumber
+})
+export const startQuizAttempt = (quizUUID: any, username: string) => dispatch =>
+  pathList.quizzes
+    .startQuizAttempt(quizUUID, username)
+    .then(quizAttemptInfo => dispatch(beginQuizAttempt(quizAttemptInfo)))
+
+export const beginQuizAttempt = quizAttemptInfo => ({
+  type: 'QUIZ_ATTEMPT_INFO',
+  quizAttemptInfo
+})

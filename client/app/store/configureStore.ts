@@ -7,6 +7,7 @@ import { authReducer } from '../reducers/auth'
 import { modalReducer } from '../reducers/modal'
 import { quizzesReducer } from '../reducers/quizzes'
 import { createReducer } from '../reducers/create.reducer'
+import { takeQuizReducer } from '../reducers/takeQuiz'
 
 // middleware is called every store update
 const checkTokenExpirationMiddleware = store => next => action => {
@@ -31,6 +32,7 @@ export const configureStore = () => {
       auth: authReducer,
       modal: modalReducer,
       quizzes: quizzesReducer,
+      takeQuiz: takeQuizReducer,
       // questions: questionsReducer,
       create: createReducer
     }),

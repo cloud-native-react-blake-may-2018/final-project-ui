@@ -119,4 +119,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { startGetUserQuizzes }
-)(DashboardPage);
+)(DashboardPage)
