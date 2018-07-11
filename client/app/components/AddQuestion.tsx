@@ -1,129 +1,135 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import fontawesome from "@fortawesome/fontawesome";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import fontawesome from '@fortawesome/fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   startBatchCreateQuestions,
   startCreateNewQuestion
-} from "../actions/create";
-import { faDivide } from "@fortawesome/fontawesome-free-solid";
+} from '../actions/create'
+import { faDivide } from '@fortawesome/fontawesome-free-solid'
+import { editStoreQuiz } from '../actions/quizzes'
 
 interface IProps {
-  username?: string;
-  quizID?: string;
-  questionIDs?: string[];
-  startCreateNewQuestion: (any) => any;
-  startBatchCreateQuestions: (any) => any;
+  username?: string
+  quizID?: string
+  questionIDs?: string[]
+  quizUUID?: string
+  quizzes?: any[]
+  quiz?: any
+  editStoreQuiz?: (any) => any
+  startCreateNewQuestion?: (any) => any
+  startBatchCreateQuestions?: (any) => any
 }
 // interface IProps extends RouteComponentProps<any> {
 //   startCreateNewQuestion: (any) => any
 // }
 interface AnswerFormat {
-  answer: string;
-  percentPoints: number;
-  feedback: string;
+  answer: string
+  percentPoints: number
+  feedback: string
 }
 
 interface QuestionFormat {
-  author: string;
-  title: string;
-  tags: string;
-  answers: AnswerFormat[];
+  author: string
+  title: string
+  tags: string
+  answers: AnswerFormat[]
 }
 
 export class AddQuestion extends Component<IProps, any> {
   state = {
     newQuestions: [],
     currentQuestion: {
-      author: this.props.username,
-      title: "",
-      tags: "",
+      author: 'dserna', // this.props.username,
+      title: '',
+      tags: '',
       answers: [
         {
-          answer: "",
+          answer: '',
           percentPoints: 0,
-          feedback: "no feedback for this question"
+          feedback: 'no feedback for this question'
         },
         {
-          answer: "",
+          answer: '',
           percentPoints: 0,
-          feedback: "no feedback for this question"
+          feedback: 'no feedback for this question'
         }
       ],
-      format: "true-false"
+      format: 'true-false'
     },
     mainView: {
-      display: "inputDisplay",
+      display: 'inputDisplay',
       questionToDisplay: {
-        title: "",
-        tags: "",
+        title: '',
+        tags: '',
         answers: []
       }
     },
     editQuestion: 0
-  };
+  }
 
   private updateTitle = (e: any) => {
-    const title = e.target.value;
+    const title = e.target.value
     this.setState({
       currentQuestion: {
         ...this.state.currentQuestion,
         title
       }
-    });
-  };
+    })
+  }
 
   updateReducerStore = () => {
-    let sendQuestionList = [];
+    let sendQuestionList = []
     for (let item of this.state.newQuestions) {
       //splits array, trims spaces, and puts the return array into a new set to get rid of duplicates
       let set = new Set(
-        item.tags.split(",").map(string => {
-          return string.trim();
+        item.tags.split(',').map(string => {
+          return string.trim()
         })
-      );
+      )
       //spreads set to convert it into an array
-      let testArr: any[] = [...set];
+      let testArr: any[] = [...set]
       sendQuestionList.push({
         ...item,
         tags: testArr
-      });
+      })
     }
     const data = {
       quizID: this.props.quizID,
       newQuestions: sendQuestionList
-    };
-    this.props.startBatchCreateQuestions(data);
+    }
+    this.props.startBatchCreateQuestions(data)
+    this.updateStore(sendQuestionList)
     this.setState({
       ...this.state,
       newQuestions: []
-    });
-  };
+    })
+  }
 
   private updateFormat = (e: any) => {
-    console.log(e.target.value);
-    const format = e.target.value;
-    console.log("format ", format);
-    if (format === "true-false") {
+    console.log(e.target.value)
+    const format = e.target.value
+    console.log('format ', format)
+    if (format === 'true-false') {
       this.setState({
         currentQuestion: {
           ...this.state.currentQuestion,
           format: format,
           answers: [
             {
-              answer: "",
+              answer: '',
               percentPoints: 0,
-              feedback: "no feedback for this question"
+              feedback: 'no feedback for this question'
             },
             {
-              answer: "",
+              answer: '',
               percentPoints: 0,
-              feedback: "no feedback for this question"
+              feedback: 'no feedback for this question'
             }
           ]
         }
-      });
+      })
     } else {
       this.setState({
         currentQuestion: {
@@ -131,32 +137,32 @@ export class AddQuestion extends Component<IProps, any> {
           format: format,
           answers: [
             {
-              answer: "",
+              answer: '',
               percentPoints: 0,
-              feedback: "no feedback for this question"
+              feedback: 'no feedback for this question'
             },
             {
-              answer: "",
+              answer: '',
               percentPoints: 0,
-              feedback: "no feedback for this question"
+              feedback: 'no feedback for this question'
             },
             {
-              answer: "",
+              answer: '',
               percentPoints: 0,
-              feedback: "no feedback for this question"
+              feedback: 'no feedback for this question'
             },
             {
-              answer: "",
+              answer: '',
               percentPoints: 0,
-              feedback: "no feedback for this question"
+              feedback: 'no feedback for this question'
             }
           ]
         }
-      });
+      })
     }
-    console.log("updateFormat Called");
-    console.log(this.state);
-  };
+    console.log('updateFormat Called')
+    console.log(this.state)
+  }
 
   private addToList = (e: any) => {
     // let testValidator = this.formatValidator(this.state.currentQuestion)
@@ -164,45 +170,63 @@ export class AddQuestion extends Component<IProps, any> {
     //   return
     // }
     if (this.state.currentQuestion.title) {
-      let questionArr = this.state.newQuestions;
-      questionArr.push(this.state.currentQuestion);
+      let questionArr = this.state.newQuestions
+      questionArr.push(this.state.currentQuestion)
       this.setState({
         ...this.state,
         newQuestions: questionArr,
         currentQuestion: {
           author: this.props.username,
-          title: "",
-          tags: "",
+          title: '',
+          tags: '',
           answers: [
             {
-              answer: "",
+              answer: '',
               percentPoints: 0,
-              feedback: "no feedback for this question"
+              feedback: 'no feedback for this question'
             },
             {
-              answer: "",
+              answer: '',
               percentPoints: 0,
-              feedback: "no feedback for this question"
+              feedback: 'no feedback for this question'
             }
           ],
-          format: "true-false"
+          format: 'true-false'
         }
-      });
-      console.log("added Q to list", this.state);
+      })
+      console.log('added Q to list', this.state)
     } // else...
-  };
+  }
 
   private updateArr = (e: any, arg1: number, arg2: string) => {
-    let newAnswersArr = this.state.currentQuestion.answers;
-    newAnswersArr[arg1][arg2] = e.target.value;
+    let newAnswersArr = this.state.currentQuestion.answers
+    newAnswersArr[arg1][arg2] = e.target.value
     this.setState({
       currentQuestion: {
         ...this.state.currentQuestion,
         answers: newAnswersArr
       }
-    });
-    console.log(this.state);
-  };
+    })
+    console.log(this.state)
+  }
+
+  private updateStore = questionList => {
+    if (this.props.quizzes !== []) {
+      let modQuiz = this.props.quiz
+      console.log('here is the new question list ', questionList)
+      modQuiz.questions = modQuiz.questions.concat(questionList)
+      console.log('with the new questions: ', modQuiz)
+
+      let quizList = this.props.quizzes
+      for (let i = 0; i < quizList.length; i++) {
+        if (quizList[i].uuid === this.props.quizID) {
+          quizList.splice(i, 1, modQuiz)
+        }
+      }
+      console.log('Changed:', quizList)
+      this.props.editStoreQuiz(quizList)
+    }
+  }
 
   // // @ts-ignore
   // componentWillReceiveProps = (props, nextProps) =>
@@ -210,7 +234,7 @@ export class AddQuestion extends Component<IProps, any> {
 
   private createTable = () => {
     switch (this.state.currentQuestion.format) {
-      case "true-false":
+      case 'true-false':
         return (
           <form>
             <label htmlFor="title">Title</label>
@@ -246,7 +270,7 @@ export class AddQuestion extends Component<IProps, any> {
                 id="true-false-answer"
                 value={this.state.currentQuestion.answers[0].answer}
                 onChange={(e: any) => {
-                  this.updateArr(e, 0, "answer");
+                  this.updateArr(e, 0, 'answer')
                 }}
               />
               <label htmlFor="true-false-percent-points">Percent Points</label>
@@ -255,7 +279,7 @@ export class AddQuestion extends Component<IProps, any> {
                 id="true-false-percent-points"
                 value={this.state.currentQuestion.answers[0].percentPoints}
                 onChange={(e: any) => {
-                  this.updateArr(e, 0, "percentPoints");
+                  this.updateArr(e, 0, 'percentPoints')
                 }}
               />
               <label htmlFor="true-false-feed-back">feed Back</label>
@@ -264,7 +288,7 @@ export class AddQuestion extends Component<IProps, any> {
                 id="true-false-feed-back"
                 value={this.state.currentQuestion.answers[0].feedback}
                 onChange={(e: any) => {
-                  this.updateArr(e, 0, "feedback");
+                  this.updateArr(e, 0, 'feedback')
                 }}
               />
             </div>
@@ -275,7 +299,7 @@ export class AddQuestion extends Component<IProps, any> {
                 id="true-false-answer"
                 value={this.state.currentQuestion.answers[1].answer}
                 onChange={(e: any) => {
-                  this.updateArr(e, 1, "answer");
+                  this.updateArr(e, 1, 'answer')
                 }}
               />
               <label htmlFor="true-false-percent-points">Percent Points</label>
@@ -284,7 +308,7 @@ export class AddQuestion extends Component<IProps, any> {
                 id="true-false-percent-points"
                 value={this.state.currentQuestion.answers[1].percentPoints}
                 onChange={(e: any) => {
-                  this.updateArr(e, 1, "percentPoints");
+                  this.updateArr(e, 1, 'percentPoints')
                 }}
               />
               <label htmlFor="true-false-feed-back">feed Back</label>
@@ -293,7 +317,7 @@ export class AddQuestion extends Component<IProps, any> {
                 id="true-false-feed-back"
                 value={this.state.currentQuestion.answers[1].feedback}
                 onChange={(e: any) => {
-                  this.updateArr(e, 1, "feedback");
+                  this.updateArr(e, 1, 'feedback')
                 }}
               />
             </div>
@@ -301,7 +325,7 @@ export class AddQuestion extends Component<IProps, any> {
               Add Question
             </button>
           </form>
-        );
+        )
       default:
         return (
           <form>
@@ -338,7 +362,7 @@ export class AddQuestion extends Component<IProps, any> {
                 id="true-false-answer"
                 value={this.state.currentQuestion.answers[0].answer}
                 onChange={(e: any) => {
-                  this.updateArr(e, 0, "answer");
+                  this.updateArr(e, 0, 'answer')
                 }}
               />
               <label htmlFor="true-false-percent-points">Percent Points</label>
@@ -347,7 +371,7 @@ export class AddQuestion extends Component<IProps, any> {
                 id="true-false-percent-points"
                 value={this.state.currentQuestion.answers[0].percentPoints}
                 onChange={(e: any) => {
-                  this.updateArr(e, 0, "percentPoints");
+                  this.updateArr(e, 0, 'percentPoints')
                 }}
               />
               <label htmlFor="true-false-feed-back">feed Back</label>
@@ -356,7 +380,7 @@ export class AddQuestion extends Component<IProps, any> {
                 id="true-false-feed-back"
                 value={this.state.currentQuestion.answers[0].feedback}
                 onChange={(e: any) => {
-                  this.updateArr(e, 0, "feedback");
+                  this.updateArr(e, 0, 'feedback')
                 }}
               />
             </div>
@@ -367,7 +391,7 @@ export class AddQuestion extends Component<IProps, any> {
                 id="true-false-answer"
                 value={this.state.currentQuestion.answers[1].answer}
                 onChange={(e: any) => {
-                  this.updateArr(e, 1, "answer");
+                  this.updateArr(e, 1, 'answer')
                 }}
               />
               <label htmlFor="true-false-percent-points">Percent Points</label>
@@ -376,7 +400,7 @@ export class AddQuestion extends Component<IProps, any> {
                 id="true-false-percent-points"
                 value={this.state.currentQuestion.answers[1].percentPoints}
                 onChange={(e: any) => {
-                  this.updateArr(e, 1, "percentPoints");
+                  this.updateArr(e, 1, 'percentPoints')
                 }}
               />
               <label htmlFor="true-false-feed-back">feed Back</label>
@@ -385,7 +409,7 @@ export class AddQuestion extends Component<IProps, any> {
                 id="true-false-feed-back"
                 value={this.state.currentQuestion.answers[1].feedback}
                 onChange={(e: any) => {
-                  this.updateArr(e, 1, "feedback");
+                  this.updateArr(e, 1, 'feedback')
                 }}
               />
             </div>
@@ -396,7 +420,7 @@ export class AddQuestion extends Component<IProps, any> {
                 id="true-false-answer"
                 value={this.state.currentQuestion.answers[2].answer}
                 onChange={(e: any) => {
-                  this.updateArr(e, 2, "answer");
+                  this.updateArr(e, 2, 'answer')
                 }}
               />
               <label htmlFor="true-false-percent-points">Percent Points</label>
@@ -405,7 +429,7 @@ export class AddQuestion extends Component<IProps, any> {
                 id="true-false-percent-points"
                 value={this.state.currentQuestion.answers[2].percentPoints}
                 onChange={(e: any) => {
-                  this.updateArr(e, 2, "percentPoints");
+                  this.updateArr(e, 2, 'percentPoints')
                 }}
               />
               <label htmlFor="true-false-feed-back">feed Back</label>
@@ -414,7 +438,7 @@ export class AddQuestion extends Component<IProps, any> {
                 id="true-false-feed-back"
                 value={this.state.currentQuestion.answers[2].feedback}
                 onChange={(e: any) => {
-                  this.updateArr(e, 2, "feedback");
+                  this.updateArr(e, 2, 'feedback')
                 }}
               />
             </div>
@@ -425,7 +449,7 @@ export class AddQuestion extends Component<IProps, any> {
                 id="true-false-answer"
                 value={this.state.currentQuestion.answers[3].answer}
                 onChange={(e: any) => {
-                  this.updateArr(e, 3, "answer");
+                  this.updateArr(e, 3, 'answer')
                 }}
               />
               <label htmlFor="true-false-percent-points">Percent Points</label>
@@ -434,7 +458,7 @@ export class AddQuestion extends Component<IProps, any> {
                 id="true-false-percent-points"
                 value={this.state.currentQuestion.answers[3].percentPoints}
                 onChange={(e: any) => {
-                  this.updateArr(e, 3, "percentPoints");
+                  this.updateArr(e, 3, 'percentPoints')
                 }}
               />
               <label htmlFor="true-false-feed-back">feed Back</label>
@@ -443,7 +467,7 @@ export class AddQuestion extends Component<IProps, any> {
                 id="true-false-feed-back"
                 value={this.state.currentQuestion.answers[3].feedback}
                 onChange={(e: any) => {
-                  this.updateArr(e, 3, "feedback");
+                  this.updateArr(e, 3, 'feedback')
                 }}
               />
             </div>
@@ -451,52 +475,52 @@ export class AddQuestion extends Component<IProps, any> {
               Add Question
             </button>
           </form>
-        );
+        )
     }
-  };
+  }
 
   private changeView = (
     typeOfView: string,
     questionToView?: {},
     i?: number
   ) => {
-    if (typeOfView === "questionDisplay") {
+    if (typeOfView === 'questionDisplay') {
       this.setState({
         mainView: {
-          display: "questionDisplay",
+          display: 'questionDisplay',
           questionToDisplay: questionToView
         },
         editQuestion: i
-      });
+      })
     } else {
       this.setState({
         mainView: {
-          display: "inputDisplay",
+          display: 'inputDisplay',
           questionToDisplay: {}
         },
         editQuestion: 0
-      });
+      })
     }
-    console.log("changeViewCalled", this.state);
-  };
+    console.log('changeViewCalled', this.state)
+  }
 
   private formatValidator = (questionToValidate: QuestionFormat) => {
-    let validObject = true;
-    let percentPoints = 0;
+    let validObject = true
+    let percentPoints = 0
 
     if (!questionToValidate.title || !questionToValidate.author) {
-      return (validObject = false);
+      return (validObject = false)
     } else {
       for (let item of questionToValidate.answers) {
         if (!item.answer) {
-          return (validObject = false);
+          return (validObject = false)
         }
-        percentPoints = percentPoints + item.percentPoints;
+        percentPoints = percentPoints + item.percentPoints
       }
     }
-    console.log("Indside Validator Function", percentPoints, validObject);
-    return percentPoints > 99 || false;
-  };
+    console.log('Indside Validator Function', percentPoints, validObject)
+    return percentPoints > 99 || false
+  }
 
   private printQuestionsArr = () => {
     return (
@@ -504,50 +528,50 @@ export class AddQuestion extends Component<IProps, any> {
         {this.state.newQuestions.map((item, i) => {
           return (
             <div
-              key={"questions" + i}
-              onClick={event => this.changeView("questionDisplay", item, i)}
+              key={'questions' + i}
+              onClick={event => this.changeView('questionDisplay', item, i)}
             >
               Question {i + 1}
             </div>
-          );
+          )
         })}
       </div>
-    );
-  };
+    )
+  }
 
   private editQuestionElements = (e: any, propertyName) => {
-    const index = this.state.editQuestion;
-    let updatedQuestions = this.state.newQuestions;
+    const index = this.state.editQuestion
+    let updatedQuestions = this.state.newQuestions
     updatedQuestions[index] = {
       ...updatedQuestions[index],
       [propertyName]: e.target.value
-    };
-    console.log("propertyname", propertyName);
+    }
+    console.log('propertyname', propertyName)
     this.setState({
       newQuestions: updatedQuestions,
       mainView: {
         ...this.state.mainView,
         questionToDisplay: updatedQuestions[index]
       }
-    });
-    console.log(this.state);
-  };
+    })
+    console.log(this.state)
+  }
 
   private editQuizAnswers = (e: any, propertyName, i: number) => {
-    const index = this.state.editQuestion;
-    let updatedQuestions = this.state.newQuestions;
+    const index = this.state.editQuestion
+    let updatedQuestions = this.state.newQuestions
     updatedQuestions[index].answers[i] = {
       ...updatedQuestions[index].answers[i],
       [propertyName]: e.target.value
-    };
+    }
     this.setState({
       newQuestions: updatedQuestions,
       mainView: {
         ...this.state.mainView,
         questionToDisplay: updatedQuestions[index]
       }
-    });
-  };
+    })
+  }
 
   private editTagElement = (e: any) => {
     this.setState({
@@ -555,12 +579,12 @@ export class AddQuestion extends Component<IProps, any> {
         ...this.state.currentQuestion,
         tags: e.target.value
       }
-    });
-  };
+    })
+  }
 
   private renderMainDisplayElement = () => {
     switch (this.state.mainView.display) {
-      case "questionDisplay":
+      case 'questionDisplay':
         return (
           <div>
             <label htmlFor="editQuestionTitle">Title:</label>
@@ -569,7 +593,7 @@ export class AddQuestion extends Component<IProps, any> {
               id="editQuestionTitle"
               value={this.state.mainView.questionToDisplay.title}
               onChange={e => {
-                this.editQuestionElements(e, "title");
+                this.editQuestionElements(e, 'title')
               }}
             />
             <label htmlFor="editQuestionTag">Tags:</label>
@@ -578,7 +602,7 @@ export class AddQuestion extends Component<IProps, any> {
               id="editQuestionTag"
               value={this.state.mainView.questionToDisplay.tags}
               onChange={e => {
-                this.editQuestionElements(e, "tags");
+                this.editQuestionElements(e, 'tags')
               }}
             />
             {this.state.mainView.questionToDisplay.answers.map((item, i) => {
@@ -590,7 +614,7 @@ export class AddQuestion extends Component<IProps, any> {
                     id="true-false-answer"
                     value={item.answer}
                     onChange={e => {
-                      this.editQuizAnswers(e, "answer", i);
+                      this.editQuizAnswers(e, 'answer', i)
                     }}
                   />
                   <label htmlFor="true-false-percent-points">
@@ -601,7 +625,7 @@ export class AddQuestion extends Component<IProps, any> {
                     id="true-false-percent-points"
                     value={item.percentPoints}
                     onChange={e => {
-                      this.editQuizAnswers(e, "percentPoints", i);
+                      this.editQuizAnswers(e, 'percentPoints', i)
                     }}
                   />
                   <label htmlFor="true-false-feed-back">feed Back</label>
@@ -610,28 +634,28 @@ export class AddQuestion extends Component<IProps, any> {
                     id="true-false-feed-back"
                     value={item.feedback}
                     onChange={e => {
-                      this.editQuizAnswers(e, "feedback", i);
+                      this.editQuizAnswers(e, 'feedback', i)
                     }}
                   />
                 </div>
-              );
+              )
             })}
             <button
               onClick={() => {
-                this.changeView("inputDisplay");
+                this.changeView('inputDisplay')
               }}
             >
               Create New Question
             </button>
           </div>
-        );
+        )
       default:
-        return <div>{this.createTable()}</div>;
+        return <div>{this.createTable()}</div>
     }
-  };
+  }
 
   render() {
-    const { startCreateNewQuestion } = this.props;
+    const { startCreateNewQuestion } = this.props
     return (
       <div>
         <form>
@@ -643,17 +667,23 @@ export class AddQuestion extends Component<IProps, any> {
         </button>
         <div>{this.printQuestionsArr()}</div>
       </div>
-    );
+    )
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, parentProps) => ({
   username: state.auth.username,
-  quizID: state.create.quizID,
-  questionIDs: state.create.questionIDs
-});
+  quizID: parentProps.quizID || state.create.quizID,
+  questionIDs: state.create.questionIDs,
+  quizzes: state.quizzes.all,
+  quiz:
+    state.quizzes.all !== [] &&
+    state.quizzes.all.find(
+      quiz => quiz.uuid === parentProps.quizID || state.create.quizID
+    )
+})
 
 export default connect<any, IProps>(
   mapStateToProps,
-  { startBatchCreateQuestions, startCreateNewQuestion }
-)(AddQuestion);
+  { startBatchCreateQuestions, startCreateNewQuestion, editStoreQuiz }
+)(AddQuestion)
