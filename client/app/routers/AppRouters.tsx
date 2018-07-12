@@ -36,7 +36,7 @@ if (localStorage.userInfoToken) {
     uid: payload.sub, // what is this in cognito token?
     name: payload.name,
     // @ts-ignore
-    username: payload.username
+    username: payload.name
   }
 console.log('user', user)
 console.log('payload', payload)
