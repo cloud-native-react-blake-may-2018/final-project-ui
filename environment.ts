@@ -1,5 +1,5 @@
 const dev = {
-  context: `http://localhost:${process.env.NODE_PORT}`
+  context: `http://localhost:3222`
 }
 const prod = {
   context: 'https://dwea2klqp52vb.cloudfront.net'
