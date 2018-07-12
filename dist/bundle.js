@@ -64,7 +64,7 @@
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "d87cad9a4c14b1f19400";
+/******/ 	var hotCurrentHash = "f318463d074c22ae0317";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -944,7 +944,7 @@ exports.logout = () => ({
 exports.startLogout = () => dispatch => {
     // user pool data from cognito
     localStorage.clear();
-    let redirectUrl = 'https://quizard.auth.us-east-2.amazoncognito.com/logout?response_type=token&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=http://localhost:3222/redirect';
+    let redirectUrl = 'https://quizard.auth.us-east-2.amazoncognito.com/logout?response_type=token&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=http://cloud-native-project-3-ui.s3-website.us-east-2.amazonaws.com/redirect';
     window.location.href = redirectUrl;
 };
 ;
@@ -1014,22 +1014,6 @@ var __importDefault = this && this.__importDefault || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const path_list_1 = __importDefault(__webpack_require__(/*! ../path-list */ "./client/app/path-list.ts"));
-// export const persist = identity => ({
-//   type: "PERSIST",
-//   identity
-// });
-// export const startPersist = identity => {
-//   return dispatch => {
-//     dispatch(persist(identity))
-//     return api.user.persistUser(identity).then(data => {
-//       const user = {
-//         ...data,
-//         token: identity.token
-//       }
-//       return dispatch(login(user))
-//     })
-//   }
-// }
 exports.createNewQuestion = newQuestion => ({
     type: "CREATE_NEW_QUESTION",
     newQuestion
@@ -1058,22 +1042,20 @@ exports.batchCreateQuestions = questions => ({
 exports.startBatchCreateQuestions = incoming => dispatch => __awaiter(_this, void 0, void 0, function* () {
     const data = yield path_list_1.default.create.batchAddQuestion(incoming.newQuestions);
     const arrOfUuids = data.map(question => question.uuid);
-    const shouldBeStoredInJunctionTable = yield path_list_1.default.create.addJunction(incoming.quizID, arrOfUuids);
+    const arrOfTags = data.map(question => question.tags);
+    let arrOfPairs = [];
+    data.map(question => arrOfPairs.push({ uuid: question.uuid, tags: question.tags }));
+    const quizID = incoming.quizID;
+    const shouldBeStoredInJunctionTable = yield path_list_1.default.create.addJunction(quizID, arrOfUuids);
+    const addTheTags = yield path_list_1.default.create.addTagsToQuestions(arrOfPairs);
+    let arrTags = arrOfTags.reduce((accumulator, currentValue) => {
+        return accumulator.concat(currentValue);
+    });
+    let addTheTagsSet = new Set(arrTags);
+    arrTags = [...addTheTagsSet];
+    const addForQuiz = yield path_list_1.default.create.addTagsToQuiz(quizID, arrTags);
     return;
-    // return dispatch(batchCreateQuestions(data));
 });
-// new Promise(function(resolve, reject) {
-//   api.create
-//     .batchAddQuestion(newQuestions)
-//     .then(data => {
-//       dispatch(batchCreateQuestions(data));
-//       console.log(data);
-//       setTimeout(() => resolve(data), 3000);
-//     })
-//     .catch(err => {
-//       reject(err);
-//     });
-// });
 // original action
 // export const startBatchCreateQuestions = newQuestions => dispatch =>
 //   new Promise(function(resolve, reject) {
@@ -1198,13 +1180,16 @@ exports.deleteQuestion = question => ({
 exports.startDeleteQuestion = (author, title) => dispatch => {
     path_list_1.default.questions.deleteQuestion(author, title).then(question => dispatch(exports.deleteQuestion(question)));
 };
-exports.deleteJunction = question => ({
-    type: "DELETE_JUNCTION",
-    question
-});
-exports.startDeleteJunction = (quizUUID, questionUUID) => dispatch => {
-    path_list_1.default.questions.deleteJunction(quizUUID, questionUUID).then(question => dispatch(exports.deleteJunction(question)));
-};
+// export const deleteJunction = question => ({
+//   type: "DELETE_JUNCTION",
+//   question
+// });
+// export const startDeleteJunction = (quizUUID, questionUUID) => dispatch => {
+//   pathlist.questions
+//     .deleteJunction(quizUUID, questionUUID)
+//     .then(question => dispatch(deleteJunction(question)));
+// };
+
 ;
 
 (function () {
@@ -1533,39 +1518,45 @@ var __importStar = this && this.__importStar || function (mod) {
     result["default"] = mod;
     return result;
 };
+var __importDefault = this && this.__importDefault || function (mod) {
+    return mod && mod.__esModule ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+const react_dropzone_1 = __importDefault(__webpack_require__(/*! react-dropzone */ "./node_modules/react-dropzone/dist/es/index.js"));
 const create_1 = __webpack_require__(/*! ../actions/create */ "./client/app/actions/create.ts");
-// interface IProps extends RouteComponentProps<any> {
-//   startCreateNewQuestion: (any) => any
-// }
+const quizzes_1 = __webpack_require__(/*! ../actions/quizzes */ "./client/app/actions/quizzes.ts");
 class AddQuestion extends react_1.Component {
     constructor() {
         super(...arguments);
         this.state = {
             newQuestions: [],
             currentQuestion: {
-                author: this.props.username,
-                title: '',
+                author: "dserna",
+                title: "",
+                tags: "",
+                image: "",
                 answers: [{
-                    answer: '',
+                    answer: "",
                     percentPoints: 0,
-                    feedback: 'no feedback for this question'
+                    feedback: "no feedback for this question"
                 }, {
-                    answer: '',
+                    answer: "",
                     percentPoints: 0,
-                    feedback: 'no feedback for this question'
+                    feedback: "no feedback for this question"
                 }],
-                format: 'true-false'
+                format: "true-false"
             },
             mainView: {
-                display: 'inputDisplay',
+                display: "inputDisplay",
                 questionToDisplay: {
-                    title: '',
+                    title: "",
+                    tags: "",
                     answers: []
                 }
-            }
+            },
+            editQuestion: 0
         };
         this.updateTitle = e => {
             const title = e.target.value;
@@ -1574,83 +1565,89 @@ class AddQuestion extends react_1.Component {
             });
         };
         this.updateReducerStore = () => {
+            let sendQuestionList = [];
+            for (let item of this.state.newQuestions) {
+                //splits array, trims spaces, and puts the return array into a new set to get rid of duplicates
+                let set = new Set(item.tags.split(",").map(string => {
+                    return string.trim();
+                }));
+                //spreads set to convert it into an array
+                let testArr = [...set];
+                sendQuestionList.push(Object.assign({}, item, { tags: testArr }));
+            }
             const data = {
                 quizID: this.props.quizID,
-                newQuestions: this.state.newQuestions
+                newQuestions: sendQuestionList
             };
-            this.props.startBatchCreateQuestions(data); // works
-            // .then(res => {
-            //   if (this.props.questionIDs) {
-            //     this.props
-            //       .startaddJunctionItem(this.props.quizID, this.props.questionIDs)
-            //       .then(resp => {
-            //         console.log(resp);
-            //       })
-            //       .catch(err => {});
-            //   }
-            // })
-            // .catch(err => {});
-            // this.props.startCreateNewQuestion(this.state.currentQuestion)
+            this.props.startBatchCreateQuestions(data);
+            this.updateStore(sendQuestionList);
+            this.setState(Object.assign({}, this.state, { newQuestions: [] }));
         };
         this.updateFormat = e => {
             console.log(e.target.value);
             const format = e.target.value;
-            console.log('format ', format);
-            if (format === 'true-false') {
+            console.log("format ", format);
+            if (format === "true-false") {
                 this.setState({
                     currentQuestion: Object.assign({}, this.state.currentQuestion, { format: format, answers: [{
-                            answer: '',
+                            answer: "",
                             percentPoints: 0,
-                            feedback: 'no feedback for this question'
+                            feedback: "no feedback for this question"
                         }, {
-                            answer: '',
+                            answer: "",
                             percentPoints: 0,
-                            feedback: 'no feedback for this question'
+                            feedback: "no feedback for this question"
                         }] })
                 });
             } else {
                 this.setState({
                     currentQuestion: Object.assign({}, this.state.currentQuestion, { format: format, answers: [{
-                            answer: '',
+                            answer: "",
                             percentPoints: 0,
-                            feedback: 'no feedback for this question'
+                            feedback: "no feedback for this question"
                         }, {
-                            answer: '',
+                            answer: "",
                             percentPoints: 0,
-                            feedback: 'no feedback for this question'
+                            feedback: "no feedback for this question"
                         }, {
-                            answer: '',
+                            answer: "",
                             percentPoints: 0,
-                            feedback: 'no feedback for this question'
+                            feedback: "no feedback for this question"
                         }, {
-                            answer: '',
+                            answer: "",
                             percentPoints: 0,
-                            feedback: 'no feedback for this question'
+                            feedback: "no feedback for this question"
                         }] })
                 });
             }
-            console.log('updateFormat Called');
+            console.log("updateFormat Called");
             console.log(this.state);
         };
         this.addToList = e => {
+            // let testValidator = this.formatValidator(this.state.currentQuestion)
+            // if (!testValidator) {
+            //   return
+            // }
             if (this.state.currentQuestion.title) {
                 let questionArr = this.state.newQuestions;
                 questionArr.push(this.state.currentQuestion);
                 this.setState(Object.assign({}, this.state, { newQuestions: questionArr, currentQuestion: {
                         author: this.props.username,
-                        title: '',
+                        title: "",
+                        tags: "",
+                        image: "",
                         answers: [{
-                            answer: '',
+                            answer: "",
                             percentPoints: 0,
-                            feedback: 'no feedback for this question'
+                            feedback: "no feedback for this question"
                         }, {
-                            answer: '',
+                            answer: "",
                             percentPoints: 0,
-                            feedback: 'no feedback for this question'
+                            feedback: "no feedback for this question"
                         }],
-                        format: 'true-false'
+                        format: "true-false"
                     } }));
-                console.log('added Q to list', this.state);
+                console.log("added Q to list", this.state);
             } // else...
         };
         this.updateArr = (e, arg1, arg2) => {
@@ -1661,84 +1658,164 @@ class AddQuestion extends react_1.Component {
             });
             console.log(this.state);
         };
+        this.updateStore = questionList => {
+            if (this.props.quizzes !== []) {
+                let modQuiz = this.props.quiz;
+                console.log("here is the new question list ", questionList);
+                modQuiz.questions = modQuiz.questions.concat(questionList);
+                console.log("with the new questions: ", modQuiz);
+                let quizList = this.props.quizzes;
+                for (let i = 0; i < quizList.length; i++) {
+                    if (quizList[i].uuid === this.props.quizID) {
+                        quizList.splice(i, 1, modQuiz);
+                    }
+                }
+                console.log("Changed:", quizList);
+                this.props.editStoreQuiz(quizList);
+            }
+        };
+        this.sendOneQuestion = e => {
+            this.props.startCreateNewQuestion(this.state.currentQuestion);
+        };
         // // @ts-ignore
         // componentWillReceiveProps = (props, nextProps) =>
         //   console.log("props: ", props, "nextProps: ", nextProps);
         this.createTable = () => {
             switch (this.state.currentQuestion.format) {
-                case 'true-false':
-                    return react_1.default.createElement("form", null, react_1.default.createElement("label", { htmlFor: "title" }, "Title"), react_1.default.createElement("input", { type: "text", id: "title", value: this.state.currentQuestion.title, onChange: this.updateTitle }), react_1.default.createElement("br", null), react_1.default.createElement("select", { name: "", id: "question-options-dropdown", value: this.state.currentQuestion.format, onChange: this.updateFormat }, react_1.default.createElement("option", { value: "true-false" }, "true false"), react_1.default.createElement("option", { value: "multiple-choice" }, "multiple choice"), react_1.default.createElement("option", { value: "multiple-select" }, "multiple select")), react_1.default.createElement("div", { className: "row" }, react_1.default.createElement("label", { htmlFor: "true-false-answer" }, "Answer"), react_1.default.createElement("input", { type: "text", id: "true-false-answer", value: this.state.currentQuestion.answers[0].answer, onChange: e => {
-                            this.updateArr(e, 0, 'answer');
+                case "true-false":
+                    return react_1.default.createElement("form", null, react_1.default.createElement("label", { htmlFor: "title" }, "Title"), react_1.default.createElement("input", { type: "text", id: "title", value: this.state.currentQuestion.title, onChange: this.updateTitle }), react_1.default.createElement("br", null), react_1.default.createElement("label", { htmlFor: "tags" }, "Tags"), react_1.default.createElement("input", { type: "text", id: "tags", value: this.state.currentQuestion.tags, onChange: this.editTagElement }), react_1.default.createElement("br", null), react_1.default.createElement("select", { name: "", id: "question-options-dropdown", value: this.state.currentQuestion.format, onChange: this.updateFormat }, react_1.default.createElement("option", { value: "true-false" }, "true false"), react_1.default.createElement("option", { value: "multiple-choice" }, "multiple choice"), react_1.default.createElement("option", { value: "multiple-select" }, "multiple select")), react_1.default.createElement("div", { className: "row" }, react_1.default.createElement("label", { htmlFor: "true-false-answer" }, "Answer"), react_1.default.createElement("input", { type: "text", id: "true-false-answer", value: this.state.currentQuestion.answers[0].answer, onChange: e => {
+                            this.updateArr(e, 0, "answer");
                         } }), react_1.default.createElement("label", { htmlFor: "true-false-percent-points" }, "Percent Points"), react_1.default.createElement("input", { type: "text", id: "true-false-percent-points", value: this.state.currentQuestion.answers[0].percentPoints, onChange: e => {
-                            this.updateArr(e, 0, 'percentPoints');
+                            this.updateArr(e, 0, "percentPoints");
                         } }), react_1.default.createElement("label", { htmlFor: "true-false-feed-back" }, "feed Back"), react_1.default.createElement("input", { type: "text", id: "true-false-feed-back", value: this.state.currentQuestion.answers[0].feedback, onChange: e => {
-                            this.updateArr(e, 0, 'feedback');
+                            this.updateArr(e, 0, "feedback");
                         } })), react_1.default.createElement("div", { className: "row" }, react_1.default.createElement("label", { htmlFor: "true-false-answer" }, "Answer"), react_1.default.createElement("input", { type: "text", id: "true-false-answer", value: this.state.currentQuestion.answers[1].answer, onChange: e => {
-                            this.updateArr(e, 1, 'answer');
+                            this.updateArr(e, 1, "answer");
                         } }), react_1.default.createElement("label", { htmlFor: "true-false-percent-points" }, "Percent Points"), react_1.default.createElement("input", { type: "text", id: "true-false-percent-points", value: this.state.currentQuestion.answers[1].percentPoints, onChange: e => {
-                            this.updateArr(e, 1, 'percentPoints');
+                            this.updateArr(e, 1, "percentPoints");
                         } }), react_1.default.createElement("label", { htmlFor: "true-false-feed-back" }, "feed Back"), react_1.default.createElement("input", { type: "text", id: "true-false-feed-back", value: this.state.currentQuestion.answers[1].feedback, onChange: e => {
-                            this.updateArr(e, 1, 'feedback');
+                            this.updateArr(e, 1, "feedback");
                         } })), react_1.default.createElement("button", { type: "button", onClick: this.addToList }, "Add Question"));
                 default:
-                    return react_1.default.createElement("form", null, react_1.default.createElement("label", { htmlFor: "title" }, "Title"), react_1.default.createElement("input", { type: "text", id: "title", value: this.state.currentQuestion.title, onChange: this.updateTitle }), react_1.default.createElement("br", null), react_1.default.createElement("select", { name: "", id: "question-options-dropdown", value: this.state.currentQuestion.format, onChange: this.updateFormat }, react_1.default.createElement("option", { value: "true-false" }, "true false"), react_1.default.createElement("option", { value: "multiple-choice" }, "multiple choice"), react_1.default.createElement("option", { value: "multiple-select" }, "multiple select")), react_1.default.createElement("div", { className: "row" }, react_1.default.createElement("label", { htmlFor: "true-false-answer" }, "Answer"), react_1.default.createElement("input", { type: "text", id: "true-false-answer", value: this.state.currentQuestion.answers[0].answer, onChange: e => {
-                            this.updateArr(e, 0, 'answer');
+                    return react_1.default.createElement("form", null, react_1.default.createElement("label", { htmlFor: "title" }, "Title"), react_1.default.createElement("input", { type: "text", id: "title", value: this.state.currentQuestion.title, onChange: this.updateTitle }), react_1.default.createElement("label", { htmlFor: "tags" }, "Tags"), react_1.default.createElement("input", { type: "text", id: "tags", value: this.state.currentQuestion.tags, onChange: this.editTagElement }), react_1.default.createElement("br", null), react_1.default.createElement("br", null), react_1.default.createElement("select", { name: "", id: "question-options-dropdown", value: this.state.currentQuestion.format, onChange: this.updateFormat }, react_1.default.createElement("option", { value: "true-false" }, "true false"), react_1.default.createElement("option", { value: "multiple-choice" }, "multiple choice"), react_1.default.createElement("option", { value: "multiple-select" }, "multiple select")), react_1.default.createElement("div", { className: "row" }, react_1.default.createElement("label", { htmlFor: "true-false-answer" }, "Answer"), react_1.default.createElement("input", { type: "text", id: "true-false-answer", value: this.state.currentQuestion.answers[0].answer, onChange: e => {
+                            this.updateArr(e, 0, "answer");
                         } }), react_1.default.createElement("label", { htmlFor: "true-false-percent-points" }, "Percent Points"), react_1.default.createElement("input", { type: "text", id: "true-false-percent-points", value: this.state.currentQuestion.answers[0].percentPoints, onChange: e => {
-                            this.updateArr(e, 0, 'percentPoints');
+                            this.updateArr(e, 0, "percentPoints");
                         } }), react_1.default.createElement("label", { htmlFor: "true-false-feed-back" }, "feed Back"), react_1.default.createElement("input", { type: "text", id: "true-false-feed-back", value: this.state.currentQuestion.answers[0].feedback, onChange: e => {
-                            this.updateArr(e, 0, 'feedback');
+                            this.updateArr(e, 0, "feedback");
                         } })), react_1.default.createElement("div", { className: "row" }, react_1.default.createElement("label", { htmlFor: "true-false-answer" }, "Answer"), react_1.default.createElement("input", { type: "text", id: "true-false-answer", value: this.state.currentQuestion.answers[1].answer, onChange: e => {
-                            this.updateArr(e, 1, 'answer');
+                            this.updateArr(e, 1, "answer");
                         } }), react_1.default.createElement("label", { htmlFor: "true-false-percent-points" }, "Percent Points"), react_1.default.createElement("input", { type: "text", id: "true-false-percent-points", value: this.state.currentQuestion.answers[1].percentPoints, onChange: e => {
-                            this.updateArr(e, 1, 'percentPoints');
+                            this.updateArr(e, 1, "percentPoints");
                         } }), react_1.default.createElement("label", { htmlFor: "true-false-feed-back" }, "feed Back"), react_1.default.createElement("input", { type: "text", id: "true-false-feed-back", value: this.state.currentQuestion.answers[1].feedback, onChange: e => {
-                            this.updateArr(e, 1, 'feedback');
+                            this.updateArr(e, 1, "feedback");
                         } })), react_1.default.createElement("div", { className: "row" }, react_1.default.createElement("label", { htmlFor: "true-false-answer" }, "Answer"), react_1.default.createElement("input", { type: "text", id: "true-false-answer", value: this.state.currentQuestion.answers[2].answer, onChange: e => {
-                            this.updateArr(e, 2, 'answer');
+                            this.updateArr(e, 2, "answer");
                         } }), react_1.default.createElement("label", { htmlFor: "true-false-percent-points" }, "Percent Points"), react_1.default.createElement("input", { type: "text", id: "true-false-percent-points", value: this.state.currentQuestion.answers[2].percentPoints, onChange: e => {
-                            this.updateArr(e, 2, 'percentPoints');
+                            this.updateArr(e, 2, "percentPoints");
                         } }), react_1.default.createElement("label", { htmlFor: "true-false-feed-back" }, "feed Back"), react_1.default.createElement("input", { type: "text", id: "true-false-feed-back", value: this.state.currentQuestion.answers[2].feedback, onChange: e => {
-                            this.updateArr(e, 2, 'feedback');
+                            this.updateArr(e, 2, "feedback");
                         } })), react_1.default.createElement("div", { className: "row" }, react_1.default.createElement("label", { htmlFor: "true-false-answer" }, "Answer"), react_1.default.createElement("input", { type: "text", id: "true-false-answer", value: this.state.currentQuestion.answers[3].answer, onChange: e => {
-                            this.updateArr(e, 3, 'answer');
+                            this.updateArr(e, 3, "answer");
                         } }), react_1.default.createElement("label", { htmlFor: "true-false-percent-points" }, "Percent Points"), react_1.default.createElement("input", { type: "text", id: "true-false-percent-points", value: this.state.currentQuestion.answers[3].percentPoints, onChange: e => {
-                            this.updateArr(e, 3, 'percentPoints');
+                            this.updateArr(e, 3, "percentPoints");
                         } }), react_1.default.createElement("label", { htmlFor: "true-false-feed-back" }, "feed Back"), react_1.default.createElement("input", { type: "text", id: "true-false-feed-back", value: this.state.currentQuestion.answers[3].feedback, onChange: e => {
-                            this.updateArr(e, 3, 'feedback');
+                            this.updateArr(e, 3, "feedback");
                         } })), react_1.default.createElement("button", { type: "button", onClick: this.addToList }, "Add Question"));
             }
         };
-        this.changeView = (typeOfView, questionToView) => {
-            if (typeOfView === 'questionDisplay') {
+        this.changeView = (typeOfView, questionToView, i) => {
+            if (typeOfView === "questionDisplay") {
                 this.setState({
                     mainView: {
-                        display: 'questionDisplay',
+                        display: "questionDisplay",
                         questionToDisplay: questionToView
-                    }
+                    },
+                    editQuestion: i
                 });
-                console.log('got to questioView', questionToView);
             } else {
                 this.setState({
                     mainView: {
-                        display: 'inputDisplay',
+                        display: "inputDisplay",
                         questionToDisplay: {}
-                    }
+                    },
+                    editQuestion: 0
                 });
             }
-            console.log('changeViewCalled', this.state);
+            console.log("changeViewCalled", this.state);
+        };
+        this.formatValidator = questionToValidate => {
+            let validObject = true;
+            let percentPoints = 0;
+            if (!questionToValidate.title || !questionToValidate.author) {
+                return validObject = false;
+            } else {
+                for (let item of questionToValidate.answers) {
+                    if (!item.answer) {
+                        return validObject = false;
+                    }
+                    percentPoints = percentPoints + item.percentPoints;
+                }
+            }
+            console.log("Indside Validator Function", percentPoints, validObject);
+            return percentPoints > 99 || false;
         };
         this.printQuestionsArr = () => {
             return react_1.default.createElement("div", null, this.state.newQuestions.map((item, i) => {
-                return react_1.default.createElement("div", { onClick: event => this.changeView('questionDisplay', item) }, "Question ", i + 1);
+                return react_1.default.createElement("div", { key: "questions" + i, onClick: event => this.changeView("questionDisplay", item, i) }, "Question ", i + 1);
             }));
+        };
+        this.onDrop = files => {
+            const file = files[0];
+            let codeString = "";
+            this.setState(Object.assign({}, this.state, { image: codeString }));
+            // encode thing I get as a base 64 string
+            // look up how to do it
+            // image field of question will be that.
+            // when in db, will be replaced with URL of s3
+        };
+        this.editQuestionElements = (e, propertyName) => {
+            const index = this.state.editQuestion;
+            let updatedQuestions = this.state.newQuestions;
+            updatedQuestions[index] = Object.assign({}, updatedQuestions[index], { [propertyName]: e.target.value });
+            console.log("propertyname", propertyName);
+            this.setState({
+                newQuestions: updatedQuestions,
+                mainView: Object.assign({}, this.state.mainView, { questionToDisplay: updatedQuestions[index] })
+            });
+            console.log(this.state);
+        };
+        this.editQuizAnswers = (e, propertyName, i) => {
+            const index = this.state.editQuestion;
+            let updatedQuestions = this.state.newQuestions;
+            updatedQuestions[index].answers[i] = Object.assign({}, updatedQuestions[index].answers[i], { [propertyName]: e.target.value });
+            this.setState({
+                newQuestions: updatedQuestions,
+                mainView: Object.assign({}, this.state.mainView, { questionToDisplay: updatedQuestions[index] })
+            });
+        };
+        this.editTagElement = e => {
+            this.setState({
+                currentQuestion: Object.assign({}, this.state.currentQuestion, { tags: e.target.value })
+            });
         };
         this.renderMainDisplayElement = () => {
             switch (this.state.mainView.display) {
-                case 'questionDisplay':
-                    return react_1.default.createElement("div", null, react_1.default.createElement("div", null, "Title: ", this.state.mainView.questionToDisplay.title), this.state.mainView.questionToDisplay.answers.map(item => {
-                        return react_1.default.createElement("div", null, item.answer);
+                case "questionDisplay":
+                    return react_1.default.createElement("div", null, react_1.default.createElement("label", { htmlFor: "editQuestionTitle" }, "Title:"), react_1.default.createElement("input", { type: "text", id: "editQuestionTitle", value: this.state.mainView.questionToDisplay.title, onChange: e => {
+                            this.editQuestionElements(e, "title");
+                        } }), react_1.default.createElement("label", { htmlFor: "editQuestionTag" }, "Tags:"), react_1.default.createElement("input", { type: "text", id: "editQuestionTag", value: this.state.mainView.questionToDisplay.tags, onChange: e => {
+                            this.editQuestionElements(e, "tags");
+                        } }), this.state.mainView.questionToDisplay.answers.map((item, i) => {
+                        return react_1.default.createElement("div", null, react_1.default.createElement("label", { htmlFor: "true-false-answer" }, "Answer"), react_1.default.createElement("input", { type: "text", id: "true-false-answer", value: item.answer, onChange: e => {
+                                this.editQuizAnswers(e, "answer", i);
+                            } }), react_1.default.createElement("label", { htmlFor: "true-false-percent-points" }, "Percent Points"), react_1.default.createElement("input", { type: "text", id: "true-false-percent-points", value: item.percentPoints, onChange: e => {
+                                this.editQuizAnswers(e, "percentPoints", i);
+                            } }), react_1.default.createElement("label", { htmlFor: "true-false-feed-back" }, "feed Back"), react_1.default.createElement("input", { type: "text", id: "true-false-feed-back", value: item.feedback, onChange: e => {
+                                this.editQuizAnswers(e, "feedback", i);
+                            } }));
                     }), react_1.default.createElement("button", { onClick: () => {
-                            this.changeView('inputDisplay');
+                            this.changeView("inputDisplay");
                         } }, "Create New Question"));
                 default:
                     return react_1.default.createElement("div", null, this.createTable());
@@ -1747,7 +1824,7 @@ class AddQuestion extends react_1.Component {
     }
     render() {
         const { startCreateNewQuestion } = this.props;
-        return react_1.default.createElement("div", null, react_1.default.createElement("form", null, this.renderMainDisplayElement(), react_1.default.createElement("br", null)), react_1.default.createElement("button", { type: "button", onClick: this.updateReducerStore }, "Save"), react_1.default.createElement("div", null, this.printQuestionsArr()));
+        return react_1.default.createElement("div", null, react_1.default.createElement("form", null, this.renderMainDisplayElement(), react_1.default.createElement("br", null)), react_1.default.createElement(react_dropzone_1.default, { onDrop: this.onDrop }, "Drop your files here,", react_1.default.createElement("br", null), "or click to select one."), react_1.default.createElement("button", { type: "button", onClick: this.updateReducerStore }, "Save"), react_1.default.createElement("button", { onClick: this.sendOneQuestion }, "Just add this one Question"), react_1.default.createElement("div", null, this.printQuestionsArr()));
     }
 
     // @ts-ignore
@@ -1758,12 +1835,14 @@ class AddQuestion extends react_1.Component {
 
 }
 exports.AddQuestion = AddQuestion;
-const mapStateToProps = state => ({
+const mapStateToProps = (state, parentProps) => ({
     username: state.auth.username,
-    quizID: state.create.quizID,
-    questionIDs: state.create.questionIDs
+    quizID: parentProps.quizID || state.create.quizID,
+    questionIDs: state.create.questionIDs,
+    quizzes: state.quizzes.all,
+    quiz: state.quizzes.all !== [] && state.quizzes.all.find(quiz => quiz.uuid === parentProps.quizID || state.create.quizID)
 });
-exports.default = react_redux_1.connect(mapStateToProps, { startBatchCreateQuestions: create_1.startBatchCreateQuestions, startCreateNewQuestion: create_1.startCreateNewQuestion })(AddQuestion);
+exports.default = react_redux_1.connect(mapStateToProps, { startBatchCreateQuestions: create_1.startBatchCreateQuestions, startCreateNewQuestion: create_1.startCreateNewQuestion, editStoreQuiz: quizzes_1.editStoreQuiz })(AddQuestion);
 ;
 
 (function () {
@@ -1776,7 +1855,9 @@ exports.default = react_redux_1.connect(mapStateToProps, { startBatchCreateQuest
     }
 
     reactHotLoader.register(__importStar, "__importStar", "/Users/ericmorrison/Desktop/revature/homework/quiz/client/app/components/AddQuestion.tsx");
+    reactHotLoader.register(__importDefault, "__importDefault", "/Users/ericmorrison/Desktop/revature/homework/quiz/client/app/components/AddQuestion.tsx");
     reactHotLoader.register(react_1, "react_1", "/Users/ericmorrison/Desktop/revature/homework/quiz/client/app/components/AddQuestion.tsx");
+    reactHotLoader.register(react_dropzone_1, "react_dropzone_1", "/Users/ericmorrison/Desktop/revature/homework/quiz/client/app/components/AddQuestion.tsx");
     reactHotLoader.register(AddQuestion, "AddQuestion", "/Users/ericmorrison/Desktop/revature/homework/quiz/client/app/components/AddQuestion.tsx");
     reactHotLoader.register(mapStateToProps, "mapStateToProps", "/Users/ericmorrison/Desktop/revature/homework/quiz/client/app/components/AddQuestion.tsx");
     leaveModule(module);
@@ -1819,10 +1900,11 @@ class AddQuiz extends react_1.Component {
         super(...arguments);
         this.state = {
             quiz: {
-                author: "quiz author front end",
+                author: "RWantz",
                 title: "",
                 description: "",
-                isPrivate: true
+                isPrivate: true,
+                type: "quiz"
             }
         };
         this.updateQuiz = (e, arg1) => {
@@ -2124,29 +2206,35 @@ const react_dropzone_1 = __importDefault(__webpack_require__(/*! react-dropzone 
 const react_fontawesome_1 = __webpack_require__(/*! @fortawesome/react-fontawesome */ "./node_modules/@fortawesome/react-fontawesome/index.es.js");
 const questions_1 = __webpack_require__(/*! ../actions/questions */ "./client/app/actions/questions.ts");
 const quizzes_1 = __webpack_require__(/*! ../actions/quizzes */ "./client/app/actions/quizzes.ts");
+const AddQuestion_1 = __importDefault(__webpack_require__(/*! ../components/AddQuestion */ "./client/app/components/AddQuestion.tsx"));
 class EditQuizPage extends react_1.Component {
     constructor() {
         super(...arguments);
         this.state = {
             page: 1,
             clickedQuestion: {
-                author: '',
-                title: '',
-                uuid: '',
-                format: '',
+                author: "",
+                title: "",
+                uuid: "",
+                format: "",
                 answers: [{
-                    answer: '',
+                    answer: "",
                     percentPoints: 0,
-                    feedback: ''
+                    feedback: ""
                 }]
             },
             questionNumber: 0,
-            updatedQuestions: []
+            updatedQuestions: [],
+            clickedAddQuestion: false
         };
-        this.params = window.location.href.split('/');
+        this.params = window.location.href.split("/");
         this.quizUUID = this.params[4];
         this.page1 = () => this.setState({ page: 1 });
         this.page2 = () => this.setState({ page: 2 });
+        // public componentDidMount() {
+        //   console.log('component mounted', updateQuizIdStore)
+        //   this.props.updateQuizIdStore(this.props.quiz.uuid)
+        // }
         this.updateArr = (e, arg1, arg2) => {
             let newAnswersArr = this.state.clickedQuestion.answers;
             newAnswersArr[arg1][arg2] = e.target.value;
@@ -2166,7 +2254,7 @@ class EditQuizPage extends react_1.Component {
         };
         this.deletedTitle = e => {
             let title = this.state.clickedQuestion.title;
-            title + '--This Question has been deleted';
+            title + "--This Question has been deleted";
             this.setState({
                 clickedQuestion: Object.assign({}, this.state.clickedQuestion, { title: title })
             });
@@ -2180,24 +2268,37 @@ class EditQuizPage extends react_1.Component {
         this.updateStore = () => {
             let modQuiz = this.props.quiz;
             for (let i = 0; i < modQuiz.questions.length; i++) {
-                if (modQuiz.questions[i].uuid = this.state.clickedQuestion.uuid) {
+                if (modQuiz.questions[i].uuid === this.state.clickedQuestion.uuid) {
                     modQuiz.questions.splice(i, 1);
                     //here is where we delete a question
                 }
             }
-            console.log('without deleted question: ', modQuiz);
+            console.log("without deleted question: ", modQuiz);
             let quizList = this.props.quizzes;
             for (let i = 0; i < quizList.length; i++) {
-                if (quizList[i].uuid = this.props.quiz.uuid) {
+                if (quizList[i].uuid === this.props.quiz.uuid) {
                     quizList.splice(i, 1, modQuiz);
                 }
             }
-            console.log('Changed:', quizList);
+            console.log("Changed:", quizList);
             this.props.editStoreQuiz(quizList);
         };
         this.showQuizQuestion = (question, count, e) => {
             e.preventDefault();
-            this.setState(Object.assign({}, this.state, { questionNumber: count, clickedQuestion: question }));
+            this.setState(Object.assign({}, this.state, { questionNumber: count, clickedQuestion: question, clickedAddQuestion: false }));
+        };
+        this.setAddQuestion = (e, hideAdd) => {
+            this.setState(Object.assign({}, this.state, { clickedQuestion: {
+                    author: "",
+                    title: "",
+                    uuid: "",
+                    format: "",
+                    answers: [{
+                        answer: "",
+                        percentPoints: 0,
+                        feedback: ""
+                    }]
+                }, clickedAddQuestion: true }));
         };
         this.fileSelectedHandler = e => this.setState({ selectedFile: e.target.files[0] });
         this.onDrop = files => {
@@ -2217,17 +2318,17 @@ class EditQuizPage extends react_1.Component {
         // @ts-ignore
         this.render = () => {
             const { quiz } = this.props;
-            const { page, clickedQuestion, questionNumber } = this.state;
+            const { page, clickedQuestion, questionNumber, clickedAddQuestion } = this.state;
             let count = 0;
-            return react_1.default.createElement("div", { className: "edit-quiz-page" }, quiz.tags === undefined && react_1.default.createElement(react_spinkit_1.default, { className: "loading-indicator", name: "ball-spin-fade-loader" }), quiz.tags !== undefined && react_1.default.createElement("main", null, react_1.default.createElement("div", { className: "quiz-container" }, react_1.default.createElement("h1", { className: "title" }, quiz.title), react_1.default.createElement("div", { className: "close" }, react_1.default.createElement(react_fontawesome_1.FontAwesomeIcon, { icon: "trash" }), react_1.default.createElement("p", { className: "hint" }, "Permanently delete this quiz")), react_1.default.createElement("div", { className: "tags" }, quiz.tags.length === 0 && react_1.default.createElement("p", { className: "tag" }, "No tags"), quiz.tags.length > 0 && quiz.tags.map(tag => react_1.default.createElement("p", { key: tag.allLowerCase, className: "tag" }, tag.allLowerCase))), react_1.default.createElement("p", { className: "add-tag" }, "+ tag"), react_1.default.createElement("div", { className: "questions" }, quiz.questions.map(tag => react_1.default.createElement("div", { key: tag.allLowerCase }, react_1.default.createElement("p", { className: "question", onClick: this.showQuizQuestion.bind(this, quiz.questions[count], count + 1) }, "Question ", count += 1)))), react_1.default.createElement("p", { className: "add-question" }, "+ question"), react_1.default.createElement("button", {
+            return react_1.default.createElement("div", { className: "edit-quiz-page" }, quiz.tags === undefined && react_1.default.createElement(react_spinkit_1.default, { className: "loading-indicator", name: "ball-spin-fade-loader" }), quiz.tags !== undefined && react_1.default.createElement("main", null, react_1.default.createElement("div", { className: "quiz-container" }, react_1.default.createElement("h1", { className: "title" }, quiz.title), react_1.default.createElement("div", { className: "close" }, react_1.default.createElement(react_fontawesome_1.FontAwesomeIcon, { icon: "trash" }), react_1.default.createElement("p", { className: "hint" }, "Permanently delete this quiz")), react_1.default.createElement("div", { className: "tags" }, quiz.tags.length === 0 && react_1.default.createElement("p", { className: "tag" }, "No tags"), quiz.tags.length > 0 && quiz.tags.map(tag => react_1.default.createElement("p", { key: tag.allLowerCase, className: "tag" }, tag.allLowerCase))), react_1.default.createElement("p", { className: "add-tag" }, "+ tag"), react_1.default.createElement("div", { className: "questions" }, quiz.questions.map(tag => react_1.default.createElement("div", { key: tag.allLowerCase }, react_1.default.createElement("p", { className: "question", onClick: this.showQuizQuestion.bind(this, quiz.questions[count], count + 1) }, "Question ", count += 1))), react_1.default.createElement("p", { onClick: e => this.setAddQuestion(e, false), className: "add-question" }, "+ question")), react_1.default.createElement("p", { className: "add-question" }, "+ question"), react_1.default.createElement("button", {
                 // onClick={this.saveChangeToState}
-                className: "save-quiz" }, "Save Quiz")), clickedQuestion.uuid && react_1.default.createElement("div", { key: clickedQuestion.uuid, className: "question-container" }, react_1.default.createElement("p", { className: "title" }, "Edit question"), react_1.default.createElement("div", { className: "close", onClick: this.deleteQuestion }, react_1.default.createElement(react_fontawesome_1.FontAwesomeIcon, { icon: "trash" }), react_1.default.createElement("p", { className: "hint" }, "Permanently delete this question")), page === 1 && react_1.default.createElement("form", { className: "details" }, react_1.default.createElement("div", { className: "group" }, react_1.default.createElement("label", null, "Question ", questionNumber), react_1.default.createElement("input", { placeholder: clickedQuestion.title })), react_1.default.createElement("div", { className: "group" }, react_1.default.createElement("label", null, "Tags"), react_1.default.createElement("input", { placeholder: "Assign tags to this question" })), react_1.default.createElement("div", { className: "group photo-container", onClick: () => this.photoUpload.click() }, react_1.default.createElement("div", { className: "group" }, react_1.default.createElement("h2", { className: "label" }, "Image"), react_1.default.createElement(react_dropzone_1.default, { onDrop: this.onDrop, className: "dropzone" }, react_1.default.createElement("p", { className: "button" }, "+ Upload")), react_1.default.createElement("input", { className: "file-upload", style: { display: 'none' }, name: "file", type: "file", onChange: this.fileSelectedHandler, ref: photoUpload => this.photoUpload = photoUpload })))), page === 2 && react_1.default.createElement("form", { className: "options" }, clickedQuestion.answers.map((ans, index) => react_1.default.createElement("div", { key: ans.answer }, react_1.default.createElement("div", { className: "group" }, react_1.default.createElement("label", { htmlFor: "true-false-answer", className: "label" }, "Choice"), react_1.default.createElement("textarea", { id: "true-false-answer", value: ans.answer, className: "input", onChange: e => {
-                    this.updateArr(e, index, 'answer');
+                className: "save-quiz" }, "Save Quiz")), clickedQuestion.title && react_1.default.createElement("div", { key: clickedQuestion.uuid, className: "question-container" }, react_1.default.createElement("p", { className: "title" }, "Edit question"), react_1.default.createElement("div", { className: "close", onClick: this.deleteQuestion }, react_1.default.createElement(react_fontawesome_1.FontAwesomeIcon, { icon: "trash" }), react_1.default.createElement("p", { className: "hint" }, "Permanently delete this question")), page === 1 && react_1.default.createElement("form", { className: "details" }, react_1.default.createElement("div", { className: "group" }, react_1.default.createElement("label", null, "Question ", questionNumber), react_1.default.createElement("input", { placeholder: clickedQuestion.title })), react_1.default.createElement("div", { className: "group" }, react_1.default.createElement("label", null, "Tags"), react_1.default.createElement("input", { placeholder: "Assign tags to this question" })), react_1.default.createElement("div", { className: "group photo-container", onClick: () => this.photoUpload.click() }, react_1.default.createElement("div", { className: "group" }, react_1.default.createElement("h2", { className: "label" }, "Image"), react_1.default.createElement(react_dropzone_1.default, { onDrop: this.onDrop, className: "dropzone" }, react_1.default.createElement("p", { className: "button" }, "+ Upload")), react_1.default.createElement("input", { className: "file-upload", style: { display: "none" }, name: "file", type: "file", onChange: this.fileSelectedHandler, ref: photoUpload => this.photoUpload = photoUpload })))), page === 2 && react_1.default.createElement("form", { className: "options" }, clickedQuestion.answers.map((ans, index) => react_1.default.createElement("div", { key: ans.answer }, react_1.default.createElement("div", { className: "group" }, react_1.default.createElement("label", { htmlFor: "true-false-answer", className: "label" }, "Choice"), react_1.default.createElement("textarea", { id: "true-false-answer", value: ans.answer, className: "input", onChange: e => {
+                    this.updateArr(e, index, "answer");
                 }, "data-enable-grammarly": "false" })), react_1.default.createElement("div", { className: "group" }, react_1.default.createElement("label", { htmlFor: "true-false-percent-points", className: "input" }, "Percent Points"), react_1.default.createElement("textarea", { id: "true-false-percent-points", value: ans.percentPoints, onChange: e => {
-                    this.updateArr(e, index, 'percentPoints');
+                    this.updateArr(e, index, "percentPoints");
                 }, "data-enable-grammarly": "false" })), react_1.default.createElement("div", { className: "group" }, react_1.default.createElement("label", { htmlFor: "true-false-feed-back" }, "Feedback"), react_1.default.createElement("textarea", { id: "true-false-feed-back", value: ans.feedback, className: "input", onChange: e => {
-                    this.updateArr(e, index, 'feedback');
-                }, "data-enable-grammarly": "false" }))))), react_1.default.createElement("div", { className: "page-navigation" }, react_1.default.createElement("p", { className: page === 1 ? 'page-1 active' : 'page-1', onClick: this.page1 }, "1"), react_1.default.createElement("p", { className: page === 2 ? 'page-2 active' : 'page-2', onClick: this.page2 }, "2")), page === 2 && react_1.default.createElement("button", { onClick: this.saveChangeToState, className: "save-question" }, "Save"))));
+                    this.updateArr(e, index, "feedback");
+                }, "data-enable-grammarly": "false" }))))), react_1.default.createElement("div", { className: "page-navigation" }, react_1.default.createElement("p", { className: page === 1 ? "page-1 active" : "page-1", onClick: this.page1 }, "1"), react_1.default.createElement("p", { className: page === 2 ? "page-2 active" : "page-2", onClick: this.page2 }, "2")), page === 2 && react_1.default.createElement("button", { onClick: this.saveChangeToState, className: "save-question" }, "Save")), clickedAddQuestion && react_1.default.createElement(AddQuestion_1.default, { quizID: this.props.quiz.uuid })));
         };
     }
 
@@ -2245,7 +2346,7 @@ const mapStateToProps = (state, props) => ({
     quizzes: state.quizzes.all
     // clickedQuestion: state.quizzes.clickedQuestion
 });
-exports.default = react_redux_1.connect(mapStateToProps, { editStoreQuiz: quizzes_1.editStoreQuiz, startDeleteJunction: questions_1.startDeleteJunction, startDeleteQuestion: questions_1.startDeleteQuestion, startEditQuestion: questions_1.startEditQuestion })(EditQuizPage);
+exports.default = react_redux_1.connect(mapStateToProps, { editStoreQuiz: quizzes_1.editStoreQuiz, startDeleteQuestion: questions_1.startDeleteQuestion, startEditQuestion: questions_1.startEditQuestion })(EditQuizPage);
 ;
 
 (function () {
@@ -2262,6 +2363,7 @@ exports.default = react_redux_1.connect(mapStateToProps, { editStoreQuiz: quizze
     reactHotLoader.register(react_1, "react_1", "/Users/ericmorrison/Desktop/revature/homework/quiz/client/app/components/EditQuizPage.tsx");
     reactHotLoader.register(react_spinkit_1, "react_spinkit_1", "/Users/ericmorrison/Desktop/revature/homework/quiz/client/app/components/EditQuizPage.tsx");
     reactHotLoader.register(react_dropzone_1, "react_dropzone_1", "/Users/ericmorrison/Desktop/revature/homework/quiz/client/app/components/EditQuizPage.tsx");
+    reactHotLoader.register(AddQuestion_1, "AddQuestion_1", "/Users/ericmorrison/Desktop/revature/homework/quiz/client/app/components/EditQuizPage.tsx");
     reactHotLoader.register(EditQuizPage, "EditQuizPage", "/Users/ericmorrison/Desktop/revature/homework/quiz/client/app/components/EditQuizPage.tsx");
     reactHotLoader.register(mapStateToProps, "mapStateToProps", "/Users/ericmorrison/Desktop/revature/homework/quiz/client/app/components/EditQuizPage.tsx");
     leaveModule(module);
@@ -3445,14 +3547,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 const create_1 = __webpack_require__(/*! ../actions/create */ "./client/app/actions/create.ts");
-const environment_1 = __webpack_require__(/*! ../../../environment */ "./environment.ts");
 class SignInRedirect extends react_1.Component {
     componentDidMount() {
-        let redirectUrl = `https://quizard.auth.us-east-2.amazoncognito.com/login?response_type=token&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=${environment_1.environment.context}/redirect`;
+        //   let redirectUrl = `https://quizard.auth.us-east-2.amazoncognito.com/login?response_type=token&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=${
+        //     environment.context
+        //   }/redirect`
+        // }
+        let redirectUrl = `https://quizard.auth.us-east-2.amazoncognito.com/login?response_type=token&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=http://cloud-native-project-3-ui.s3-website.us-east-2.amazonaws.com/redirect`;
     }
-    //   let redirectUrl =
-    //     `https://quizard.auth.us-east-2.amazoncognito.com/login?response_type=token&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=http://localhost:3222/redirect`
-    // }
     render() {
         return react_1.default.createElement("div", null);
     }
@@ -3685,6 +3787,7 @@ var __importDefault = this && this.__importDefault || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+// import Querystring from 'query-string'
 exports.SplashPage = () => react_1.default.createElement("div", null, react_1.default.createElement("header", null, react_1.default.createElement("nav", { className: "splash-nav" }, react_1.default.createElement(react_router_dom_1.Link, { to: "/", className: "item" }, "Logo"), react_1.default.createElement(react_router_dom_1.Link, { to: "/login", className: "item" }, "Login"), react_1.default.createElement(react_router_dom_1.Link, { to: "/signup", className: "item" }, "Signup"))), react_1.default.createElement("main", { className: "splash-body" }, react_1.default.createElement("h1", null, '<App name>'), react_1.default.createElement("p", null, "Create and take quizzes"), react_1.default.createElement("p", null, '<splash page image>')));
 exports.default = exports.SplashPage;
 ;
@@ -3828,6 +3931,8 @@ class TakeQuizPage extends react_1.Component {
         this.params = window.location.href.split('/');
         this.quizUUID = this.params[4];
         this.submitQuizModal = () => this.props.loadModal(modaltypes_1.SUBMIT_QUIZ_MODAL);
+        // will take you to the previous question and update answer array
+        // if a choice is selected
         this.previousQuizQuestion = choices => e => {
             e.preventDefault();
             if (this.props.multipleSelectAnswer.answer.length > 0 || this.props.multipleChoiceAnswer !== null) {
@@ -3842,6 +3947,8 @@ class TakeQuizPage extends react_1.Component {
                 this.props.changeQuestionNumber(this.props.questionNumber - 1);
             }
         };
+        // will take you to the next question and update answer array
+        // if a choice is selected
         this.nextQuizQuestion = choices => e => {
             e.preventDefault();
             console.log('here on submit', choices[this.props.questionNumber].format);
@@ -3857,11 +3964,12 @@ class TakeQuizPage extends react_1.Component {
                 this.props.changeQuestionNumber(this.props.questionNumber + 1);
             }
         };
+        // adds an answer to the answer array if the question has not already
+        // been answered if it has the answer will be updated
         this.addAnswerToObject = (choices, answer) => {
             let index;
             switch (choices[this.props.questionNumber].format) {
                 case 'multiple-choice':
-                    // console.log(choices[this.props.questionNumber])
                     console.log(this.props.answerArray);
                     if (this.props.answerArray.some((obj, i) => {
                         if (obj.title === choices[this.props.questionNumber].title) {
@@ -3887,7 +3995,6 @@ class TakeQuizPage extends react_1.Component {
                     });
                     break;
                 case 'multiple-select':
-                    // console.log(this.props.answerArray)
                     if (this.props.answerArray.some((obj, i) => {
                         if (obj.title === choices[this.props.questionNumber].title) {
                             console.log('checking answerArray');
@@ -3906,7 +4013,6 @@ class TakeQuizPage extends react_1.Component {
                     }
                     let newArray;
                     if (this.props.multipleSelectAnswer.answer.includes(answer.answer)) {
-                        console.log('here');
                         const index = this.props.multipleSelectAnswer.answer.indexOf(answer.answer.answer);
                         console.log(`index: ${index}`);
                         newArray = this.props.multipleSelectAnswer.answer;
@@ -3955,11 +4061,6 @@ class TakeQuizPage extends react_1.Component {
                     break;
             }
         };
-        // public convertAsyncToSync = async func =>
-        //   new Promise(async resolve => {
-        //     await func()
-        //     resolve()
-        //   })
         this.submit = choices => e => {
             console.log('in submit function');
             if (this.props.multipleSelectAnswer.answer.length > 0 || this.props.multipleChoiceAnswer !== null) {
@@ -3970,40 +4071,6 @@ class TakeQuizPage extends react_1.Component {
                 }
             }
             this.submitQuizModal();
-            // console.log('here')
-            // const addFinalQuestion = async () => {
-            //   if (
-            //     this.props.multipleSelectAnswer.answer.length > 0 ||
-            //     this.props.multipleChoiceAnswer !== null
-            //   ) {
-            //     if (
-            //       choices[this.props.questionNumber].format === 'multiple-choice' ||
-            //       choices[this.props.questionNumber].format === 'true-false'
-            //     ) {
-            //       this.props.startAddAnswerToArray(this.props.multipleChoiceAnswer)
-            //     } else if (
-            //       choices[this.props.questionNumber].format === 'multiple-select'
-            //     ) {
-            //       this.props.startAddAnswerToArray(this.props.multipleSelectAnswer)
-            //     }
-            //   }
-            // }
-            // this.convertAsyncToSync(addFinalQuestion).then(() => {
-            //   console.log('store should now be updated')
-            //   console.log(
-            //     this.quizUUID,
-            //     this.props.username,
-            //     this.props.quiz.attemptUUID,
-            //     this.props.answerArray
-            //   )
-            //   this.props.submitQuizAttempt(
-            //     this.quizUUID,
-            //     this.props.username,
-            //     this.props.quiz.attemptUUID,
-            //     this.props.answerArray
-            //   )
-            //   this.props.history.push('/quiz-results')
-            // })
         };
         // @ts-ignore
         this.componentDidMount = () => console.log('checking done..', this.props.done);
@@ -4016,9 +4083,7 @@ class TakeQuizPage extends react_1.Component {
         // @ts-ignore
         this.render = () => {
             const { quiz, questionNumber } = this.props;
-            return react_1.default.createElement("div", { className: "take-quiz-page" }, quiz.questions === undefined && react_1.default.createElement(react_spinkit_1.default, { className: "loading-indicator", name: "ball-spin-fade-loader" }), quiz.questions !== undefined && react_1.default.createElement("div", { className: "main" }, react_1.default.createElement("header", null, react_1.default.createElement("div", { className: "meta" }, react_1.default.createElement("p", { className: "current" }, "Question ", questionNumber + 1), react_1.default.createElement("p", { className: "title" }, quiz.title), react_1.default.createElement("p", { className: "progress" }, "Question ", questionNumber + 1, "/", quiz.questions.length)), react_1.default.createElement("p", { className: "question" }, quiz.questions[questionNumber].title)), react_1.default.createElement("main", null, react_1.default.createElement("div", { className: "choices" }, quiz.questions[questionNumber].answers.map(answers => react_1.default.createElement("div", { key: answers.answer.answer, className: "choice", onClick: this.addAnswerToObject.bind(this, quiz.questions, answers) }, react_1.default.createElement("p", null, answers.answer.answer)))), react_1.default.createElement("div", { className: "buttons" }, questionNumber !== 0 && react_1.default.createElement("button", { onClick: this.previousQuizQuestion(quiz.questions), className: "previous-button" }, "previous"), questionNumber + 1 !== quiz.questions.length ? react_1.default.createElement("button", { onClick: this.nextQuizQuestion(quiz.questions), className: "next-button" }, "next") : react_1.default.createElement("button", {
-                // onClick={this.submitQuizModal}
-                onClick: this.submit(quiz.questions), className: "submit-button" }, "Done")))));
+            return react_1.default.createElement("div", { className: "take-quiz-page" }, quiz.questions === undefined && react_1.default.createElement(react_spinkit_1.default, { className: "loading-indicator", name: "ball-spin-fade-loader" }), quiz.questions !== undefined && react_1.default.createElement("div", { className: "main" }, react_1.default.createElement("header", null, react_1.default.createElement("div", { className: "meta" }, react_1.default.createElement("p", { className: "current" }, "Question ", questionNumber + 1), react_1.default.createElement("p", { className: "title" }, quiz.title), react_1.default.createElement("p", { className: "progress" }, "Question ", questionNumber + 1, "/", quiz.questions.length)), react_1.default.createElement("p", { className: "question" }, quiz.questions[questionNumber].title)), react_1.default.createElement("main", null, react_1.default.createElement("div", { className: "choices" }, quiz.questions[questionNumber].answers.map(answers => react_1.default.createElement("div", { key: answers.answer.answer, className: "choice", onClick: this.addAnswerToObject.bind(this, quiz.questions, answers) }, react_1.default.createElement("p", null, answers.answer.answer)))), react_1.default.createElement("div", { className: "buttons" }, questionNumber !== 0 && react_1.default.createElement("button", { onClick: this.previousQuizQuestion(quiz.questions), className: "previous-button" }, "previous"), questionNumber + 1 !== quiz.questions.length ? react_1.default.createElement("button", { onClick: this.nextQuizQuestion(quiz.questions), className: "next-button" }, "next") : react_1.default.createElement("button", { onClick: this.submit(quiz.questions), className: "submit-button" }, "Done")))));
         };
     }
 
@@ -4032,7 +4097,6 @@ class TakeQuizPage extends react_1.Component {
 exports.TakeQuizPage = TakeQuizPage;
 const mapStateToProps = (state, props) => ({
     username: state.auth.username,
-    // quiz: state.takeQuiz.quizAttemptInfoObj,
     quiz: state.takeQuiz.quizAttemptInfoObj !== null && state.takeQuiz.quizAttemptInfoObj,
     answers: state.takeQuiz.answers,
     answerArray: state.takeQuiz.answerArray,
@@ -4040,7 +4104,6 @@ const mapStateToProps = (state, props) => ({
     multipleSelectAnswer: state.takeQuiz.multipleSelectAnswer,
     multipleChoiceAnswer: state.takeQuiz.multipleChoiceAnswer,
     done: state.takeQuiz.done
-    // clickedQuestion: state.quizzes.clickedQuestion
 });
 exports.default = react_redux_1.connect(mapStateToProps, {
     startAddAnswerToArray: quizzes_1.startAddAnswerToArray,
@@ -4483,29 +4546,34 @@ authAxios.interceptors.request.use(config => {
     config.headers.Authorization = localStorage.token;
     return config;
 });
-const addQuestionUrl = 'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/question';
-const batchAddQuestionsUrl = 'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/question/batch';
-const editQuestionUrl = 'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/question/edit';
-const addQuizUrl = 'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz';
-const addJunctionUrl = 'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz';
-const displayQuizzesURL = 'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/author/';
-const displayQuizQuestionsURL = 'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/';
-const displayQuizTagsURL = 'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/uuid/';
-const editQuizUrl = '';
-const deleteQuizUrl = '';
-const searchByAuthorUrl = 'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/author/';
-const searchByTagUrl = 'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/tag/';
-const searchByUuidUrl = 'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/';
-const getQuizAttempt = 'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/';
+const addQuestionUrl = "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/question";
+const batchAddQuestionsUrl = "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/question/batch";
+const editQuestionUrl = "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/question/edit";
+const addQuizUrl = "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz";
+const addJunctionUrl = "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz";
+const displayQuizzesURL = "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/author/";
+const displayQuizQuestionsURL = "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/";
+const displayQuizTagsURL = "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/uuid/";
+const editQuizUrl = "";
+const deleteQuizUrl = "";
+const searchByAuthorUrl = "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/author/";
+const searchByTagUrl = "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/tag/";
+const searchByUuidUrl = "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/";
+const getQuizAttempt = "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/";
 const sendQuizAttempt = 'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/';
-const deleteQuestionUrl = 'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/question/author';
-const deleteJunctionUrl = 'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz';
+const deleteQuestionUrl = "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/question/author";
+// const deleteJunctionUrl = // this is done automatically in deleteQuestion
+//   "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz";
+const addTagsToQuestionsUrl = "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/question/batch/tag";
+const addTagsToQuizUrl = "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/tag/batch";
 exports.default = {
     create: {
         addQuestion: newQuestion => axios_1.default.post(addQuestionUrl, newQuestion).then(res => res.data),
         addQuiz: newQuiz => axios_1.default.post(addQuizUrl, newQuiz).then(res => res.data),
         batchAddQuestion: newQuestions => axios_1.default.post(batchAddQuestionsUrl, newQuestions).then(res => res.data),
-        addJunction: (quizID, questionIDs) => axios_1.default.post(`${addJunctionUrl}/${quizID}/batch`, questionIDs).then(res => res.data)
+        addJunction: (quizID, questionIDs) => axios_1.default.post(`${addJunctionUrl}/${quizID}/batch`, questionIDs).then(res => res.data),
+        addTagsToQuestions: arrOfPairs => axios_1.default.post(addTagsToQuestionsUrl, arrOfPairs).then(res => res.data),
+        addTagsToQuiz: (quizID, tags) => axios_1.default.post(addTagsToQuizUrl, { quizUUID: quizID, tags: tags }).then(res => res.data)
     },
     quizzes: {
         edit: quiz => axios_1.default.post(editQuizUrl, quiz).then(res => res.data),
@@ -4521,8 +4589,11 @@ exports.default = {
         edit: question => axios_1.default.post(editQuestionUrl, question).then(res => res.data),
         display: quizUUID => axios_1.default.get(displayQuizQuestionsURL + quizUUID).then(res => res.data),
         displayTags: quizUUID => axios_1.default.get(displayQuizTagsURL + quizUUID).then(res => res.data),
-        deleteQuestion: (author, title) => axios_1.default.delete(`${deleteQuestionUrl}/${author}/title`, { data: { title } }).then(res => res.data),
-        deleteJunction: (quizUUID, questionUUID) => axios_1.default.delete(`${deleteJunctionUrl}/${quizUUID}/question/${questionUUID}`).then(res => res.data)
+        deleteQuestion: (author, title) => axios_1.default.delete(`${deleteQuestionUrl}/${author}/title`, { data: { title } }).then(res => res.data)
+        // deleteJunction: (quizUUID, questionUUID) =>
+        //   axios
+        //     .delete(`${deleteJunctionUrl}/${quizUUID}/question/${questionUUID}`)
+        //     .then(res => res.data)
     }
 };
 ;
@@ -4555,7 +4626,8 @@ exports.default = {
     reactHotLoader.register(getQuizAttempt, "getQuizAttempt", "/Users/ericmorrison/Desktop/revature/homework/quiz/client/app/path-list.ts");
     reactHotLoader.register(sendQuizAttempt, "sendQuizAttempt", "/Users/ericmorrison/Desktop/revature/homework/quiz/client/app/path-list.ts");
     reactHotLoader.register(deleteQuestionUrl, "deleteQuestionUrl", "/Users/ericmorrison/Desktop/revature/homework/quiz/client/app/path-list.ts");
-    reactHotLoader.register(deleteJunctionUrl, "deleteJunctionUrl", "/Users/ericmorrison/Desktop/revature/homework/quiz/client/app/path-list.ts");
+    reactHotLoader.register(addTagsToQuestionsUrl, "addTagsToQuestionsUrl", "/Users/ericmorrison/Desktop/revature/homework/quiz/client/app/path-list.ts");
+    reactHotLoader.register(addTagsToQuizUrl, "addTagsToQuizUrl", "/Users/ericmorrison/Desktop/revature/homework/quiz/client/app/path-list.ts");
     leaveModule(module);
 })();
 
@@ -4678,7 +4750,7 @@ exports.authReducer = (state = {}, action = {}) => {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const initialState = {
-    quizID: "f01ac32d-09db-42cd-806a-d1cea45bfdf5",
+    quizID: "a05189ad-4ada-4794-ab86-9be8d779328f",
     questionIDs: []
 };
 exports.createReducer = (state = initialState, action = {}) => {
@@ -4688,10 +4760,6 @@ exports.createReducer = (state = initialState, action = {}) => {
         case "CREATE_NEW_QUIZ":
             return Object.assign({}, state, { quizID: action.quizID });
         case "BATCH_CREATE_QUESTIONS":
-            // let idArr = [];
-            // for (let i of action.questions) {
-            //   idArr.push(i.uuid);
-            // }
             return Object.assign({}, state, { questionIDs: [...action.questions.map(question => question.uuid)] });
         case "ADD_JUNCTION":
             return Object.assign({}, state, { questionIDs: [] });
@@ -5464,7 +5532,7 @@ exports.configureStore = () => {
 
 // extracted by extract-css-chunks-webpack-plugin
     if(true) {
-      // 1531409379791
+      // 1531410782770
       var cssReload = __webpack_require__(/*! ../../../node_modules/extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js */ "./node_modules/extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js")(module.i, {"fileMap":"{fileName}"});
       module.hot.dispose(cssReload);
       module.hot.accept(undefined, cssReload);
@@ -24873,7 +24941,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 // extracted by extract-css-chunks-webpack-plugin
     if(true) {
-      // 1531409379181
+      // 1531410782239
       var cssReload = __webpack_require__(/*! ../extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js */ "./node_modules/extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js")(module.i, {"fileMap":"{fileName}"});
       module.hot.dispose(cssReload);
       module.hot.accept(undefined, cssReload);
@@ -56311,7 +56379,7 @@ exports.default = Sidebar;
 
 // extracted by extract-css-chunks-webpack-plugin
     if(true) {
-      // 1531409378075
+      // 1531410781237
       var cssReload = __webpack_require__(/*! ../../extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js */ "./node_modules/extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js")(module.i, {"fileMap":"{fileName}"});
       module.hot.dispose(cssReload);
       module.hot.accept(undefined, cssReload);
@@ -56329,7 +56397,7 @@ exports.default = Sidebar;
 
 // extracted by extract-css-chunks-webpack-plugin
     if(true) {
-      // 1531409378153
+      // 1531410781294
       var cssReload = __webpack_require__(/*! ../../extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js */ "./node_modules/extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js")(module.i, {"fileMap":"{fileName}"});
       module.hot.dispose(cssReload);
       module.hot.accept(undefined, cssReload);
@@ -56347,7 +56415,7 @@ exports.default = Sidebar;
 
 // extracted by extract-css-chunks-webpack-plugin
     if(true) {
-      // 1531409378224
+      // 1531410781344
       var cssReload = __webpack_require__(/*! ../../extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js */ "./node_modules/extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js")(module.i, {"fileMap":"{fileName}"});
       module.hot.dispose(cssReload);
       module.hot.accept(undefined, cssReload);
@@ -56365,7 +56433,7 @@ exports.default = Sidebar;
 
 // extracted by extract-css-chunks-webpack-plugin
     if(true) {
-      // 1531409378175
+      // 1531410781320
       var cssReload = __webpack_require__(/*! ../../extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js */ "./node_modules/extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js")(module.i, {"fileMap":"{fileName}"});
       module.hot.dispose(cssReload);
       module.hot.accept(undefined, cssReload);
@@ -56383,7 +56451,7 @@ exports.default = Sidebar;
 
 // extracted by extract-css-chunks-webpack-plugin
     if(true) {
-      // 1531409378186
+      // 1531410781360
       var cssReload = __webpack_require__(/*! ../../extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js */ "./node_modules/extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js")(module.i, {"fileMap":"{fileName}"});
       module.hot.dispose(cssReload);
       module.hot.accept(undefined, cssReload);
@@ -56401,7 +56469,7 @@ exports.default = Sidebar;
 
 // extracted by extract-css-chunks-webpack-plugin
     if(true) {
-      // 1531409378116
+      // 1531410781274
       var cssReload = __webpack_require__(/*! ../../extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js */ "./node_modules/extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js")(module.i, {"fileMap":"{fileName}"});
       module.hot.dispose(cssReload);
       module.hot.accept(undefined, cssReload);
@@ -56419,7 +56487,7 @@ exports.default = Sidebar;
 
 // extracted by extract-css-chunks-webpack-plugin
     if(true) {
-      // 1531409378275
+      // 1531410781416
       var cssReload = __webpack_require__(/*! ../../extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js */ "./node_modules/extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js")(module.i, {"fileMap":"{fileName}"});
       module.hot.dispose(cssReload);
       module.hot.accept(undefined, cssReload);
@@ -56437,7 +56505,7 @@ exports.default = Sidebar;
 
 // extracted by extract-css-chunks-webpack-plugin
     if(true) {
-      // 1531409378089
+      // 1531410781250
       var cssReload = __webpack_require__(/*! ../../extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js */ "./node_modules/extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js")(module.i, {"fileMap":"{fileName}"});
       module.hot.dispose(cssReload);
       module.hot.accept(undefined, cssReload);
@@ -56455,7 +56523,7 @@ exports.default = Sidebar;
 
 // extracted by extract-css-chunks-webpack-plugin
     if(true) {
-      // 1531409378240
+      // 1531410781377
       var cssReload = __webpack_require__(/*! ../../extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js */ "./node_modules/extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js")(module.i, {"fileMap":"{fileName}"});
       module.hot.dispose(cssReload);
       module.hot.accept(undefined, cssReload);
@@ -56473,7 +56541,7 @@ exports.default = Sidebar;
 
 // extracted by extract-css-chunks-webpack-plugin
     if(true) {
-      // 1531409378288
+      // 1531410781427
       var cssReload = __webpack_require__(/*! ../../extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js */ "./node_modules/extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js")(module.i, {"fileMap":"{fileName}"});
       module.hot.dispose(cssReload);
       module.hot.accept(undefined, cssReload);
@@ -56491,7 +56559,7 @@ exports.default = Sidebar;
 
 // extracted by extract-css-chunks-webpack-plugin
     if(true) {
-      // 1531409378327
+      // 1531410781455
       var cssReload = __webpack_require__(/*! ../../extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js */ "./node_modules/extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js")(module.i, {"fileMap":"{fileName}"});
       module.hot.dispose(cssReload);
       module.hot.accept(undefined, cssReload);
@@ -56509,7 +56577,7 @@ exports.default = Sidebar;
 
 // extracted by extract-css-chunks-webpack-plugin
     if(true) {
-      // 1531409378374
+      // 1531410781491
       var cssReload = __webpack_require__(/*! ../../extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js */ "./node_modules/extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js")(module.i, {"fileMap":"{fileName}"});
       module.hot.dispose(cssReload);
       module.hot.accept(undefined, cssReload);
@@ -56527,7 +56595,7 @@ exports.default = Sidebar;
 
 // extracted by extract-css-chunks-webpack-plugin
     if(true) {
-      // 1531409378341
+      // 1531410781470
       var cssReload = __webpack_require__(/*! ../../extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js */ "./node_modules/extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js")(module.i, {"fileMap":"{fileName}"});
       module.hot.dispose(cssReload);
       module.hot.accept(undefined, cssReload);
@@ -56545,7 +56613,7 @@ exports.default = Sidebar;
 
 // extracted by extract-css-chunks-webpack-plugin
     if(true) {
-      // 1531409378384
+      // 1531410781505
       var cssReload = __webpack_require__(/*! ../../extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js */ "./node_modules/extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js")(module.i, {"fileMap":"{fileName}"});
       module.hot.dispose(cssReload);
       module.hot.accept(undefined, cssReload);
@@ -56763,7 +56831,7 @@ module.exports = {
 
 // extracted by extract-css-chunks-webpack-plugin
     if(true) {
-      // 1531409375185
+      // 1531410778510
       var cssReload = __webpack_require__(/*! ../extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js */ "./node_modules/extract-css-chunks-webpack-plugin/dist/hotModuleReplacement.js")(module.i, {"fileMap":"{fileName}"});
       module.hot.dispose(cssReload);
       module.hot.accept(undefined, cssReload);
