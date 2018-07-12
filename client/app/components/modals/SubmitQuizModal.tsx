@@ -1,16 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { RouteProps, withRouter } from 'react-router'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import Modal from '../Modal'
 import { hideModal } from '../../actions/modal'
-<<<<<<< HEAD
-import { submitQuizAttempt } from '../../actions/quizzes'
-=======
 import { submitQuizAttempt, clearQuizAttempt } from '../../actions/quizzes'
 import { RouteProps, withRouter } from 'react-router'
->>>>>>> c3871c7e4179e51a65d03551b30ae2b69efd1da2
 
 interface IProps extends RouteProps {
   hideModal: () => any
