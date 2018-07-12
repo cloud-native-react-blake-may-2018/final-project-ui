@@ -7,7 +7,7 @@
     "start": "npm run serve & npm run test",
     "serve": "ts-node index.ts",
     "test": "jest --watchAll",
-    "build": "webpack"
+    "build": "NODE_ENV=production webpack"
   },
   "author": "Eric",
   "license": "ISC",

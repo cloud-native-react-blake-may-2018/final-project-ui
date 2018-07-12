@@ -7,8 +7,8 @@ import ExtractCssChunks from 'extract-css-chunks-webpack-plugin'
 
 const config: webpack.Configuration = {
   entry: {
-    app: ['webpack-hot-middleware/client?reload=true', './client/app/app.tsx']
-    // app: './client/app/app.tsx'
+    // app: ['webpack-hot-middleware/client?reload=true', './client/app/app.tsx']
+    app: './client/app/app.tsx'
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -19,7 +19,8 @@ const config: webpack.Configuration = {
 
   // Enable sourcemaps for debugging webpack's output.
   devtool: 'source-map',
-  mode: 'development',
+
+  mode: process.env.NODE_ENV ? 'production' : 'development',
 
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
@@ -41,7 +42,8 @@ const config: webpack.Configuration = {
             options: {
               babelrc: false,
               cacheDirectory: true,
-              plugins: ['react-hot-loader/babel', 'inline-react-svg']
+              plugins: ['inline-react-svg']
+              // plugins: ['react-hot-loader/babel', 'inline-react-svg']
             }
           },
           'awesome-typescript-loader'
@@ -79,7 +81,7 @@ const config: webpack.Configuration = {
   },
 
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
+    // new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
     new HtmlWebpackPlugin({
       template: './client/public/index.html',
@@ -90,6 +92,13 @@ const config: webpack.Configuration = {
       filename: 'css/style.css'
     })
   ]
+
+  // devServer: {
+  //   hot: true,
+  //   contentBase: './client/public',
+  //   historyApiFallback: true,
+  //   stats: 'minimal' // none (or false), errors-only, minimal, normal (or true) and verbose
+  // }
 }
 
 export default config

@@ -26,5 +26,7 @@ export const startLogout = () => dispatch => {
   localStorage.clear()
   let redirectUrl =
     'https://quizard.auth.us-east-2.amazoncognito.com/logout?response_type=token&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=http://localhost:3222/redirect'
+  // let redirectUrl =
+  //   'https://quizard.auth.us-east-2.amazoncognito.com/logout?response_type=token&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=http://cloud-native-project-3-ui.s3-website.us-east-2.amazonaws.com/redirect'
   window.location.href = redirectUrl
 }
