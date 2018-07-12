@@ -41,7 +41,7 @@ const config: webpack.Configuration = {
             options: {
               babelrc: false,
               cacheDirectory: true,
-              plugins: ['react-hot-loader/babel']
+              plugins: ['react-hot-loader/babel', 'inline-react-svg']
             }
           },
           'awesome-typescript-loader'
@@ -62,7 +62,17 @@ const config: webpack.Configuration = {
           'sass-loader'
         ]
       },
-
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: 'babel-loader'
+          },
+          {
+            loader: 'react-svg-loader'
+          }
+        ]
+      },
       // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
       { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' }
     ]
@@ -79,14 +89,7 @@ const config: webpack.Configuration = {
     new ExtractCssChunks({
       filename: 'css/style.css'
     })
-  ],
-
-  devServer: {
-    hot: true,
-    contentBase: './client/public',
-    historyApiFallback: true,
-    stats: 'minimal' // none (or false), errors-only, minimal, normal (or true) and verbose
-  }
+  ]
 }
 
 export default config

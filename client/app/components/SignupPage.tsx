@@ -4,7 +4,7 @@ import { CognitoUserPool, CognitoUser } from 'amazon-cognito-identity-js'
 import * as AmazonCognitoIdentity from 'amazon-cognito-identity-js'
 
 import { connect } from 'react-redux'
-import { startSignup } from '../actions/auth'
+// import { startSignup } from '../actions/auth'
 import { generateUuid } from '../helpers/helpers'
 
 interface ClassProps extends RouteComponentProps<any> {
@@ -71,8 +71,8 @@ export class SignupPage extends Component<ClassProps, ClassState> {
 
     // start of cognito logic
     const poolData = {
-      UserPoolId: 'us-east-2_LfGmk9qIA',
-      ClientId: '5lmmpid5kd4v4vibmvifhcm3re'
+      UserPoolId: 'us-east-2_fMMquWRem',
+      ClientId: '1q83lmu6khfnc0v8jjdrde9291'
     }
 
     // initialize pool of users
@@ -84,7 +84,10 @@ export class SignupPage extends Component<ClassProps, ClassState> {
       Name: 'email',
       Value: email
     }
-
+    const dataName = {
+      Name: 'name',
+      Value: this.state.fullname
+    }
     console.log('state email ', email)
     console.log('data email ', dataEmail)
 
@@ -93,12 +96,21 @@ export class SignupPage extends Component<ClassProps, ClassState> {
     const attributeEmail = new AmazonCognitoIdentity.CognitoUserAttribute(
       dataEmail
     )
+    const attributeName = new AmazonCognitoIdentity.CognitoUserAttribute(
+      dataName
+    )
 
     attributeList.push(attributeEmail)
-
+    attributeList.push(attributeName)
     // creates user
     userPool.signUp(username, password, attributeList, null, (err, result) => {
       if (err) {
+        this.setState({
+          errors: {
+            ...this.state.errors,
+            global: err.message
+          }
+        })
         return console.log('there was an error.', err)
       }
 
@@ -152,18 +164,10 @@ export class SignupPage extends Component<ClassProps, ClassState> {
     const { errors, admin, message } = this.state
     return (
       <div className="signup-page">
-        {admin && (
-          <img
-            src="https://png.icons8.com/color/160/crown.png"
-            style={{
-              margin: '0 auto',
-              width: '100px',
-              height: '100px',
-              filter: 'brightness(110%)'
-            }}
-          />
-        )}
         <div className="signup-bg" />
+        <Link to="/">
+          <h1 className="app-name">Quizzard</h1>
+        </Link>
         <form
           autoComplete="off"
           className="signup-form"
@@ -199,15 +203,15 @@ export class SignupPage extends Component<ClassProps, ClassState> {
             />
           </div>
           <div className="input-group">
+            <div className="switch-page">
+              <p className="text">Already have an account?</p>
+              <Link to="/login" className="login-link">
+                &nbsp;Login
+              </Link>
+            </div>
             <button type="submit" className="signup-button button">
               Signup
             </button>
-          </div>
-          <div className="switch-auth-form">
-            <p className="text">Already have an account?</p>
-            <Link to="/login" className="login-link">
-              &nbsp;Login
-            </Link>
           </div>
         </form>
         {!!errors.global && <p>{errors.global}</p>}
@@ -220,6 +224,6 @@ export class SignupPage extends Component<ClassProps, ClassState> {
 }
 
 export default connect(
-  undefined,
-  { startSignup }
+  undefined
+  // { startSignup }
 )(SignupPage)

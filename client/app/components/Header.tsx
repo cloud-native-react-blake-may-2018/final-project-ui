@@ -8,94 +8,88 @@ import {
   DropdownItem
 } from 'reactstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import CoinIcon from '../../public/icons/coin-icon.svg'
 
 import SearchResults from './SearchResults'
+import { sidebar, startSearch } from '../actions/app'
 import { startLogout } from '../actions/auth'
 
-interface StateProps {
+interface RProps {
   isAuthenticated: Boolean
-  name: string
-  words: any
-  results: any
-  photo: string
+  username: string
+  photo?: string
 }
 
-interface DispatchProps {
+interface RState {
+  sidebar?: any
+  startSearch?: (query: string) => any
   startLogout: () => void
 }
 
-type Props = StateProps & DispatchProps
+type Props = RProps & RState
 
 export class Header extends Component<Props> {
   state = {
     dropdownOpen: false,
-    searchTerm: '',
-    showSearch: false
+    showSearch: false,
+    term: '',
+    query: ''
   }
 
   toggleDropdown = () =>
     this.setState({ dropdownOpen: !this.state.dropdownOpen })
 
-  // Probably will only use this for testing
   // @ts-ignore
+  // needs to be attached to document for click detection
   componentDidMount = () =>
-    document.addEventListener('click', this.determineSelection, false)
+    document.addEventListener('click', this.determineClick, false)
 
   //@ts-ignore
+  // needs to be attached to document for click detection
   componentWillUnmount = () =>
-    document.removeEventListener('click', this.determineSelection)
+    document.removeEventListener('click', this.determineClick)
 
-  determineSelection = ({ target }) => {
-    // if you click outside, some code runs
-    if (!target.closest('.section') && !target.dataset.search) this.searchBlur()
+  determineClick = e => {
+    // if click outside modal or not typing in input, hide search
+    if ((!e.target.closest('.section') && !e.target.dataset.search)) {
+      this.hideSearch()
+    }
 
-    // else if you click inside, some other code runs
+    // else if you click inside or type in input, ...
   }
 
-  searchFocus = () => {
-    this.setState({ showSearch: true })
-  }
+  showSearch = () => this.setState({ showSearch: true })
 
-  searchBlur = () => {
-    this.setState({ showSearch: false })
-  }
+  hideSearch = () => this.setState({ showSearch: false })
 
-  onFieldChange = e => {
-    let value = e.target.value
+  onFieldChange = async e => {
+    const {
+      target: { value }
+    } = e
+    const { startSearch } = this.props
     this.setState({
-      searchTerm: value
+      term: value
     } as any)
+    // send term to database
+    // await startSearch(query)
   }
 
   handleSubmit = e => {
     e.preventDefault()
-    // console.log('Reached submit')
-    // console.log(this.props.words)
-    const matches = this.props.words.filter(
-      word => word.word === this.state.searchTerm
-    )
-    // console.log(this.state.searchTerm)
-
-    let results = this.props.results
-    // console.log(matches[0])
     this.setState({
-      results: matches
-    } as any)
-    // console.log('Results', this.props.results)
-
-    // alert('Found match' + match[0].word)
+      query: this.state.term
+    })
   }
 
   render() {
-    const { isAuthenticated, startLogout, photo } = this.props
-    const searchTerm = this.state.searchTerm
+    const { isAuthenticated, username, photo, startLogout } = this.props
+    const { showSearch, term, query } = this.state
 
     return (
       <header className="nav-header">
-        <SearchResults term={searchTerm} inputState={this.state.showSearch} />
-        <FontAwesomeIcon icon="bars" className="bars" />
-        <Link to="/dashboard" className="seam-sm">
-          Seam
+        <SearchResults query={query} showSearch={showSearch} />
+        <Link to="/dashboard">
+          <h2 className="home-button">Quizzard</h2>
         </Link>
         <div className="search-group">
           <FontAwesomeIcon icon="search" className="icon" />
@@ -104,16 +98,18 @@ export class Header extends Component<Props> {
               type="text"
               className="input spawnSearch"
               placeholder="Search"
-              value={searchTerm}
               data-search={true}
+              onFocus={this.showSearch}
               onChange={this.onFieldChange}
-              onFocus={this.searchFocus}
-              // onBlur={this.searchBlur}
+              value={term}
             />
           </form>
         </div>
 
-        <FontAwesomeIcon icon="bell" className="alerts" />
+        <div className="coin-group">
+          <CoinIcon className="coin-icon" />
+          <p className="coin-total">0</p>
+        </div>
 
         <Dropdown
           isOpen={this.state.dropdownOpen}
@@ -127,7 +123,7 @@ export class Header extends Component<Props> {
                 background: `url(${photo}) center / cover no-repeat`
               }}
             />
-            <p className="nav-username">{this.props.name}</p>
+            <p className="nav-username">{username}</p>
             <FontAwesomeIcon icon="angle-down" className="icon fa-angle-down" />
           </DropdownToggle>
           <DropdownMenu
@@ -155,20 +151,13 @@ export class Header extends Component<Props> {
   }
 }
 
-const mapStateToProps = (state): StateProps => {
-  return {
-    isAuthenticated: !!state.auth.token,
-    name: state.auth.name,
-    words: state.lexica.words,
-    results: state.lexica.results,
-    photo: state.auth.profileImage
-  }
-}
+const mapStateToProps = state => ({
+  isAuthenticated: !!state.auth.token,
+  username: state.auth.username
+  // photo: state.auth.profileImage
+})
 
-export default connect<StateProps, DispatchProps>(
+export default connect<RProps, RState>(
   mapStateToProps,
-  {
-    startLogout
-    // startGetEverything
-  }
+  { sidebar, startSearch, startLogout }
 )(Header)

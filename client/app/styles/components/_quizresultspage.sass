@@ -1,0 +1,116 @@
+.quiz-results-page
+  display: grid
+
+  .red-dark-red
+    background: linear-gradient(40deg, $red, $dark-red)
+
+  .yellow-orange
+    background: linear-gradient(40deg, yellow, $orange)
+
+  .yellow-green
+    background: linear-gradient(40deg, yellow, $approve-green)
+
+  .green-dark-green
+    background: linear-gradient(40deg, $approve-green, darken($approve-green, 15%))
+
+  .main
+    display: grid
+    margin: auto
+    width: 50%
+    min-width: 600px
+    max-width: 700px
+    border-radius: 8px
+    background-color: $white
+    box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
+
+    main
+      display: grid
+      position: relative
+      grid-template-columns: 1fr
+      align-items: center
+      justify-item: center
+      padding: 20px 30px
+      margin: 0
+      text-align: center
+      border-radius: 8px 8px 0 0
+      // background: linear-gradient(40deg, $red, $orange)
+
+      .title
+        margin: 0 0 25px
+        font: 900 36px Asap
+        color: black
+        mix-blend-mode: overlay
+
+      .score
+        margin: 0 0 15px
+        font: 700 110px Asap
+        color: $white
+
+      .points-container
+        display: grid
+        grid-template-columns: repeat(2, max-content)
+        justify-self: center
+        align-items: center
+        margin: 0 0 25px
+
+        .points
+          margin: 0
+          height: max-content
+          font: italic 500 50px Asap
+          color: $white
+
+        .coin-icon
+          transform: scale(.9)
+
+
+    footer
+      display: grid
+      grid-template-columns: 1fr 1fr
+      padding: 25px 25px 15px
+
+      .link
+        display: grid
+        align-self: center
+        justify-self: center
+
+        .retake-button
+          justify-self: center
+          font: 500 21px Asap
+          color: $light-grey
+          transition: .3s all ease-in-out
+
+          &:hover
+            color: darken($light-grey, 10%)
+
+        .results-button
+          justify-self: center
+          padding: 10px 75px
+          border: none
+          outline: none
+          border-radius: 8px
+          font: normal 18px Asap
+          color: $white
+          background-color: $blue
+          box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
+          transition: .3s all ease-in-out
+
+          &:hover
+            cursor: pointer
+            transform: translateY(-2px)
+
+          &:active
+            cursor: pointer
+            transform: scale(.9)
+            filter: brightness(93%)
+
+
+
+@keyframes back-oscillate 
+  0% 
+    left: 50px
+    
+  50% 
+    left: 40px
+
+  100%
+    left: 50px

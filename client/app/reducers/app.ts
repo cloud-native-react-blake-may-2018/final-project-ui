@@ -1,12 +1,10 @@
 import React from 'react'
 
 const initialState = {
-  dataIsHere: false,
-  details: false,
-  position: ''
+  sidebarOpen: true
 }
 
-export const appReducer = (state = initialState, action = {} as any) => {
+export const appReducer = (state = initialState as any, action = {} as any) => {
   switch (action.type) {
     case 'LOGIN':
       return {
@@ -14,20 +12,13 @@ export const appReducer = (state = initialState, action = {} as any) => {
         dataIsHere: true
       }
 
-    case 'TEXTBAR':
-      return {
-        ...state,
-        position: action.uid.length > 0 && action.uid
-      }
-
-    case 'SET_DETAILS':
-      return {
-        ...state,
-        details: !state.details
-      }
-
     case 'LOGOUT':
       return {}
+
+    case 'SIDEBAR':
+      return {
+        sidebarOpen: action.bool
+      }
 
     default:
       return initialState

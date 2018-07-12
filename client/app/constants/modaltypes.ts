@@ -1,0 +1,1 @@
+export const SUBMIT_QUIZ_MODAL = 'SUBMIT_QUIZ_MODAL'
