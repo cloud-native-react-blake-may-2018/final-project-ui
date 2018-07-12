@@ -4,6 +4,15 @@ import { Link } from 'react-router-dom'
 import fontawesome from '@fortawesome/fontawesome'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { startCreateNewQuiz } from '../actions/create'
+import { environment, prod, dev } from '../environment/config'
+
+// const dev = {
+//   context: "https://8lomsjt0a6.execute-api.us-west-2.amazonaws.com/dev/"
+//  };const prod = {
+//   context: "https://8lomsjt0a6.execute-api.us-west-2.amazonaws.com/prod/"
+//  };export const environment = process.env.NODE_ENV === "production" ? prod : dev;
+
+let callbackUrl = environment === prod ? 'https://cloud-native-project-3-ui.s3-website.us-east-2.amazonaws.com/redirect' : 'http://localhost:3222/redirect'
 
 export class SignInRedirect extends Component {
   componentDidMount() {
