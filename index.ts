@@ -19,7 +19,7 @@ const app = express()
 const isDev = process.env.NODE_ENV !== 'production'
 
 // setup port
-const port = parseInt(process.env.PORT) || 3222
+const port = parseInt(process.env.NODE_PORT) || 3000
 app.set('port', port)
 
 if (isDev) {
