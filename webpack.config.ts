@@ -7,8 +7,8 @@ import ExtractCssChunks from 'extract-css-chunks-webpack-plugin'
 
 const config: webpack.Configuration = {
   entry: {
-    app: ['webpack-hot-middleware/client?reload=true', './client/app/app.tsx']
-    // app: './client/app/app.tsx'
+    // app: ['webpack-hot-middleware/client?reload=true', './client/app/app.tsx']
+    app: './client/app/app.tsx'
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -41,7 +41,8 @@ const config: webpack.Configuration = {
             options: {
               babelrc: false,
               cacheDirectory: true,
-              plugins: ['react-hot-loader/babel', 'inline-react-svg']
+              plugins: ['inline-react-svg']
+              // plugins: ['react-hot-loader/babel', 'inline-react-svg']
             }
           },
           'awesome-typescript-loader'
@@ -79,7 +80,7 @@ const config: webpack.Configuration = {
   },
 
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
+    // new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
     new HtmlWebpackPlugin({
       template: './client/public/index.html',
