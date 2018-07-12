@@ -1,25 +1,6 @@
 import React from "react";
 import api from "../path-list";
 
-// export const persist = identity => ({
-//   type: "PERSIST",
-//   identity
-// });
-
-// export const startPersist = identity => {
-//   return dispatch => {
-//     dispatch(persist(identity))
-
-//     return api.user.persistUser(identity).then(data => {
-//       const user = {
-//         ...data,
-//         token: identity.token
-//       }
-//       return dispatch(login(user))
-//     })
-//   }
-// }
-
 export const createNewQuestion = newQuestion => ({
   type: "CREATE_NEW_QUESTION",
   newQuestion
@@ -60,26 +41,28 @@ export const startBatchCreateQuestions = incoming => async dispatch => {
   const data = await api.create.batchAddQuestion(incoming.newQuestions);
 
   const arrOfUuids = data.map(question => question.uuid);
+  const arrOfTags = data.map(question => question.tags);
+
+  let arrOfPairs = [];
+  data.map(question =>
+    arrOfPairs.push({ uuid: question.uuid, tags: question.tags })
+  );
+  const quizID = incoming.quizID;
   const shouldBeStoredInJunctionTable = await api.create.addJunction(
-    incoming.quizID,
+    quizID,
     arrOfUuids
   );
+  const addTheTags = await api.create.addTagsToQuestions(arrOfPairs);
+  let arrTags = arrOfTags.reduce((accumulator, currentValue) => {
+    return accumulator.concat(currentValue);
+  });
+  let addTheTagsSet = new Set(arrTags);
+  arrTags = [...addTheTagsSet];
 
+  const addForQuiz = await api.create.addTagsToQuiz(quizID, arrTags);
   return;
-  // return dispatch(batchCreateQuestions(data));
 };
-// new Promise(function(resolve, reject) {
-//   api.create
-//     .batchAddQuestion(newQuestions)
-//     .then(data => {
-//       dispatch(batchCreateQuestions(data));
-//       console.log(data);
-//       setTimeout(() => resolve(data), 3000);
-//     })
-//     .catch(err => {
-//       reject(err);
-//     });
-// });
+
 // original action
 // export const startBatchCreateQuestions = newQuestions => dispatch =>
 //   new Promise(function(resolve, reject) {

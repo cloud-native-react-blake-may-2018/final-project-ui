@@ -56,6 +56,8 @@ export class TakeQuizPage extends Component<IProps, any> {
 
   submitQuizModal = () => this.props.loadModal(SUBMIT_QUIZ_MODAL)
 
+  // will take you to the previous question and update answer array
+  // if a choice is selected
   public previousQuizQuestion = (choices: object) => (e: any) => {
     e.preventDefault()
     if (
@@ -78,6 +80,8 @@ export class TakeQuizPage extends Component<IProps, any> {
       this.props.changeQuestionNumber(this.props.questionNumber - 1)
     }
   }
+  // will take you to the next question and update answer array
+  // if a choice is selected
   public nextQuizQuestion = (choices: object) => (e: any) => {
     e.preventDefault()
     console.log('here on submit', choices[this.props.questionNumber].format)
@@ -102,11 +106,12 @@ export class TakeQuizPage extends Component<IProps, any> {
     }
   }
 
+  // adds an answer to the answer array if the question has not already
+  // been answered if it has the answer will be updated
   public addAnswerToObject = (choices: object, answer: any) => {
     let index
     switch (choices[this.props.questionNumber].format) {
       case 'multiple-choice':
-        // console.log(choices[this.props.questionNumber])
         console.log(this.props.answerArray)
         if (
           this.props.answerArray.some((obj, i) => {
@@ -134,7 +139,6 @@ export class TakeQuizPage extends Component<IProps, any> {
         })
         break
       case 'multiple-select':
-        // console.log(this.props.answerArray)
         if (
           this.props.answerArray.some((obj, i) => {
             if (obj.title === choices[this.props.questionNumber].title) {
@@ -155,7 +159,6 @@ export class TakeQuizPage extends Component<IProps, any> {
         }
         let newArray: any[]
         if (this.props.multipleSelectAnswer.answer.includes(answer.answer)) {
-          console.log('here')
           const index = this.props.multipleSelectAnswer.answer.indexOf(
             answer.answer.answer
           )
@@ -210,12 +213,6 @@ export class TakeQuizPage extends Component<IProps, any> {
     }
   }
 
-  // public convertAsyncToSync = async func =>
-  //   new Promise(async resolve => {
-  //     await func()
-  //     resolve()
-  //   })
-
   public submit = (choices: object) => (e: any) => {
     console.log('in submit function')
     if (
@@ -234,42 +231,6 @@ export class TakeQuizPage extends Component<IProps, any> {
       }
     }
     this.submitQuizModal()
-
-    // console.log('here')
-    // const addFinalQuestion = async () => {
-    //   if (
-    //     this.props.multipleSelectAnswer.answer.length > 0 ||
-    //     this.props.multipleChoiceAnswer !== null
-    //   ) {
-    //     if (
-    //       choices[this.props.questionNumber].format === 'multiple-choice' ||
-    //       choices[this.props.questionNumber].format === 'true-false'
-    //     ) {
-    //       this.props.startAddAnswerToArray(this.props.multipleChoiceAnswer)
-    //     } else if (
-    //       choices[this.props.questionNumber].format === 'multiple-select'
-    //     ) {
-    //       this.props.startAddAnswerToArray(this.props.multipleSelectAnswer)
-    //     }
-    //   }
-    // }
-    // this.convertAsyncToSync(addFinalQuestion).then(() => {
-    //   console.log('store should now be updated')
-    //   console.log(
-    //     this.quizUUID,
-    //     this.props.username,
-    //     this.props.quiz.attemptUUID,
-    //     this.props.answerArray
-    //   )
-
-    //   this.props.submitQuizAttempt(
-    //     this.quizUUID,
-    //     this.props.username,
-    //     this.props.quiz.attemptUUID,
-    //     this.props.answerArray
-    //   )
-    //   this.props.history.push('/quiz-results')
-    // })
   }
 
   // @ts-ignore
@@ -340,7 +301,6 @@ export class TakeQuizPage extends Component<IProps, any> {
                   </button>
                 ) : (
                   <button
-                    // onClick={this.submitQuizModal}
                     onClick={this.submit(quiz.questions)}
                     className="submit-button"
                   >
@@ -358,7 +318,6 @@ export class TakeQuizPage extends Component<IProps, any> {
 
 const mapStateToProps = (state, props) => ({
   username: state.auth.username,
-  // quiz: state.takeQuiz.quizAttemptInfoObj,
   quiz:
     state.takeQuiz.quizAttemptInfoObj !== null &&
     state.takeQuiz.quizAttemptInfoObj,
@@ -368,7 +327,6 @@ const mapStateToProps = (state, props) => ({
   multipleSelectAnswer: state.takeQuiz.multipleSelectAnswer,
   multipleChoiceAnswer: state.takeQuiz.multipleChoiceAnswer,
   done: state.takeQuiz.done
-  // clickedQuestion: state.quizzes.clickedQuestion
 })
 
 export default connect(
