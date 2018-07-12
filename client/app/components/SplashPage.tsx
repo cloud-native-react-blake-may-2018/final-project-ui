@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import Axios from 'axios'
-// import Querystring from 'query-string'
+import dotenv from 'dotenv'
 
 export class SplashPage extends Component {
   // @ts-ignore
-  componentDidMount = () => console.log('environment: ', process.env.NODE_ENV)
+  componentDidMount = () =>
+    console.log('is port working now? ', process.env.NODE_PORT)
 
   // @ts-ignore
   render = () => {
