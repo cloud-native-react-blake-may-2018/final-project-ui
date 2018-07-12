@@ -1,7 +1,7 @@
 import React from "react";
 
 const initialState = {
-  quizID: "f01ac32d-09db-42cd-806a-d1cea45bfdf5",
+  quizID: "a05189ad-4ada-4794-ab86-9be8d779328f",
   questionIDs: []
 };
 
@@ -17,10 +17,6 @@ export const createReducer = (state = initialState, action = {} as any) => {
         quizID: action.quizID
       };
     case "BATCH_CREATE_QUESTIONS":
-      // let idArr = [];
-      // for (let i of action.questions) {
-      //   idArr.push(i.uuid);
-      // }
       return {
         ...state,
         questionIDs: [...action.questions.map(question => question.uuid)]

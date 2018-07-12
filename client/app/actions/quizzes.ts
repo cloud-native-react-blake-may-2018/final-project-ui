@@ -77,12 +77,44 @@ export const UpdateQuestionsDisplay = clickedQuestion => ({
   clickedQuestion
 })
 
-export const startAddAnswerToArray = answerObj => dispatch =>
-  dispatch(addAnswerToArray(answerObj))
+export const startAddAnswerToArray = answerObj => async dispatch =>
+  await dispatch(addAnswerToArray(answerObj))
 
 export const addAnswerToArray = answerObj => ({
   type: 'ADD_ANSWER_TO_OBJECT',
   answerObj
+})
+
+export const addMultipleSelectAnswer = answerObj => dispatch =>
+  dispatch(startAddMultipleSelectAnswer(answerObj))
+
+export const startAddMultipleSelectAnswer = answerObj => ({
+  type: 'ADD_MULTIPLE_SELECT_ANSWER',
+  answerObj
+})
+export const updateMultipleSelectAnswer = answerArray => dispatch =>
+  dispatch(startUpdateMultipleSelectAnswer(answerArray))
+
+export const startUpdateMultipleSelectAnswer = answerArray => ({
+  type: 'UPDATE_MULTIPLE_SELECT_ANSWER',
+  answerArray
+})
+
+export const addMultipleChoiceAnswer = answerObj => dispatch =>
+  dispatch(startAddMultipleChoiceAnswer(answerObj))
+
+export const startAddMultipleChoiceAnswer = answerObj => ({
+  type: 'ADD_MULTIPLE_CHOICE_ANSWER',
+  answerObj
+})
+
+export const updateAnswerArray = answerArray => dispatch =>
+  dispatch(startupdateAnswerArray(answerArray))
+
+export const startupdateAnswerArray = answer => ({
+  type: 'UPDATE_ANSWER_ARRAY',
+  answerArray: answer.answerArray,
+  done: answer.done
 })
 
 export const changeQuestionNumber = questionNumber => dispatch =>
@@ -91,4 +123,27 @@ export const changeQuestionNumber = questionNumber => dispatch =>
 export const startChangeQuestionNumber = questionNumber => ({
   type: 'CHANGE_QUESTION_NUMBER',
   questionNumber
+})
+export const startQuizAttempt = (quizUUID: any, username: string) => dispatch =>
+  pathList.quizzes
+    .startQuizAttempt(quizUUID, username)
+    .then(quizAttemptInfo => dispatch(beginQuizAttempt(quizAttemptInfo)))
+
+export const beginQuizAttempt = quizAttemptInfo => ({
+  type: 'QUIZ_ATTEMPT_INFO',
+  quizAttemptInfo
+})
+export const submitQuizAttempt = (
+  quizUUID: string,
+  user: string,
+  attemptUUID: string,
+  answerArray: any[]
+) => dispatch =>
+  pathList.quizzes
+    .submitQuizAttempt(quizUUID, user, attemptUUID, answerArray)
+    .then(quizResults => dispatch(startSubmitQuizAttempt(quizResults)))
+
+export const startSubmitQuizAttempt = quizResults => ({
+  type: 'SUBMIT_QUIZ_ATTEMPT',
+  quizResults
 })
