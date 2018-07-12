@@ -16,8 +16,8 @@ phases:
             - echo "$CODEBUILD_BUILD_SUCCEEDING"
             -|
               if [ "$CODEBUILD_BUILD_SUCCEEDING" == "0" ]; then
-                aws s3 cp dist "s3://${S3_BUCKET}" --recursive;
-                echo Build completed on `date`;
+                aws s3 cp "dist" "s3://${S3_BUCKET}" --recursive;
+                echo "Build completed on `date`";
               fi
 artifacts:
     files:
