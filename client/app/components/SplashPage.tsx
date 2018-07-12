@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import Axios from 'axios'
-import Querystring from 'query-string'
+// import Querystring from 'query-string'
 
 export const SplashPage = () => (
   <div>
