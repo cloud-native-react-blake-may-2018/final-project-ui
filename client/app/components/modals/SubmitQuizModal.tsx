@@ -5,7 +5,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import Modal from '../Modal'
 import { hideModal } from '../../actions/modal'
+<<<<<<< HEAD
 import { submitQuizAttempt } from '../../actions/quizzes'
+=======
+import { submitQuizAttempt, clearQuizAttempt } from '../../actions/quizzes'
+import { RouteProps, withRouter } from 'react-router'
+>>>>>>> c3871c7e4179e51a65d03551b30ae2b69efd1da2
 
 interface IProps extends RouteProps {
   hideModal: () => any
@@ -13,6 +18,8 @@ interface IProps extends RouteProps {
   history: any
   username: any
   answerArray: any
+  questionNumber: any
+  clearQuizAttempt: (reset: number) => void
   submitQuizAttempt: (
     quizUUID: string,
     user: string,
@@ -40,6 +47,8 @@ export class SubmitQuizModal extends Component<IProps> {
       this.props.quiz.attemptUUID,
       this.props.answerArray
     )
+
+    this.props.clearQuizAttempt(0)
 
     this.props.submitQuizAttempt(
       this.quizUUID,
@@ -79,6 +88,7 @@ export class SubmitQuizModal extends Component<IProps> {
 const mapStateToProps = (state, props) => ({
   username: state.auth.username,
   quizzes: state.quizzes.quizAttemptInfoObj,
+  questionNumber: state.takeQuiz.questionNumber,
   quiz:
     state.takeQuiz.quizAttemptInfoObj !== null &&
     state.takeQuiz.quizAttemptInfoObj,
@@ -88,6 +98,6 @@ const mapStateToProps = (state, props) => ({
 export default withRouter(
   connect(
     mapStateToProps,
-    { hideModal, submitQuizAttempt }
+    { hideModal, submitQuizAttempt, clearQuizAttempt }
   )(SubmitQuizModal)
 )

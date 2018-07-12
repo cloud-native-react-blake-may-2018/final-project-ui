@@ -1,5 +1,5 @@
 const dev = {
-  context: `http://localhost:${process.env.NODE_PORT}`
+  context: `http://localhost:3222`
 }
 const prod = {
   context: 'http://cloud-native-project-3-ui.s3-website.us-east-2.amazonaws.com'
