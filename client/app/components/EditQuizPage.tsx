@@ -355,13 +355,9 @@ const mapStateToProps = (state, props) => ({
   username: state.auth.username,
   quiz:
     state.quizzes.all !== undefined &&
-    state.quizzes.all.find(
-      quiz =>
-        quiz.uuid === props.match.params.uuid ||
-        quiz.uuid === state.create.quizID
-    ),
-  quizzes: state.quizzes.all,
-  readyNewQuestion: state.create.readyNewQuestion
+    state.quizzes.all.find(quiz => quiz.uuid === props.match.params.uuid),
+  quizzes: state.quizzes.all
+  // readyNewQuestion: state.create.readyNewQuestion
 });
 
 export default connect(
