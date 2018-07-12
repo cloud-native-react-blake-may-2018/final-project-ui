@@ -90,12 +90,12 @@ const config: webpack.Configuration = {
 
     new ExtractCssChunks({
       filename: 'css/style.css'
-    }),
+    })
 
     // 1. import dotenv
     // 2. dotenv.config() immediately after
     // 3. this line adds environment variables to the bundle
-    new webpack.EnvironmentPlugin(['NODE_PORT'])
+    // new webpack.EnvironmentPlugin(['NODE_PORT'])
 
     // new webpack.DefinePlugin({
     //   'process.env': {
