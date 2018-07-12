@@ -1,16 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { RouteProps, withRouter } from 'react-router'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
 import Modal from '../Modal'
 import { hideModal } from '../../actions/modal'
-<<<<<<< HEAD
-import { submitQuizAttempt } from '../../actions/quizzes'
-=======
 import { submitQuizAttempt, clearQuizAttempt } from '../../actions/quizzes'
 import { RouteProps, withRouter } from 'react-router'
->>>>>>> c3871c7e4179e51a65d03551b30ae2b69efd1da2
 
 interface IProps extends RouteProps {
   hideModal: () => any
@@ -48,16 +42,39 @@ export class SubmitQuizModal extends Component<IProps> {
       this.props.answerArray
     )
 
-    this.props.clearQuizAttempt(0)
+    // this.props.submitQuizAttempt(
+    //   this.quizUUID,
+    //   this.props.username,
+    //   this.props.quiz.attemptUUID,
+    //   this.props.answerArray
+    // )
 
-    this.props.submitQuizAttempt(
-      this.quizUUID,
-      this.props.username,
-      this.props.quiz.attemptUUID,
-      this.props.answerArray
-    )
+    //PROMISE THAT STOPS ASYNCH ISSUE OF SUBMITTING QUIZ AND THEN ONCE SUBMITTED, THEN CLEARS QUIZ INFO
+    let parameterSubmit = function(e) {
+      let waitSubmit = new Promise(function(resolve, reject) {
+        e.props.submitQuizAttempt(
+          e.quizUUID,
+          e.props.username,
+          e.props.quiz.attemptUUID,
+          e.props.answerArray
+        )
+        resolve('Successfully submitted quiz')
+      })
+
+      let isSubmit = function() {
+        waitSubmit.then(fulfilled => {
+          console.log(fulfilled)
+          e.props.clearQuizAttempt(0)
+        })
+      }
+
+      isSubmit()
+    }
+
+    parameterSubmit(this)
+
     this.onClose()
-    this.props.history.push('/quiz-results')
+    this.props.history.push(`/quiz-results/${this.quizUUID}`)
   }
 
   // @ts-ignore

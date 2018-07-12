@@ -19,6 +19,9 @@ interface IProps {
 }
 
 export class QuizResultsPage extends Component<IProps, any> {
+  params = window.location.href.split('/')
+  quizUUID = this.params[4]
+
   determineResponse = () => {
     const score = this.props.quiz.score
     if (score < 20) return 'What was that?!'
@@ -68,7 +71,7 @@ export class QuizResultsPage extends Component<IProps, any> {
                 </div>
               </main>
               <footer>
-                <Link to={`/edit-quiz/${quiz.uuid}`} className="link">
+                <Link to={`/view-quiz/${this.quizUUID}`} className="link">
                   <p className="retake-button">Retake quiz</p>
                 </Link>
                 <Link

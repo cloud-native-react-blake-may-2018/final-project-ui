@@ -98,9 +98,10 @@ export class SidebarContent extends Component<IProps, IState> {
         )}
         {takingQuiz && (
           <div className="container">
-            {questions.map((question, number) => (
-              <p className="link">{number + 1}</p>
-            ))}
+            {questions.length > 0 &&
+              questions.map((question, number) => (
+                <p className="link">{number + 1}</p>
+              ))}
           </div>
         )}
       </div>
