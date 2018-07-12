@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Modal from '../Modal'
 import { hideModal } from '../../actions/modal'
-import { submitQuizAttempt } from '../../actions/quizzes'
+import { submitQuizAttempt, clearQuizAttempt } from '../../actions/quizzes'
 import { RouteProps, withRouter } from 'react-router'
 
 interface IProps extends RouteProps {
@@ -11,6 +11,8 @@ interface IProps extends RouteProps {
   history: any
   username: any
   answerArray: any
+  questionNumber: any
+  clearQuizAttempt: (reset: number) => void
   submitQuizAttempt: (
     quizUUID: string,
     user: string,
@@ -39,6 +41,8 @@ export class SubmitQuizModal extends Component<IProps> {
       this.props.answerArray
     )
 
+    this.props.clearQuizAttempt(0)
+
     this.props.submitQuizAttempt(
       this.quizUUID,
       this.props.username,
@@ -65,6 +69,7 @@ export class SubmitQuizModal extends Component<IProps> {
 const mapStateToProps = (state, props) => ({
   username: state.auth.username,
   quizzes: state.quizzes.quizAttemptInfoObj,
+  questionNumber: state.takeQuiz.questionNumber,
   quiz:
     state.takeQuiz.quizAttemptInfoObj !== null &&
     state.takeQuiz.quizAttemptInfoObj,
@@ -74,6 +79,6 @@ const mapStateToProps = (state, props) => ({
 export default withRouter(
   connect(
     mapStateToProps,
-    { hideModal, submitQuizAttempt }
+    { hideModal, submitQuizAttempt, clearQuizAttempt }
   )(SubmitQuizModal)
 )

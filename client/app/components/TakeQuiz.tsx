@@ -154,18 +154,19 @@ export class TakeQuizPage extends Component<IProps, any> {
           })
         }
         let newArray: any[]
-        if (this.props.multipleSelectAnswer.answer.includes(answer.answer)) {
-          console.log('here')
+        if (
+          this.props.multipleSelectAnswer.answer.includes(answer.answer.answer)
+        ) {
+          console.log('found a match, now remove it', answer.answer.answer)
           const index = this.props.multipleSelectAnswer.answer.indexOf(
             answer.answer.answer
           )
-          console.log(`index: ${index}`)
           newArray = this.props.multipleSelectAnswer.answer
-          console.log(`index: ${newArray}`)
           newArray.splice(index, 1)
-          console.log(`index: ${newArray}`)
-          this.props.updateMultipleSelectAnswer({
-            newArray,
+          this.props.addMultipleSelectAnswer({
+            author: choices[this.props.questionNumber].author,
+            title: choices[this.props.questionNumber].title,
+            answer: newArray,
             done: false
           })
         } else {
