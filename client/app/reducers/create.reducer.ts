@@ -1,8 +1,7 @@
 import React from "react";
 
 const initialState = {
-  quizID: "a05189ad-4ada-4794-ab86-9be8d779328f",
-  questionIDs: []
+  quizID: "a05189ad-4ada-4794-ab86-9be8d779328f"
 };
 
 export const createReducer = (state = initialState, action = {} as any) => {

@@ -8,12 +8,13 @@ import { startCreateNewQuiz } from "../actions/create";
 interface IProps {
   startCreateNewQuiz: (any) => any;
   history?: any;
+  username?: any;
 }
 
 export class AddQuiz extends Component<IProps> {
   state = {
     quiz: {
-      author: "RWantz",
+      author: this.props.username,
       title: "",
       description: "",
       isPrivate: true,

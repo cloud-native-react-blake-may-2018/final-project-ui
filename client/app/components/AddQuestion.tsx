@@ -14,7 +14,6 @@ import { editStoreQuiz } from "../actions/quizzes";
 interface IProps {
   username?: string;
   quizID?: string;
-  questionIDs?: string[];
   quizUUID?: string;
   quizzes?: any[];
   quiz?: any;
@@ -43,7 +42,7 @@ export class AddQuestion extends Component<IProps, any> {
   state = {
     newQuestions: [],
     currentQuestion: {
-      author: "dserna", // this.props.username,
+      author: this.props.username,
       title: "",
       tags: "",
       image: "",
@@ -714,7 +713,6 @@ export class AddQuestion extends Component<IProps, any> {
 const mapStateToProps = (state, parentProps) => ({
   username: state.auth.username,
   quizID: parentProps.quizID || state.create.quizID,
-  questionIDs: state.create.questionIDs,
   quizzes: state.quizzes.all,
   quiz:
     state.quizzes.all !== [] &&
