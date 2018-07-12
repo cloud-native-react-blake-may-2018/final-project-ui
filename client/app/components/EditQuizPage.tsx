@@ -166,7 +166,8 @@ export class EditQuizPage extends Component<IProps> {
               <h1 className="title">{quiz.title}</h1>
               <div className="close">
                 {/* <div className="close" onClick={this.onClose}> */}
-                <FontAwesomeIcon icon="times" />
+                <FontAwesomeIcon icon="trash" />
+                <p className="hint">Permanently delete this quiz</p>
               </div>
               <div className="tags">
                 {quiz.tags.length === 0 && <p className="tag">No tags</p>}
@@ -215,7 +216,8 @@ export class EditQuizPage extends Component<IProps> {
               <div key={clickedQuestion.uuid} className="question-container">
                 <p className="title">Edit question</p>
                 <div className="close" onClick={this.deleteQuestion}>
-                  <FontAwesomeIcon icon="times" />
+                  <FontAwesomeIcon icon="trash" />
+                  <p className="hint">Permanently delete this question</p>
                 </div>
                 {page === 1 && (
                   <form className="details">
@@ -263,6 +265,7 @@ export class EditQuizPage extends Component<IProps> {
                             onChange={(e: any) => {
                               this.updateArr(e, index, 'answer')
                             }}
+                            data-enable-grammarly="false"
                           />
                         </div>
                         <div className="group">
@@ -278,6 +281,7 @@ export class EditQuizPage extends Component<IProps> {
                             onChange={(e: any) => {
                               this.updateArr(e, index, 'percentPoints')
                             }}
+                            data-enable-grammarly="false"
                           />
                         </div>
                         <div className="group">
@@ -289,6 +293,7 @@ export class EditQuizPage extends Component<IProps> {
                             onChange={(e: any) => {
                               this.updateArr(e, index, 'feedback')
                             }}
+                            data-enable-grammarly="false"
                           />
                         </div>
                       </div>

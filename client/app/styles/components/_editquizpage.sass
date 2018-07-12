@@ -1,9 +1,10 @@
 .edit-quiz-page
   main
     display: grid
-    grid-template-columns: max-content minmax(700px, 1fr)
+    grid-template-columns: max-content minmax(250px, 40vw)
     grid-template-rows: repeat(2, max-content)
-    grid-gap: 25px
+    grid-column-gap: 25px
+    padding: 0 50px
     margin: auto
 
     .quiz-container
@@ -31,7 +32,7 @@
 
       .close
         position: absolute
-        top: 20px
+        top: 25px
         right: 25px
         cursor: pointer
         color: $light-grey
@@ -39,10 +40,36 @@
 
         &:hover
           color: $red
-          animation: wiggle .5s infinite
-          -ms-animation: wiggle .5s infinite
-          -moz-animation: wiggle .5s infinite
-          -webkit-animation: wiggle .5s infinite
+          // animation: wiggle .5s infinite
+          // -ms-animation: wiggle .5s infinite
+          // -moz-animation: wiggle .5s infinite
+          // -webkit-animation: wiggle .5s infinite
+
+        &:hover .hint
+          opacity: 1
+
+        .hint
+          position: absolute
+          top: -55px
+          right: -50px
+          width: max-content
+          padding: 5px 15px
+          border-radius: 8px
+          opacity: 0
+          color: $white
+          background-color: $grey
+          transition: .3s all ease-in-out
+
+          &:after
+            content: ''
+            position: absolute
+            right: 47px
+            top: 25px
+            width: 0
+            height: 0
+            border-left: 10px solid transparent
+            border-right: 10px solid transparent
+            border-top: 10px solid $grey
 
       .tags
         display: grid
@@ -158,7 +185,7 @@
 
       .close
         position: absolute
-        top: 20px
+        top: 25px
         right: 25px
         cursor: pointer
         color: $light-grey
@@ -166,10 +193,36 @@
 
         &:hover
           color: $red
-          animation: wiggle .5s infinite
-          -ms-animation: wiggle .5s infinite
-          -moz-animation: wiggle .5s infinite
-          -webkit-animation: wiggle .5s infinite
+          // animation: wiggle .5s infinite
+          // -ms-animation: wiggle .5s infinite
+          // -moz-animation: wiggle .5s infinite
+          // -webkit-animation: wiggle .5s infinite
+
+        &:hover .hint
+          opacity: 1
+
+        .hint
+          position: absolute
+          top: -55px
+          right: -50px
+          width: max-content
+          padding: 5px 15px
+          border-radius: 8px
+          opacity: 0
+          color: $white
+          background-color: $grey
+          transition: .3s all ease-in-out
+
+          &:after
+            content: ''
+            position: absolute
+            right: 47px
+            top: 25px
+            width: 0
+            height: 0
+            border-left: 10px solid transparent
+            border-right: 10px solid transparent
+            border-top: 10px solid $grey
 
       .group
         display: grid
@@ -276,6 +329,9 @@
         background-color: $light-teal
         box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
         transition: .3s all
+
+        @media(max-width: 1050px)
+          justify-self: start
 
         &:hover
           cursor: pointer

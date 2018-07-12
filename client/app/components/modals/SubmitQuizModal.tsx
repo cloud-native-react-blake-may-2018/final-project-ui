@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { RouteProps, withRouter } from 'react-router'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import Modal from '../Modal'
 import { hideModal } from '../../actions/modal'
 import { submitQuizAttempt } from '../../actions/quizzes'
-import { RouteProps, withRouter } from 'react-router'
 
 interface IProps extends RouteProps {
   hideModal: () => any
@@ -53,10 +55,22 @@ export class SubmitQuizModal extends Component<IProps> {
   render = () => {
     return (
       <Modal onClose={this.onClose}>
-        <h1>Ready to Submit?</h1>
-        <button onClick={this.submit} className="submit-button">
-          Submit
-        </button>
+        <div className="submit-quiz-modal">
+          <div className="close" onClick={this.onClose}>
+            <FontAwesomeIcon icon="times" />
+          </div>
+          <p className="title">Submit quiz?</p>
+          <p className="subhead">Cross your fingers and hope for the best!</p>
+
+          <div className="button-group">
+            <button onClick={this.onClose} className="cancel">
+              Cancel
+            </button>
+            <button onClick={this.submit} className="submit">
+              Submit
+            </button>
+          </div>
+        </div>
       </Modal>
     )
   }

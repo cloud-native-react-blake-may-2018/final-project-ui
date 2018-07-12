@@ -13,17 +13,17 @@ interface IProps {
   username: any
   quizzes: any
   quiz: any
+  randomGradient: string
+  gradientColor: string
   startQuizAttempt: (quizUUID: any, username: any) => void
   startGetSearchedQuiz: (uuid: any) => any
 }
 
 export class ViewQuizPage extends Component<IProps> {
-  constructor(props) {
-    super(props)
-  }
   state = {
     clickedQuestion: [],
-    questionNumber: 0
+    questionNumber: 0,
+    index: Math.floor(Math.random() * 5)
   }
 
   params = window.location.href.split('/')
@@ -43,19 +43,18 @@ export class ViewQuizPage extends Component<IProps> {
 
   goBack = () => this.props.history.goBack()
 
-  // @ts-ignore
-  componentDidMount = () => {
-    const { quizzes, startGetSearchedQuiz } = this.props
-    const uuid = this.props.match.params.uuid
-    console.log('quizzes', quizzes)
-    const localQuiz =
-      quizzes !== undefined && quizzes.some(quiz => quiz.uuid === uuid)
-    !localQuiz && startGetSearchedQuiz(uuid)
-  }
+  randomGradient = [
+    'red-orange',
+    'red-blue',
+    'blue-light-teal',
+    'midnight-violet',
+    'midnight-orange'
+  ]
 
   // @ts-ignore
   render = () => {
     const { quiz } = this.props
+    const { index } = this.state
     return (
       <div className="view-quiz-page">
         {quiz.questions === undefined && (
@@ -63,7 +62,7 @@ export class ViewQuizPage extends Component<IProps> {
         )}
         {quiz.questions !== undefined && (
           <div className="main">
-            <main>
+            <main className={this.randomGradient[index]}>
               <ArrowIcon className="back" onClick={this.goBack} />
               <p className="author">By: {quiz.author}</p>
               <h1 className="title">{quiz.title}</h1>
@@ -98,7 +97,7 @@ const mapStateToProps = (state, props) => ({
   // clickedQuestion: state.quizzes.clickedQuestion
 })
 
-export default connect(
+export default connect<any, any>(
   mapStateToProps,
   { startGetSearchedQuiz, startQuizAttempt }
 )(ViewQuizPage)
