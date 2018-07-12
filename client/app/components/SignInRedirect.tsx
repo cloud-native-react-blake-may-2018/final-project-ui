@@ -12,6 +12,8 @@ export class SignInRedirect extends Component {
       environment.context
     }/redirect`
 
+    console.log('redirect url', redirectUrl)
+
     window.location.href = redirectUrl
   }
 
