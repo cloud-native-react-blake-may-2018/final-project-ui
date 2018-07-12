@@ -111,14 +111,12 @@ export class EditQuizPage extends Component<IProps> {
         //here is where we delete a question
       }
     }
-    console.log("without deleted question: ", modQuiz);
     let quizList = this.props.quizzes;
     for (let i = 0; i < quizList.length; i++) {
       if (quizList[i].uuid === this.props.quiz.uuid) {
         quizList.splice(i, 1, modQuiz);
       }
     }
-    console.log("Changed:", quizList);
     this.props.editStoreQuiz(quizList);
   };
 

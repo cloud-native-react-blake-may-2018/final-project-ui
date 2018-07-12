@@ -217,9 +217,7 @@ export class AddQuestion extends Component<IProps, any> {
   private updateStore = questionList => {
     if (this.props.quizzes !== []) {
       let modQuiz = this.props.quiz;
-      console.log("here is the new question list ", questionList);
       modQuiz.questions = modQuiz.questions.concat(questionList);
-      console.log("with the new questions: ", modQuiz);
 
       let quizList = this.props.quizzes;
       for (let i = 0; i < quizList.length; i++) {
@@ -227,16 +225,15 @@ export class AddQuestion extends Component<IProps, any> {
           quizList.splice(i, 1, modQuiz);
         }
       }
-      console.log("Changed:", quizList);
       this.props.editStoreQuiz(quizList);
     }
   };
 
-  private sendOneQuestion = (e: any) => {
-    this.props.startCreateNewQuestion(this.state.currentQuestion);
-  };
+  // private sendOneQuestion = (e: any) => {
+  //   this.props.startCreateNewQuestion(this.state.currentQuestion);
+  // };
 
-  // // @ts-ignore
+  // @ts-ignore
   // componentWillReceiveProps = (props, nextProps) =>
   //   console.log("props: ", props, "nextProps: ", nextProps);
 
@@ -267,9 +264,9 @@ export class AddQuestion extends Component<IProps, any> {
               value={this.state.currentQuestion.format}
               onChange={this.updateFormat}
             >
-              <option value="true-false">true false</option>
-              <option value="multiple-choice">multiple choice</option>
-              <option value="multiple-select">multiple select</option>
+              <option value="true-false">True-or-False</option>
+              <option value="multiple-choice">Multiple Choice</option>
+              <option value="multiple-select">Multiple Select</option>
             </select>
             <div className="row">
               <label htmlFor="true-false-answer">Answer</label>
@@ -359,9 +356,9 @@ export class AddQuestion extends Component<IProps, any> {
               value={this.state.currentQuestion.format}
               onChange={this.updateFormat}
             >
-              <option value="true-false">true false</option>
-              <option value="multiple-choice">multiple choice</option>
-              <option value="multiple-select">multiple select</option>
+              <option value="true-false">True-or-False</option>
+              <option value="multiple-choice">Multiple Choice</option>
+              <option value="multiple-select">Multiple Select</option>
             </select>
             <div className="row">
               <label htmlFor="true-false-answer">Answer</label>
@@ -549,15 +546,29 @@ export class AddQuestion extends Component<IProps, any> {
 
   private onDrop = (files: any) => {
     const file = files[0];
-    let codeString = "";
-    this.setState({
-      ...this.state,
-      image: codeString
-    });
-    // encode thing I get as a base 64 string
-    // look up how to do it
-    // image field of question will be that.
-    // when in db, will be replaced with URL of s3
+
+    const getBase64 = async file => {
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      let codeString;
+      reader.onload = function() {
+        codeString = reader.result;
+        codeString = codeString.split(",", 2);
+        console.log(codeString);
+        this.setState({
+          ...this.state,
+          currentQuestion: {
+            ...this.state.currentQuestion,
+            image: codeString[1]
+          }
+        });
+      }.bind(this);
+      reader.onerror = function(error) {
+        console.log("Error: ", error);
+      };
+      return codeString;
+    };
+    getBase64(file);
   };
 
   private editQuestionElements = (e: any, propertyName) => {
@@ -691,9 +702,9 @@ export class AddQuestion extends Component<IProps, any> {
         <button type="button" onClick={this.updateReducerStore}>
           Save
         </button>
-        <button onClick={this.sendOneQuestion}>
+        {/* <button onClick={this.sendOneQuestion}>
           Just add this one Question
-        </button>
+        </button> */}
         <div>{this.printQuestionsArr()}</div>
       </div>
     );
