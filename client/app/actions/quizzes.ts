@@ -147,3 +147,11 @@ export const startSubmitQuizAttempt = quizResults => ({
   type: 'SUBMIT_QUIZ_ATTEMPT',
   quizResults
 })
+
+export const clearQuizAttempt = reset => dispatch =>
+  dispatch(startclearQuizAttempt(reset))
+
+export const startclearQuizAttempt = reset => ({
+  type: 'CLEAR_QUIZ_ATTEMPT',
+  reset
+})

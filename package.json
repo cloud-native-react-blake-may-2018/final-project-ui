@@ -44,8 +44,8 @@
     ]
   },
   "dependencies": {
-    "@fortawesome/fontawesome": "latest",
-    "@fortawesome/fontawesome-free-solid": "latest",
+    "@fortawesome/fontawesome": "^1.1.8",
+    "@fortawesome/fontawesome-free-solid": "^5.0.13",
     "@fortawesome/fontawesome-svg-core": "latest",
     "@fortawesome/react-fontawesome": "latest",
     "amazon-cognito-identity-js": "latest",
@@ -72,8 +72,8 @@
     "react-spinkit": "latest",
     "react-toggle": "latest",
     "reactstrap": "latest",
-    "redux": "latest",
-    "redux-thunk": "latest",
+    "redux": "^4.0.0",
+    "redux-thunk": "^2.3.0",
     "webpack": "latest",
     "webpack-hot-middleware": "latest"
   },
