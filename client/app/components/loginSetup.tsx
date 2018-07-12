@@ -5,11 +5,20 @@ import fontawesome from '@fortawesome/fontawesome'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { startCreateNewQuiz } from '../actions/create'
 import Axios from '../../../node_modules/axios';
-import ReactLoading from 'react-loading';
+import LoadingScreen from 'react-loading-screen';
+
+
 
 export class SetupLogin extends Component {
     componentDidMount () {
-      const uri = document.location.href;
+      setTimeout(this.setToken, 4000)
+    }
+
+/***********************************************************************************
+ * PROCESS OF PULLING TOKEN FROM URL
+ ***********************************************************************************/
+setToken = () => {
+    const uri = document.location.href;
       // console.log(uri);
       /** Start after access_token= */
       const startAccessIndex = uri.indexOf('access_token=') + 13;
@@ -23,74 +32,40 @@ export class SetupLogin extends Component {
       const endIdIndex = uri.indexOf('&',startIdIndex);
       const id_token = uri.slice(startIdIndex, endIdIndex);
       console.log("id_token:\n"+id_token);
-      
-      // Axios.get("https://quizard.auth.us-east-1.amazoncognito.com/oauth2/authorize?response_type=code&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=https://localhost:3222/dashboard")
-      //   .then(resp => {
-      //     localStorage.setItem('location', resp.data.Location);
-      //   })
-      
-      // const postData = Querystring.stringify({
-      //   'grant_type': 'authorization_code',
-      //   'client_id': '1q83lmu6khfnc0v8jjdrde9291',
-      //   'code': AUTHORIZATION_CODE,
-      //   // 'redirect_uri': 'https://quizard.auth.us-east-2.amazoncognito.com/login?response_type=code&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=http://localhost:3222/',
-      //   'redirect_uri': 'localhost:3222/dashboard'
-      // })
-      // const axiosConfig = {
-      //   'headers': {
-      //     'Content-Type': 'application/x-www-form-urlencoded',
-      //     // 'Authorization': 'Basic MXE4M2xtdTZraGZuYzB2OGpqZHJkZTkyOTE='
-      //   }
-      // }
-      
-      // Axios.post("https://quizard.auth.us-east-2.amazoncognito.com/oauth2/token", postData, axiosConfig)
-      //   .then(resp => {
-      //     localStorage.setItem('access_token', resp.data.access_token);
-      //     localStorage.setItem('id_token', resp.data.id_token);
-      //     localStorage.setItem('type', resp.data.type);
-      //     localStorage.setItem('expire', resp.data.expire);
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //   })
-      
-      const axiosConfig = {
+/***********************************************************************************/
+     
+  const axiosConfig = {
         'headers': {
           'Authorization': `Bearer ${access_token}`
         }
       }
-      Axios.get('https://quizard.auth.us-east-2.amazoncognito.com/oauth2/userInfo', axiosConfig)
-        .then(resp => {
-          const stringResp = JSON.stringify(resp.data);
-          localStorage.setItem('userInfoToken', stringResp);
-          localStorage.setItem('name', JSON.stringify(resp.data.name));
-          localStorage.setItem('access_token', access_token);
-          localStorage.setItem('token', id_token);
-          window.location.href = 'http://localhost:3222/dashboard'
-        })
-        .catch(err => {
-          console.log(err.stack);
-        })
-      
-    }
+  Axios.get('https://quizard.auth.us-east-2.amazoncognito.com/oauth2/userInfo', axiosConfig)
+      .then(resp => {
+        const stringResp = JSON.stringify(resp.data);
+        localStorage.setItem('userInfoToken', stringResp);
+        localStorage.setItem('name', JSON.stringify(resp.data.name));
+        localStorage.setItem('access_token', access_token);
+        localStorage.setItem('token', id_token);
+        window.location.href = 'http://localhost:3222/dashboard'
+      })
+       .catch(err => {
+         console.log(err.stack);
+      })
+}
 
-// const Example = ({ type, color }) => (
-//     <ReactLoading type={balls} color={color} height={667} width={375} />
-// );
   render() {
-    
     return (
       <div>
-
-        <h1> Loading .......... </h1>
-        {console.log('inside login setup')}
-        
- 
-
- 
-export default Example;
-        
-      </div>
+        <LoadingScreen
+          loading={true}
+          bgColor='#42a6a6'
+          spinnerColor='#fcfeff'
+          textColor='#ffffff'
+          logoSrc='https://vignette.wikia.nocookie.net/2007scape/images/5/59/Blue_wizard_hat_%28t%29_detail.png/revision/latest?cb=20180514220409'
+          text='Welcome to the World of Quizzard!'
+        /> 
+     </div>
+    
     )
   }
 }
