@@ -1,5 +1,18 @@
+.quiz-results-page
+  display: grid
 
-.view-quiz-page
+  .red-dark-red
+    background: linear-gradient(40deg, $red, $dark-red)
+
+  .yellow-orange
+    background: linear-gradient(40deg, yellow, $orange)
+
+  .yellow-green
+    background: linear-gradient(40deg, yellow, $approve-green)
+
+  .green-dark-green
+    background: linear-gradient(40deg, $approve-green, darken($approve-green, 15%))
+
   .main
     display: grid
     margin: auto
@@ -10,23 +23,6 @@
     background-color: $white
     box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
 
-
-    .red-orange
-      background: linear-gradient(40deg, $red, $orange)
-
-    .red-blue
-      background: linear-gradient(40deg, $red, $blue)
-
-    .blue-light-teal
-      background: linear-gradient(40deg, $blue, $light-teal)
-
-    .midnight-violet
-      background: linear-gradient(40deg, $midnight, $violet)
-
-    .midnight-orange
-      background: linear-gradient(40deg, $midnight, $orange)
-
-  
     main
       display: grid
       position: relative
@@ -39,40 +35,32 @@
       border-radius: 8px 8px 0 0
       // background: linear-gradient(40deg, $red, $orange)
 
-      .author
-        margin: 30px 0 60px
-        font: italic 500 28px Asap
-        color: lighten(black, 15%)
-        mix-blend-mode: overlay
-        // color: $dark-red
-
       .title
-        margin: 0 0 15px
-        font: 700 60px Asap
-        color: $white
-
-      .total
-        margin: 0 0 60px
+        margin: 0 0 25px
         font: 900 36px Asap
         color: black
         mix-blend-mode: overlay
-        // color: $grey
-        // color: $burgundy
 
-      .back
-        position: absolute
-        top: 50px
-        left: 50px
-        transform: scale(.8) scaleX(-1)
-        z-index: 1000
+      .score
+        margin: 0 0 15px
+        font: 700 110px Asap
+        color: $white
 
-        &:hover
-          transition: all 1s ease-in-out
-          animation: back-oscillate .7s infinite
-          cursor: pointer
+      .points-container
+        display: grid
+        grid-template-columns: repeat(2, max-content)
+        justify-self: center
+        align-items: center
+        margin: 0 0 25px
 
-      .back path
-        fill: $white-grey
+        .points
+          margin: 0
+          height: max-content
+          font: italic 500 50px Asap
+          color: $white
+
+        .coin-icon
+          transform: scale(.9)
 
 
     footer
@@ -85,16 +73,16 @@
         align-self: center
         justify-self: center
 
-        .edit-button
+        .retake-button
           justify-self: center
-          font: 700 21px Asap
+          font: 500 21px Asap
           color: $light-grey
           transition: .3s all ease-in-out
 
           &:hover
             color: darken($light-grey, 10%)
 
-        .take-button
+        .results-button
           justify-self: center
           padding: 10px 75px
           border: none

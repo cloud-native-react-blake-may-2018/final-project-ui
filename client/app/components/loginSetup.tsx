@@ -5,6 +5,7 @@ import fontawesome from '@fortawesome/fontawesome'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { startCreateNewQuiz } from '../actions/create'
 import Axios from '../../../node_modules/axios';
+import { environment } from '../../../environment'
 import LoadingScreen from 'react-loading-screen';
 
 
@@ -51,7 +52,7 @@ setToken = () => {
        .catch(err => {
          console.log(err.stack);
       })
-}
+  }
 
   render() {
     return (

@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Link, RouteComponentProps } from 'react-router-dom'
 import { CognitoUserPool, CognitoUser } from 'amazon-cognito-identity-js'
 import * as AmazonCognitoIdentity from 'amazon-cognito-identity-js'
-// import GoogleLogin from 'react-google-login'
 
 import { connect } from 'react-redux'
 // import { startSignup } from '../actions/auth'
@@ -47,10 +46,6 @@ export class SignupPage extends Component<ClassProps, ClassState> {
     this.setState({
       [name]: value
     } as any)
-  }
-
-  submitGoogleInfo = response => {
-    console.log(response.accessToken)
   }
 
   // user: Eric1529523007809 pass: a12345678
@@ -217,11 +212,6 @@ export class SignupPage extends Component<ClassProps, ClassState> {
             <button type="submit" className="signup-button button">
               Signup
             </button>
-            {/* <GoogleLogin 
-              clientId='636482594885-49889hn7ee5or2eduu5lrkq5ncngflng.apps.googleusercontent.com'
-              onSuccess={this.submitGoogleInfo}
-              onFailure={this.submitGoogleInfo}
-             /> */}
           </div>
         </form>
         {!!errors.global && <p>{errors.global}</p>}

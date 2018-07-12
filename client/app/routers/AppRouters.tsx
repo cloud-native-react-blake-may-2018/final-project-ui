@@ -38,8 +38,7 @@ if (localStorage.userInfoToken) {
     // @ts-ignore
     username: payload.username
   }
-console.log('user', user)
-console.log('payload', payload)
+
   // TODO: Confirm this is working.
   const repopulate = async () => {
     // @ts-ignore

@@ -13,10 +13,11 @@ interface IProps {
 export class AddQuiz extends Component<IProps> {
   state = {
     quiz: {
-      author: "quiz author front end",
+      author: "RWantz",
       title: "",
       description: "",
-      isPrivate: true
+      isPrivate: true,
+      type: "quiz"
     }
   };
 

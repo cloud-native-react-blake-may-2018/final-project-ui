@@ -28,19 +28,23 @@ export class Modal extends Component<IProps> {
   }
 
   // close modal when whole page overlay is clicked
-  onOverlayClick = () => this.props.onClose()
+  onOverlayClick = () => {
+    this.props.onClose()
+  }
 
   // prevents closing modal if click within modal
   // (because closes when whole page overlay is clicked )
-  onDialogClick = e => e.stopPropagation()
+  onDialogClick = e => {
+    e.stopPropagation()
+  }
 
   // @ts-ignore
   render = () => (
     <div>
       <div className="modal-overlay-div" />
 
-      {/* <div className="modal-content-div" onClick={this.onOverlayClick}> */}
-      <div className="modal-content-div">
+      <div className="modal-content-div" onClick={this.onOverlayClick}>
+        {/* <div className="modal-content-div"> */}
         <div className="modal-dialog-div" onClick={this.onDialogClick}>
           {this.props.children}
         </div>
