@@ -8,8 +8,6 @@ import { environment } from '../../../environment'
 
 export class SignInRedirect extends Component {
   componentDidMount() {
-    console.log('environment', environment.context)
-
     let redirectUrl = `https://quizard.auth.us-east-2.amazoncognito.com/login?response_type=token&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=${
       environment.context
     }/redirect`

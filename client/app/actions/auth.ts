@@ -26,7 +26,7 @@ export const logout = () => ({
 export const startLogout = () => dispatch => {
   // user pool data from cognito
   localStorage.clear()
-  let redirectUrl = `https://quizard.auth.us-east-2.amazoncognito.com/login?response_type=token&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=${
+  let redirectUrl = `https://quizard.auth.us-east-2.amazoncognito.com/logout?response_type=token&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=${
     environment.context
   }/redirect`
   window.location.href = redirectUrl
