@@ -4,19 +4,33 @@
   "description": "create and take quizzes",
   "main": "index.ts",
   "scripts": {
-    "start": "ts-node index.ts",
-    "build": "webpack",
-    "test": "jest --watchAll"
+    "start": "npm run serve & npm run test",
+    "serve": "ts-node index.ts",
+    "test": "jest --watchAll",
+    "build": "webpack"
   },
   "author": "Eric",
   "license": "ISC",
   "jest": {
+    "roots": [
+      "<rootDir>/client"
+    ],
+    "files": [
+      "client/app/typings/custom.d.ts"
+    ],
+    "setupFiles": [
+      "raf/polyfill",
+      "<rootDir>/client/app/tests/setupTests.ts"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/client/app/tests/setupTests.ts",
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "transform": {
       "^.+\\.jsx?$": "<rootDir>/node_modules/babel-jest",
       "^.+\\.tsx?$": "ts-jest"
     },
-    "setupTestFrameworkScriptFile": "./jest.config.ts",
-    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "moduleNameMapper": {
       "\\.(css|jpg|png|svg)$": "<rootDir>/node_modules/jest-css-modules"
     },
@@ -34,7 +48,6 @@
     "@fortawesome/fontawesome-free-solid": "latest",
     "@fortawesome/fontawesome-svg-core": "latest",
     "@fortawesome/react-fontawesome": "latest",
-    "@types/react-dropzone": "latest",
     "amazon-cognito-identity-js": "latest",
     "aws-sdk": "latest",
     "axios": "latest",
@@ -66,6 +79,8 @@
   },
   "devDependencies": {
     "@types/connect-history-api-fallback": "latest",
+    "@types/enzyme": "latest",
+    "@types/enzyme-adapter-react-16": "latest",
     "@types/express": "latest",
     "@types/html-webpack-plugin": "latest",
     "@types/jest": "latest",
@@ -74,6 +89,7 @@
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
+    "@types/react-dropzone": "latest",
     "@types/react-hot-loader": "latest",
     "@types/react-redux": "latest",
     "@types/react-router-dom": "latest",
@@ -85,18 +101,22 @@
     "@types/webpack-hot-middleware": "latest",
     "awesome-typescript-loader": "latest",
     "babel-core": "latest",
-    "babel-loader": "latest",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-inline-react-svg": "latest",
     "babel-preset-env": "latest",
     "babel-preset-react": "latest",
     "babel-preset-stage-0": "latest",
     "connect-history-api-fallback": "latest",
     "css-loader": "latest",
+    "enzyme": "latest",
+    "enzyme-adapter-react-16": "latest",
+    "enzyme-to-json": "latest",
     "extract-css-chunks-webpack-plugin": "latest",
-    "jest": "latest",
-    "file-loader": "latest",
     "html-webpack-plugin": "latest",
+    "jest": "latest",
     "node-sass": "latest",
-    "react-test-renderer": "latest",
+    "raf": "latest",
+    "react-svg-loader": "latest",
     "sass-loader": "latest",
     "source-map-loader": "latest",
     "style-loader": "latest",

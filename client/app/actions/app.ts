@@ -1,17 +1,34 @@
 import React from 'react'
-import api from '../api'
+import api from '../path-list'
 
-// export const deleteAccount = user => ({
-//   type: 'DELETE',
-//   user
-// })
+// change settings
+// change theme
 
-// export const nuke = user => ({
-//   type: 'NUKE',
-//   user
-// })
+export const sidebar = bool => dispatch =>
+  dispatch({
+    type: 'SIDEBAR',
+    bool
+  })
 
-// export const startNuke = email => dispatch =>
-//   api.user.nuke(email).then(user => {
-//     dispatch(nuke(user))
-//   })
+export const searching = () => dispatch =>
+  dispatch({
+    type: 'SEARCH'
+  })
+
+export const startSearch = query => async dispatch => {
+  const quizzesByAuthors = await api.quizzes.searchByAuthor(query)
+  const quizzesByTags = await api.quizzes.searchByTag(query)
+
+  const quizResults = {
+    ...quizzesByAuthors,
+    ...quizzesByTags
+  }
+
+  console.log('results from db ', quizResults)
+  return dispatch(search(quizResults))
+}
+
+export const search = query => ({
+  type: 'QUERY',
+  query
+})

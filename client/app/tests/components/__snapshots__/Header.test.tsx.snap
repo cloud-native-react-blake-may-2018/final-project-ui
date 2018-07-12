@@ -1,0 +1,144 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render Header component 1`] = `
+<header
+  className="nav-header"
+>
+  <FontAwesomeIcon
+    border={false}
+    className="bars"
+    fixedWidth={false}
+    flip={null}
+    icon="bars"
+    inverse={false}
+    listItem={false}
+    mask={null}
+    pull={null}
+    pulse={false}
+    rotation={null}
+    size={null}
+    spin={false}
+    symbol={false}
+    transform={null}
+  />
+  <div
+    className="search-group"
+  >
+    <FontAwesomeIcon
+      border={false}
+      className="icon"
+      fixedWidth={false}
+      flip={null}
+      icon="search"
+      inverse={false}
+      listItem={false}
+      mask={null}
+      pull={null}
+      pulse={false}
+      rotation={null}
+      size={null}
+      spin={false}
+      symbol={false}
+      transform={null}
+    />
+    <form
+      className="submit"
+      onSubmit={[Function]}
+    >
+      <input
+        className="input spawnSearch"
+        data-search={true}
+        onChange={[Function]}
+        onFocus={[Function]}
+        placeholder="Search"
+        type="text"
+      />
+    </form>
+  </div>
+  <Dropdown
+    active={false}
+    addonType={false}
+    className="dropdown-root"
+    direction="down"
+    inNavbar={false}
+    isOpen={false}
+    nav={false}
+    setActiveFromChild={false}
+    toggle={[Function]}
+  >
+    <DropdownToggle
+      aria-haspopup={true}
+      className="dropdown-toggle"
+      color="secondary"
+    >
+      <div
+        className="image"
+        style={
+          Object {
+            "background": "url(undefined) center / cover no-repeat",
+          }
+        }
+      />
+      <p
+        className="nav-username"
+      >
+        react
+      </p>
+      <FontAwesomeIcon
+        border={false}
+        className="icon fa-angle-down"
+        fixedWidth={false}
+        flip={null}
+        icon="angle-down"
+        inverse={false}
+        listItem={false}
+        mask={null}
+        pull={null}
+        pulse={false}
+        rotation={null}
+        size={null}
+        spin={false}
+        symbol={false}
+        transform={null}
+      />
+    </DropdownToggle>
+    <DropdownMenu
+      className="dropdown-menu"
+      flip={true}
+      right={true}
+      style={
+        Object {
+          "display": "none",
+        }
+      }
+      tag="div"
+    >
+      <DropdownItem
+        className="dropdown-item"
+        tag="button"
+        toggle={true}
+      >
+        <Link
+          className="profile"
+          replace={false}
+          to="/profile"
+        >
+          Profile
+        </Link>
+      </DropdownItem>
+      <DropdownItem
+        className="dropdown-item"
+        onClick={[Function]}
+        tag="button"
+        toggle={true}
+      >
+        <p
+          className="logout"
+        >
+          Logout
+        </p>
+      </DropdownItem>
+    </DropdownMenu>
+  </Dropdown>
+</header>
+`;
