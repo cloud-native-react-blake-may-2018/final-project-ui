@@ -13,6 +13,8 @@ import webpackHotMiddleware from 'webpack-hot-middleware'
 // provides history object to go to different routes in react router
 import historyApiFallback from 'connect-history-api-fallback'
 import { environment } from './environment'
+import dotenv from 'dotenv'
+dotenv.config()
 
 const app = express()
 
@@ -20,7 +22,10 @@ const app = express()
 const isDev = process.env.NODE_ENV !== 'production'
 
 // setup port
-const port = parseInt(process.env.NODE_PORT) || 3222
+const port = parseInt(process.env.PORT) || 3222
+
+console.log('in server, port is: ', port)
+// const port = parseInt(process.env.NODE_PORT) || 3222
 app.set('port', port)
 
 if (isDev) {
