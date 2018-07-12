@@ -18,6 +18,13 @@ export const createNewQuiz = quizID => ({
   quizID
 });
 
+export const updateStoreQuizID = quizID => dispatch => {
+  return dispatch({
+    type: "UPDATE_STORE_QUIZ_ID",
+    quizID
+  });
+};
+
 export const startCreateNewQuiz = newQuiz => dispatch =>
   new Promise(function(resolve, reject) {
     api.create

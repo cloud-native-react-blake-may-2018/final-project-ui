@@ -1,7 +1,8 @@
 import React from "react";
 
 const initialState = {
-  quizID: "a05189ad-4ada-4794-ab86-9be8d779328f"
+  quizID: "This is not a quiz ID",
+  readyNewQuestion: false
 };
 
 export const createReducer = (state = initialState, action = {} as any) => {
@@ -18,13 +19,18 @@ export const createReducer = (state = initialState, action = {} as any) => {
     case "BATCH_CREATE_QUESTIONS":
       return {
         ...state,
-        questionIDs: [...action.questions.map(question => question.uuid)]
+        readyNewQuestion: false
+      };
+    case "UPDATE_STORE_QUIZ_ID":
+      return {
+        ...state,
+        quizID: action.quizID,
+        readyNewQuestion: true
       };
 
     case "ADD_JUNCTION":
       return {
-        ...state,
-        questionIDs: []
+        ...state
       };
 
     default:

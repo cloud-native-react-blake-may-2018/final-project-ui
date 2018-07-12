@@ -34,7 +34,7 @@ interface QuestionFormat {
   author: string;
   title: string;
   tags: string;
-  image: string;
+  image?: string;
   answers: AnswerFormat[];
 }
 
@@ -45,7 +45,7 @@ export class AddQuestion extends Component<IProps, any> {
       author: this.props.username,
       title: "",
       tags: "",
-      image: "",
+      // image: "",
       answers: [
         {
           answer: "",
@@ -110,9 +110,7 @@ export class AddQuestion extends Component<IProps, any> {
   };
 
   private updateFormat = (e: any) => {
-    console.log(e.target.value);
     const format = e.target.value;
-    console.log("format ", format);
     if (format === "true-false") {
       this.setState({
         currentQuestion: {
@@ -162,8 +160,6 @@ export class AddQuestion extends Component<IProps, any> {
         }
       });
     }
-    console.log("updateFormat Called");
-    console.log(this.state);
   };
 
   private addToList = (e: any) => {
@@ -181,7 +177,7 @@ export class AddQuestion extends Component<IProps, any> {
           author: this.props.username,
           title: "",
           tags: "",
-          image: "",
+          // image: "",
           answers: [
             {
               answer: "",
@@ -197,7 +193,6 @@ export class AddQuestion extends Component<IProps, any> {
           format: "true-false"
         }
       });
-      console.log("added Q to list", this.state);
     } // else...
   };
 
@@ -210,7 +205,6 @@ export class AddQuestion extends Component<IProps, any> {
         answers: newAnswersArr
       }
     });
-    console.log(this.state);
   };
 
   private updateStore = questionList => {
@@ -522,7 +516,7 @@ export class AddQuestion extends Component<IProps, any> {
         percentPoints = percentPoints + item.percentPoints;
       }
     }
-    console.log("Indside Validator Function", percentPoints, validObject);
+    console.log("Inside Validator Function", percentPoints, validObject);
     return percentPoints > 99 || false;
   };
 
@@ -553,7 +547,6 @@ export class AddQuestion extends Component<IProps, any> {
       reader.onload = function() {
         codeString = reader.result;
         codeString = codeString.split(",", 2);
-        console.log(codeString);
         this.setState({
           ...this.state,
           currentQuestion: {
@@ -585,7 +578,6 @@ export class AddQuestion extends Component<IProps, any> {
         questionToDisplay: updatedQuestions[index]
       }
     });
-    console.log(this.state);
   };
 
   private editQuizAnswers = (e: any, propertyName, i: number) => {
