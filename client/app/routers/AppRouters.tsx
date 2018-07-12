@@ -29,14 +29,14 @@ if (localStorage.token) {
   const userPool = new awsCognito.CognitoUserPool(data)
   const cognitoUser = userPool.getCurrentUser()
 
-  const payload: IPayload = decode(localStorage.token)
+  const payload: IPayload = JSON.parse(localStorage.userInfoToken)
   const user = {
     email: payload.email,
     token: localStorage.token,
     uid: payload.sub, // what is this in cognito token?
     name: payload.name,
     // @ts-ignore
-    username: cognitoUser.username
+    username: payload.username
   }
 
   // TODO: Confirm this is working.

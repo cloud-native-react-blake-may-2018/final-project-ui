@@ -1,1 +1,1 @@
-export const NEW_WORD_MODAL = 'NEW_WORD_MODAL'
+export const SUBMIT_QUIZ_MODAL = 'SUBMIT_QUIZ_MODAL'
