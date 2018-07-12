@@ -13,8 +13,10 @@ phases:
             - npm run build
     post_build:
          commands:
-            - aws s3 cp dist s3://${S3_BUCKET} --recursive
-            - echo Build completed on `date`
+            if [ "$CODEBUILD_BUILD_SUCCEEDING" == "0" ]; then
+                aws s3 cp dist s3://${S3_BUCKET} --recursive
+                echo Build completed on `date`
+            fi
 artifacts:
     files:
         - '**/*'
