@@ -19,7 +19,8 @@ const config: webpack.Configuration = {
 
   // Enable sourcemaps for debugging webpack's output.
   devtool: 'source-map',
-  mode: 'development',
+
+  mode: process.env.NODE_ENV ? 'production' : 'development',
 
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
