@@ -8,10 +8,11 @@ import { environment } from '../../../environment'
 
 export class SignInRedirect extends Component {
   componentDidMount() {
-    let redirectUrl = `https://quizard.auth.us-east-2.amazoncognito.com/login?response_type=token&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=https://dwea2klqp52vb.cloudfront.net/redirect`
-    // let redirectUrl = `https://quizard.auth.us-east-2.amazoncognito.com/login?response_type=token&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=${
-    //   environment.context
-    // }/redirect`
+    // let redirectUrl = `https://quizard.auth.us-east-2.amazoncognito.com/login?response_type=token&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=https://dwea2klqp52vb.cloudfront.net/redirect`
+
+    let redirectUrl = `https://quizard.auth.us-east-2.amazoncognito.com/login?response_type=token&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=${
+      environment.context
+    }/redirect`
 
     console.log('redirect url', redirectUrl)
 
