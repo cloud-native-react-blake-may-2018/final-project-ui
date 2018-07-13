@@ -45,29 +45,34 @@ export const batchCreateQuestions = questions => ({
 });
 
 export const startBatchCreateQuestions = incoming => async dispatch => {
-  const data = await api.create.batchAddQuestion(incoming.newQuestions);
+  try {
+    const data = await api.create.batchAddQuestion(incoming.newQuestions);
+    const arrOfUuids = data.map(question => question.uuid);
+    const arrOfTags = data.map(question => question.tags);
 
-  const arrOfUuids = data.map(question => question.uuid);
-  const arrOfTags = data.map(question => question.tags);
+    let arrOfPairs = [];
+    data.map(question =>
+      arrOfPairs.push({ uuid: question.uuid, tags: question.tags })
+    );
+    const quizID = incoming.quizID;
+    const shouldBeStoredInJunctionTable = await api.create.addJunction(
+      quizID,
+      arrOfUuids
+    );
+    try {
+      const addTheTags = await api.create.addTagsToQuestions(arrOfPairs);
+      let arrTags = arrOfTags.reduce((accumulator, currentValue) => {
+        return accumulator.concat(currentValue);
+      });
+      let addTheTagsSet = new Set(arrTags);
+      arrTags = [...addTheTagsSet];
 
-  let arrOfPairs = [];
-  data.map(question =>
-    arrOfPairs.push({ uuid: question.uuid, tags: question.tags })
-  );
-  const quizID = incoming.quizID;
-  const shouldBeStoredInJunctionTable = await api.create.addJunction(
-    quizID,
-    arrOfUuids
-  );
-  const addTheTags = await api.create.addTagsToQuestions(arrOfPairs);
-  let arrTags = arrOfTags.reduce((accumulator, currentValue) => {
-    return accumulator.concat(currentValue);
-  });
-  let addTheTagsSet = new Set(arrTags);
-  arrTags = [...addTheTagsSet];
-
-  const addForQuiz = await api.create.addTagsToQuiz(quizID, arrTags);
-  return;
+      const addForQuiz = await api.create.addTagsToQuiz(quizID, arrTags);
+    } catch (error) {}
+    return data;
+  } catch (error) {
+    return error;
+  }
 };
 
 // original action

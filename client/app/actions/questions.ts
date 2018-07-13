@@ -1,3 +1,4 @@
+import { generateUuid } from "./../helpers/helpers";
 import React from "react";
 import pathlist from "../path-list";
 
@@ -23,10 +24,33 @@ export const editQuestion = question => ({
   question
 });
 
-export const startEditQuestion = question => dispatch => {
-  pathlist.questions
-    .edit(question)
-    .then(question => dispatch(editQuestion(question)));
+// export const startEditQuestion = question => dispatch => {
+//   pathlist.questions
+//     .edit(question)
+//     .then(question => dispatch(editQuestion(question)));
+// };
+
+export const startEditQuestion = incoming => dispatch => {
+  try {
+    pathlist.questions
+      .edit(incoming.question)
+      .then(question => dispatch(editQuestion(incoming.question)));
+
+    try {
+      const tagObj = {
+        questionUUID: incoming.question.uuid,
+        tags: incoming.question.tags
+      };
+      const addTheTags = pathlist.questions.addNewTags(tagObj);
+      const addForQuiz = pathlist.create.addTagsToQuiz(
+        incoming.quizID,
+        incoming.question.tags
+      );
+    } catch (error) {}
+    return;
+  } catch (error) {
+    return error;
+  }
 };
 
 export const deleteQuestion = question => ({

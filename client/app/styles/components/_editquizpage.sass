@@ -126,7 +126,7 @@
 
           &:hover
             cursor: pointer
-            filter: brightness(90%)
+            filter: brightness(75%)
 
       .add-question
         margin: 10px 0 10px
@@ -254,6 +254,28 @@
             color: $grey
             background-color: $white-grey
 
+          select
+            -webkit-appearance: none
+            -moz-appearance: none
+            appearance: none
+            box-sizing: content-box
+            padding: 5px 10px 2px
+            background: none
+            border: 2px solid $buttongrey
+            border-radius: 20px
+            font-size: $m
+            color: $grey
+            transition: 300ms all
+
+            // option
+
+          // .icon
+          //   position: absolute
+          //   top: 40px
+          //   right: 20px
+          //   pointer-events: none
+          //   color: $buttongrey
+
       .options
         margin: 15px 0 65px
         padding-right: 15px
@@ -358,7 +380,6 @@
       background-color: $white
       box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
 
-
       .title
         margin: 15px 0 10px
         width: max-content
@@ -381,6 +402,32 @@
           -ms-animation: wiggle .5s infinite
           -moz-animation: wiggle .5s infinite
           -webkit-animation: wiggle .5s infinite
+
+      .details
+        border: 1px solid red
+        display: grid
+
+        .group
+          display: grid
+          grid-template-columns: repeat(2, 1fr)
+
+          label, .label
+            grid-column: 1 / span 2
+            margin: 10px 0
+            font: normal 18px Asap
+            color: $grey          
+
+          input, textarea
+            grid-column: 1 / span 2
+            padding: 10px 15px
+            margin: 0 0 10px
+            border: none
+            border-radius: 8px
+            outline: none
+            resize: none
+            font: normal 18px Asap
+            color: $grey
+            background-color: $white-grey
 
       .save-question
         align-self: end
@@ -442,4 +489,3 @@
     transform: rotate(-12deg)
   100%
     transform: rotate(12deg)
-		

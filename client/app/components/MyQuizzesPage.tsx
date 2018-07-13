@@ -8,12 +8,19 @@ interface IProps {
   username: string
   quizzes: any[]
   type: string
+  quizAttempts: any[]
 }
 
 export class MyQuizzesPage extends Component<IProps> {
+  params = window.location.href.split('/')
+  pageType = this.params[4]
+
   //@ts-ignore
   render = () => {
-    const { quizzes, type } = this.props
+    {
+      console.log(this.pageType)
+    }
+    const { quizzes, type, quizAttempts } = this.props
     return (
       <div className="my-quizzes-page">
         {type === 'created' && (
@@ -35,7 +42,8 @@ export class MyQuizzesPage extends Component<IProps> {
         )}
 
         <div className="blocks">
-          {quizzes !== undefined &&
+          {this.pageType === 'created' &&
+            quizzes !== undefined &&
             quizzes.map((quiz: any) => (
               <Link to={`/view-quiz/${quiz.uuid}`} key={quiz.uuid}>
                 <div className="block">
@@ -49,6 +57,22 @@ export class MyQuizzesPage extends Component<IProps> {
                 </div>
               </Link>
             ))}
+          {this.pageType === 'taken' &&
+            quizAttempts !== undefined &&
+            quizAttempts.map((quizAttempt: any) => (
+              <Link
+                to={`/review-quiz/${quizAttempt.quizUUID}`}
+                key={quizAttempt.quizUUID}
+              >
+                <div className="block">
+                  <h1 className="name">{quizAttempt.title}</h1>
+                  <p className="amount">
+                    {quizAttempt.questions.length} questions
+                  </p>
+                  <p className="score">Your Score: {quizAttempt.score}</p>
+                </div>
+              </Link>
+            ))}
         </div>
       </div>
     )
@@ -58,6 +82,7 @@ export class MyQuizzesPage extends Component<IProps> {
 const mapStateToProps = (state, props) => ({
   username: state.auth.username,
   quizzes: state.quizzes.all,
+  quizAttempts: state.quizzes.allAttempts,
   type: props.match.params.type
 })
 

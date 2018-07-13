@@ -86,15 +86,25 @@ export class SubmitQuizModal extends Component<IProps> {
             <FontAwesomeIcon icon="times" />
           </div>
           <p className="title">Submit quiz?</p>
-          <p className="subhead">Cross your fingers and hope for the best!</p>
+          {this.props.answerArray.length ===
+          this.props.quiz.questions.length ? (
+            <p className="subhead">Cross your fingers and hope for the best!</p>
+          ) : (
+            <p className="subhead">
+              You must answer all questions before submitting!
+            </p>
+          )}
 
           <div className="button-group">
             <button onClick={this.onClose} className="cancel">
               Cancel
             </button>
-            <button onClick={this.submit} className="submit">
-              Submit
-            </button>
+            {this.props.answerArray.length ===
+              this.props.quiz.questions.length && (
+              <button onClick={this.submit} className="submit">
+                Submit
+              </button>
+            )}
           </div>
         </div>
       </Modal>

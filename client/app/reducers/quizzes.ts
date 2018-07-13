@@ -20,6 +20,12 @@ export const quizzesReducer = (state = {} as any, action = {} as any) => {
         all: [...action.quizzes]
       }
 
+    case 'ALL_QUIZ_ATTEMPTS':
+      return {
+        ...state,
+        allAttempts: action.quizAttempts
+      }
+
     case 'SEARCHED_QUIZ':
       return {
         ...state,
@@ -40,7 +46,7 @@ export const quizzesReducer = (state = {} as any, action = {} as any) => {
       }
 
     case 'ADD_ANSWER_TO_OBJECT':
-      console.log('answer ', action.answer)
+      // console.log('answer ', action.answer)
       return {
         ...state,
         // answerObject: [...action.answer]
