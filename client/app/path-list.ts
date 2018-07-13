@@ -1,65 +1,65 @@
-import axios from "axios";
-
-const authAxios = axios.create();
-authAxios.interceptors.request.use(config => {
-  config.headers.Authorization = localStorage.token;
-  return config;
-});
+import axios from 'axios'
+import { authInterceptor } from '../app/interceptors/auth.interceptor'
+// const authAxios = axios.create();
+// authAxios.interceptors.request.use(config => {
+//   config.headers.Authorization = localStorage.token;
+//   return config;
+// });
 
 const addQuestionUrl =
-  "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/question";
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/question'
 
 const batchAddQuestionsUrl =
-  "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/question/batch";
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/question/batch'
 
 const editQuestionUrl =
-  "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/question/edit";
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/question/edit'
 
 const addQuizUrl =
-  "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz";
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz'
 
 const addJunctionUrl =
-  "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz";
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz'
 
 const displayQuizzesURL =
-  "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/author/";
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/author/'
 
 const displayQuizQuestionsURL =
-  "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/";
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/'
 
 const displayQuizTagsURL =
-  "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/uuid/";
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/uuid/'
 
-const editQuizUrl = "";
+const editQuizUrl = ''
 
-const deleteQuizUrl = "";
+const deleteQuizUrl = ''
 
 const searchByAuthorUrl =
-  "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/author/";
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/author/'
 
 const searchByTagUrl =
-  "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/tag/";
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/tag/'
 
 const searchByUuidUrl =
-  "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/";
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/'
 
 const getQuizAttempt =
-  "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/";
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/'
 
 const sendQuizAttempt =
   'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/'
 
 const deleteQuestionUrl =
-  "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/question/author";
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/question/author'
 
 // const deleteJunctionUrl = // this is done automatically in deleteQuestion
 //   "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz";
 
 const addTagsToQuestionsUrl =
-  "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/question/batch/tag";
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/question/batch/tag'
 
 const addTagsToQuizUrl =
-  "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/tag/batch";
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/tag/batch'
 
 export default {
   create: {
@@ -102,7 +102,7 @@ export default {
       axios.get(searchByUuidUrl + uuid).then(res => res.data),
 
     startQuizAttempt: (quizUUID, username) =>
-      axios
+      authInterceptor
         .get(`${getQuizAttempt}${quizUUID}/user/${username}`)
         .then(res => res.data),
 
@@ -135,4 +135,4 @@ export default {
     //     .delete(`${deleteJunctionUrl}/${quizUUID}/question/${questionUUID}`)
     //     .then(res => res.data)
   }
-};
+}
