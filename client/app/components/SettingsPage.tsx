@@ -4,6 +4,8 @@ import Dropzone from 'react-dropzone'
 import axios from 'axios'
 import * as awsCognito from 'amazon-cognito-identity-js'
 import * as AWS from 'aws-sdk'
+import { FontAwesomeIcon } from '../../../node_modules/@fortawesome/react-fontawesome';
+import { Modal } from './Modal';
 // import { startUpdateUser } from '../actions/auth'
 interface ClassProps {
   email: string
@@ -12,6 +14,7 @@ interface ClassProps {
   name: string
   file
   startUpdateUser: (any) => any
+  hideModal: () => any
 }
 
 const data = {
@@ -27,53 +30,6 @@ const userData = {
 const cognitoUser = new awsCognito.CognitoUser(userData);
 console.log(cognitoUser);
 
-if (cognitoUser != null) {
-  const authenticationData = {
-    Username: token !== null && token.username,
-    Password: 'quailious'
-  }
-  const authenticationDetails = new awsCognito.AuthenticationDetails(authenticationData);
-  cognitoUser.authenticateUser(authenticationDetails, {
-    onSuccess: (result) => {
-      const accessToken = result.getAccessToken().getJwtToken();
-      const idToken = result.getIdToken;
-    },
-    onFailure: (err) => {
-      console.log(err);
-    }
-  })
-
-  cognitoUser.getSession((err, session) => {
-    console.log(session);
-    if (err) {
-      console.log(err);
-      return;
-    }
-    console.log('session validity: ' + session.isValid());
-
-    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-      IdentityPoolId: 'us-east-2:2bf920c2-7094-49a7-bfd0-eec2d6f36ee4',
-      Logins: {
-        'cognito-idp.us-east-2.amazonaws.com/us-east-2_fMMquWRem' : session.getIdToken().getJwtToken()
-      }
-    })
-
-    var s3 = new AWS.S3();
-  })
-
-  var attributeList = [];
-  cognitoUser.getUserAttributes((err, result) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
-    for (let i=0; i < result.length; i++) {
-      console.log('result ' + result[i].getName() + 'with value: ' + result[i].getValue());
-    }
-  })
-  console.log(attributeList);
-}
-
 export class SettingsPage extends Component<ClassProps> {
   state = {
     page: 'General',
@@ -84,7 +40,87 @@ export class SettingsPage extends Component<ClassProps> {
   }
   // declare ref
   private photoUpload: HTMLInputElement
+
+  onClose = () => this.props.hideModal()
+
   setPage = e => {
+    let password: string = '';
+    <Modal onClose={this.onClose}>
+      <div className="report-question-modal">
+        <div className="close">
+          <FontAwesomeIcon icon="times" />
+        </div>
+        <p className="title">Enter your password</p>
+        <form>
+          <label className="container">
+            <input type="password" id="password" />
+            <p className="confirm">Password</p>
+            <span className="checkmark" />
+          </label>
+        </form>
+        <div className="button-group">
+          <button onClick={this.onClose} type="button" className="cancel">
+            Cancel
+          </button>
+          <button onSubmit={this.authenticate} className="submit">Report</button>
+        </div>
+      </div>
+    </Modal> 
+  }
+
+  authenticate = (e) => {
+    /** Authenticate given password */
+    let isAuthenticated: boolean = false;
+    if (cognitoUser != null) {
+      const authenticationData = {
+        Username: token !== null && token.username,
+        Password: 'quailious'
+      }
+      const authenticationDetails = new awsCognito.AuthenticationDetails(authenticationData);
+      cognitoUser.authenticateUser(authenticationDetails, {
+        onSuccess: (result) => {
+          const accessToken = result.getAccessToken().getJwtToken();
+          const idToken = result.getIdToken;
+          isAuthenticated = true;
+        },
+        onFailure: (err) => {
+          console.log(err);
+        }
+      })
+      
+      if(!isAuthenticated) return;
+
+      cognitoUser.getSession((err, session) => {
+        // console.log(session);
+        if (err) {
+          console.log(err);
+          return;
+        }
+        // console.log('session validity: ' + session.isValid());
+    
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+          IdentityPoolId: 'us-east-2:2bf920c2-7094-49a7-bfd0-eec2d6f36ee4',
+          Logins: {
+            'cognito-idp.us-east-2.amazonaws.com/us-east-2_fMMquWRem' : session.getIdToken().getJwtToken()
+          }
+        })
+    
+        var s3 = new AWS.S3();
+      })
+    
+      var attributeList = [];
+      cognitoUser.getUserAttributes((err, result) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        for (let i=0; i < result.length; i++) {
+          attributeList.push({Name: result[i].getName(), Value: result[i].getValue()});
+        }
+      })
+      console.log(attributeList);
+    }
+
     console.log('target: ', e.target.textContent)
     this.setState({ page: e.target.textContent })
   }
