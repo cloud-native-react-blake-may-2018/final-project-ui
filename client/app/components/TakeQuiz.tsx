@@ -29,7 +29,6 @@ interface IProps extends RouteProps {
   multipleChoiceAnswer: any[]
   answerArray: any
   history: any
-  done: any
   loadModal: (any) => any
   changeQuestionNumber: (questionNumber: number) => void
   startAddAnswerToArray: (answerObj: {}) => void
@@ -132,15 +131,14 @@ export class TakeQuizPage extends Component<IProps, any> {
           newArray.splice(index, 1)
           console.log(newArray)
           updateAnswerArray({
-            newArray,
-            done: false
+            newArray
           })
         }
         this.props.addMultipleChoiceAnswer({
           author: choices[this.props.questionNumber].author,
           title: choices[this.props.questionNumber].title,
           answer: answer.answer.answer,
-          done: false
+          selected: true
         })
         break
       case 'multiple-select':
@@ -158,8 +156,7 @@ export class TakeQuizPage extends Component<IProps, any> {
           newArray.splice(index, 1)
           console.log(newArray)
           updateAnswerArray({
-            newArray,
-            done: false
+            newArray
           })
         }
         let newArray: any[]
@@ -175,8 +172,7 @@ export class TakeQuizPage extends Component<IProps, any> {
           this.props.addMultipleSelectAnswer({
             author: choices[this.props.questionNumber].author,
             title: choices[this.props.questionNumber].title,
-            answer: newArray,
-            done: false
+            answer: newArray
           })
         } else {
           newArray = this.props.multipleSelectAnswer.answer
@@ -184,8 +180,7 @@ export class TakeQuizPage extends Component<IProps, any> {
           this.props.addMultipleSelectAnswer({
             author: choices[this.props.questionNumber].author,
             title: choices[this.props.questionNumber].title,
-            answer: newArray,
-            done: false
+            answer: newArray
           })
         }
         break
@@ -206,15 +201,14 @@ export class TakeQuizPage extends Component<IProps, any> {
           newArray.splice(index, 1)
           console.log(newArray)
           updateAnswerArray({
-            newArray,
-            done: false
+            newArray
           })
         }
         this.props.addMultipleChoiceAnswer({
           author: choices[this.props.questionNumber].author,
           title: choices[this.props.questionNumber].title,
           answer: answer.answer.answer,
-          done: false
+          selected: true
         })
         break
     }
@@ -238,19 +232,6 @@ export class TakeQuizPage extends Component<IProps, any> {
       }
     }
     this.submitQuizModal()
-  }
-
-  // @ts-ignore
-  componentDidMount = () => console.log('checking done..', this.props.done)
-
-  // @ts-ignore
-  componentWillReceiveProps = (props, nextProps) => {
-    console.log(
-      'did component receive props yet? Is done true?',
-      this.props.done
-    )
-    console.log('old props', props)
-    console.log('new props', nextProps)
   }
 
   // @ts-ignore
@@ -338,8 +319,7 @@ const mapStateToProps = (state, props) => ({
   answerArray: state.takeQuiz.answerArray,
   questionNumber: state.takeQuiz.questionNumber,
   multipleSelectAnswer: state.takeQuiz.multipleSelectAnswer,
-  multipleChoiceAnswer: state.takeQuiz.multipleChoiceAnswer,
-  done: state.takeQuiz.done
+  multipleChoiceAnswer: state.takeQuiz.multipleChoiceAnswer
 })
 
 export default connect(

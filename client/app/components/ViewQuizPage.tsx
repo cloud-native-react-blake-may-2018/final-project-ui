@@ -81,13 +81,15 @@ export class ViewQuizPage extends Component<IProps> {
               <Link to={`/edit-quiz/${quiz.uuid}`} className="link">
                 <p className="edit-button">Edit quiz</p>
               </Link>
-              <Link
-                to={`/take-quiz/${quiz.uuid}`}
-                onClick={this.startQuizAttempt}
-                className="link"
-              >
-                <p className="take-button">Take quiz</p>
-              </Link>
+              {quiz.questions.length > 0 && (
+                <Link
+                  to={`/take-quiz/${quiz.uuid}`}
+                  onClick={this.startQuizAttempt}
+                  className="link"
+                >
+                  <p className="take-button">Take quiz</p>
+                </Link>
+              )}
             </footer>
           </div>
         )}
