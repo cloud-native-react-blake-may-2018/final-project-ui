@@ -18,7 +18,7 @@ interface IProps {
   quiz: any
   randomGradient: string
   gradientColor: string
-  startQuizAttempt: (quizUUID: any, username: any) => void
+  startQuizAttempt: (quizUUID: any, username: any, reset: number) => void
   startGetSearchedQuiz: (uuid: any) => any
   loadModal: (string) => any
 }
@@ -44,7 +44,7 @@ export class ViewQuizPage extends Component<IProps> {
     })
   }
   public startQuizAttempt = (e: any) => {
-    this.props.startQuizAttempt(this.quizUUID, this.props.username)
+    this.props.startQuizAttempt(this.quizUUID, this.props.username, 0)
   }
 
   goBack = () => this.props.history.goBack()
