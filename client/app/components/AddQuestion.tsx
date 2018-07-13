@@ -8,7 +8,6 @@ import {
   startBatchCreateQuestions,
   startCreateNewQuestion
 } from "../actions/create";
-import { faDivide } from "@fortawesome/fontawesome-free-solid";
 import { editStoreQuiz } from "../actions/quizzes";
 
 interface IProps {
@@ -247,8 +246,8 @@ export class AddQuestion extends Component<IProps, any> {
     switch (this.state.currentQuestion.format) {
       case "true-false":
         return (
-          <form>
-            <label htmlFor="title">Title</label>
+          <div>
+            <label htmlFor="title">Question</label>
             <input
               type="text"
               id="title"
@@ -335,7 +334,7 @@ export class AddQuestion extends Component<IProps, any> {
             <button type="button" onClick={this.addToList}>
               Add Question
             </button>
-          </form>
+          </div>
         );
       default:
         return (
@@ -690,10 +689,16 @@ export class AddQuestion extends Component<IProps, any> {
     }
   };
 
-  render() {
+  // @ts-ignore
+  render = () => {
     const { startCreateNewQuestion } = this.props;
     return (
-      <div className="container">
+      <div className="add-question-container">
+        <p className="title">Add Question</p>
+        <div className="close">
+          {/* <div className="close" onClick={this.deleteQuestion}> */}
+          <FontAwesomeIcon icon="times" />
+        </div>
         <form>
           {this.renderMainDisplayElement()}
           <br />
@@ -713,7 +718,11 @@ export class AddQuestion extends Component<IProps, any> {
           </div>
         </div>
         {this.state.errMsg && this.state.errMsg}
-        <button type="button" onClick={this.updateReducerStore}>
+        <button
+          type="button"
+          onClick={this.updateReducerStore}
+          className="save-question"
+        >
           Save
         </button>
         {/* <button onClick={this.sendOneQuestion}>
@@ -722,7 +731,7 @@ export class AddQuestion extends Component<IProps, any> {
         <div>{this.printQuestionsArr()}</div>
       </div>
     );
-  }
+  };
 }
 
 const mapStateToProps = (state, parentProps) => ({

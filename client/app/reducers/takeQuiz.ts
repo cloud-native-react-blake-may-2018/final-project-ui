@@ -7,6 +7,8 @@ interface ITakeQuiz {
   multipleChoiceAnswer: any
   multipleSelectAnswer: any
   answerArray: any[]
+  results: any
+  done: any
 }
 
 const initialState: ITakeQuiz = {
@@ -18,13 +20,15 @@ const initialState: ITakeQuiz = {
     title: '',
     answer: []
   },
-  answerArray: []
+  answerArray: [],
+  results: null,
+  done: false
 }
 
 export const takeQuizReducer = (state = initialState, action = {} as any) => {
   switch (action.type) {
     case 'ADD_ANSWER_TO_OBJECT':
-      console.log('answer ', action.answerObj)
+      // console.log('answer ', action.answerObj)
       return {
         ...state,
         answerArray: [...state.answerArray, action.answerObj],
@@ -33,7 +37,22 @@ export const takeQuizReducer = (state = initialState, action = {} as any) => {
           title: '',
           answer: []
         },
-        multipleChoiceAnswer: null
+        multipleChoiceAnswer: null,
+        done: action.answerObj.done && action.answerObj.done
+      }
+
+    case 'UPDATE_ANSWER_ARRAY':
+      // console.log('answer ', action.answerObj)
+      return {
+        ...state,
+        answerArray: action.answerArray,
+        multipleSelectAnswer: {
+          author: '',
+          title: '',
+          answer: []
+        },
+        multipleChoiceAnswer: null,
+        done: action.done
       }
 
     case 'CHANGE_QUESTION_NUMBER':
@@ -42,18 +61,26 @@ export const takeQuizReducer = (state = initialState, action = {} as any) => {
         questionNumber: action.questionNumber
       }
 
+    case 'CLEAR_QUIZ_ATTEMPT':
+      return {
+        ...state,
+        questionNumber: action.reset,
+        quizAttemptInfoObj: null
+      }
+
     case 'ADD_MULTIPLE_SELECT_ANSWER':
-      console.log('multiple select ', action.answerObj.answer)
+      // console.log('multiple select ', action.answerObj.answer)
       return {
         ...state,
         multipleSelectAnswer: {
           author: action.answerObj.author,
           title: action.answerObj.title,
           answer: action.answerObj.answer
-        }
+        },
+        done: action.done
       }
     case 'UPDATE_MULTIPLE_SELECT_ANSWER':
-      console.log('multiple select ', action.answerArray)
+      // console.log('multiple select ', action.answerArray)
       return {
         ...state,
         multipleSelectAnswer: {
@@ -62,17 +89,34 @@ export const takeQuizReducer = (state = initialState, action = {} as any) => {
         }
       }
     case 'ADD_MULTIPLE_CHOICE_ANSWER':
-      console.log('multiple choice ', action.answerObj)
+      // console.log('multiple choice ', action.answerObj)
       return {
         ...state,
-        multipleChoiceAnswer: action.answerObj
+        multipleChoiceAnswer: action.answerObj,
+        done: action.done
       }
 
     case 'QUIZ_ATTEMPT_INFO':
-      console.log('questions ', action.quizAttemptInfo)
+      // console.log('questions ', action.quizAttemptInfo)
       return {
         ...state,
-        quizAttemptInfoObj: action.quizAttemptInfo
+        quizAttemptInfoObj: action.quizAttemptInfo,
+        questionNumber: action.reset,
+        answerArray: []
+      }
+
+    case 'SUBMIT_QUIZ_ATTEMPT':
+      // console.log('answer ', action.answerObj)
+      return {
+        ...state,
+        answerArray: [],
+        multipleSelectAnswer: {
+          author: '',
+          title: '',
+          answer: []
+        },
+        multipleChoiceAnswer: null,
+        results: action.quizResults
       }
 
     default:

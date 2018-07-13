@@ -46,6 +46,9 @@ const searchByUuidUrl =
 const getQuizAttempt =
   "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/";
 
+const sendQuizAttempt =
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/'
+
 const deleteQuestionUrl =
   "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/question/author";
 
@@ -101,6 +104,14 @@ export default {
     startQuizAttempt: (quizUUID, username) =>
       axios
         .get(`${getQuizAttempt}${quizUUID}/user/${username}`)
+        .then(res => res.data),
+
+    submitQuizAttempt: (quizUUID, user, attemptUUID, answerArray) =>
+      axios
+        .post(
+          `${sendQuizAttempt}${quizUUID}/user/${user}/attempt/${attemptUUID}`,
+          answerArray
+        )
         .then(res => res.data)
   },
 

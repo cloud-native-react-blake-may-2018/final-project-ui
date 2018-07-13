@@ -2,31 +2,51 @@ import React, { Component } from 'react'
 import moment from 'moment'
 import numeral from 'numeral'
 import { connect } from 'react-redux'
+import { RouteProps } from 'react-router'
 import { Link } from 'react-router-dom'
 import {
   startAddAnswerToArray,
   changeQuestionNumber,
   addMultipleSelectAnswer,
   addMultipleChoiceAnswer,
-  updateMultipleSelectAnswer
+  updateMultipleSelectAnswer,
+  updateAnswerArray,
+  submitQuizAttempt
 } from '../actions/quizzes'
+import { loadModal } from '../actions/modal'
+import {
+  SUBMIT_QUIZ_MODAL,
+  REPORT_QUESTION_MODAL
+} from '../constants/modaltypes'
 import Spinner from 'react-spinkit'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-interface IProps {
+interface IProps extends RouteProps {
   username: any
   quiz: any
   questionNumber: any
   multipleSelectAnswer: any
   multipleChoiceAnswer: any[]
+  answerArray: any
+  history: any
+  done: any
+  loadModal: (any) => any
   changeQuestionNumber: (questionNumber: number) => void
   startAddAnswerToArray: (answerObj: {}) => void
   addMultipleChoiceAnswer: (answerObj: {}) => void
   addMultipleSelectAnswer: (answerObj: {}) => void
-  updateMultipleSelectAnswer: (answerArray: any[]) => void
+  updateMultipleSelectAnswer: (answerArray: any) => void
+  updateAnswerArray: (answerArray: any[]) => void
+  submitQuizAttempt: (
+    quizUUID: string,
+    user: string,
+    attemptUUID: string,
+    answerArray: any[]
+  ) => void
 }
 
 const questionStyle = {
-  cursor: 'poninter'
+  cursor: 'pointer'
 }
 
 export class TakeQuizPage extends Component<IProps, any> {
@@ -37,12 +57,39 @@ export class TakeQuizPage extends Component<IProps, any> {
   params = window.location.href.split('/')
   quizUUID = this.params[4]
 
-  public previousQuizQuestion = (e: any) => {
+  submitQuizModal = () => this.props.loadModal(SUBMIT_QUIZ_MODAL)
+
+  reportQuestionModal = () => this.props.loadModal(REPORT_QUESTION_MODAL)
+
+  // will take you to the previous question and update answer array
+  // if a choice is selected
+  public previousQuizQuestion = (choices: object) => (e: any) => {
     e.preventDefault()
-    this.props.changeQuestionNumber(this.props.questionNumber - 1)
+    if (
+      this.props.multipleSelectAnswer.answer.length > 0 ||
+      this.props.multipleChoiceAnswer !== null
+    ) {
+      if (
+        choices[this.props.questionNumber].format === 'multiple-choice' ||
+        choices[this.props.questionNumber].format === 'true-false'
+      ) {
+        this.props.startAddAnswerToArray(this.props.multipleChoiceAnswer)
+        this.props.changeQuestionNumber(this.props.questionNumber - 1)
+      } else if (
+        choices[this.props.questionNumber].format === 'multiple-select'
+      ) {
+        this.props.startAddAnswerToArray(this.props.multipleSelectAnswer)
+        this.props.changeQuestionNumber(this.props.questionNumber - 1)
+      }
+    } else {
+      this.props.changeQuestionNumber(this.props.questionNumber - 1)
+    }
   }
-  public nextQuizQuestion = (choices: object) => {
-    console.log(choices[this.props.questionNumber].format)
+  // will take you to the next question and update answer array
+  // if a choice is selected
+  public nextQuizQuestion = (choices: object) => (e: any) => {
+    e.preventDefault()
+    console.log('here on submit', choices[this.props.questionNumber].format)
     if (
       this.props.multipleSelectAnswer.answer.length > 0 ||
       this.props.multipleChoiceAnswer !== null
@@ -64,50 +111,147 @@ export class TakeQuizPage extends Component<IProps, any> {
     }
   }
 
+  // adds an answer to the answer array if the question has not already
+  // been answered if it has the answer will be updated
   public addAnswerToObject = (choices: object, answer: any) => {
+    let index
     switch (choices[this.props.questionNumber].format) {
       case 'multiple-choice':
+        console.log(this.props.answerArray)
+        if (
+          this.props.answerArray.some((obj, i) => {
+            if (obj.title === choices[this.props.questionNumber].title) {
+              console.log('checking answerArray')
+              console.log(obj.title)
+              index = i
+              return true
+            }
+          })
+        ) {
+          let newArray = this.props.answerArray
+          newArray.splice(index, 1)
+          console.log(newArray)
+          updateAnswerArray({
+            newArray,
+            done: false
+          })
+        }
         this.props.addMultipleChoiceAnswer({
           author: choices[this.props.questionNumber].author,
           title: choices[this.props.questionNumber].title,
-          answer: answer.answer
+          answer: answer.answer.answer,
+          done: false
         })
         break
       case 'multiple-select':
-        let newArray: any[]
-        if (this.props.multipleSelectAnswer.answer.includes(answer.answer)) {
-          console.log('here')
-          const index = this.props.multipleSelectAnswer.answer.indexOf(
-            answer.answer
-          )
-          console.log(`index: ${index}`)
-          newArray = this.props.multipleSelectAnswer.answer
-          console.log(`index: ${newArray}`)
+        if (
+          this.props.answerArray.some((obj, i) => {
+            if (obj.title === choices[this.props.questionNumber].title) {
+              console.log('checking answerArray')
+              console.log(obj.title)
+              index = i
+              return true
+            }
+          })
+        ) {
+          let newArray = this.props.answerArray
           newArray.splice(index, 1)
-          console.log(`index: ${newArray}`)
-          this.props.updateMultipleSelectAnswer(newArray)
-        } else {
+          console.log(newArray)
+          updateAnswerArray({
+            newArray,
+            done: false
+          })
+        }
+        let newArray: any[]
+        if (
+          this.props.multipleSelectAnswer.answer.includes(answer.answer.answer)
+        ) {
+          console.log('found a match, now remove it', answer.answer.answer)
+          const index = this.props.multipleSelectAnswer.answer.indexOf(
+            answer.answer.answer
+          )
           newArray = this.props.multipleSelectAnswer.answer
-          newArray.push(answer.answer)
+          newArray.splice(index, 1)
           this.props.addMultipleSelectAnswer({
             author: choices[this.props.questionNumber].author,
             title: choices[this.props.questionNumber].title,
-            answer: newArray
+            answer: newArray,
+            done: false
+          })
+        } else {
+          newArray = this.props.multipleSelectAnswer.answer
+          newArray.push(answer.answer.answer)
+          this.props.addMultipleSelectAnswer({
+            author: choices[this.props.questionNumber].author,
+            title: choices[this.props.questionNumber].title,
+            answer: newArray,
+            done: false
           })
         }
         break
 
       case 'true-false':
+        console.log(this.props.answerArray)
+        if (
+          this.props.answerArray.some((obj, i) => {
+            if (obj.title === choices[this.props.questionNumber].title) {
+              console.log('checking answerArray')
+              console.log(obj.title)
+              index = i
+              return true
+            }
+          })
+        ) {
+          let newArray = this.props.answerArray
+          newArray.splice(index, 1)
+          console.log(newArray)
+          updateAnswerArray({
+            newArray,
+            done: false
+          })
+        }
         this.props.addMultipleChoiceAnswer({
           author: choices[this.props.questionNumber].author,
           title: choices[this.props.questionNumber].title,
-          answer: answer.answer
+          answer: answer.answer.answer,
+          done: false
         })
         break
     }
   }
 
-  public submit = () => {}
+  public submit = (choices: object) => (e: any) => {
+    console.log('in submit function')
+    if (
+      this.props.multipleSelectAnswer.answer.length > 0 ||
+      this.props.multipleChoiceAnswer !== null
+    ) {
+      if (
+        choices[this.props.questionNumber].format === 'multiple-choice' ||
+        choices[this.props.questionNumber].format === 'true-false'
+      ) {
+        this.props.startAddAnswerToArray(this.props.multipleChoiceAnswer)
+      } else if (
+        choices[this.props.questionNumber].format === 'multiple-select'
+      ) {
+        this.props.startAddAnswerToArray(this.props.multipleSelectAnswer)
+      }
+    }
+    this.submitQuizModal()
+  }
+
+  // @ts-ignore
+  componentDidMount = () => console.log('checking done..', this.props.done)
+
+  // @ts-ignore
+  componentWillReceiveProps = (props, nextProps) => {
+    console.log(
+      'did component receive props yet? Is done true?',
+      this.props.done
+    )
+    console.log('old props', props)
+    console.log('new props', nextProps)
+  }
 
   // @ts-ignore
   render = () => {
@@ -121,7 +265,12 @@ export class TakeQuizPage extends Component<IProps, any> {
           <div className="main">
             <header>
               <div className="meta">
-                <p className="current">Question {questionNumber + 1}</p>
+                <div className="container">
+                  <p className="current">Question {questionNumber + 1}</p>
+                  <div className="icon" onClick={this.reportQuestionModal}>
+                    <FontAwesomeIcon icon="ellipsis-h" className="menu" />
+                  </div>
+                </div>
                 <p className="title">{quiz.title}</p>
                 <p className="progress">
                   Question {questionNumber + 1}/{quiz.questions.length}
@@ -132,9 +281,10 @@ export class TakeQuizPage extends Component<IProps, any> {
             {/* DISPLAYS THE CHOICES */}
             <main>
               <div className="choices">
-                {quiz.questions[questionNumber].answers.map(answers => (
+                {quiz.questions[questionNumber].answers.map((answers, i) => (
                   <div
-                    key={answers.answer.answer}
+                    key={i}
+                    // key={answers.answer.answer}
                     className="choice"
                     onClick={this.addAnswerToObject.bind(
                       this,
@@ -149,7 +299,7 @@ export class TakeQuizPage extends Component<IProps, any> {
               <div className="buttons">
                 {questionNumber !== 0 && (
                   <button
-                    onClick={this.previousQuizQuestion}
+                    onClick={this.previousQuizQuestion(quiz.questions)}
                     className="previous-button"
                   >
                     previous
@@ -157,14 +307,17 @@ export class TakeQuizPage extends Component<IProps, any> {
                 )}
                 {questionNumber + 1 !== quiz.questions.length ? (
                   <button
-                    onClick={this.nextQuizQuestion.bind(this, quiz.questions)}
+                    onClick={this.nextQuizQuestion(quiz.questions)}
                     className="next-button"
                   >
                     next
                   </button>
                 ) : (
-                  <button onClick={this.submit} className="submit-button">
-                    Submit
+                  <button
+                    onClick={this.submit(quiz.questions)}
+                    className="submit-button"
+                  >
+                    Done
                   </button>
                 )}
               </div>
@@ -178,15 +331,15 @@ export class TakeQuizPage extends Component<IProps, any> {
 
 const mapStateToProps = (state, props) => ({
   username: state.auth.username,
-  // quiz: state.takeQuiz.quizAttemptInfoObj,
   quiz:
     state.takeQuiz.quizAttemptInfoObj !== null &&
     state.takeQuiz.quizAttemptInfoObj,
   answers: state.takeQuiz.answers,
+  answerArray: state.takeQuiz.answerArray,
   questionNumber: state.takeQuiz.questionNumber,
   multipleSelectAnswer: state.takeQuiz.multipleSelectAnswer,
-  multipleChoiceAnswer: state.takeQuiz.multipleChoiceAnswer
-  // clickedQuestion: state.quizzes.clickedQuestion
+  multipleChoiceAnswer: state.takeQuiz.multipleChoiceAnswer,
+  done: state.takeQuiz.done
 })
 
 export default connect(
@@ -196,6 +349,9 @@ export default connect(
     changeQuestionNumber,
     addMultipleChoiceAnswer,
     addMultipleSelectAnswer,
-    updateMultipleSelectAnswer
+    updateMultipleSelectAnswer,
+    updateAnswerArray,
+    submitQuizAttempt,
+    loadModal
   }
 )(TakeQuizPage)

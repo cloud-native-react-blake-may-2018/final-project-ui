@@ -1,72 +1,75 @@
-import React, { Component } from "react";
-import { Router, Route, Switch } from "react-router-dom";
-import { connect } from "react-redux";
-import Sidebar from "react-sidebar";
-import createHistory from "history/createBrowserHistory";
+import React, { Component } from 'react'
+import { Router, Route, Switch } from 'react-router-dom'
+import { connect } from 'react-redux'
+import Sidebar from 'react-sidebar'
+import createHistory from 'history/createBrowserHistory'
 
-import SidebarContent from "../components/SidebarContent";
-import PrivateRoute from "./PrivateRoute";
-import PublicRoute from "./PublicRoute";
+import SidebarContent from '../components/SidebarContent'
+import PrivateRoute from './PrivateRoute'
+import PublicRoute from './PublicRoute'
 
-import SplashPage from "../components/SplashPage";
-import LoginPage from "../components/LoginPage";
-import SignupPage from "../components/SignupPage";
-import DashboardPage from "../components/DashboardPage";
-import MyQuizzesPage from "../components/MyQuizzesPage";
-import EditQuizPage from "../components/EditQuizPage";
-import ViewQuizPage from "../components/ViewQuizPage";
-import TakeQuizPage from "../components/TakeQuiz";
-import AchievementsPage from "../components/AchievementsPage";
-import StorePage from "../components/StorePage";
-import ResetPasswordPage from "../components/ResetPasswordPage";
-import CreateQuiz from "../components/CreateQuiz";
-import AddQuestion from "../components/AddQuestion";
-import AddQuiz from "../components/AddQuiz";
+import SplashPage from '../components/SplashPage'
+import LoginPage from '../components/LoginPage'
+import SignupPage from '../components/SignupPage'
+import DashboardPage from '../components/DashboardPage'
+import MyQuizzesPage from '../components/MyQuizzesPage'
+import EditQuizPage from '../components/EditQuizPage'
+import ViewQuizPage from '../components/ViewQuizPage'
+import TakeQuizPage from '../components/TakeQuiz'
+import QuizResultsPage from '../components/QuizResults'
+import SignInRedirect from '../components/SignInRedirect'
+import AchievementsPage from '../components/AchievementsPage'
+import StorePage from '../components/StorePage'
+import ResetPasswordPage from '../components/ResetPasswordPage'
+import CreateQuiz from '../components/CreateQuiz'
+import AddQuestion from '../components/AddQuestion'
+import AddQuiz from '../components/AddQuiz'
 
-import SettingsPage from "../components/SettingsPage";
-import ProfilePage from "../components/ProfilePage";
-import NotFoundPage from "../components/NotFoundPage";
+import SettingsPage from '../components/SettingsPage'
+import ProfilePage from '../components/ProfilePage'
+import NotFoundPage from '../components/NotFoundPage'
+import { SetupLogin } from '../components/loginSetup'
 
-export const history = createHistory();
-const mql = window.matchMedia(`(min-width: 800px)`);
+export const history = createHistory()
+const mql = window.matchMedia(`(min-width: 800px)`)
 
 interface IProps {
-  history?: any;
-  sidebarOpen?: any;
+  history?: any
+  sidebarOpen?: any
 }
 interface IState {
-  mql: MediaQueryList;
-  sidebarDocked: boolean;
+  mql: MediaQueryList
+  sidebarDocked: boolean
   // sidebarOpen: boolean
 }
 
 // sidebar content
-const sidebar = <SidebarContent />;
+const sidebar = <SidebarContent />
 
 export class Pages extends Component<IProps, IState> {
   state = {
     mql: mql,
     sidebarDocked: false
     // sidebarOpen: true
-  };
+  }
 
   mediaQueryChanged = () => {
-    this.setState({ sidebarDocked: this.state.mql.matches });
-  };
+    this.setState({ sidebarDocked: this.state.mql.matches })
+  }
 
   // onSetSidebarOpen = () =>
   //   this.setState({ sidebarOpen: !this.state.sidebarOpen })
 
   // @ts-ignore
   componentWillMount = () => {
-    mql.addListener(this.mediaQueryChanged);
-    this.setState({ mql: mql, sidebarDocked: mql.matches });
-  };
+    mql.addListener(this.mediaQueryChanged)
+    this.setState({ mql: mql, sidebarDocked: mql.matches })
+  }
 
   // @ts-ignore
   componentWillUnmount = () => {
-    this.state.mql.removeListener(this.mediaQueryChanged);
-  };
+    this.state.mql.removeListener(this.mediaQueryChanged)
+  }
 
   // @ts-ignore
   // componentWillReceiveProps = (props, nextProps) => {
@@ -80,13 +83,15 @@ export class Pages extends Component<IProps, IState> {
 
   // @ts-ignore
   render = () => {
-    const { sidebarDocked } = this.state;
+    const { sidebarDocked } = this.state
     return (
       <Router history={history}>
         <Switch>
           <PublicRoute exact path="/" component={SplashPage} />
           <PublicRoute path="/signup" component={SignupPage} />
-          <PublicRoute path="/login" component={LoginPage} />
+          <PublicRoute path="/login" component={SignInRedirect} />
+          <PublicRoute path="/resetpassword" component={ResetPasswordPage} />
+          <PublicRoute path="/redirect" component={SetupLogin} />
           <Sidebar
             sidebar={sidebar}
             docked={sidebarDocked}
@@ -103,6 +108,10 @@ export class Pages extends Component<IProps, IState> {
             <PrivateRoute path="/view-quiz/:uuid" component={ViewQuizPage} />
             <PrivateRoute path="/edit-quiz/:uuid" component={EditQuizPage} />
             <PrivateRoute path="/take-quiz/:uuid" component={TakeQuizPage} />
+            <PrivateRoute
+              path="/quiz-results/:quizUUID"
+              component={QuizResultsPage}
+            />
             <PrivateRoute path="/create-quiz" component={CreateQuiz} />
             <PrivateRoute path="/add-question" component={AddQuestion} />
             <PrivateRoute path="/add-quiz" component={AddQuiz} />
@@ -114,12 +123,12 @@ export class Pages extends Component<IProps, IState> {
           <Route component={NotFoundPage} />
         </Switch>
       </Router>
-    );
-  };
+    )
+  }
 }
 
 const mapStateToProps = state => ({
   sidebarOpen: state.app.sidebarOpen
-});
+})
 
-export default connect(mapStateToProps)(Pages);
+export default connect(mapStateToProps)(Pages)

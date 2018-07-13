@@ -152,10 +152,11 @@ export class EditQuizPage extends Component<IProps> {
         codeString = codeString.split(",", 2);
         this.setState({
           ...this.state,
-          // clickedQuestion: {
-          //   ...this.state.clickedQuestion,
-          //   image: codeString[1]
-          // },
+          clickedQuestion: {
+            ...this.state.clickedQuestion,
+            image: codeString[1],
+            newImage: "yes"
+          },
           displayPhoto: codeString.join(",")
         });
       }.bind(this);
@@ -189,7 +190,8 @@ export class EditQuizPage extends Component<IProps> {
               <h1 className="title">{quiz.title}</h1>
               <div className="close">
                 {/* <div className="close" onClick={this.onClose}> */}
-                <FontAwesomeIcon icon="times" />
+                <FontAwesomeIcon icon="trash" />
+                <p className="hint">Permanently delete this quiz</p>
               </div>
               <div className="tags">
                 {quiz.tags.length === 0 && <p className="tag">No tags</p>}
@@ -200,7 +202,7 @@ export class EditQuizPage extends Component<IProps> {
                     </p>
                   ))}
               </div>
-              <p className="add-tag">+ tag</p>
+              {/* <p className="add-tag">+ tag</p> */}
               <div className="questions">
                 {quiz.questions.map(tag => (
                   <div key={tag.allLowerCase}>
@@ -214,14 +216,14 @@ export class EditQuizPage extends Component<IProps> {
                     >
                       Question {(count += 1)}
                     </p>
+                    <p
+                      onClick={e => this.setAddQuestion(e)}
+                      className="add-question"
+                    >
+                      + question
+                    </p>
                   </div>
                 ))}
-                <p
-                  onClick={e => this.setAddQuestion(e)}
-                  className="add-question"
-                >
-                  + question
-                </p>
               </div>
               <button onClick={this.updateQuiz} className="save-quiz">
                 Save Quiz
@@ -239,7 +241,8 @@ export class EditQuizPage extends Component<IProps> {
               <div key={clickedQuestion.uuid} className="question-container">
                 <p className="title">Edit question</p>
                 <div className="close" onClick={this.deleteQuestion}>
-                  <FontAwesomeIcon icon="times" />
+                  <FontAwesomeIcon icon="trash" />
+                  <p className="hint">Permanently delete this question</p>
                 </div>
                 {page === 1 && (
                   <form className="details">
@@ -291,6 +294,7 @@ export class EditQuizPage extends Component<IProps> {
                             onChange={(e: any) => {
                               this.updateArr(e, index, "answer");
                             }}
+                            data-enable-grammarly="false"
                           />
                         </div>
                         <div className="group">
@@ -306,6 +310,7 @@ export class EditQuizPage extends Component<IProps> {
                             onChange={(e: any) => {
                               this.updateArr(e, index, "percentPoints");
                             }}
+                            data-enable-grammarly="false"
                           />
                         </div>
                         <div className="group">
@@ -317,6 +322,7 @@ export class EditQuizPage extends Component<IProps> {
                             onChange={(e: any) => {
                               this.updateArr(e, index, "feedback");
                             }}
+                            data-enable-grammarly="false"
                           />
                         </div>
                       </div>

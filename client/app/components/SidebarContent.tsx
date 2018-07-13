@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router'
+import { Link, RouteComponentProps } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import MenuIcon from '../../public/icons/menu-icon.svg'
 import AddQuizIcon from '../../public/icons/add-quiz-icon.svg'
@@ -11,20 +12,22 @@ import SettingsIcon from '../../public/icons/settings-icon.svg'
 
 import { generateUuid } from '../helpers/helpers'
 import { loadModal } from '../actions/modal'
-// import { NEW_WORD_MODAL } from '../constants/modaltypes'
 
-interface IProps {
+interface IProps extends RouteComponentProps<any> {
   username?: string
+  questions?: any
   startAddTopic?: (nextTopic: any) => any
   loadModal?: (string) => void
 }
 
 interface IState {
+  takingQuiz: boolean
   isEditing: boolean
 }
 
 export class SidebarContent extends Component<IProps, IState> {
   state = {
+    takingQuiz: false,
     isEditing: false,
     topic: ''
   }
@@ -55,8 +58,73 @@ export class SidebarContent extends Component<IProps, IState> {
     this.setState({ isEditing: !this.state.isEditing })
   }
 
-  render() {
-    const { topic } = this.state
+  // @ts-ignore
+  componentWillReceiveProps = props => {
+    const quizInProgress = props.location.pathname.includes('take-quiz')
+
+    this.setState({ takingQuiz: quizInProgress ? true : false })
+  }
+
+  // @ts-ignore
+  render = () => {
+    const { topic, takingQuiz } = this.state
+    const { questions } = this.props
+    return (
+      <div className="content">
+        <div className="cover" />
+        {!takingQuiz && (
+          <div className="container link-container">
+            <Link to="/dashboard" className="link">
+              <MenuIcon className="svg menu" />
+            </Link>
+            <Link to="/add-quiz" className="link">
+              <AddQuizIcon className="svg add-quiz" />
+            </Link>
+            <Link to="/quizzes/created" className="link">
+              <ViewQuizzesIcon className="svg view-quizzes" />
+            </Link>
+            <Link to="/achievements" className="link">
+              <AchievementsIcon className="svg achievements" />
+            </Link>
+            <Link to="/store" className="link">
+              <CartIcon className="svg store" />
+            </Link>
+            <Link to="/settings" className="link">
+              <SettingsIcon className="svg settings" />
+            </Link>
+          </div>
+        )}
+        {takingQuiz && (
+          <div className="container question-container">
+            <Link to="/dashboard" className="link">
+              <MenuIcon className="svg menu" />
+            </Link>
+            <div className="scroll-container">
+              <div className="questions">
+                {questions.length > 0 &&
+                  questions.map((question, number) => (
+                    <p key={number} className="question-number">
+                      {number + 1}
+                    </p>
+                  ))}
+              </div>
+            </div>
+            <div className="scroll-down">
+              <FontAwesomeIcon
+                icon="angle-down"
+                className="icon fa-angle-down"
+              />
+            </div>
+          </div>
+        )}
+      </div>
+    )
+  }
+}
+
+/* // @ts-ignore
+  render = () => {
+    const { topic, takingQuiz } = this.state
     return (
       <div className="content">
         <div className="cover" />
@@ -82,12 +150,20 @@ export class SidebarContent extends Component<IProps, IState> {
     )
   }
 }
+*/
 
-const mapStateToProps = state => ({
-  username: state.auth.username
+const mapStateToProps = (state, props) => ({
+  username: state.auth.username,
+  questions:
+    state.takeQuiz.quizAttemptInfoObj !== null &&
+    state.takeQuiz.quizAttemptInfoObj.questions
 })
 
-export default connect<any, any>(
-  mapStateToProps,
-  { loadModal }
-)(SidebarContent)
+export default withRouter(
+  connect<any, any>(
+    mapStateToProps,
+    { loadModal },
+    undefined,
+    { pure: false }
+  )(SidebarContent)
+)

@@ -77,8 +77,8 @@ export const UpdateQuestionsDisplay = clickedQuestion => ({
   clickedQuestion
 })
 
-export const startAddAnswerToArray = answerObj => dispatch =>
-  dispatch(addAnswerToArray(answerObj))
+export const startAddAnswerToArray = answerObj => async dispatch =>
+  await dispatch(addAnswerToArray(answerObj))
 
 export const addAnswerToArray = answerObj => ({
   type: 'ADD_ANSWER_TO_OBJECT',
@@ -108,6 +108,15 @@ export const startAddMultipleChoiceAnswer = answerObj => ({
   answerObj
 })
 
+export const updateAnswerArray = answerArray => dispatch =>
+  dispatch(startupdateAnswerArray(answerArray))
+
+export const startupdateAnswerArray = answer => ({
+  type: 'UPDATE_ANSWER_ARRAY',
+  answerArray: answer.answerArray,
+  done: answer.done
+})
+
 export const changeQuestionNumber = questionNumber => dispatch =>
   dispatch(startChangeQuestionNumber(questionNumber))
 
@@ -115,12 +124,39 @@ export const startChangeQuestionNumber = questionNumber => ({
   type: 'CHANGE_QUESTION_NUMBER',
   questionNumber
 })
-export const startQuizAttempt = (quizUUID: any, username: string) => dispatch =>
+export const startQuizAttempt = (
+  quizUUID: any,
+  username: string,
+  reset: number
+) => dispatch =>
   pathList.quizzes
     .startQuizAttempt(quizUUID, username)
-    .then(quizAttemptInfo => dispatch(beginQuizAttempt(quizAttemptInfo)))
+    .then(quizAttemptInfo => dispatch(beginQuizAttempt(quizAttemptInfo, reset)))
 
-export const beginQuizAttempt = quizAttemptInfo => ({
+export const beginQuizAttempt = (quizAttemptInfo, reset) => ({
   type: 'QUIZ_ATTEMPT_INFO',
-  quizAttemptInfo
+  quizAttemptInfo,
+  reset
+})
+export const submitQuizAttempt = (
+  quizUUID: string,
+  user: string,
+  attemptUUID: string,
+  answerArray: any[]
+) => dispatch =>
+  pathList.quizzes
+    .submitQuizAttempt(quizUUID, user, attemptUUID, answerArray)
+    .then(quizResults => dispatch(startSubmitQuizAttempt(quizResults)))
+
+export const startSubmitQuizAttempt = quizResults => ({
+  type: 'SUBMIT_QUIZ_ATTEMPT',
+  quizResults
+})
+
+export const clearQuizAttempt = reset => dispatch =>
+  dispatch(startclearQuizAttempt(reset))
+
+export const startclearQuizAttempt = reset => ({
+  type: 'CLEAR_QUIZ_ATTEMPT',
+  reset
 })

@@ -7,7 +7,7 @@
     "start": "npm run serve & npm run test",
     "serve": "ts-node index.ts",
     "test": "jest --watchAll",
-    "build": "webpack"
+    "build": "NODE_ENV=production webpack"
   },
   "author": "Eric",
   "license": "ISC",
@@ -79,6 +79,7 @@
   },
   "devDependencies": {
     "@types/connect-history-api-fallback": "latest",
+    "@types/dotenv": "latest",
     "@types/enzyme": "latest",
     "@types/enzyme-adapter-react-16": "latest",
     "@types/express": "latest",
@@ -101,7 +102,7 @@
     "@types/webpack-hot-middleware": "latest",
     "awesome-typescript-loader": "latest",
     "babel-core": "latest",
-    "babel-loader": "latest",
+    "babel-loader": "^7.1.5",
     "babel-plugin-inline-react-svg": "latest",
     "babel-preset-env": "latest",
     "babel-preset-react": "latest",
