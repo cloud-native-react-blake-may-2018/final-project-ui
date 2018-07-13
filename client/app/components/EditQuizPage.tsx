@@ -107,13 +107,9 @@ export class EditQuizPage extends Component<IProps> {
       ...this.state,
       questionNumber: count,
       clickedQuestion: question,
-      clickedAddQuestion: false
+      clickedAddQuestion: false,
+      displayPhoto: question.image || ""
     });
-    if (question.image) {
-      this.setState({
-        displayPhoto: question.image
-      });
-    }
   };
 
   private setAddQuestion = (e: any) => {
@@ -204,8 +200,8 @@ export class EditQuizPage extends Component<IProps> {
               </div>
               {/* <p className="add-tag">+ tag</p> */}
               <div className="questions">
-                {quiz.questions.map(tag => (
-                  <div key={tag.allLowerCase}>
+                {quiz.questions.map(question => (
+                  <div key={question.title}>
                     <p
                       className="question"
                       onClick={this.showQuizQuestion.bind(
@@ -216,15 +212,12 @@ export class EditQuizPage extends Component<IProps> {
                     >
                       Question {(count += 1)}
                     </p>
-                    <p
-                      onClick={e => this.setAddQuestion(e)}
-                      className="add-question"
-                    >
-                      + question
-                    </p>
                   </div>
                 ))}
               </div>
+              <p onClick={e => this.setAddQuestion(e)} className="add-question">
+                + question
+              </p>
               <button onClick={this.updateQuiz} className="save-quiz">
                 Save Quiz
               </button>
