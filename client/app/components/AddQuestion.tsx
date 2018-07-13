@@ -607,25 +607,29 @@ export class AddQuestion extends Component<IProps, any> {
     switch (this.state.mainView.display) {
       case 'questionDisplay':
         return (
-          <div>
-            <label htmlFor="editQuestionTitle">Title:</label>
-            <input
-              type="text"
-              id="editQuestionTitle"
-              value={this.state.mainView.questionToDisplay.title}
-              onChange={e => {
-                this.editQuestionElements(e, 'title')
-              }}
-            />
-            <label htmlFor="editQuestionTag">Tags:</label>
-            <input
-              type="text"
-              id="editQuestionTag"
-              value={this.state.mainView.questionToDisplay.tags}
-              onChange={e => {
-                this.editQuestionElements(e, 'tags')
-              }}
-            />
+          <div className="details">
+            <div className="group">
+              <label htmlFor="editQuestionTitle">Title:</label>
+              <input
+                type="text"
+                id="editQuestionTitle"
+                value={this.state.mainView.questionToDisplay.title}
+                onChange={e => {
+                  this.editQuestionElements(e, 'title')
+                }}
+              />
+            </div>
+            <div className="group">
+              <label htmlFor="editQuestionTag">Tags:</label>
+              <input
+                type="text"
+                id="editQuestionTag"
+                value={this.state.mainView.questionToDisplay.tags}
+                onChange={e => {
+                  this.editQuestionElements(e, 'tags')
+                }}
+              />
+            </div>
             {this.state.mainView.questionToDisplay.answers.map((item, i) => {
               return (
                 <div>

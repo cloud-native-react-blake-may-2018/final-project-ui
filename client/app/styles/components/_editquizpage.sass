@@ -358,7 +358,6 @@
       background-color: $white
       box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
 
-
       .title
         margin: 15px 0 10px
         width: max-content
@@ -381,6 +380,31 @@
           -ms-animation: wiggle .5s infinite
           -moz-animation: wiggle .5s infinite
           -webkit-animation: wiggle .5s infinite
+
+
+         display: grid
+
+        .group
+          display: grid
+          grid-template-columns: repeat(2, 1fr)
+
+          label, .label
+            grid-column: 1 / span 2
+            margin: 10px 0
+            font: normal 18px Asap
+            color: $grey          
+
+          input, textarea
+            grid-column: 1 / span 2
+            padding: 10px 15px
+            margin: 0 0 10px
+            border: none
+            border-radius: 8px
+            outline: none
+            resize: none
+            font: normal 18px Asap
+            color: $grey
+            background-color: $white-grey
 
       .save-question
         align-self: end
