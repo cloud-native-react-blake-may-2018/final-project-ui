@@ -4,7 +4,6 @@ import numeral from 'numeral'
 import { connect } from 'react-redux'
 import { RouteProps } from 'react-router'
 import { Link } from 'react-router-dom'
-import SubmitQuizModal from './modals/SubmitQuizModal'
 import {
   startAddAnswerToArray,
   changeQuestionNumber,
@@ -15,8 +14,12 @@ import {
   submitQuizAttempt
 } from '../actions/quizzes'
 import { loadModal } from '../actions/modal'
-import { SUBMIT_QUIZ_MODAL } from '../constants/modaltypes'
+import {
+  SUBMIT_QUIZ_MODAL,
+  REPORT_QUESTION_MODAL
+} from '../constants/modaltypes'
 import Spinner from 'react-spinkit'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 interface IProps extends RouteProps {
   username: any
@@ -27,7 +30,7 @@ interface IProps extends RouteProps {
   answerArray: any
   history: any
   done: any
-  loadModal: any
+  loadModal: (any) => any
   changeQuestionNumber: (questionNumber: number) => void
   startAddAnswerToArray: (answerObj: {}) => void
   addMultipleChoiceAnswer: (answerObj: {}) => void
@@ -55,6 +58,8 @@ export class TakeQuizPage extends Component<IProps, any> {
   quizUUID = this.params[4]
 
   submitQuizModal = () => this.props.loadModal(SUBMIT_QUIZ_MODAL)
+
+  reportQuestionModal = () => this.props.loadModal(REPORT_QUESTION_MODAL)
 
   // will take you to the previous question and update answer array
   // if a choice is selected
@@ -258,7 +263,12 @@ export class TakeQuizPage extends Component<IProps, any> {
           <div className="main">
             <header>
               <div className="meta">
-                <p className="current">Question {questionNumber + 1}</p>
+                <div className="container">
+                  <p className="current">Question {questionNumber + 1}</p>
+                  <div className="icon" onClick={this.reportQuestionModal}>
+                    <FontAwesomeIcon icon="ellipsis-h" className="menu" />
+                  </div>
+                </div>
                 <p className="title">{quiz.title}</p>
                 <p className="progress">
                   Question {questionNumber + 1}/{quiz.questions.length}
@@ -269,9 +279,10 @@ export class TakeQuizPage extends Component<IProps, any> {
             {/* DISPLAYS THE CHOICES */}
             <main>
               <div className="choices">
-                {quiz.questions[questionNumber].answers.map(answers => (
+                {quiz.questions[questionNumber].answers.map((answers, i) => (
                   <div
-                    key={answers.answer.answer}
+                    key={i}
+                    // key={answers.answer.answer}
                     className="choice"
                     onClick={this.addAnswerToObject.bind(
                       this,

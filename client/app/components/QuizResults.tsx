@@ -62,7 +62,7 @@ export class QuizResultsPage extends Component<IProps, any> {
                 <p className="score">{Math.round(this.props.quiz.score)}%</p>
                 <div className="points-container">
                   <p className="points">
-                    +{Math.round(this.props.quiz.score) / 10}&nbsp;
+                    +{parseInt(this.props.quiz.score) / 10}&nbsp;
                   </p>
                   <CoinIcon className="coin-icon" />
                 </div>

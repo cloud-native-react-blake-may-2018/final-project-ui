@@ -12,8 +12,6 @@ import SettingsIcon from '../../public/icons/settings-icon.svg'
 
 import { generateUuid } from '../helpers/helpers'
 import { loadModal } from '../actions/modal'
-import { questionsReducer } from '../reducers/questions'
-// import { NEW_WORD_MODAL } from '../constants/modaltypes'
 
 interface IProps extends RouteComponentProps<any> {
   username?: string
@@ -62,9 +60,12 @@ export class SidebarContent extends Component<IProps, IState> {
 
   // @ts-ignore
   componentWillReceiveProps = props => {
-    const quizInProgress = this.props.location.pathname.includes('take-quiz')
+    console.log('given props: ', props)
+    // console.log('new props! ', props)
+    const quizInProgress = props.location.pathname.includes('take-quiz')
+    console.log('quiz in progress ', quizInProgress)
 
-    if (quizInProgress) this.setState({ takingQuiz: true })
+    this.setState({ takingQuiz: quizInProgress ? true : false })
   }
 
   // @ts-ignore
@@ -75,7 +76,7 @@ export class SidebarContent extends Component<IProps, IState> {
       <div className="content">
         <div className="cover" />
         {!takingQuiz && (
-          <div className="container">
+          <div className="container link-container">
             <Link to="/dashboard" className="link">
               <MenuIcon className="svg menu" />
             </Link>
@@ -97,10 +98,26 @@ export class SidebarContent extends Component<IProps, IState> {
           </div>
         )}
         {takingQuiz && (
-          <div className="container">
-            {questions.map((question, number) => (
-              <p className="link">{number + 1}</p>
-            ))}
+          <div className="container question-container">
+            <Link to="/dashboard" className="link">
+              <MenuIcon className="svg menu" />
+            </Link>
+            <div className="scroll-container">
+              <div className="questions">
+                {questions.length > 0 &&
+                  questions.map((question, number) => (
+                    <p key={number} className="question-number">
+                      {number + 1}
+                    </p>
+                  ))}
+              </div>
+            </div>
+            <div className="scroll-down">
+              <FontAwesomeIcon
+                icon="angle-down"
+                className="icon fa-angle-down"
+              />
+            </div>
           </div>
         )}
       </div>

@@ -74,6 +74,23 @@
       .back path
         fill: $white-grey
 
+      .icon
+        position: absolute
+        top: 50px
+        right: 50px
+        z-index: 100
+
+        &:hover
+          cursor: pointer
+
+        &:hover .menu
+          color: $light-grey
+          transition: .15s all ease-in-out
+
+        .menu
+          font-size: 24px
+          color: $white
+
 
     footer
       display: grid
