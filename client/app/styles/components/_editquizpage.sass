@@ -358,6 +358,30 @@
       background-color: $white
       box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
 
+
+      .title
+        margin: 15px 0 10px
+        width: max-content
+        padding: 0
+        text-transform: uppercase
+        font: normal 18px Asap
+        color: $light-grey
+
+      .close
+        position: absolute
+        top: 25px
+        right: 25px
+        cursor: pointer
+        color: $light-grey
+        transition: .3s all ease-in-out
+
+        &:hover
+          color: $red
+          animation: wiggle .5s infinite
+          -ms-animation: wiggle .5s infinite
+          -moz-animation: wiggle .5s infinite
+          -webkit-animation: wiggle .5s infinite
+
       .save-question
         align-self: end
         justify-self: center
