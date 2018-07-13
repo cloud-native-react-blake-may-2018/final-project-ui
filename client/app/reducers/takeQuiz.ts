@@ -100,7 +100,9 @@ export const takeQuizReducer = (state = initialState, action = {} as any) => {
       // console.log('questions ', action.quizAttemptInfo)
       return {
         ...state,
-        quizAttemptInfoObj: action.quizAttemptInfo
+        quizAttemptInfoObj: action.quizAttemptInfo,
+        questionNumber: action.reset,
+        answerArray: []
       }
 
     case 'SUBMIT_QUIZ_ATTEMPT':
