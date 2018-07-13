@@ -24,7 +24,9 @@ const isDev = process.env.NODE_ENV !== 'production'
 // setup port
 const port = parseInt(process.env.PORT) || 3222
 
-console.log('in server, port is: ', port)
+console.log('port number is: ', port)
+console.log('environemnt is: ', process.env.NODE_ENV)
+
 // const port = parseInt(process.env.NODE_PORT) || 3222
 app.set('port', port)
 

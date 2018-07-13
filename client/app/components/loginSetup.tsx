@@ -8,7 +8,8 @@ import Axios from '../../../node_modules/axios'
 import { environment } from '../../../environment'
 
 export class SetupLogin extends Component {
-  componentDidMount() {
+  // @ts-ignore
+  componentDidMount = () => {
     const uri = document.location.href
     // console.log(uri);
     /** Start after access_token= */
@@ -76,9 +77,6 @@ export class SetupLogin extends Component {
           environment.context === 'production'
             ? (window.location.href = `${environment.context}/dashboard`)
             : `${environment.context}/dashboard/__webpack_hmr`
-        // window.location.href = `${
-        //   environment.context
-        // }/dashboard/client?reload=true`
 
         // working
         // window.location.href = `${environment.context}/dashboard`
@@ -88,7 +86,8 @@ export class SetupLogin extends Component {
       })
   }
 
-  render() {
+  // @ts-ignore
+  render = () => {
     return (
       <div>
         <h1> Loading .......... </h1>
