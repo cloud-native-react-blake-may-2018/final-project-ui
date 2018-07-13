@@ -75,11 +75,11 @@ export class QuizResultsPage extends Component<IProps, any> {
                   <p className="retake-button">Retake quiz</p>
                 </Link>
                 <Link
-                  to={`/take-quiz/${quiz.uuid}`}
+                  to={`/review-quiz/${quiz.attemptUUID}`}
                   // onClick={this.startQuizAttempt}
                   className="link"
                 >
-                  <p className="results-button">See results</p>
+                  <p className="results-button">Review Quiz</p>
                 </Link>
               </footer>
             </div>

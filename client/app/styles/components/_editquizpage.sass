@@ -10,7 +10,7 @@
     .quiz-container
       display: grid
       grid-auto-rows: max-content
-      grid-template-rows: repeat(5, max-content) 1fr max-content
+      grid-template-rows: repeat(4, max-content) 1fr max-content
       position: relative
       padding: 10px 30px
       height: 70vh
@@ -82,28 +82,17 @@
           font: normal 18px Asap
           color: $light-grey
 
-      .add-tag
-        margin: 5px 0 0
-        width: max-content
-        font: italic 16px Asap
-        color: $light-grey
-        transition: .3s all ease-in-out
+      // .add-tag
+      //   margin: 5px 0 0
+      //   width: max-content
+      //   font: italic 16px Asap
+      //   color: $light-grey
+      //   transition: .3s all ease-in-out
 
-        &:hover
-          cursor: pointer
-          color: darken($light-grey, 10%)
+      //   &:hover
+      //     cursor: pointer
+      //     color: darken($light-grey, 10%)
           
-      .add-question
-        margin: 0 0 10px
-        width: max-content
-        font: italic 16px Asap
-        color: $light-grey
-        transition: .3s all ease-in-out
-
-        &:hover
-          cursor: pointer
-          color: darken($light-grey, 10%)  
-
       .questions
         display: grid
         grid-auto-rows: max-content
@@ -113,6 +102,7 @@
         padding: 10px 0
         box-sizing: border-box
         overflow-y: scroll
+        border: 1px solid red
 
         &::-webkit-scrollbar
           // size
@@ -127,7 +117,7 @@
           border-radius: 25px
 
         .question
-          margin: 0
+          margin: 10px 0
           padding: 0
           width: max-width
           font: normal 18px Asap
@@ -137,6 +127,17 @@
           &:hover
             cursor: pointer
             filter: brightness(90%)
+
+      .add-question
+        margin: 10px 0 10px
+        width: max-content
+        font: italic 16px Asap
+        color: $light-grey
+        transition: .3s all ease-in-out
+
+        &:hover
+          cursor: pointer
+          color: darken($light-grey, 10%)  
 
       .save-quiz
         grid-row: 7
@@ -341,6 +342,72 @@
           cursor: pointer
           transform: scale(.9)
           filter: brightness(93%)
+
+
+    .add-question-container
+      display: grid
+      grid-auto-rows: max-content
+      position: relative
+      padding: 10px 30px
+      height: 70vh
+      min-width: 250px
+      width: 40vw
+      box-sizing: border-box
+      border-radius: 8px
+      border-bottom: 5px solid $light-teal
+      background-color: $white
+      box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
+
+
+      .title
+        margin: 15px 0 10px
+        width: max-content
+        padding: 0
+        text-transform: uppercase
+        font: normal 18px Asap
+        color: $light-grey
+
+      .close
+        position: absolute
+        top: 25px
+        right: 25px
+        cursor: pointer
+        color: $light-grey
+        transition: .3s all ease-in-out
+
+        &:hover
+          color: $red
+          animation: wiggle .5s infinite
+          -ms-animation: wiggle .5s infinite
+          -moz-animation: wiggle .5s infinite
+          -webkit-animation: wiggle .5s infinite
+
+      .save-question
+        align-self: end
+        justify-self: center
+        padding: 10px 50px
+        border: none
+        outline: none
+        border-radius: 8px
+        font: normal 18px Asap
+        color: $white
+        background-color: $light-teal
+        box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
+        transition: .3s all
+
+        @media(max-width: 1050px)
+          justify-self: start
+
+        &:hover
+          cursor: pointer
+          transform: translateY(-2px)
+
+        &:active
+          cursor: pointer
+          transform: scale(.9)
+          filter: brightness(93%)
+
+
 
 
 

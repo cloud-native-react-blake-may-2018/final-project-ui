@@ -8,17 +8,15 @@ import Axios from '../../../node_modules/axios';
 import { environment } from '../../../environment'
 import LoadingScreen from 'react-loading-screen';
 
-
-
 export class SetupLogin extends Component {
-    componentDidMount () {
-      setTimeout(this.setToken, 4000)
-    }
+  componentDidMount () {
+    setTimeout(this.setToken, 4000)
+  }
 
 /***********************************************************************************
  * PROCESS OF PULLING TOKEN FROM URL
  ***********************************************************************************/
-setToken = () => {
+  setToken = () => {
     const uri = document.location.href;
       // console.log(uri);
       /** Start after access_token= */
@@ -42,19 +40,28 @@ setToken = () => {
       }
   Axios.get('https://quizard.auth.us-east-2.amazoncognito.com/oauth2/userInfo', axiosConfig)
       .then(resp => {
-        const stringResp = JSON.stringify(resp.data);
-        localStorage.setItem('userInfoToken', stringResp);
-        localStorage.setItem('name', JSON.stringify(resp.data.name));
-        localStorage.setItem('access_token', access_token);
-        localStorage.setItem('token', id_token);
-        window.location.href = 'http://localhost:3222/dashboard'
+        console.log('just before auth.')
+        const stringResp = JSON.stringify(resp.data)
+        localStorage.setItem('userInfoToken', stringResp)
+        localStorage.setItem('name', JSON.stringify(resp.data.name))
+        localStorage.setItem('accessTokenKey', access_token)
+        localStorage.setItem('idTokenKey', id_token)
+
+        window.location.href =
+          process.env.NODE_ENV === 'production'
+            ? (window.location.href = `${environment.context}/dashboard`)
+            : `${environment.context}/dashboard/__webpack_hmr`
+
+        // working
+        // window.location.href = `${environment.context}/dashboard`
       })
        .catch(err => {
          console.log(err.stack);
       })
   }
 
-  render() {
+  // @ts-ignore
+  render = () => {
     return (
       <div>
         <LoadingScreen
@@ -70,7 +77,7 @@ setToken = () => {
     )
   }
 }
-
+  
 export default connect(
   undefined,
   { startCreateNewQuiz }
