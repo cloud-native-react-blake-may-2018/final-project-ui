@@ -19,13 +19,38 @@
         display: grid
         grid-template-columns: repeat(3, 1fr)
         justify-items: center
-        
-        .current
+      
+
+        .container
+          display: grid
+          grid-template-columns: repeat(2, max-content)
+          grid-column-gap: 10px
+          align-items: center
           justify-self: start
-          margin: 0
-          text-transform: uppercase
-          font: normal 18px Asap
-          color: $grey
+
+          &:hover .icon
+            opacity: 1
+
+          .current
+            justify-self: start
+            margin: 0
+            text-transform: uppercase
+            font: normal 18px Asap
+            color: $grey
+
+          .icon
+            display: relative
+            opacity: 0
+            transition: .15s all ease-in-out
+
+            &:hover
+              cursor: pointer
+              color: darken($light-grey, 10%)
+
+            .menu
+              // display: absolute
+              color: $light-grey
+
 
         .title
           justify-self: center
@@ -70,15 +95,19 @@
 
       .buttons
         display: grid
+        grid-template-columns: repeat(2, max-content)
+        grid-column-gap: 10px
         justify-self: end
         align-self: end
 
         .previous-button
           justify-self: end
-          grid-column: 2
-          padding: 10px 50px
+          grid-column: 1
+          padding: 10px 0
+          width: 120px
           border: none
           outline: none
+          box-sizing: border-box
           border-radius: 8px
           font: normal 18px Asap
           color: $white
@@ -97,9 +126,11 @@
         .next-button
           justify-self: end
           grid-column: 2
-          padding: 10px 50px
+          padding: 10px 0
+          width: 120px
           border: none
           outline: none
+          box-sizing: border-box
           border-radius: 8px
           font: normal 18px Asap
           color: $white

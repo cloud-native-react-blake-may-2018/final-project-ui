@@ -6,6 +6,9 @@ import { Link } from 'react-router-dom'
 import ArrowIcon from '../../public/icons/arrow-icon.svg'
 import Spinner from 'react-spinkit'
 import { startGetSearchedQuiz, startQuizAttempt } from '../actions/quizzes'
+import { loadModal } from '../actions/modal'
+import { REPORT_QUIZ_MODAL } from '../constants/modaltypes'
+import { FontAwesomeIcon } from '../../../node_modules/@fortawesome/react-fontawesome'
 
 interface IProps {
   history?: any
@@ -15,8 +18,9 @@ interface IProps {
   quiz: any
   randomGradient: string
   gradientColor: string
-  startQuizAttempt: (quizUUID: any, username: any) => void
+  startQuizAttempt: (quizUUID: any, username: any, reset: number) => void
   startGetSearchedQuiz: (uuid: any) => any
+  loadModal: (string) => any
 }
 
 export class ViewQuizPage extends Component<IProps> {
@@ -29,6 +33,8 @@ export class ViewQuizPage extends Component<IProps> {
   params = window.location.href.split('/')
   quizUUID = this.params[4]
 
+  reportQuizModal = () => this.props.loadModal(REPORT_QUIZ_MODAL)
+
   public showQuizQuestion = (question: any, count: number, e: any) => {
     e.preventDefault()
     this.setState({
@@ -38,7 +44,7 @@ export class ViewQuizPage extends Component<IProps> {
     })
   }
   public startQuizAttempt = (e: any) => {
-    this.props.startQuizAttempt(this.quizUUID, this.props.username)
+    this.props.startQuizAttempt(this.quizUUID, this.props.username, 0)
   }
 
   goBack = () => this.props.history.goBack()
@@ -64,6 +70,9 @@ export class ViewQuizPage extends Component<IProps> {
           <div className="main">
             <main className={this.randomGradient[index]}>
               <ArrowIcon className="back" onClick={this.goBack} />
+              <div className="icon" onClick={this.reportQuizModal}>
+                <FontAwesomeIcon icon="ellipsis-h" className="menu" />
+              </div>
               <p className="author">By: {quiz.author}</p>
               <h1 className="title">{quiz.title}</h1>
               <h2 className="total">{quiz.questions.length} questions</h2>
@@ -99,5 +108,5 @@ const mapStateToProps = (state, props) => ({
 
 export default connect<any, any>(
   mapStateToProps,
-  { startGetSearchedQuiz, startQuizAttempt }
+  { startGetSearchedQuiz, startQuizAttempt, loadModal }
 )(ViewQuizPage)
