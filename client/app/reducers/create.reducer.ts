@@ -1,8 +1,8 @@
 import React from "react";
 
 const initialState = {
-  quizID: "This is not a quiz ID",
-  readyNewQuestion: false
+  quizID: "",
+  // readyNewQuestion: false
 };
 
 export const createReducer = (state = initialState, action = {} as any) => {

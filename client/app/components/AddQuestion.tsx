@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import fontawesome from "@fortawesome/fontawesome";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Dropzone from "react-dropzone";
+// import Dropzone from "react-dropzone";
 import {
   startBatchCreateQuestions,
   startCreateNewQuestion
@@ -34,7 +34,7 @@ interface QuestionFormat {
   author: string;
   title: string;
   tags: string;
-  image?: string;
+  // image?: string;
   answers: AnswerFormat[];
 }
 
@@ -45,7 +45,6 @@ export class AddQuestion extends Component<IProps, any> {
       author: this.props.username,
       title: "",
       tags: "",
-      // image: "",
       answers: [
         {
           answer: "",
@@ -177,7 +176,6 @@ export class AddQuestion extends Component<IProps, any> {
           author: this.props.username,
           title: "",
           tags: "",
-          // image: "",
           answers: [
             {
               answer: "",
@@ -537,31 +535,31 @@ export class AddQuestion extends Component<IProps, any> {
     );
   };
 
-  private onDrop = (files: any) => {
-    const file = files[0];
+  // private onDrop = (files: any) => {
+  //   const file = files[0];
 
-    const getBase64 = async file => {
-      var reader = new FileReader();
-      reader.readAsDataURL(file);
-      let codeString;
-      reader.onload = function() {
-        codeString = reader.result;
-        codeString = codeString.split(",", 2);
-        this.setState({
-          ...this.state,
-          currentQuestion: {
-            ...this.state.currentQuestion,
-            image: codeString[1]
-          }
-        });
-      }.bind(this);
-      reader.onerror = function(error) {
-        console.log("Error: ", error);
-      };
-      return codeString;
-    };
-    getBase64(file);
-  };
+  //   const getBase64 = async file => {
+  //     var reader = new FileReader();
+  //     reader.readAsDataURL(file);
+  //     let codeString;
+  //     reader.onload = function() {
+  //       codeString = reader.result;
+  //       codeString = codeString.split(",", 2);
+  //       this.setState({
+  //         ...this.state,
+  //         currentQuestion: {
+  //           ...this.state.currentQuestion,
+  //           image: codeString[1]
+  //         }
+  //       });
+  //     }.bind(this);
+  //     reader.onerror = function(error) {
+  //       console.log("Error: ", error);
+  //     };
+  //     return codeString;
+  //   };
+  //   getBase64(file);
+  // };
 
   private editQuestionElements = (e: any, propertyName) => {
     const index = this.state.editQuestion;
@@ -685,11 +683,11 @@ export class AddQuestion extends Component<IProps, any> {
           {this.renderMainDisplayElement()}
           <br />
         </form>
-        <Dropzone onDrop={this.onDrop}>
+        {/* <Dropzone onDrop={this.onDrop}>
           Drop your files here,
           <br />
           or click to select one.
-        </Dropzone>
+        </Dropzone> */}
         <button type="button" onClick={this.updateReducerStore}>
           Save
         </button>

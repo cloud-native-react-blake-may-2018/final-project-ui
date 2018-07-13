@@ -15,11 +15,11 @@ interface IProps {
   username: any;
   quiz: any;
   quizzes: any[];
-  readyNewQuestion: boolean;
+  // readyNewQuestion: boolean;
   editStoreQuiz: (any) => any;
   startEditQuestion: (any) => any;
   startDeleteQuestion: (author: string, title: any) => any;
-  updateStoreQuizID: (quizID: string) => any;
+  // updateStoreQuizID: (quizID: string) => any;
 }
 
 export class EditQuizPage extends Component<IProps> {
@@ -39,8 +39,8 @@ export class EditQuizPage extends Component<IProps> {
       ]
     },
     questionNumber: 0,
-    updatedQuestions: []
-    // clickedAddQuestion: false
+    updatedQuestions: [],
+    clickedAddQuestion: false
   };
 
   params = window.location.href.split("/");
@@ -112,13 +112,13 @@ export class EditQuizPage extends Component<IProps> {
     this.setState({
       ...this.state,
       questionNumber: count,
-      clickedQuestion: question
-      // clickedAddQuestion: false
+      clickedQuestion: question,
+      clickedAddQuestion: false
     });
   };
 
   private setAddQuestion = (e: any) => {
-    this.props.updateStoreQuizID(this.props.quiz.uuid);
+    // this.props.updateStoreQuizID(this.props.quiz.uuid);
     this.setState({
       // we may not need this because if the component reloads this will be blank anyway
       ...this.state,
@@ -134,8 +134,8 @@ export class EditQuizPage extends Component<IProps> {
             feedback: ""
           }
         ]
-      }
-      // clickedAddQuestion: true
+      },
+      clickedAddQuestion: true
     });
   };
 
@@ -166,8 +166,8 @@ export class EditQuizPage extends Component<IProps> {
     const {
       page,
       clickedQuestion,
-      questionNumber
-      // clickedAddQuestion
+      questionNumber,
+      clickedAddQuestion
     } = this.state;
     let count = 0;
     return (
@@ -341,9 +341,8 @@ export class EditQuizPage extends Component<IProps> {
               </div>
             )}
 
-            {this.props.readyNewQuestion && (
-              <AddQuestion quizID={this.props.quiz.uuid} />
-            )}
+            {//this.props.readyNewQuestion
+            clickedAddQuestion && <AddQuestion quizID={this.props.quiz.uuid} />}
           </main>
         )}
       </div>
@@ -355,12 +354,21 @@ const mapStateToProps = (state, props) => ({
   username: state.auth.username,
   quiz:
     state.quizzes.all !== undefined &&
-    state.quizzes.all.find(quiz => quiz.uuid === props.match.params.uuid),
+    state.quizzes.all.find(
+      quiz =>
+        quiz.uuid === props.match.params.uuid ||
+        quiz.uuid === window.location.href.split("/")[4]
+    ),
   quizzes: state.quizzes.all
   // readyNewQuestion: state.create.readyNewQuestion
 });
 
 export default connect(
   mapStateToProps,
-  { editStoreQuiz, startDeleteQuestion, startEditQuestion, updateStoreQuizID }
+  {
+    editStoreQuiz,
+    startDeleteQuestion,
+    startEditQuestion
+    //updateStoreQuizID
+  }
 )(EditQuizPage);
