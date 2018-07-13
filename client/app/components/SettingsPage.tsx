@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import Dropzone from 'react-dropzone'
 import axios from 'axios'
 // import { startUpdateUser } from '../actions/auth'
-
 interface ClassProps {
   email: string
   username: string
@@ -12,7 +11,6 @@ interface ClassProps {
   file
   startUpdateUser: (any) => any
 }
-
 export class SettingsPage extends Component<ClassProps> {
   state = {
     page: 'General',
@@ -21,31 +19,23 @@ export class SettingsPage extends Component<ClassProps> {
     url: '',
     file: ''
   }
-
   // declare ref
   private photoUpload: HTMLInputElement
-
   setPage = e => {
     console.log('target: ', e.target.textContent)
     this.setState({ page: e.target.textContent })
   }
-
   onFieldChange = e => {
     this.setState({
       [e.target.name]: e.target.value
     })
   }
-
   fileSelectedHandler = e => this.setState({ selectedFile: e.target.files[0] })
-
   generalUploadHandler = async e => {
     e.preventDefault()
-
     const { file, url, name, email } = this.state
     const { username, startUpdateUser } = this.props
-
     const fullname = name.split(' ')
-
     const data = {
       username,
       firstname: fullname[0],
@@ -59,7 +49,6 @@ export class SettingsPage extends Component<ClassProps> {
     } catch (e) {
       console.log('error uploading to s3', e)
     }
-
     try {
       const dynamoUpload = await axios
         .post(
@@ -67,36 +56,30 @@ export class SettingsPage extends Component<ClassProps> {
           data
         )
         .then(res => res.data)
-
       startUpdateUser(data)
     } catch (e) {
       console.log('error uploading to lambda', e)
     }
   }
-
   onDrop = (files: any) => {
     // get most recent file
     const file = files[0]
-
     // build url to s3 bucket
     const profileUrl =
       'http://vocab-app-pics.s3.amazonaws.com/' +
       this.props.username +
       '/' +
       file.name
-
     this.setState({
       file,
       url: profileUrl
     })
   }
-
   // @ts-ignore
   render = () => {
     const { username, email, photo } = this.props
     let { page, name } = this.state
     page = page.toLowerCase()
-
     return (
       <div className="settings-page">
         <div className="main">
@@ -214,12 +197,10 @@ export class SettingsPage extends Component<ClassProps> {
     )
   }
 }
-
 const mapStateToProps = state => ({
   name: state.auth.name,
   username: state.auth.username,
   email: state.auth.email,
   photo: state.auth.profileImage
 })
-
 export default connect(mapStateToProps)(SettingsPage)
