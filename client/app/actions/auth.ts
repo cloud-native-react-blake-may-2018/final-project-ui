@@ -25,7 +25,23 @@ export const logout = () => ({
 
 export const startLogout = () => dispatch => {
   // user pool data from cognito
-  localStorage.clear()
+  // const data = {
+  //   UserPoolId : '...', // Your user pool id here
+  //   ClientId : '...' // Your client id here
+  // };
+  //   const userPool = new awsCognito.CognitoUserPool(data);
+  //   const cognitoUser = userPool.getCurrentUser();
+
+  // if (cognitoUser != null) {
+  //   // console.log(this.props.cognitoUser.user)
+  //   // cognitoUser.signOut();
+  //   // console.log(this.props.cognitoUser.user)
+  //   cognitoUser.globalSignOut({
+  //     onFailure: this.onFailure,
+  //     onSuccess: this.onSuccess,
+  //   });
+  // }
+  localStorage.clear();
   let redirectUrl = `https://quizard.auth.us-east-2.amazoncognito.com/logout?response_type=token&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=${
     environment.context
   }/redirect`
