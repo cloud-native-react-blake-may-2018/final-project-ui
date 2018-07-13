@@ -75,7 +75,7 @@ export class QuizResultsPage extends Component<IProps, any> {
                   <p className="retake-button">Retake quiz</p>
                 </Link>
                 <Link
-                  to={`/review-quiz/${quiz.attemptUUID}`}
+                  to={`/review-quiz/${this.quizUUID}`}
                   // onClick={this.startQuizAttempt}
                   className="link"
                 >

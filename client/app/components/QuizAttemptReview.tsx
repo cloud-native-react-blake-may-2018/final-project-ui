@@ -75,22 +75,6 @@ export class QuizAttemptReviewPage extends Component<IProps, any> {
     this.props.changeQuestionNumber(this.props.questionNumber + 1)
   }
 
-  // adds an answer to the answer array if the question has not already
-  // been answered if it has the answer will be updated
-
-  // @ts-ignore
-  componentDidMount = () => console.log('checking done..', this.props.done)
-
-  // @ts-ignore
-  componentWillReceiveProps = (props, nextProps) => {
-    console.log(
-      'did component receive props yet? Is done true?',
-      this.props.done
-    )
-    console.log('old props', props)
-    console.log('new props', nextProps)
-  }
-
   // @ts-ignore
   render = () => {
     const { quiz, questionNumber } = this.props
@@ -125,7 +109,7 @@ export class QuizAttemptReviewPage extends Component<IProps, any> {
                     // key={answers.answer.answer}
                     className="choice"
                   >
-                    <p>{answers.answer.answer}</p>
+                    <p>{answers.answer}</p>
                   </div>
                 ))}
               </div>
@@ -161,9 +145,7 @@ export class QuizAttemptReviewPage extends Component<IProps, any> {
 
 const mapStateToProps = (state, props) => ({
   username: state.auth.username,
-  quiz:
-    state.takeQuiz.quizAttemptInfoObj !== null &&
-    state.takeQuiz.quizAttemptInfoObj,
+  quiz: state.takeQuiz.results,
   answers: state.takeQuiz.answers,
   answerArray: state.takeQuiz.answerArray,
   questionNumber: state.takeQuiz.questionNumber,
