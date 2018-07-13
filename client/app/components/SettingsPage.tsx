@@ -17,21 +17,14 @@ const data = {
   UserPoolId: 'us-east-2_fMMquWRem',
   ClientId: '1q83lmu6khfnc0v8jjdrde9291'
 }
+const token = JSON.parse(localStorage.getItem('userInfoToken'));
 const userPool = new awsCognito.CognitoUserPool(data);
 const userData = {
-  Username: JSON.parse(localStorage.getItem('userInfoToken')).username,
+  Username: token !== null && token.username,
   Pool: userPool
 }
 const cognitoUser = new awsCognito.CognitoUser(userData);
 console.log(cognitoUser);
-
-/** Authenticate cognitoUser */
-// var authenticationData = {
-//   Username: 'TyPiRo',
-//   Password: 'quailious'
-// };
-// var authenticationDetails = new awsCognito.AuthenticationDetails(authenticationData);
-// console.log(authenticationDetails);
 
 const attributeList = [];
 cognitoUser.getUserAttributes((err, result) => {
