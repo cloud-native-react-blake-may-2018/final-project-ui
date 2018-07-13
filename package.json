@@ -64,6 +64,7 @@
     "react-hot-loader": "latest",
     "react-image-gallery": "latest",
     "react-input-autosize": "latest",
+    "react-loading-screen": "0.0.17",
     "react-redux": "latest",
     "react-router-dom": "latest",
     "react-router-hash-link": "latest",

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import LoadingScreen from 'react-loading-screen';
 import { Link } from 'react-router-dom'
 import fontawesome from '@fortawesome/fontawesome'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -90,12 +91,21 @@ export class SetupLogin extends Component {
   render = () => {
     return (
       <div>
-        <h1> Loading .......... </h1>
-        {console.log('inside login setup')}
-      </div>
+        <LoadingScreen
+          loading={true}
+          bgColor='#42a6a6'
+          spinnerColor='#fcfeff'
+          textColor='#ffffff'
+          logoSrc='https://vignette.wikia.nocookie.net/2007scape/images/5/59/Blue_wizard_hat_%28t%29_detail.png/revision/latest?cb=20180514220409
+ https://vignette.wikia.nocookie.net/2007scape/images/5/59/Blue_wizard_hat_%28t%29_detail.png/revision/latest?cb=20180514220409
+ '
+          text='Welcome to the World of Quizzard!'
+        />
+     </div>
+    
     )
   }
-}
+ }
 
 export default connect(
   undefined,
