@@ -14,7 +14,6 @@ import { editStoreQuiz } from "../actions/quizzes";
 interface IProps {
   username?: string;
   quizID?: string;
-  questionIDs?: string[];
   quizUUID?: string;
   quizzes?: any[];
   quiz?: any;
@@ -35,18 +34,18 @@ interface QuestionFormat {
   author: string;
   title: string;
   tags: string;
-  image: string;
+  // image?: string;
   answers: AnswerFormat[];
 }
 
 export class AddQuestion extends Component<IProps, any> {
   state = {
+    displayPhoto: "",
     newQuestions: [],
     currentQuestion: {
-      author: "dserna", // this.props.username,
+      author: this.props.username,
       title: "",
       tags: "",
-      image: "",
       answers: [
         {
           answer: "",
@@ -111,9 +110,7 @@ export class AddQuestion extends Component<IProps, any> {
   };
 
   private updateFormat = (e: any) => {
-    console.log(e.target.value);
     const format = e.target.value;
-    console.log("format ", format);
     if (format === "true-false") {
       this.setState({
         currentQuestion: {
@@ -163,8 +160,6 @@ export class AddQuestion extends Component<IProps, any> {
         }
       });
     }
-    console.log("updateFormat Called");
-    console.log(this.state);
   };
 
   private addToList = (e: any) => {
@@ -182,7 +177,6 @@ export class AddQuestion extends Component<IProps, any> {
           author: this.props.username,
           title: "",
           tags: "",
-          image: "",
           answers: [
             {
               answer: "",
@@ -198,7 +192,6 @@ export class AddQuestion extends Component<IProps, any> {
           format: "true-false"
         }
       });
-      console.log("added Q to list", this.state);
     } // else...
   };
 
@@ -211,15 +204,12 @@ export class AddQuestion extends Component<IProps, any> {
         answers: newAnswersArr
       }
     });
-    console.log(this.state);
   };
 
   private updateStore = questionList => {
     if (this.props.quizzes !== []) {
       let modQuiz = this.props.quiz;
-      console.log("here is the new question list ", questionList);
       modQuiz.questions = modQuiz.questions.concat(questionList);
-      console.log("with the new questions: ", modQuiz);
 
       let quizList = this.props.quizzes;
       for (let i = 0; i < quizList.length; i++) {
@@ -227,16 +217,15 @@ export class AddQuestion extends Component<IProps, any> {
           quizList.splice(i, 1, modQuiz);
         }
       }
-      console.log("Changed:", quizList);
       this.props.editStoreQuiz(quizList);
     }
   };
 
-  private sendOneQuestion = (e: any) => {
-    this.props.startCreateNewQuestion(this.state.currentQuestion);
-  };
+  // private sendOneQuestion = (e: any) => {
+  //   this.props.startCreateNewQuestion(this.state.currentQuestion);
+  // };
 
-  // // @ts-ignore
+  // @ts-ignore
   // componentWillReceiveProps = (props, nextProps) =>
   //   console.log("props: ", props, "nextProps: ", nextProps);
 
@@ -267,9 +256,9 @@ export class AddQuestion extends Component<IProps, any> {
               value={this.state.currentQuestion.format}
               onChange={this.updateFormat}
             >
-              <option value="true-false">true false</option>
-              <option value="multiple-choice">multiple choice</option>
-              <option value="multiple-select">multiple select</option>
+              <option value="true-false">True-or-False</option>
+              <option value="multiple-choice">Multiple Choice</option>
+              <option value="multiple-select">Multiple Select</option>
             </select>
             <div className="row">
               <label htmlFor="true-false-answer">Answer</label>
@@ -359,9 +348,9 @@ export class AddQuestion extends Component<IProps, any> {
               value={this.state.currentQuestion.format}
               onChange={this.updateFormat}
             >
-              <option value="true-false">true false</option>
-              <option value="multiple-choice">multiple choice</option>
-              <option value="multiple-select">multiple select</option>
+              <option value="true-false">True-or-False</option>
+              <option value="multiple-choice">Multiple Choice</option>
+              <option value="multiple-select">Multiple Select</option>
             </select>
             <div className="row">
               <label htmlFor="true-false-answer">Answer</label>
@@ -526,7 +515,7 @@ export class AddQuestion extends Component<IProps, any> {
         percentPoints = percentPoints + item.percentPoints;
       }
     }
-    console.log("Indside Validator Function", percentPoints, validObject);
+    console.log("Inside Validator Function", percentPoints, validObject);
     return percentPoints > 99 || false;
   };
 
@@ -549,15 +538,28 @@ export class AddQuestion extends Component<IProps, any> {
 
   private onDrop = (files: any) => {
     const file = files[0];
-    let codeString = "";
-    this.setState({
-      ...this.state,
-      image: codeString
-    });
-    // encode thing I get as a base 64 string
-    // look up how to do it
-    // image field of question will be that.
-    // when in db, will be replaced with URL of s3
+    const getBase64 = async file => {
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      let codeString;
+      reader.onload = function() {
+        codeString = reader.result;
+        codeString = codeString.split(",", 2);
+        this.setState({
+          ...this.state,
+          currentQuestion: {
+            ...this.state.currentQuestion,
+            image: codeString[1]
+          },
+          displayPhoto: codeString.join(",")
+        });
+      }.bind(this);
+      reader.onerror = function(error) {
+        console.log("Error: ", error);
+      };
+      return codeString;
+    };
+    getBase64(file);
   };
 
   private editQuestionElements = (e: any, propertyName) => {
@@ -575,7 +577,6 @@ export class AddQuestion extends Component<IProps, any> {
         questionToDisplay: updatedQuestions[index]
       }
     });
-    console.log(this.state);
   };
 
   private editQuizAnswers = (e: any, propertyName, i: number) => {
@@ -678,22 +679,31 @@ export class AddQuestion extends Component<IProps, any> {
   render() {
     const { startCreateNewQuestion } = this.props;
     return (
-      <div>
+      <div className="container">
         <form>
           {this.renderMainDisplayElement()}
           <br />
         </form>
-        <Dropzone onDrop={this.onDrop}>
-          Drop your files here,
-          <br />
-          or click to select one.
-        </Dropzone>
+        <div className="row">
+          <div className="col">
+            <Dropzone onDrop={this.onDrop}>
+              Drop your files here,
+              <br />
+              or click to select one.
+            </Dropzone>
+          </div>
+          <div className="col">
+            {this.state.displayPhoto && (
+              <img src={this.state.displayPhoto} alt="img" />
+            )}
+          </div>
+        </div>
         <button type="button" onClick={this.updateReducerStore}>
           Save
         </button>
-        <button onClick={this.sendOneQuestion}>
+        {/* <button onClick={this.sendOneQuestion}>
           Just add this one Question
-        </button>
+        </button> */}
         <div>{this.printQuestionsArr()}</div>
       </div>
     );
@@ -703,7 +713,6 @@ export class AddQuestion extends Component<IProps, any> {
 const mapStateToProps = (state, parentProps) => ({
   username: state.auth.username,
   quizID: parentProps.quizID || state.create.quizID,
-  questionIDs: state.create.questionIDs,
   quizzes: state.quizzes.all,
   quiz:
     state.quizzes.all !== [] &&
