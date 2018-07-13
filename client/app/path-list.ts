@@ -64,42 +64,49 @@ const addTagsToQuizUrl =
 export default {
   create: {
     addQuestion: newQuestion =>
-      axios.post(addQuestionUrl, newQuestion).then(res => res.data),
+      authInterceptor.post(addQuestionUrl, newQuestion).then(res => res.data),
 
-    addQuiz: newQuiz => axios.post(addQuizUrl, newQuiz).then(res => res.data),
+    addQuiz: newQuiz =>
+      authInterceptor.post(addQuizUrl, newQuiz).then(res => res.data),
 
     batchAddQuestion: newQuestions =>
-      axios.post(batchAddQuestionsUrl, newQuestions).then(res => res.data),
+      authInterceptor
+        .post(batchAddQuestionsUrl, newQuestions)
+        .then(res => res.data),
 
     addJunction: (quizID, questionIDs) =>
-      axios
+      authInterceptor
         .post(`${addJunctionUrl}/${quizID}/batch`, questionIDs)
         .then(res => res.data),
 
     addTagsToQuestions: arrOfPairs =>
-      axios.post(addTagsToQuestionsUrl, arrOfPairs).then(res => res.data),
+      authInterceptor
+        .post(addTagsToQuestionsUrl, arrOfPairs)
+        .then(res => res.data),
 
     addTagsToQuiz: (quizID, tags) =>
-      axios
+      authInterceptor
         .post(addTagsToQuizUrl, { quizUUID: quizID, tags: tags })
         .then(res => res.data)
   },
 
   quizzes: {
-    edit: quiz => axios.post(editQuizUrl, quiz).then(res => res.data),
+    edit: quiz => authInterceptor.post(editQuizUrl, quiz).then(res => res.data),
 
-    delete: quiz => axios.post(deleteQuizUrl, quiz).then(res => res.data),
+    delete: quiz =>
+      authInterceptor.post(deleteQuizUrl, quiz).then(res => res.data),
 
     display: author =>
-      axios.get(displayQuizzesURL + author).then(res => res.data),
+      authInterceptor.get(displayQuizzesURL + author).then(res => res.data),
 
     searchByAuthor: author =>
-      axios.get(searchByAuthorUrl + author).then(res => res.data),
+      authInterceptor.get(searchByAuthorUrl + author).then(res => res.data),
 
-    searchByTag: tag => axios.get(searchByTagUrl + tag).then(res => res.data),
+    searchByTag: tag =>
+      authInterceptor.get(searchByTagUrl + tag).then(res => res.data),
 
     searchByUuid: uuid =>
-      axios.get(searchByUuidUrl + uuid).then(res => res.data),
+      authInterceptor.get(searchByUuidUrl + uuid).then(res => res.data),
 
     startQuizAttempt: (quizUUID, username) =>
       authInterceptor
@@ -107,7 +114,7 @@ export default {
         .then(res => res.data),
 
     submitQuizAttempt: (quizUUID, user, attemptUUID, answerArray) =>
-      axios
+      authInterceptor
         .post(
           `${sendQuizAttempt}${quizUUID}/user/${user}/attempt/${attemptUUID}`,
           answerArray
@@ -117,16 +124,18 @@ export default {
 
   questions: {
     edit: question =>
-      axios.post(editQuestionUrl, question).then(res => res.data),
+      authInterceptor.post(editQuestionUrl, question).then(res => res.data),
 
     display: quizUUID =>
-      axios.get(displayQuizQuestionsURL + quizUUID).then(res => res.data),
+      authInterceptor
+        .get(displayQuizQuestionsURL + quizUUID)
+        .then(res => res.data),
 
     displayTags: quizUUID =>
-      axios.get(displayQuizTagsURL + quizUUID).then(res => res.data),
+      authInterceptor.get(displayQuizTagsURL + quizUUID).then(res => res.data),
 
     deleteQuestion: (author, title) =>
-      axios
+      authInterceptor
         .delete(`${deleteQuestionUrl}/${author}/title`, { data: { title } })
         .then(res => res.data)
 
