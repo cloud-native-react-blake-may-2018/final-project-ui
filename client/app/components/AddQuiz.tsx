@@ -6,9 +6,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { startCreateNewQuiz } from '../actions/create'
 
 interface IProps {
-  username?: string
-  startCreateNewQuiz: (any) => any
-  history?: any
+  startCreateNewQuiz: (any) => any;
+  history?: any;
+  username?: any;
 }
 
 export class AddQuiz extends Component<IProps, any> {
@@ -19,8 +19,8 @@ export class AddQuiz extends Component<IProps, any> {
   state = {
     quiz: {
       author: this.props.username,
-      title: '',
-      description: '',
+      title: "",
+      description: "",
       isPrivate: true,
       type: 'quiz'
     }

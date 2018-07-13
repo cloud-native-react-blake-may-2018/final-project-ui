@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Spinner from "react-spinkit";
 import Dropzone from "react-dropzone";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { updateStoreQuizID } from "../actions/create";
 import { startDeleteQuestion, startEditQuestion } from "../actions/questions";
 import { editStoreQuiz, startUpdateQuestionsDisplay } from "../actions/quizzes";
 import AddQuestion from "../components/AddQuestion";
@@ -14,9 +15,11 @@ interface IProps {
   username: any;
   quiz: any;
   quizzes: any[];
+  // readyNewQuestion: boolean;
   editStoreQuiz: (any) => any;
   startEditQuestion: (any) => any;
   startDeleteQuestion: (author: string, title: any) => any;
+  // updateStoreQuizID: (quizID: string) => any;
 }
 
 export class EditQuizPage extends Component<IProps> {
@@ -48,8 +51,7 @@ export class EditQuizPage extends Component<IProps> {
   page2 = () => this.setState({ page: 2 });
 
   // public componentDidMount() {
-  //   console.log('component mounted', updateQuizIdStore)
-  //   this.props.updateQuizIdStore(this.props.quiz.uuid)
+  //   this.props.updateStoreQuizID(this.props.quiz.uuid);
   // }
 
   private updateArr = (e: any, arg1: number, arg2: string) => {
@@ -61,7 +63,6 @@ export class EditQuizPage extends Component<IProps> {
         answers: newAnswersArr
       }
     });
-    console.log(this.state);
   };
 
   private updateQuiz = (e: any) => {
@@ -79,25 +80,10 @@ export class EditQuizPage extends Component<IProps> {
     console.log(this.state.updatedQuestions);
   };
 
-  private deletedTitle = (e: any) => {
-    let title = this.state.clickedQuestion.title;
-    title + "--This Question has been deleted";
-    this.setState({
-      clickedQuestion: {
-        ...this.state.clickedQuestion,
-        title: title
-      }
-    });
-  };
-
   private deleteQuestion = (e: any) => {
     // Something that asks them if they really want to delete it
     this.updateStore();
     this.props.startDeleteQuestion(
-      this.state.clickedQuestion.author,
-      this.state.clickedQuestion.title
-    );
-    console.log(
       this.state.clickedQuestion.author,
       this.state.clickedQuestion.title
     );
@@ -111,14 +97,12 @@ export class EditQuizPage extends Component<IProps> {
         //here is where we delete a question
       }
     }
-    console.log("without deleted question: ", modQuiz);
     let quizList = this.props.quizzes;
     for (let i = 0; i < quizList.length; i++) {
       if (quizList[i].uuid === this.props.quiz.uuid) {
         quizList.splice(i, 1, modQuiz);
       }
     }
-    console.log("Changed:", quizList);
     this.props.editStoreQuiz(quizList);
   };
 
@@ -133,8 +117,10 @@ export class EditQuizPage extends Component<IProps> {
     });
   };
 
-  private setAddQuestion = (e: any, hideAdd: boolean) => {
+  private setAddQuestion = (e: any) => {
+    // this.props.updateStoreQuizID(this.props.quiz.uuid);
     this.setState({
+      // we may not need this because if the component reloads this will be blank anyway
       ...this.state,
       clickedQuestion: {
         author: "",
@@ -189,6 +175,7 @@ export class EditQuizPage extends Component<IProps> {
         {quiz.tags === undefined && (
           <Spinner className="loading-indicator" name="ball-spin-fade-loader" />
         )}
+        {console.log("this is what quiz looks like", quiz)}
         {quiz.tags !== undefined && (
           <main>
             <div className="quiz-container">
@@ -224,13 +211,12 @@ export class EditQuizPage extends Component<IProps> {
                   </div>
                 ))}
                 <p
-                  onClick={e => this.setAddQuestion(e, false)}
+                  onClick={e => this.setAddQuestion(e)}
                   className="add-question"
                 >
                   + question
                 </p>
               </div>
-              <p className="add-question">+ question</p>
               <button
                 // onClick={this.saveChangeToState}
                 className="save-quiz"
@@ -246,7 +232,6 @@ export class EditQuizPage extends Component<IProps> {
               </Link> */}
             </div>
 
-            {/* {console.log(clickedQuestion)} */}
             {clickedQuestion.title && (
               <div key={clickedQuestion.uuid} className="question-container">
                 <p className="title">Edit question</p>
@@ -259,6 +244,7 @@ export class EditQuizPage extends Component<IProps> {
                     <div className="group">
                       <label>Question {questionNumber}</label>
                       <input placeholder={clickedQuestion.title} />
+                      {/* // Should not be an input. */}
                     </div>
                     <div className="group">
                       <label>Tags</label>
@@ -360,9 +346,8 @@ export class EditQuizPage extends Component<IProps> {
               </div>
             )}
 
-            {clickedAddQuestion && (
-              <AddQuestion quizID={this.props.quiz.uuid} />
-            )}
+            {//this.props.readyNewQuestion
+            clickedAddQuestion && <AddQuestion quizID={this.props.quiz.uuid} />}
           </main>
         )}
       </div>
@@ -374,12 +359,21 @@ const mapStateToProps = (state, props) => ({
   username: state.auth.username,
   quiz:
     state.quizzes.all !== undefined &&
-    state.quizzes.all.find(quiz => quiz.uuid === props.match.params.uuid),
+    state.quizzes.all.find(
+      quiz =>
+        quiz.uuid === props.match.params.uuid ||
+        quiz.uuid === window.location.href.split("/")[4]
+    ),
   quizzes: state.quizzes.all
-  // clickedQuestion: state.quizzes.clickedQuestion
+  // readyNewQuestion: state.create.readyNewQuestion
 });
 
 export default connect(
   mapStateToProps,
-  { editStoreQuiz, startDeleteQuestion, startEditQuestion }
+  {
+    editStoreQuiz,
+    startDeleteQuestion,
+    startEditQuestion
+    //updateStoreQuizID
+  }
 )(EditQuizPage);
