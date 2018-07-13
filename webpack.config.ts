@@ -89,14 +89,7 @@ const config: webpack.Configuration = {
     new ExtractCssChunks({
       filename: 'css/style.css'
     })
-  ],
-
-  // devServer: {
-  //   hot: true,
-  //   contentBase: './client/public',
-  //   historyApiFallback: true,
-  //   stats: 'minimal' // none (or false), errors-only, minimal, normal (or true) and verbose
-  // }
+  ]
 }
 
 export default config

@@ -18,17 +18,16 @@ interface IProps {
 
 export class DashboardPage extends Component<IProps> {
   //@ts-ignore
-  componentDidMount = () => {
-    
-    const username = localStorage.getItem('name');
-    console.log(username)
-    const {
-      //  username,
-      // startGetUserQuizzes
-    } = this.props
-    // console.log(username)
-    startGetUserQuizzes(username)
-  }
+  // componentDidMount = () => {
+  //   const username = localStorage.getItem('name')
+  //   console.log(username)
+  //   const {
+  //     //  username,
+  //     // startGetUserQuizzes
+  //   } = this.props
+  //   // console.log(username)
+  //   startGetUserQuizzes(username)
+  // }
 
   //@ts-ignore
   render = () => {

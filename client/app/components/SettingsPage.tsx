@@ -83,7 +83,6 @@ export class SettingsPage extends React.Component<ClassProps> {
     e.preventDefault()
 
     const { file, url, name, email } = this.state
-
     const { username, startUpdateUser } = this.props
 
     const fullname = name.split(' ')
@@ -171,7 +170,8 @@ export class SettingsPage extends React.Component<ClassProps> {
     })
   }
 
-  render() {
+  // @ts-ignore
+  render = () => {
     const { username, email, photo } = this.props
     let { page, name } = this.state
     page = page.toLowerCase()
