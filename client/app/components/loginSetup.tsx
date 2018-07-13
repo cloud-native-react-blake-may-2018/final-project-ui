@@ -8,7 +8,8 @@ import Axios from '../../../node_modules/axios'
 import { environment } from '../../../environment'
 
 export class SetupLogin extends Component {
-  componentDidMount() {
+  // @ts-ignore
+  componentDidMount = () => {
     const uri = document.location.href
     // console.log(uri);
     /** Start after access_token= */
@@ -65,19 +66,28 @@ export class SetupLogin extends Component {
       axiosConfig
     )
       .then(resp => {
+        console.log('just before auth.')
         const stringResp = JSON.stringify(resp.data)
         localStorage.setItem('userInfoToken', stringResp)
         localStorage.setItem('name', JSON.stringify(resp.data.name))
         localStorage.setItem('access_token', access_token)
         localStorage.setItem('token', id_token)
-        window.location.href = `${environment.context}/dashboard`
+
+        window.location.href =
+          process.env.NODE_ENV === 'production'
+            ? (window.location.href = `${environment.context}/dashboard`)
+            : `${environment.context}/dashboard/__webpack_hmr`
+
+        // working
+        // window.location.href = `${environment.context}/dashboard`
       })
       .catch(err => {
         console.log(err.stack)
       })
   }
 
-  render() {
+  // @ts-ignore
+  render = () => {
     return (
       <div>
         <h1> Loading .......... </h1>
