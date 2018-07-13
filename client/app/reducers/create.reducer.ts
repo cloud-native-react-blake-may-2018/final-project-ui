@@ -1,7 +1,7 @@
 import React from "react";
 
 const initialState = {
-  quizID: "",
+  quizID: "2083e556-f3ae-4948-aed5-efd15ff25a09"
   // readyNewQuestion: false
 };
 

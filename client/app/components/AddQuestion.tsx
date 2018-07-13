@@ -12,6 +12,7 @@ import { faDivide } from "@fortawesome/fontawesome-free-solid";
 import { editStoreQuiz } from "../actions/quizzes";
 
 interface IProps {
+  history?: any;
   username?: string;
   quizID?: string;
   quizUUID?: string;
@@ -40,6 +41,7 @@ interface QuestionFormat {
 
 export class AddQuestion extends Component<IProps, any> {
   state = {
+    errMsg: "",
     displayPhoto: "",
     newQuestions: [],
     currentQuestion: {
@@ -81,7 +83,7 @@ export class AddQuestion extends Component<IProps, any> {
     });
   };
 
-  updateReducerStore = () => {
+  updateReducerStore = async () => {
     let sendQuestionList = [];
     for (let item of this.state.newQuestions) {
       //splits array, trims spaces, and puts the return array into a new set to get rid of duplicates
@@ -101,12 +103,24 @@ export class AddQuestion extends Component<IProps, any> {
       quizID: this.props.quizID,
       newQuestions: sendQuestionList
     };
-    this.props.startBatchCreateQuestions(data);
-    this.updateStore(sendQuestionList);
-    this.setState({
-      ...this.state,
-      newQuestions: []
-    });
+    let testvar = await this.props.startBatchCreateQuestions(data);
+    await console.log(testvar);
+    if (Array.isArray(testvar)) {
+      this.updateStore(sendQuestionList);
+      this.setState({
+        ...this.state,
+        newQuestions: []
+      });
+      console.log(window.location.href.split("/")[1]);
+      if (window.location.href.split("/")[3] === "add-question") {
+        this.props.history.push("/quizzes/created");
+      }
+    } else {
+      this.setState({
+        ...this.state,
+        errMsg: "Invalid question format. Please edit and try again."
+      });
+    }
   };
 
   private updateFormat = (e: any) => {
@@ -207,7 +221,7 @@ export class AddQuestion extends Component<IProps, any> {
   };
 
   private updateStore = questionList => {
-    if (this.props.quizzes !== []) {
+    if (this.props.quizzes !== [] && this.props.quiz) {
       let modQuiz = this.props.quiz;
       modQuiz.questions = modQuiz.questions.concat(questionList);
 
@@ -698,6 +712,7 @@ export class AddQuestion extends Component<IProps, any> {
             )}
           </div>
         </div>
+        {this.state.errMsg && this.state.errMsg}
         <button type="button" onClick={this.updateReducerStore}>
           Save
         </button>

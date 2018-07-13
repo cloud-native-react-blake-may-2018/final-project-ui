@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import Spinner from "react-spinkit";
 import Dropzone from "react-dropzone";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { updateStoreQuizID } from "../actions/create";
 import { startDeleteQuestion, startEditQuestion } from "../actions/questions";
 import { editStoreQuiz, startUpdateQuestionsDisplay } from "../actions/quizzes";
 import AddQuestion from "../components/AddQuestion";
@@ -15,15 +14,14 @@ interface IProps {
   username: any;
   quiz: any;
   quizzes: any[];
-  // readyNewQuestion: boolean;
   editStoreQuiz: (any) => any;
   startEditQuestion: (any) => any;
   startDeleteQuestion: (author: string, title: any) => any;
-  // updateStoreQuizID: (quizID: string) => any;
 }
 
 export class EditQuizPage extends Component<IProps> {
   state = {
+    displayPhoto: "",
     page: 1,
     clickedQuestion: {
       author: "",
@@ -49,10 +47,6 @@ export class EditQuizPage extends Component<IProps> {
   page1 = () => this.setState({ page: 1 });
 
   page2 = () => this.setState({ page: 2 });
-
-  // public componentDidMount() {
-  //   this.props.updateStoreQuizID(this.props.quiz.uuid);
-  // }
 
   private updateArr = (e: any, arg1: number, arg2: string) => {
     let newAnswersArr = this.state.clickedQuestion.answers;
@@ -115,10 +109,14 @@ export class EditQuizPage extends Component<IProps> {
       clickedQuestion: question,
       clickedAddQuestion: false
     });
+    if (question.image) {
+      this.setState({
+        displayPhoto: question.image
+      });
+    }
   };
 
   private setAddQuestion = (e: any) => {
-    // this.props.updateStoreQuizID(this.props.quiz.uuid);
     this.setState({
       // we may not need this because if the component reloads this will be blank anyway
       ...this.state,
@@ -143,21 +141,30 @@ export class EditQuizPage extends Component<IProps> {
 
   fileSelectedHandler = e => this.setState({ selectedFile: e.target.files[0] });
 
-  onDrop = (files: any) => {
-    // get most recent file
+  private onDrop = (files: any) => {
     const file = files[0];
-
-    // build url to s3 bucket
-    // const profileUrl =
-    //   'http://vocab-app-pics.s3.amazonaws.com/' +
-    //   this.props.username +
-    //   '/' +
-    //   file.name
-
-    this.setState({
-      file
-      // url: profileUrl
-    });
+    const getBase64 = async file => {
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      let codeString;
+      reader.onload = function() {
+        codeString = reader.result;
+        codeString = codeString.split(",", 2);
+        this.setState({
+          ...this.state,
+          // clickedQuestion: {
+          //   ...this.state.clickedQuestion,
+          //   image: codeString[1]
+          // },
+          displayPhoto: codeString.join(",")
+        });
+      }.bind(this);
+      reader.onerror = function(error) {
+        console.log("Error: ", error);
+      };
+      return codeString;
+    };
+    getBase64(file);
   };
 
   // @ts-ignore
@@ -216,10 +223,7 @@ export class EditQuizPage extends Component<IProps> {
                   + question
                 </p>
               </div>
-              <button
-                // onClick={this.saveChangeToState}
-                className="save-quiz"
-              >
+              <button onClick={this.updateQuiz} className="save-quiz">
                 Save Quiz
               </button>
 
@@ -251,12 +255,15 @@ export class EditQuizPage extends Component<IProps> {
                     <div
                       className="group photo-container"
                       onClick={() => this.photoUpload.click()}
+                      // This is not a thing
                     >
                       <div className="group">
                         <h2 className="label">Image</h2>
                         <Dropzone onDrop={this.onDrop} className="dropzone">
                           <p className="button">+ Upload</p>
                         </Dropzone>
+                        {this.state.displayPhoto}
+                        {/* Put in ability to display picture that is an S3 URL, stored in this.state.displayPhoto */}
                         <input
                           className="file-upload"
                           style={{ display: "none" }}
@@ -272,7 +279,7 @@ export class EditQuizPage extends Component<IProps> {
                 {page === 2 && (
                   <form className="options">
                     {clickedQuestion.answers.map((ans, index) => (
-                      <div key={ans.answer}>
+                      <div key={ans.percentPoints}>
                         <div className="group">
                           <label htmlFor="true-false-answer" className="label">
                             Choice
@@ -341,8 +348,9 @@ export class EditQuizPage extends Component<IProps> {
               </div>
             )}
 
-            {//this.props.readyNewQuestion
-            clickedAddQuestion && <AddQuestion quizID={this.props.quiz.uuid} />}
+            {clickedAddQuestion && (
+              <AddQuestion quizID={this.props.quiz.uuid} />
+            )}
           </main>
         )}
       </div>
@@ -360,7 +368,6 @@ const mapStateToProps = (state, props) => ({
         quiz.uuid === window.location.href.split("/")[4]
     ),
   quizzes: state.quizzes.all
-  // readyNewQuestion: state.create.readyNewQuestion
 });
 
 export default connect(
@@ -369,6 +376,5 @@ export default connect(
     editStoreQuiz,
     startDeleteQuestion,
     startEditQuestion
-    //updateStoreQuizID
   }
 )(EditQuizPage);
