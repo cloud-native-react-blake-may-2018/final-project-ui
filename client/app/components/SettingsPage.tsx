@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Dropzone from 'react-dropzone'
 import axios from 'axios'
+import * as awsCognito from 'amazon-cognito-identity-js'
+
 // import { startUpdateUser } from '../actions/auth'
 
 interface ClassProps {
@@ -13,13 +15,52 @@ interface ClassProps {
   startUpdateUser: (any) => any
 }
 
-export class SettingsPage extends Component<ClassProps> {
+const data = {
+  UserPoolId: 'us-east-2_fMMquWRem',
+  ClientId: '1q83lmu6khfnc0v8jjdrde9291'
+}
+const userPool = new awsCognito.CognitoUserPool(data);
+const userData = {
+  Username: JSON.parse(localStorage.getItem('userInfoToken')).username,
+  Pool: userPool
+}
+const cognitoUser = new awsCognito.CognitoUser(userData);
+console.log(cognitoUser);
+
+/** Authenticate cognitoUser */
+// var authenticationData = {
+//   Username: 'TyPiRo',
+//   Password: 'quailious'
+// };
+// var authenticationDetails = new awsCognito.AuthenticationDetails(authenticationData);
+// console.log(authenticationDetails);
+
+export class SettingsPage extends React.Component<ClassProps> {
   state = {
     page: 'General',
     name: this.props.name,
     email: this.props.email,
     url: '',
     file: ''
+  }
+
+  constructor(props: any) {
+    super(props);
+    // Retrieve token for reading attributes
+    this.setState({
+      token: localStorage.getItem('userInfoToken')
+    })
+  }
+  
+  public componentDidMount() {
+    // Update default picture if cognito user has a profile url
+    console.log("here");
+    cognitoUser.getUserAttributes((err, results) => {
+      if (err) {
+        console.log("err: " + err);
+      }
+      else console.log("results:\n" + results);
+    })
   }
 
   // declare ref
@@ -72,6 +113,44 @@ export class SettingsPage extends Component<ClassProps> {
       startUpdateUser(data)
     } catch (e) {
       console.log('error uploading to lambda', e)
+    }
+  }
+
+  public updateName = () => {
+    console.log("updating the name");
+    let nameField = document.getElementById("name");
+    nameField.remove();
+    const form = document.createElement('form');
+    form.setAttribute('onsubmit','submitName');
+    const updateField = document.createElement('input');
+    updateField.setAttribute('type', 'text');
+    updateField.setAttribute('className', 'name');
+    updateField.setAttribute('id', 'updateNameField');
+    updateField.addEventListener("keydown", this.submitName.bind(this));
+    form.appendChild(updateField);
+    const nameInsertionPoint = document.getElementsByClassName('name-container');
+    nameInsertionPoint[0].appendChild(updateField);
+  }
+
+  public submitName = (e) => {
+    console.log("submit name");
+    console.log(e.keyCode);
+    if (e.keyCode === 13) {
+      let updateField = document.getElementById('updateNameField');
+      const name = updateField.innerHTML;
+      /** Edit and push userInfoToken here */
+      const token = JSON.parse(localStorage.getItem('userInfoToken'));
+      
+      /** Updated */
+      let nameField = document.createElement('p');
+      nameField.innerHTML = name;
+      nameField.setAttribute('className','name');
+      nameField.setAttribute('id','name');
+      const nameInsertionPoint = document.getElementsByClassName('name-container');
+      nameInsertionPoint[0].appendChild(nameField);
+      const nameEditIcon = document.getElementById('nameEdit');
+      nameEditIcon.remove();
+      nameInsertionPoint[0].appendChild(nameEditIcon);
     }
   }
 

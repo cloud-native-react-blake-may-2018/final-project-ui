@@ -24,7 +24,6 @@ const userData = {
   Pool: userPool
 }
 const cognitoUser = new awsCognito.CognitoUser(userData);
-console.log(cognitoUser);
 
 
 export class ProfilePage extends React.Component<IProps> {
@@ -43,15 +42,13 @@ export class ProfilePage extends React.Component<IProps> {
 
   public componentDidMount() {
     // Don't forget to update endpoint
-    Axios.get('endpoint coming soon')
-      .then(resp => {
-        this.setState({
-          url: resp.data
-        })
-      })
-      .catch(err => {
-        console.log(err);
-      })
+    console.log("here");
+    cognitoUser.getUserAttributes((err, results) => {
+      if (err) {
+        console.log("err: " + err);
+      }
+      else console.log("results:\n" + results);
+    })
   }
 
   public updateName = () => {
