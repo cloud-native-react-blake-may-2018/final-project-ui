@@ -29,7 +29,7 @@ if (localStorage.token) {
   const userPool = new awsCognito.CognitoUserPool(data)
   const cognitoUser = userPool.getCurrentUser()
 
-  const payload: IPayload = JSON.parse(localStorage.token)
+  const payload: IPayload = JSON.parse(localStorage.userInfoToken)
   const user = {
     email: payload.email,
     token: localStorage.token,
@@ -38,8 +38,7 @@ if (localStorage.token) {
     // @ts-ignore
     username: payload.username
   }
-  console.log('user', user)
-  console.log('payload', payload)
+
   // TODO: Confirm this is working.
   const repopulate = async () => {
     // @ts-ignore

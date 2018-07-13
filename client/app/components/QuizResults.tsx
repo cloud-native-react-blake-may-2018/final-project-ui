@@ -12,38 +12,79 @@ import {
   updateAnswerArray
 } from '../actions/quizzes'
 import Spinner from 'react-spinkit'
+import CoinIcon from '../../public/icons/coin-icon.svg'
 
 interface IProps {
-  username: any
   quiz: any
-  questionNumber: any
-  multipleSelectAnswer: any
-  multipleChoiceAnswer: any[]
-  answerArray: any
-  changeQuestionNumber: (questionNumber: number) => void
-  startAddAnswerToArray: (answerObj: {}) => void
-  addMultipleChoiceAnswer: (answerObj: {}) => void
-  addMultipleSelectAnswer: (answerObj: {}) => void
-  updateMultipleSelectAnswer: (answerArray: any[]) => void
-  updateAnswerArray: (answerArray: any[]) => void
 }
 
 export class QuizResultsPage extends Component<IProps, any> {
-  constructor(props) {
-    super(props)
-  }
-
   params = window.location.href.split('/')
   quizUUID = this.params[4]
+
+  determineResponse = () => {
+    const score = this.props.quiz.score
+    if (score < 20) return 'What was that?!'
+    if (score > 19 && score < 60) return 'Were you even trying?'
+    if (score > 59 && score < 71)
+      return 'Failure is simply the opportunity to begin again, this time more intelligently.'
+    if (score > 70 && score < 81)
+      return 'A bit more studying and you will have it for sure!'
+    if (score > 80 && score < 91) return 'Not bad!'
+    if (score > 90 && score < 100) return 'Great job!'
+    if (score === 100) return 'Perfect score!'
+  }
+
+  determineColor = () => {
+    const score = this.props.quiz.score
+    if (score < 70) return 'red-dark-red'
+    if (score > 69 && score < 81) return 'yellow-orange'
+    if (score > 90 && score < 100) return 'yellow-green'
+    if (score === 100) return 'green-dark-green'
+  }
 
   // @ts-ignore
   render = () => {
     const { quiz } = this.props
     return (
       <div className="quiz-results-page">
-        {console.log(this.props.quiz)}
-        <h1>Your Results</h1>
-        <h1>{this.props.quiz.score}</h1>
+        {quiz === null && (
+          <div>
+            <Spinner
+              className="loading-indicator"
+              name="ball-spin-fade-loader"
+            />
+            <p>Grading quiz...</p>
+          </div>
+        )}
+        {quiz !== null && (
+          <div className="quiz-results-page">
+            <div className="main">
+              <main className={this.determineColor()}>
+                <h1 className="title">{this.determineResponse()}</h1>
+                <p className="score">{Math.round(this.props.quiz.score)}%</p>
+                <div className="points-container">
+                  <p className="points">
+                    +{parseInt(this.props.quiz.score) / 10}&nbsp;
+                  </p>
+                  <CoinIcon className="coin-icon" />
+                </div>
+              </main>
+              <footer>
+                <Link to={`/view-quiz/${this.quizUUID}`} className="link">
+                  <p className="retake-button">Retake quiz</p>
+                </Link>
+                <Link
+                  to={`/take-quiz/${quiz.uuid}`}
+                  // onClick={this.startQuizAttempt}
+                  className="link"
+                >
+                  <p className="results-button">See results</p>
+                </Link>
+              </footer>
+            </div>
+          </div>
+        )}
       </div>
     )
   }
@@ -51,7 +92,8 @@ export class QuizResultsPage extends Component<IProps, any> {
 
 const mapStateToProps = (state, props) => ({
   username: state.auth.username,
-  quiz: state.takeQuiz.results !== null && state.takeQuiz.results
+  quiz: state.takeQuiz.results
+  // quiz: state.takeQuiz.results !== null && state.takeQuiz.results
 })
 
 export default connect(

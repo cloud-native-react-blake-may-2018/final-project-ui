@@ -17,6 +17,7 @@ import EditQuizPage from '../components/EditQuizPage'
 import ViewQuizPage from '../components/ViewQuizPage'
 import TakeQuizPage from '../components/TakeQuiz'
 import QuizResultsPage from '../components/QuizResults'
+import SignInRedirect from '../components/SignInRedirect'
 import AchievementsPage from '../components/AchievementsPage'
 import StorePage from '../components/StorePage'
 import ResetPasswordPage from '../components/ResetPasswordPage'
@@ -27,6 +28,7 @@ import AddQuiz from '../components/AddQuiz'
 import SettingsPage from '../components/SettingsPage'
 import ProfilePage from '../components/ProfilePage'
 import NotFoundPage from '../components/NotFoundPage'
+import { SetupLogin } from '../components/loginSetup'
 
 export const history = createHistory()
 const mql = window.matchMedia(`(min-width: 800px)`)
@@ -87,7 +89,9 @@ export class Pages extends Component<IProps, IState> {
         <Switch>
           <PublicRoute exact path="/" component={SplashPage} />
           <PublicRoute path="/signup" component={SignupPage} />
-          <PublicRoute path="/login" component={LoginPage} />
+          <PublicRoute path="/login" component={SignInRedirect} />
+          <PublicRoute path="/resetpassword" component={ResetPasswordPage} />
+          <PublicRoute path="/redirect" component={SetupLogin} />
           <Sidebar
             sidebar={sidebar}
             docked={sidebarDocked}
@@ -104,7 +108,10 @@ export class Pages extends Component<IProps, IState> {
             <PrivateRoute path="/view-quiz/:uuid" component={ViewQuizPage} />
             <PrivateRoute path="/edit-quiz/:uuid" component={EditQuizPage} />
             <PrivateRoute path="/take-quiz/:uuid" component={TakeQuizPage} />
-            <PrivateRoute path="/quiz-results" component={QuizResultsPage} />
+            <PrivateRoute
+              path="/quiz-results/:quizUUID"
+              component={QuizResultsPage}
+            />
             <PrivateRoute path="/create-quiz" component={CreateQuiz} />
             <PrivateRoute path="/add-question" component={AddQuestion} />
             <PrivateRoute path="/add-quiz" component={AddQuiz} />

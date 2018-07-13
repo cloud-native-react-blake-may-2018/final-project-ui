@@ -7,7 +7,7 @@
     "start": "npm run serve & npm run test",
     "serve": "ts-node index.ts",
     "test": "jest --watchAll",
-    "build": "webpack"
+    "build": "NODE_ENV=production webpack"
   },
   "author": "Eric",
   "license": "ISC",
@@ -60,7 +60,7 @@
     "numeral": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "react-dropzone": "latest",
+    "react-dropzone": "^4.2.13",
     "react-hot-loader": "latest",
     "react-image-gallery": "latest",
     "react-input-autosize": "latest",
@@ -79,6 +79,7 @@
   },
   "devDependencies": {
     "@types/connect-history-api-fallback": "latest",
+    "@types/dotenv": "latest",
     "@types/enzyme": "latest",
     "@types/enzyme-adapter-react-16": "latest",
     "@types/express": "latest",
@@ -89,7 +90,7 @@
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
-    "@types/react-dropzone": "latest",
+    "@types/react-dropzone": "^4.2.0",
     "@types/react-hot-loader": "latest",
     "@types/react-redux": "latest",
     "@types/react-router-dom": "latest",
@@ -101,7 +102,7 @@
     "@types/webpack-hot-middleware": "latest",
     "awesome-typescript-loader": "latest",
     "babel-core": "latest",
-    "babel-loader": "latest",
+    "babel-loader": "^7.1.5",
     "babel-plugin-inline-react-svg": "latest",
     "babel-preset-env": "latest",
     "babel-preset-react": "latest",

@@ -241,15 +241,6 @@ export class LoginPage extends Component<IProps, IState> {
               onFailure={responseGoogle}
              /> */}
           </div>
-          <div className="switch-auth-form">
-            <p className="text">Don't have an account?</p>
-            <Link to="/signup" className="signup-link">
-              &nbsp;Signup
-            </Link>
-            <Link to="/resetpassword" className="item">
-              Forgot Password?
-            </Link>
-          </div>
         </form>
         <div className="overlay" />
         <div className="bg" />

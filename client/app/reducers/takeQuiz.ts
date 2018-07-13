@@ -61,6 +61,13 @@ export const takeQuizReducer = (state = initialState, action = {} as any) => {
         questionNumber: action.questionNumber
       }
 
+    case 'CLEAR_QUIZ_ATTEMPT':
+      return {
+        ...state,
+        questionNumber: action.reset,
+        quizAttemptInfoObj: null
+      }
+
     case 'ADD_MULTIPLE_SELECT_ANSWER':
       // console.log('multiple select ', action.answerObj.answer)
       return {
@@ -93,7 +100,9 @@ export const takeQuizReducer = (state = initialState, action = {} as any) => {
       // console.log('questions ', action.quizAttemptInfo)
       return {
         ...state,
-        quizAttemptInfoObj: action.quizAttemptInfo
+        quizAttemptInfoObj: action.quizAttemptInfo,
+        questionNumber: action.reset,
+        answerArray: []
       }
 
     case 'SUBMIT_QUIZ_ATTEMPT':
