@@ -60,8 +60,29 @@ export class EditQuizPage extends Component<IProps> {
   };
 
   private updateQuiz = (e: any) => {
-    for (let item of this.state.updatedQuestions)
-      this.props.startEditQuestion(item);
+    let sendQuestionList = [];
+    for (let item of this.state.updatedQuestions) {
+      if (item.tags) {
+        let set = new Set(
+          item.tags.split(",").map(string => {
+            return string.trim();
+          })
+        );
+
+        let testArr: any[] = [...set];
+        sendQuestionList.push({
+          ...item,
+          tags: testArr
+        });
+      }
+    }
+    for (let item of sendQuestionList) {
+      const data = {
+        quizID: window.location.href.split("/")[4],
+        question: item
+      };
+      this.props.startEditQuestion(data);
+    }
   };
 
   private saveChangeToState = (e: any) => {
@@ -136,6 +157,16 @@ export class EditQuizPage extends Component<IProps> {
   private photoUpload: HTMLInputElement;
 
   fileSelectedHandler = e => this.setState({ selectedFile: e.target.files[0] });
+
+  private updateTags = (e: any) => {
+    const tags = e.target.value;
+    this.setState({
+      clickedQuestion: {
+        ...this.state.clickedQuestion,
+        tags: tags
+      }
+    });
+  };
 
   private onDrop = (files: any) => {
     const file = files[0];
@@ -246,7 +277,10 @@ export class EditQuizPage extends Component<IProps> {
                     </div>
                     <div className="group">
                       <label>Tags</label>
-                      <input placeholder="Assign tags to this question" />
+                      <input
+                        onChange={this.updateTags}
+                        placeholder="Assign tags to this question"
+                      />
                     </div>
                     <div
                       className="group photo-container"
