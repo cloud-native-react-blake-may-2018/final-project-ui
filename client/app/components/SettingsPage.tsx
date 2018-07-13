@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Dropzone from 'react-dropzone'
 import axios from 'axios'
+import * as awsCognito from 'amazon-cognito-identity-js'
 // import { startUpdateUser } from '../actions/auth'
 interface ClassProps {
   email: string
@@ -11,6 +12,39 @@ interface ClassProps {
   file
   startUpdateUser: (any) => any
 }
+
+const data = {
+  UserPoolId: 'us-east-2_fMMquWRem',
+  ClientId: '1q83lmu6khfnc0v8jjdrde9291'
+}
+const userPool = new awsCognito.CognitoUserPool(data);
+const userData = {
+  Username: JSON.parse(localStorage.getItem('userInfoToken')).username,
+  Pool: userPool
+}
+const cognitoUser = new awsCognito.CognitoUser(userData);
+console.log(cognitoUser);
+
+/** Authenticate cognitoUser */
+// var authenticationData = {
+//   Username: 'TyPiRo',
+//   Password: 'quailious'
+// };
+// var authenticationDetails = new awsCognito.AuthenticationDetails(authenticationData);
+// console.log(authenticationDetails);
+
+const attributeList = [];
+cognitoUser.getUserAttributes((err, result) => {
+  if (err) {
+    console.log(err);
+    return;
+  }
+  for (let i=0; i < result.length; i++) {
+    console.log('result ' + result[i].getName() + 'with value: ' + result[i].getValue());
+  }
+})
+console.log(attributeList);
+
 export class SettingsPage extends Component<ClassProps> {
   state = {
     page: 'General',
@@ -75,6 +109,7 @@ export class SettingsPage extends Component<ClassProps> {
       url: profileUrl
     })
   }
+
   // @ts-ignore
   render = () => {
     const { username, email, photo } = this.props
