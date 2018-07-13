@@ -17,7 +17,7 @@ export class SignInRedirect extends Component {
 
     // working: do not change
     let redirectUrl =
-      environment.context === 'production'
+      process.env.NODE_ENV === 'production'
         ? `https://quizard.auth.us-east-2.amazoncognito.com/login?response_type=token&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=${
             environment.context
           }/redirect`
@@ -25,6 +25,7 @@ export class SignInRedirect extends Component {
             environment.context
           }/redirect/__webpack_hmr`
 
+    console.log('environment', environment.context)
     console.log('redirect url', redirectUrl)
 
     window.location.href = redirectUrl

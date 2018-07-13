@@ -74,7 +74,7 @@ export class SetupLogin extends Component {
         localStorage.setItem('token', id_token)
 
         window.location.href =
-          environment.context === 'production'
+          process.env.NODE_ENV === 'production'
             ? (window.location.href = `${environment.context}/dashboard`)
             : `${environment.context}/dashboard/__webpack_hmr`
 
