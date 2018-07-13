@@ -126,7 +126,7 @@
 
           &:hover
             cursor: pointer
-            filter: brightness(90%)
+            filter: brightness(75%)
 
       .add-question
         margin: 10px 0 10px
@@ -253,6 +253,28 @@
             font: normal 18px Asap
             color: $grey
             background-color: $white-grey
+
+          select
+            -webkit-appearance: none
+            -moz-appearance: none
+            appearance: none
+            box-sizing: content-box
+            padding: 5px 10px 2px
+            background: none
+            border: 2px solid $buttongrey
+            border-radius: 20px
+            font-size: $m
+            color: $grey
+            transition: 300ms all
+
+            // option
+
+          // .icon
+          //   position: absolute
+          //   top: 40px
+          //   right: 20px
+          //   pointer-events: none
+          //   color: $buttongrey
 
       .options
         margin: 15px 0 65px
@@ -381,8 +403,9 @@
           -moz-animation: wiggle .5s infinite
           -webkit-animation: wiggle .5s infinite
 
-
-         display: grid
+      .details
+        border: 1px solid red
+        display: grid
 
         .group
           display: grid
@@ -466,4 +489,3 @@
     transform: rotate(-12deg)
   100%
     transform: rotate(12deg)
-		

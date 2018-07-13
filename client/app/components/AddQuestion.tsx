@@ -228,37 +228,245 @@ export class AddQuestion extends Component<IProps, any> {
   // componentWillReceiveProps = (props, nextProps) =>
   //   console.log("props: ", props, "nextProps: ", nextProps);
 
+  private changeView = (
+    typeOfView: string,
+    questionToView?: {},
+    i?: number
+  ) => {
+    if (typeOfView === 'questionDisplay') {
+      this.setState({
+        mainView: {
+          display: 'questionDisplay',
+          questionToDisplay: questionToView
+        },
+        editQuestion: i
+      })
+    } else {
+      this.setState({
+        mainView: {
+          display: 'inputDisplay',
+          questionToDisplay: {}
+        },
+        editQuestion: 0
+      })
+    }
+    console.log('changeViewCalled', this.state)
+  }
+
+  private formatValidator = (questionToValidate: QuestionFormat) => {
+    let validObject = true
+    let percentPoints = 0
+
+    if (!questionToValidate.title || !questionToValidate.author) {
+      return (validObject = false)
+    } else {
+      for (let item of questionToValidate.answers) {
+        if (!item.answer) {
+          return (validObject = false)
+        }
+        percentPoints = percentPoints + item.percentPoints
+      }
+    }
+    console.log('Inside Validator Function', percentPoints, validObject)
+    return percentPoints > 99 || false
+  }
+
+  private printQuestionsArr = () => {
+    return (
+      <div>
+        {this.state.newQuestions.map((item, i) => {
+          return (
+            <div
+              key={'questions' + i}
+              onClick={event => this.changeView('questionDisplay', item, i)}
+            >
+              Question {i + 1}
+            </div>
+          )
+        })}
+      </div>
+    )
+  }
+
+  private onDrop = (files: any) => {
+    const file = files[0]
+    const getBase64 = async file => {
+      var reader = new FileReader()
+      reader.readAsDataURL(file)
+      let codeString
+      reader.onload = function() {
+        codeString = reader.result
+        codeString = codeString.split(',', 2)
+        this.setState({
+          ...this.state,
+          currentQuestion: {
+            ...this.state.currentQuestion,
+            image: codeString[1]
+          },
+          displayPhoto: codeString.join(',')
+        })
+      }.bind(this)
+      reader.onerror = function(error) {
+        console.log('Error: ', error)
+      }
+      return codeString
+    }
+    getBase64(file)
+  }
+
+  private editQuestionElements = (e: any, propertyName) => {
+    const index = this.state.editQuestion
+    let updatedQuestions = this.state.newQuestions
+    updatedQuestions[index] = {
+      ...updatedQuestions[index],
+      [propertyName]: e.target.value
+    }
+    console.log('propertyname', propertyName)
+    this.setState({
+      newQuestions: updatedQuestions,
+      mainView: {
+        ...this.state.mainView,
+        questionToDisplay: updatedQuestions[index]
+      }
+    })
+  }
+
+  private editQuizAnswers = (e: any, propertyName, i: number) => {
+    const index = this.state.editQuestion
+    let updatedQuestions = this.state.newQuestions
+    updatedQuestions[index].answers[i] = {
+      ...updatedQuestions[index].answers[i],
+      [propertyName]: e.target.value
+    }
+    this.setState({
+      newQuestions: updatedQuestions,
+      mainView: {
+        ...this.state.mainView,
+        questionToDisplay: updatedQuestions[index]
+      }
+    })
+  }
+
+  private editTagElement = (e: any) => {
+    this.setState({
+      currentQuestion: {
+        ...this.state.currentQuestion,
+        tags: e.target.value
+      }
+    })
+  }
+
+  private renderMainDisplayElement = () => {
+    switch (this.state.mainView.display) {
+      case 'questionDisplay':
+        return (
+          <div className="details">
+            <div className="group">
+              <label htmlFor="editQuestionTitle">Title:</label>
+              <input
+                type="text"
+                id="editQuestionTitle"
+                value={this.state.mainView.questionToDisplay.title}
+                onChange={e => {
+                  this.editQuestionElements(e, 'title')
+                }}
+              />
+            </div>
+            <div className="group">
+              <label htmlFor="editQuestionTag">Tags:</label>
+              <input
+                type="text"
+                id="editQuestionTag"
+                value={this.state.mainView.questionToDisplay.tags}
+                onChange={e => {
+                  this.editQuestionElements(e, 'tags')
+                }}
+              />
+            </div>
+            {this.state.mainView.questionToDisplay.answers.map((item, i) => {
+              return (
+                <div>
+                  <label htmlFor="true-false-answer">Answer</label>
+                  <input
+                    type="text"
+                    id="true-false-answer"
+                    value={item.answer}
+                    onChange={e => {
+                      this.editQuizAnswers(e, 'answer', i)
+                    }}
+                  />
+                  <label htmlFor="true-false-percent-points">
+                    Percent Points
+                  </label>
+                  <input
+                    type="text"
+                    id="true-false-percent-points"
+                    value={item.percentPoints}
+                    onChange={e => {
+                      this.editQuizAnswers(e, 'percentPoints', i)
+                    }}
+                  />
+                  <label htmlFor="true-false-feed-back">feed Back</label>
+                  <input
+                    type="text"
+                    id="true-false-feed-back"
+                    value={item.feedback}
+                    onChange={e => {
+                      this.editQuizAnswers(e, 'feedback', i)
+                    }}
+                  />
+                </div>
+              )
+            })}
+            <button
+              onClick={() => {
+                this.changeView('inputDisplay')
+              }}
+            >
+              Create New Question
+            </button>
+          </div>
+        )
+      default:
+        return <div>{this.createTable()}</div>
+    }
+  }
+
   private createTable = () => {
     switch (this.state.currentQuestion.format) {
       case 'true-false':
         return (
-          <div>
-            <label htmlFor="title">Question</label>
-            <input
-              type="text"
-              id="title"
-              value={this.state.currentQuestion.title}
-              onChange={this.updateTitle}
-            />
-            <br />
-            <label htmlFor="tags">Tags</label>
-            <input
-              type="text"
-              id="tags"
-              value={this.state.currentQuestion.tags}
-              onChange={this.editTagElement}
-            />
-            <br />
-            <select
-              name=""
-              id="question-options-dropdown"
-              value={this.state.currentQuestion.format}
-              onChange={this.updateFormat}
-            >
-              <option value="true-false">True-or-False</option>
-              <option value="multiple-choice">Multiple Choice</option>
-              <option value="multiple-select">Multiple Select</option>
-            </select>
+          <div className="details">
+            <div className="group">
+              <label htmlFor="title">Question</label>
+              <input
+                type="text"
+                id="title"
+                value={this.state.currentQuestion.title}
+                onChange={this.updateTitle}
+              />
+            </div>
+            <div className="group">
+              <label htmlFor="tags">Tags</label>
+              <input
+                type="text"
+                id="tags"
+                value={this.state.currentQuestion.tags}
+                onChange={this.editTagElement}
+              />
+            </div>
+            <div className="group">
+              <select
+                name=""
+                id="question-options-dropdown"
+                value={this.state.currentQuestion.format}
+                onChange={this.updateFormat}
+              >
+                <option value="true-false">True-or-False</option>
+                <option value="multiple-choice">Multiple Choice</option>
+                <option value="multiple-select">Multiple Select</option>
+              </select>
+            </div>
             <div className="row">
               <label htmlFor="true-false-answer">Answer</label>
               <input
@@ -475,213 +683,13 @@ export class AddQuestion extends Component<IProps, any> {
     }
   }
 
-  private changeView = (
-    typeOfView: string,
-    questionToView?: {},
-    i?: number
-  ) => {
-    if (typeOfView === 'questionDisplay') {
-      this.setState({
-        mainView: {
-          display: 'questionDisplay',
-          questionToDisplay: questionToView
-        },
-        editQuestion: i
-      })
-    } else {
-      this.setState({
-        mainView: {
-          display: 'inputDisplay',
-          questionToDisplay: {}
-        },
-        editQuestion: 0
-      })
-    }
-    console.log('changeViewCalled', this.state)
-  }
-
-  private formatValidator = (questionToValidate: QuestionFormat) => {
-    let validObject = true
-    let percentPoints = 0
-
-    if (!questionToValidate.title || !questionToValidate.author) {
-      return (validObject = false)
-    } else {
-      for (let item of questionToValidate.answers) {
-        if (!item.answer) {
-          return (validObject = false)
-        }
-        percentPoints = percentPoints + item.percentPoints
-      }
-    }
-    console.log('Inside Validator Function', percentPoints, validObject)
-    return percentPoints > 99 || false
-  }
-
-  private printQuestionsArr = () => {
-    return (
-      <div>
-        {this.state.newQuestions.map((item, i) => {
-          return (
-            <div
-              key={'questions' + i}
-              onClick={event => this.changeView('questionDisplay', item, i)}
-            >
-              Question {i + 1}
-            </div>
-          )
-        })}
-      </div>
-    )
-  }
-
-  private onDrop = (files: any) => {
-    const file = files[0]
-    const getBase64 = async file => {
-      var reader = new FileReader()
-      reader.readAsDataURL(file)
-      let codeString
-      reader.onload = function() {
-        codeString = reader.result
-        codeString = codeString.split(',', 2)
-        this.setState({
-          ...this.state,
-          currentQuestion: {
-            ...this.state.currentQuestion,
-            image: codeString[1]
-          },
-          displayPhoto: codeString.join(',')
-        })
-      }.bind(this)
-      reader.onerror = function(error) {
-        console.log('Error: ', error)
-      }
-      return codeString
-    }
-    getBase64(file)
-  }
-
-  private editQuestionElements = (e: any, propertyName) => {
-    const index = this.state.editQuestion
-    let updatedQuestions = this.state.newQuestions
-    updatedQuestions[index] = {
-      ...updatedQuestions[index],
-      [propertyName]: e.target.value
-    }
-    console.log('propertyname', propertyName)
-    this.setState({
-      newQuestions: updatedQuestions,
-      mainView: {
-        ...this.state.mainView,
-        questionToDisplay: updatedQuestions[index]
-      }
-    })
-  }
-
-  private editQuizAnswers = (e: any, propertyName, i: number) => {
-    const index = this.state.editQuestion
-    let updatedQuestions = this.state.newQuestions
-    updatedQuestions[index].answers[i] = {
-      ...updatedQuestions[index].answers[i],
-      [propertyName]: e.target.value
-    }
-    this.setState({
-      newQuestions: updatedQuestions,
-      mainView: {
-        ...this.state.mainView,
-        questionToDisplay: updatedQuestions[index]
-      }
-    })
-  }
-
-  private editTagElement = (e: any) => {
-    this.setState({
-      currentQuestion: {
-        ...this.state.currentQuestion,
-        tags: e.target.value
-      }
-    })
-  }
-
-  private renderMainDisplayElement = () => {
-    switch (this.state.mainView.display) {
-      case 'questionDisplay':
-        return (
-          <div className="details">
-            <div className="group">
-              <label htmlFor="editQuestionTitle">Title:</label>
-              <input
-                type="text"
-                id="editQuestionTitle"
-                value={this.state.mainView.questionToDisplay.title}
-                onChange={e => {
-                  this.editQuestionElements(e, 'title')
-                }}
-              />
-            </div>
-            <div className="group">
-              <label htmlFor="editQuestionTag">Tags:</label>
-              <input
-                type="text"
-                id="editQuestionTag"
-                value={this.state.mainView.questionToDisplay.tags}
-                onChange={e => {
-                  this.editQuestionElements(e, 'tags')
-                }}
-              />
-            </div>
-            {this.state.mainView.questionToDisplay.answers.map((item, i) => {
-              return (
-                <div>
-                  <label htmlFor="true-false-answer">Answer</label>
-                  <input
-                    type="text"
-                    id="true-false-answer"
-                    value={item.answer}
-                    onChange={e => {
-                      this.editQuizAnswers(e, 'answer', i)
-                    }}
-                  />
-                  <label htmlFor="true-false-percent-points">
-                    Percent Points
-                  </label>
-                  <input
-                    type="text"
-                    id="true-false-percent-points"
-                    value={item.percentPoints}
-                    onChange={e => {
-                      this.editQuizAnswers(e, 'percentPoints', i)
-                    }}
-                  />
-                  <label htmlFor="true-false-feed-back">feed Back</label>
-                  <input
-                    type="text"
-                    id="true-false-feed-back"
-                    value={item.feedback}
-                    onChange={e => {
-                      this.editQuizAnswers(e, 'feedback', i)
-                    }}
-                  />
-                </div>
-              )
-            })}
-            <button
-              onClick={() => {
-                this.changeView('inputDisplay')
-              }}
-            >
-              Create New Question
-            </button>
-          </div>
-        )
-      default:
-        return <div>{this.createTable()}</div>
-    }
-  }
-
   // @ts-ignore
   render = () => {
     const { startCreateNewQuestion } = this.props
+    // const {
+    //   currentQuestion: { format },
+    //   mainView: { display }
+    // } = this.state
     return (
       <div className="add-question-container">
         <p className="title">Add Question</p>
@@ -689,10 +697,8 @@ export class AddQuestion extends Component<IProps, any> {
           {/* <div className="close" onClick={this.deleteQuestion}> */}
           <FontAwesomeIcon icon="times" />
         </div>
-        <form>
-          {this.renderMainDisplayElement()}
-          <br />
-        </form>
+        {this.renderMainDisplayElement()}
+        <br />
         <div className="row">
           <div className="col">
             <Dropzone onDrop={this.onDrop}>
