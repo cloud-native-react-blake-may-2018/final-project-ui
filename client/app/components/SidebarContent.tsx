@@ -60,10 +60,7 @@ export class SidebarContent extends Component<IProps, IState> {
 
   // @ts-ignore
   componentWillReceiveProps = props => {
-    console.log('given props: ', props)
-    // console.log('new props! ', props)
     const quizInProgress = props.location.pathname.includes('take-quiz')
-    console.log('quiz in progress ', quizInProgress)
 
     this.setState({ takingQuiz: quizInProgress ? true : false })
   }
