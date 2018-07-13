@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import fontawesome from "@fortawesome/fontawesome";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import Dropzone from "react-dropzone";
+import Dropzone from "react-dropzone";
 import {
   startBatchCreateQuestions,
   startCreateNewQuestion
@@ -40,6 +40,7 @@ interface QuestionFormat {
 
 export class AddQuestion extends Component<IProps, any> {
   state = {
+    displayPhoto: "",
     newQuestions: [],
     currentQuestion: {
       author: this.props.username,
@@ -535,31 +536,31 @@ export class AddQuestion extends Component<IProps, any> {
     );
   };
 
-  // private onDrop = (files: any) => {
-  //   const file = files[0];
-
-  //   const getBase64 = async file => {
-  //     var reader = new FileReader();
-  //     reader.readAsDataURL(file);
-  //     let codeString;
-  //     reader.onload = function() {
-  //       codeString = reader.result;
-  //       codeString = codeString.split(",", 2);
-  //       this.setState({
-  //         ...this.state,
-  //         currentQuestion: {
-  //           ...this.state.currentQuestion,
-  //           image: codeString[1]
-  //         }
-  //       });
-  //     }.bind(this);
-  //     reader.onerror = function(error) {
-  //       console.log("Error: ", error);
-  //     };
-  //     return codeString;
-  //   };
-  //   getBase64(file);
-  // };
+  private onDrop = (files: any) => {
+    const file = files[0];
+    const getBase64 = async file => {
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      let codeString;
+      reader.onload = function() {
+        codeString = reader.result;
+        codeString = codeString.split(",", 2);
+        this.setState({
+          ...this.state,
+          currentQuestion: {
+            ...this.state.currentQuestion,
+            image: codeString[1]
+          },
+          displayPhoto: codeString.join(",")
+        });
+      }.bind(this);
+      reader.onerror = function(error) {
+        console.log("Error: ", error);
+      };
+      return codeString;
+    };
+    getBase64(file);
+  };
 
   private editQuestionElements = (e: any, propertyName) => {
     const index = this.state.editQuestion;
@@ -678,16 +679,25 @@ export class AddQuestion extends Component<IProps, any> {
   render() {
     const { startCreateNewQuestion } = this.props;
     return (
-      <div>
+      <div className="container">
         <form>
           {this.renderMainDisplayElement()}
           <br />
         </form>
-        {/* <Dropzone onDrop={this.onDrop}>
-          Drop your files here,
-          <br />
-          or click to select one.
-        </Dropzone> */}
+        <div className="row">
+          <div className="col">
+            <Dropzone onDrop={this.onDrop}>
+              Drop your files here,
+              <br />
+              or click to select one.
+            </Dropzone>
+          </div>
+          <div className="col">
+            {this.state.displayPhoto && (
+              <img src={this.state.displayPhoto} alt="img" />
+            )}
+          </div>
+        </div>
         <button type="button" onClick={this.updateReducerStore}>
           Save
         </button>
