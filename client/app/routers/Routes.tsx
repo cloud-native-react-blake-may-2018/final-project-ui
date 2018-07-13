@@ -108,7 +108,10 @@ export class Pages extends Component<IProps, IState> {
             <PrivateRoute path="/view-quiz/:uuid" component={ViewQuizPage} />
             <PrivateRoute path="/edit-quiz/:uuid" component={EditQuizPage} />
             <PrivateRoute path="/take-quiz/:uuid" component={TakeQuizPage} />
-            <PrivateRoute path="/quiz-results" component={QuizResultsPage} />
+            <PrivateRoute
+              path="/quiz-results/:quizUUID"
+              component={QuizResultsPage}
+            />
             <PrivateRoute path="/create-quiz" component={CreateQuiz} />
             <PrivateRoute path="/add-question" component={AddQuestion} />
             <PrivateRoute path="/add-quiz" component={AddQuiz} />

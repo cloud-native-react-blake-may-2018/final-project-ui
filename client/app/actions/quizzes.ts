@@ -124,14 +124,19 @@ export const startChangeQuestionNumber = questionNumber => ({
   type: 'CHANGE_QUESTION_NUMBER',
   questionNumber
 })
-export const startQuizAttempt = (quizUUID: any, username: string) => dispatch =>
+export const startQuizAttempt = (
+  quizUUID: any,
+  username: string,
+  reset: number
+) => dispatch =>
   pathList.quizzes
     .startQuizAttempt(quizUUID, username)
-    .then(quizAttemptInfo => dispatch(beginQuizAttempt(quizAttemptInfo)))
+    .then(quizAttemptInfo => dispatch(beginQuizAttempt(quizAttemptInfo, reset)))
 
-export const beginQuizAttempt = quizAttemptInfo => ({
+export const beginQuizAttempt = (quizAttemptInfo, reset) => ({
   type: 'QUIZ_ATTEMPT_INFO',
-  quizAttemptInfo
+  quizAttemptInfo,
+  reset
 })
 export const submitQuizAttempt = (
   quizUUID: string,
@@ -146,4 +151,12 @@ export const submitQuizAttempt = (
 export const startSubmitQuizAttempt = quizResults => ({
   type: 'SUBMIT_QUIZ_ATTEMPT',
   quizResults
+})
+
+export const clearQuizAttempt = reset => dispatch =>
+  dispatch(startclearQuizAttempt(reset))
+
+export const startclearQuizAttempt = reset => ({
+  type: 'CLEAR_QUIZ_ATTEMPT',
+  reset
 })

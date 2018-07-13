@@ -65,12 +65,23 @@ export class SetupLogin extends Component {
       axiosConfig
     )
       .then(resp => {
+        console.log('just before auth.')
         const stringResp = JSON.stringify(resp.data)
         localStorage.setItem('userInfoToken', stringResp)
         localStorage.setItem('name', JSON.stringify(resp.data.name))
         localStorage.setItem('access_token', access_token)
         localStorage.setItem('token', id_token)
-        window.location.href = `${environment.context}/dashboard`
+
+        window.location.href =
+          environment.context === 'production'
+            ? (window.location.href = `${environment.context}/dashboard`)
+            : `${environment.context}/dashboard/__webpack_hmr`
+        // window.location.href = `${
+        //   environment.context
+        // }/dashboard/client?reload=true`
+
+        // working
+        // window.location.href = `${environment.context}/dashboard`
       })
       .catch(err => {
         console.log(err.stack)

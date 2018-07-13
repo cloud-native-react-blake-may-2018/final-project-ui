@@ -10,9 +10,19 @@ export class SignInRedirect extends Component {
   componentDidMount() {
     // let redirectUrl = `https://quizard.auth.us-east-2.amazoncognito.com/login?response_type=token&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=https://dwea2klqp52vb.cloudfront.net/redirect`
 
-    let redirectUrl = `https://quizard.auth.us-east-2.amazoncognito.com/login?response_type=token&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=${
-      environment.context
-    }/redirect`
+    // let redirectUrl = `https://quizard.auth.us-east-2.amazoncognito.com/login?response_type=token&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=http://localhost:3222/redirect/__webpack_hmr`
+
+    // let redirectUrl = `https://quizard.auth.us-east-2.amazoncognito.com/login?response_type=token&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=http://localhost:3222/redirect/client?reload=true`
+
+    // working: do not change
+    let redirectUrl =
+      environment.context === 'production'
+        ? `https://quizard.auth.us-east-2.amazoncognito.com/login?response_type=token&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=${
+            environment.context
+          }/redirect`
+        : `https://quizard.auth.us-east-2.amazoncognito.com/login?response_type=token&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=${
+            environment.context
+          }/redirect/__webpack_hmr`
 
     console.log('redirect url', redirectUrl)
 
