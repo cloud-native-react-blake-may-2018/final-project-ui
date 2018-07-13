@@ -2,7 +2,7 @@ import axios from 'axios'
 import { authInterceptor } from '../app/interceptors/auth.interceptor'
 // const authAxios = axios.create();
 // authAxios.interceptors.request.use(config => {
-//   config.headers.Authorization = localStorage.token;
+//   config.headers.Authorization = localStorage.idTokenKey;
 //   return config;
 // });
 

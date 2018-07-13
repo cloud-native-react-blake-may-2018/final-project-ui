@@ -44,8 +44,8 @@ export class SetupLogin extends Component {
         const stringResp = JSON.stringify(resp.data)
         localStorage.setItem('userInfoToken', stringResp)
         localStorage.setItem('name', JSON.stringify(resp.data.name))
-        localStorage.setItem('access_token', access_token)
-        localStorage.setItem('token', id_token)
+        localStorage.setItem('accessTokenKey', access_token)
+        localStorage.setItem('idTokenKey', id_token)
 
         window.location.href =
           process.env.NODE_ENV === 'production'

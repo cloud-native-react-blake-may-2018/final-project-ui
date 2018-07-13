@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import Dropzone from 'react-dropzone'
 import axios from 'axios'
 import * as awsCognito from 'amazon-cognito-identity-js'
+import * as AWS from 'aws-sdk'
 // import { startUpdateUser } from '../actions/auth'
 interface ClassProps {
   email: string
@@ -26,17 +27,52 @@ const userData = {
 const cognitoUser = new awsCognito.CognitoUser(userData);
 console.log(cognitoUser);
 
-const attributeList = [];
-cognitoUser.getUserAttributes((err, result) => {
-  if (err) {
-    console.log(err);
-    return;
+if (cognitoUser != null) {
+  const authenticationData = {
+    Username: token !== null && token.username,
+    Password: 'quailious'
   }
-  for (let i=0; i < result.length; i++) {
-    console.log('result ' + result[i].getName() + 'with value: ' + result[i].getValue());
-  }
-})
-console.log(attributeList);
+  const authenticationDetails = new awsCognito.AuthenticationDetails(authenticationData);
+  cognitoUser.authenticateUser(authenticationDetails, {
+    onSuccess: (result) => {
+      const accessToken = result.getAccessToken().getJwtToken();
+      const idToken = result.getIdToken;
+    },
+    onFailure: (err) => {
+      console.log(err);
+    }
+  })
+
+  cognitoUser.getSession((err, session) => {
+    console.log(session);
+    if (err) {
+      console.log(err);
+      return;
+    }
+    console.log('session validity: ' + session.isValid());
+
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+      IdentityPoolId: 'us-east-2:2bf920c2-7094-49a7-bfd0-eec2d6f36ee4',
+      Logins: {
+        'cognito-idp.us-east-2.amazonaws.com/us-east-2_fMMquWRem' : session.getIdToken().getJwtToken()
+      }
+    })
+
+    var s3 = new AWS.S3();
+  })
+
+  var attributeList = [];
+  cognitoUser.getUserAttributes((err, result) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    for (let i=0; i < result.length; i++) {
+      console.log('result ' + result[i].getName() + 'with value: ' + result[i].getValue());
+    }
+  })
+  console.log(attributeList);
+}
 
 export class SettingsPage extends Component<ClassProps> {
   state = {
