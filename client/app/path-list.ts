@@ -24,6 +24,9 @@ const addJunctionUrl =
 const displayQuizzesURL =
   'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/author/'
 
+const displayQuizAttemptsURL =
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quizAttempt/user/'
+
 const displayQuizQuestionsURL =
   'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/'
 
@@ -98,6 +101,9 @@ export default {
 
     display: author =>
       authInterceptor.get(displayQuizzesURL + author).then(res => res.data),
+
+    displayQuizAttempts: user =>
+      authInterceptor.get(displayQuizAttemptsURL + user).then(res => res.data),
 
     searchByAuthor: author =>
       authInterceptor.get(searchByAuthorUrl + author).then(res => res.data),

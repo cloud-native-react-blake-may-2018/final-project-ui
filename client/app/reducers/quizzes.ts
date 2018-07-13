@@ -20,6 +20,12 @@ export const quizzesReducer = (state = {} as any, action = {} as any) => {
         all: [...action.quizzes]
       }
 
+    case 'ALL_QUIZ_ATTEMPTS':
+      return {
+        ...state,
+        allAttempts: action.quizAttempts
+      }
+
     case 'SEARCHED_QUIZ':
       return {
         ...state,
