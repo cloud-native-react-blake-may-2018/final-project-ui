@@ -87,8 +87,9 @@ const config: webpack.Configuration = {
   },
 
   plugins: [
-    process.env.NODE_ENV !== 'production' &&
-      new webpack.HotModuleReplacementPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    // process.env.NODE_ENV !== 'production' &&
+    //   new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
     new HtmlWebpackPlugin({
       template: './client/public/index.html',
