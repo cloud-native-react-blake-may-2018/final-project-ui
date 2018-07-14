@@ -31,3 +31,20 @@ export const startLogout = () => dispatch => {
   }/redirect`
   window.location.href = redirectUrl
 }
+export const updateName = (name: string) => ({
+  type: 'UPDATE_NAME',
+  name
+})
+
+export const startUpdateName = name => dispatch => {
+  dispatch(updateName(name))
+}
+
+export const updateEmail = (email: string) => ({
+  type: 'UPDATE_EMAIL',
+  email
+})
+
+export const startUpdateEmail = email => dispatch => {
+  dispatch(updateEmail(email))
+}
