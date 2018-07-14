@@ -17,6 +17,7 @@ interface IProps {
   quizUUID?: string
   quizzes?: any[]
   quiz?: any
+  page?: 1
   editStoreQuiz?: (any) => any
   startCreateNewQuestion?: (any) => any
   startBatchCreateQuestions?: (any) => any
@@ -69,8 +70,13 @@ export class AddQuestion extends Component<IProps, any> {
         answers: []
       }
     },
-    editQuestion: 0
+    editQuestion: 0,
+    page: 1
   }
+
+  page1 = () => this.setState({ page: 1 })
+
+  page2 = () => this.setState({ page: 2 })
 
   private updateTitle = (e: any) => {
     const title = e.target.value
@@ -120,6 +126,7 @@ export class AddQuestion extends Component<IProps, any> {
         errMsg: 'Invalid question format. Please edit and try again.'
       })
     }
+    this.page1()
   }
 
   private updateFormat = (e: any) => {
@@ -442,45 +449,15 @@ export class AddQuestion extends Component<IProps, any> {
           </div>
         )
       default:
-        return <div>{this.createTable()}</div>
+        return <div>{this.createQuestions()}</div>
     }
   }
 
-  private createTable = () => {
+  private createQuestions = () => {
     switch (this.state.currentQuestion.format) {
       case 'true-false':
         return (
-          <div className="details">
-            <div className="group">
-              <label htmlFor="title">Question</label>
-              <input
-                type="text"
-                id="title"
-                value={this.state.currentQuestion.title}
-                onChange={this.updateTitle}
-              />
-            </div>
-            <div className="group">
-              <label htmlFor="tags">Tags</label>
-              <input
-                type="text"
-                id="tags"
-                value={this.state.currentQuestion.tags}
-                onChange={this.editTagElement}
-              />
-            </div>
-            <div className="group">
-              <select
-                name=""
-                id="question-options-dropdown"
-                value={this.state.currentQuestion.format}
-                onChange={this.updateFormat}
-              >
-                <option value="true-false">True-or-False</option>
-                <option value="multiple-choice">Multiple Choice</option>
-                <option value="multiple-select">Multiple Select</option>
-              </select>
-            </div>
+          <div>
             <div className="row">
               <label htmlFor="true-false-answer">Answer</label>
               <input
@@ -547,32 +524,6 @@ export class AddQuestion extends Component<IProps, any> {
       default:
         return (
           <form>
-            <label htmlFor="title">Title</label>
-            <input
-              type="text"
-              id="title"
-              value={this.state.currentQuestion.title}
-              onChange={this.updateTitle}
-            />
-            <label htmlFor="tags">Tags</label>
-            <input
-              type="text"
-              id="tags"
-              value={this.state.currentQuestion.tags}
-              onChange={this.editTagElement}
-            />
-            <br />
-            <br />
-            <select
-              name=""
-              id="question-options-dropdown"
-              value={this.state.currentQuestion.format}
-              onChange={this.updateFormat}
-            >
-              <option value="true-false">True-or-False</option>
-              <option value="multiple-choice">Multiple Choice</option>
-              <option value="multiple-select">Multiple Select</option>
-            </select>
             <div className="row">
               <label htmlFor="true-false-answer">Answer</label>
               <input
@@ -700,6 +651,7 @@ export class AddQuestion extends Component<IProps, any> {
   // @ts-ignore
   render = () => {
     const { startCreateNewQuestion } = this.props
+    const { page, displayPhoto } = this.state
     // const {
     //   currentQuestion: { format },
     //   mainView: { display }
@@ -711,33 +663,75 @@ export class AddQuestion extends Component<IProps, any> {
           {/* <div className="close" onClick={this.deleteQuestion}> */}
           <FontAwesomeIcon icon="times" />
         </div>
-        {this.renderMainDisplayElement()}
-        <br />
-        <div className="row">
-          <div className="col">
-            <Dropzone onDrop={this.onDrop}>
-              Drop your files here,
-              <br />
-              or click to select one.
-            </Dropzone>
+        {page === 1 && (
+          <div className="details">
+            <div className="group">
+              <label htmlFor="title">Question</label>
+              <input
+                type="text"
+                id="title"
+                value={this.state.currentQuestion.title}
+                onChange={this.updateTitle}
+              />
+            </div>
+            <div className="split-group">
+              <div className="group">
+                <label htmlFor="tags">Tags</label>
+                <input
+                  type="text"
+                  id="tags"
+                  value={this.state.currentQuestion.tags}
+                  onChange={this.editTagElement}
+                />
+              </div>
+              <div className="group">
+                <label htmlFor="type">Type</label>
+                <FontAwesomeIcon className="icon" icon="angle-down" />
+                <select
+                  name="type"
+                  id="question-options-dropdown"
+                  value={this.state.currentQuestion.format}
+                  onChange={this.updateFormat}
+                >
+                  <option value="true-false">True-or-False</option>
+                  <option value="multiple-choice">Multiple Choice</option>
+                  <option value="multiple-select">Multiple Select</option>
+                </select>
+              </div>
+            </div>
+            <div className="group">
+              <label>Image</label>
+              <Dropzone
+                onDrop={this.onDrop}
+                className={displayPhoto ? 'dropzone' : 'dropzone with-dots'}
+              >
+                <p className={displayPhoto ? 'white-text' : ''}>+ Upload</p>
+                {displayPhoto && <img src={displayPhoto} alt="img" />}
+              </Dropzone>
+            </div>
           </div>
-          <div className="col">
-            {this.state.displayPhoto && (
-              <img src={this.state.displayPhoto} alt="img" />
-            )}
-          </div>
-        </div>
+        )}
+        {page === 2 && this.renderMainDisplayElement()}
         {this.state.errMsg && this.state.errMsg}
-        <button
-          type="button"
-          onClick={this.updateReducerStore}
-          className="save-question"
-        >
-          Save
-        </button>
-        {/* <button onClick={this.sendOneQuestion}>
-          Just add this one Question
-        </button> */}
+        <div className="page-navigation">
+          <p
+            className={page === 1 ? 'page-1 active' : 'page-1'}
+            onClick={this.page1}
+          >
+            1
+          </p>
+          <p
+            className={page === 2 ? 'page-2 active' : 'page-2'}
+            onClick={this.page2}
+          >
+            2
+          </p>
+        </div>
+        {page === 2 && (
+          <button onClick={this.updateReducerStore} className="save-question">
+            Save
+          </button>
+        )}
         <div>{this.printQuestionsArr()}</div>
       </div>
     )

@@ -20,6 +20,12 @@ import {
 } from '../constants/modaltypes'
 import Spinner from 'react-spinkit'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
+} from 'reactstrap'
 
 interface IProps extends RouteProps {
   username: any
@@ -52,9 +58,17 @@ export class TakeQuizPage extends Component<IProps, any> {
   constructor(props) {
     super(props)
   }
+  state = {
+    dropdownOpen: false
+  }
 
   params = window.location.href.split('/')
   quizUUID = this.params[4]
+
+  toggleDropdown = () =>
+    this.setState((prevState: any) => ({
+      dropdownOpen: !prevState.dropdownOpen
+    }))
 
   submitQuizModal = () => this.props.loadModal(SUBMIT_QUIZ_MODAL)
 
@@ -248,8 +262,30 @@ export class TakeQuizPage extends Component<IProps, any> {
               <div className="meta">
                 <div className="container">
                   <p className="current">Question {questionNumber + 1}</p>
-                  <div className="icon" onClick={this.reportQuestionModal}>
-                    <FontAwesomeIcon icon="ellipsis-h" className="menu" />
+                  <div className="icon">
+                    <Dropdown
+                      isOpen={this.state.dropdownOpen}
+                      toggle={this.toggleDropdown}
+                      className="app-dropdown-root"
+                    >
+                      <DropdownToggle className="dropdown-toggle">
+                        <FontAwesomeIcon icon="ellipsis-h" className="menu" />
+                      </DropdownToggle>
+                      <DropdownMenu
+                        left="true"
+                        className="dropdown-menu"
+                        style={{
+                          display: this.state.dropdownOpen ? 'block' : 'none'
+                        }}
+                      >
+                        <DropdownItem
+                          className="dropdown-item"
+                          onClick={this.reportQuestionModal}
+                        >
+                          Report question
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
                   </div>
                 </div>
                 <p className="title">{quiz.title}</p>

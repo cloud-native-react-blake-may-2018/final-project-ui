@@ -40,13 +40,14 @@
 
   .link
     display: grid
+    position: relative
     align-items: center
     margin: 20px 10px
     transition: all .5s
 
     &:focus
       outline: none
-  
+
     .svg
       justify-self: center
       // filter: drop-shadow(0 0 3px rgba(255,255,255,0.2))
@@ -55,12 +56,32 @@
       &:hover
         animation: svg .2s forwards
 
+      &:hover + .hint
+        opacity: 1
+
+    .hint
+      position: absolute
+      top: 27px
+      left: -10px
+      width: 150%
+      opacity: 0
+      text-align: center
+      font: 400 12px Asap
+      color: $light-grey
+      transition: .3s all ease-in-out
+
     .menu > *
       grid-row: 1
       stroke: $blue
 
+    .menu + .hint
+      top: 20px
+
     .add-quiz > *
       stroke: $violet
+
+    .add-quiz + .hint
+      top: 20px
 
     .view-quizzes > *
       stroke: $violet
