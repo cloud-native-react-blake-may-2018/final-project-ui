@@ -17,9 +17,6 @@ export class MyQuizzesPage extends Component<IProps> {
 
   //@ts-ignore
   render = () => {
-    {
-      console.log(this.pageType)
-    }
     const { quizzes, type, quizAttempts } = this.props
     return (
       <div className="my-quizzes-page">
@@ -59,10 +56,11 @@ export class MyQuizzesPage extends Component<IProps> {
             ))}
           {this.pageType === 'taken' &&
             quizAttempts !== undefined &&
-            quizAttempts.map((quizAttempt: any) => (
+            quizAttempts.map((quizAttempt: any, index) => (
               <Link
-                to={`/review-quiz/${quizAttempt.quizUUID}`}
-                key={quizAttempt.quizUUID}
+                to={`/review-quiz/${quizAttempt.quizUUID}/${index}`}
+                // key={quizAttempt.quizUUID}
+                key={index}
               >
                 <div className="block">
                   <h1 className="name">{quizAttempt.title}</h1>
