@@ -102,6 +102,9 @@ export class MyQuizzesPage extends Component<IProps> {
                               <p className="tag-text">{tag.allLowerCase}</p>
                             </div>
                           ))}
+                        {quiz.tags.length > 3 && (
+                          <p className="extra-tags">+{quiz.tags.length - 3}</p>
+                        )}
                       </div>
                       {/* {quiz.tags.map(tag => (
                     <div key={tag.allLowerCase} className="tag">
@@ -114,6 +117,7 @@ export class MyQuizzesPage extends Component<IProps> {
             })}
           {this.pageType === 'taken' &&
             quizAttempts !== undefined &&
+            quizAttempts.length > 0 &&
             quizAttempts.map((quizAttempt: any) => (
               <Link
                 to={`/review-quiz/${quizAttempt.quizUUID}`}
@@ -131,6 +135,13 @@ export class MyQuizzesPage extends Component<IProps> {
                 </div>
               </Link>
             ))}
+          {this.pageType === 'taken' &&
+            quizAttempts !== undefined &&
+            quizAttempts.length === 0 && (
+              <p className="no-taken-quizzes">
+                You have not taken any quizzes yet.
+              </p>
+            )}
         </div>
       </div>
     )
