@@ -4,6 +4,8 @@ import Dropzone from 'react-dropzone'
 import axios from 'axios'
 import * as awsCognito from 'amazon-cognito-identity-js'
 import * as AWS from 'aws-sdk'
+import { FontAwesomeIcon } from '../../../node_modules/@fortawesome/react-fontawesome';
+import { Modal } from './Modal';
 // import { startUpdateUser } from '../actions/auth'
 interface ClassProps {
   email: string
@@ -12,6 +14,7 @@ interface ClassProps {
   name: string
   file
   startUpdateUser: (any) => any
+  hideModal: () => any
 }
 
 const data = {
@@ -24,55 +27,45 @@ const userData = {
   Username: token !== null && token.username,
   Pool: userPool
 }
-const cognitoUser = new awsCognito.CognitoUser(userData);
+// const cognitoUser = new awsCognito.CognitoUser(userData);
+const cognitoUser = userPool.getCurrentUser();
 console.log(cognitoUser);
 
-if (cognitoUser != null) {
-  const authenticationData = {
-    Username: token !== null && token.username,
-    Password: 'quailious'
+cognitoUser.getSession((err, session) => {
+  // console.log(session);
+  if (err) {
+    console.log(err);
+    return;
   }
-  const authenticationDetails = new awsCognito.AuthenticationDetails(authenticationData);
-  cognitoUser.authenticateUser(authenticationDetails, {
-    onSuccess: (result) => {
-      const accessToken = result.getAccessToken().getJwtToken();
-      const idToken = result.getIdToken;
-    },
-    onFailure: (err) => {
-      console.log(err);
+  // console.log('session validity: ' + session.isValid());
+
+  AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+    IdentityPoolId: 'us-east-2:2bf920c2-7094-49a7-bfd0-eec2d6f36ee4',
+    Logins: {
+      'cognito-idp.us-east-2.amazonaws.com/us-east-2_fMMquWRem' : session.getIdToken().getJwtToken()
     }
   })
 
-  cognitoUser.getSession((err, session) => {
-    console.log(session);
-    if (err) {
-      console.log(err);
-      return;
-    }
-    console.log('session validity: ' + session.isValid());
+  var s3 = new AWS.S3();
+})
 
-    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-      IdentityPoolId: 'us-east-2:2bf920c2-7094-49a7-bfd0-eec2d6f36ee4',
-      Logins: {
-        'cognito-idp.us-east-2.amazonaws.com/us-east-2_fMMquWRem' : session.getIdToken().getJwtToken()
-      }
-    })
+var attributeList = [];
+cognitoUser.getUserAttributes((err, result) => {
+  if (err) {
+    console.log(err);
+    return;
+  }
+  for (let i=0; i < result.length; i++) {
+    attributeList.push({Name: result[i].getName(), Value: result[i].getValue()});
+  }
+})
+console.log(attributeList);
 
-    var s3 = new AWS.S3();
-  })
 
-  var attributeList = [];
-  cognitoUser.getUserAttributes((err, result) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
-    for (let i=0; i < result.length; i++) {
-      console.log('result ' + result[i].getName() + 'with value: ' + result[i].getValue());
-    }
-  })
-  console.log(attributeList);
-}
+
+
+
+
 
 export class SettingsPage extends Component<ClassProps> {
   state = {
@@ -84,12 +77,99 @@ export class SettingsPage extends Component<ClassProps> {
   }
   // declare ref
   private photoUpload: HTMLInputElement
+  private isAuthenticated: boolean = false;
+
+  onClose = () => this.props.hideModal()
+
   setPage = e => {
     console.log('target: ', e.target.textContent)
     this.setState({ page: e.target.textContent })
   }
+
+  // updateProfile = e => {
+  //   let password: string = '';
+  //   if (!this.isAuthenticated) {
+  //     return (
+  //       <Modal onClose={this.onClose}>
+  //         <div className="report-question-modal">
+  //           <div className="close">
+  //             <FontAwesomeIcon icon="times" />
+  //           </div>
+  //           <p className="title">Enter your password</p>
+  //           <form>
+  //             <label className="container">
+  //               <input type="password" id="password" />
+  //               <p className="confirm">Password</p>
+  //               <span className="checkmark" />
+  //             </label>
+  //           </form>
+  //           <div className="button-group">
+  //             <button onClick={this.onClose} type="button" className="cancel">
+  //               Cancel
+  //             </button>
+  //             <button type="submit" onSubmit={this.authenticate} className="submit">Report</button>
+  //           </div>
+  //         </div>
+  //       </Modal> 
+  //     )
+  //   }
+  // }
+
+  // authenticate = (e) => {
+  //   /** Authenticate given password */
+  //   if (cognitoUser != null) {
+  //     const authenticationData = {
+  //       Username: token !== null && token.username,
+  //       Password: 'quailious'
+  //     }
+  //     const authenticationDetails = new awsCognito.AuthenticationDetails(authenticationData);
+  //     cognitoUser.authenticateUser(authenticationDetails, {
+  //       onSuccess: (result) => {
+  //         const accessToken = result.getAccessToken().getJwtToken();
+  //         const idToken = result.getIdToken;
+  //         this.isAuthenticated = true;
+  //       },
+  //       onFailure: (err) => {
+  //         console.log(err);
+  //       }
+  //     })
+      
+  //     if(!this.isAuthenticated) return;
+
+  //     cognitoUser.getSession((err, session) => {
+  //       // console.log(session);
+  //       if (err) {
+  //         console.log(err);
+  //         return;
+  //       }
+  //       // console.log('session validity: ' + session.isValid());
+    
+  //       AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+  //         IdentityPoolId: 'us-east-2:2bf920c2-7094-49a7-bfd0-eec2d6f36ee4',
+  //         Logins: {
+  //           'cognito-idp.us-east-2.amazonaws.com/us-east-2_fMMquWRem' : session.getIdToken().getJwtToken()
+  //         }
+  //       })
+    
+  //       var s3 = new AWS.S3();
+  //     })
+    
+  //     var attributeList = [];
+  //     cognitoUser.getUserAttributes((err, result) => {
+  //       if (err) {
+  //         console.log(err);
+  //         return;
+  //       }
+  //       for (let i=0; i < result.length; i++) {
+  //         attributeList.push({Name: result[i].getName(), Value: result[i].getValue()});
+  //       }
+  //     })
+  //     console.log(attributeList);
+  //   }
+  // }
+
   onFieldChange = e => {
-    this.setState({
+    e.props = ({
       [e.target.name]: e.target.value
     })
   }
@@ -139,6 +219,25 @@ export class SettingsPage extends Component<ClassProps> {
     })
   }
 
+  updateProfile = e => {
+    e.preventDefault()
+    // const fullName = document.getElementById('fullname').value;
+    // const email = document.getElementById('email').value;
+    // console.log(`Name: ${fullName}\nEmail: ${email}`);
+  }
+
+  updateEmail = e => {
+    const nameField = e.target.name;
+    const name = nameField.value;
+    // this.props.name = name;
+    const emailField = e.target.email;
+    const email = emailField.value;
+    // this.props.email = email;
+    // ({
+    //   [e.target.name]: e.target.value
+    // })
+  }
+
   // @ts-ignore
   render = () => {
     const { username, email, photo } = this.props
@@ -169,45 +268,45 @@ export class SettingsPage extends Component<ClassProps> {
           </aside>
           {this.state.page.toLowerCase() == 'general' && (
             <main>
+              <div className="input-group">
+                <label htmlFor="photo">Photo</label>
+                <div
+                  className="photo-container"
+                  onClick={() => this.photoUpload.click()}
+                >
+                  <Dropzone onDrop={this.onDrop} className="dropzone" />
+                  {/* <div
+                    className="photo"
+                    style={{
+                      background: `url(${photo}) center / cover no-repeat`
+                    }}
+                  /> */}
+                </div>
+                <input
+                  className="file-upload"
+                  style={{ display: 'none' }}
+                  name="file"
+                  type="file"
+                  onChange={this.fileSelectedHandler}
+                  ref={photoUpload => (this.photoUpload = photoUpload)}
+                  data-cloudinary-field="image_id" // ?
+                />
+              </div>
               <form
                 className="settings-form"
                 onChange={this.onFieldChange}
-                onSubmit={this.generalUploadHandler}
+                onSubmit={this.updateProfile}
               >
                 <div className="input-group">
-                  <label htmlFor="photo">Photo</label>
-                  <div
-                    className="photo-container"
-                    onClick={() => this.photoUpload.click()}
-                  >
-                    <Dropzone onDrop={this.onDrop} className="dropzone" />
-                    {/* <div
-                      className="photo"
-                      style={{
-                        background: `url(${photo}) center / cover no-repeat`
-                      }}
-                    /> */}
-                  </div>
-                  <input
-                    className="file-upload"
-                    style={{ display: 'none' }}
-                    name="file"
-                    type="file"
-                    onChange={this.fileSelectedHandler}
-                    ref={photoUpload => (this.photoUpload = photoUpload)}
-                    data-cloudinary-field="image_id" // ?
-                  />
-                </div>
-                <div className="input-group">
                   <label htmlFor="fullname">Full Name</label>
-                  <input type="text" name="fullname" placeholder={name} />
+                  <input type="text" name="fullname" placeholder={name} onChange={this.onFieldChange} value={this.props.name}/>
                 </div>
                 <div className="input-group">
                   <label htmlFor="email">Email</label>
-                  <input type="email" name="email" placeholder={email} />
+                  <input type="email" name="email" placeholder={email} onChange={this.onFieldChange} value={this.props.email}/>
                 </div>
                 <div className="input-group">
-                  <button className="save-button" type="submit">
+                  <button className="save-button" type="submit" onSubmit={this.updateProfile}>
                     Save changes
                   </button>
                 </div>

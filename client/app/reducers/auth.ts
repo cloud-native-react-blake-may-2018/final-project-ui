@@ -30,6 +30,26 @@ export const authReducer = (state = {}, action: any = {}) => {
         last: action.user.lastname,
         profileImage: action.user.url
       }
+    case 'UPDATE_NAME':
+      return {
+        ...state,
+        name: action.name
+      }
+    case 'UPDATE_EMAIL':
+      return {
+        ...state,
+        email: action.email
+      }
+
+    case 'UPDATE_USER':
+      console.log('now updating user in reducer')
+      return {
+        ...state,
+        email: action.user.email,
+        name: action.user.firstname,
+        last: action.user.lastname,
+        profileImage: action.user.url
+      }
 
     case 'LOGOUT':
       return {}
