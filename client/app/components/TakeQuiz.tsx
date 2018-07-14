@@ -57,9 +57,9 @@ const questionStyle = {
 export class TakeQuizPage extends Component<IProps, any> {
   constructor(props) {
     super(props)
-    state: {
-      dropdownOpen: false
-    }
+  }
+  state = {
+    dropdownOpen: false
   }
 
   params = window.location.href.split('/')
@@ -262,8 +262,30 @@ export class TakeQuizPage extends Component<IProps, any> {
               <div className="meta">
                 <div className="container">
                   <p className="current">Question {questionNumber + 1}</p>
-                  <div className="icon" onClick={this.reportQuestionModal}>
-                    <FontAwesomeIcon icon="ellipsis-h" className="menu" />
+                  <div className="icon">
+                    <Dropdown
+                      isOpen={this.state.dropdownOpen}
+                      toggle={this.toggleDropdown}
+                      className="app-dropdown-root"
+                    >
+                      <DropdownToggle className="dropdown-toggle">
+                        <FontAwesomeIcon icon="ellipsis-h" className="menu" />
+                      </DropdownToggle>
+                      <DropdownMenu
+                        left={true}
+                        className="dropdown-menu"
+                        style={{
+                          display: this.state.dropdownOpen ? 'block' : 'none'
+                        }}
+                      >
+                        <DropdownItem
+                          className="dropdown-item"
+                          onClick={this.reportQuestionModal}
+                        >
+                          Report question
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
                   </div>
                 </div>
                 <p className="title">{quiz.title}</p>

@@ -78,6 +78,7 @@
         position: absolute
         top: 50px
         right: 50px
+        color: $white-grey
         z-index: 100
 
         &:hover
@@ -88,10 +89,11 @@
           color: darken($white-grey, 10%)
           transition: .15s all ease-in-out
 
-        .menu
-          font-size: 24px
-          color: $white
-
+        .app-dropdown-root
+          .dropdown-toggle
+            .menu
+              font-size: 24px
+              color: $white
 
     footer
       display: grid

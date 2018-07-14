@@ -84,23 +84,13 @@ export class ViewQuizPage extends Component<IProps> {
             <main className={this.randomGradient[index]}>
               <ArrowIcon className="back" onClick={this.goBack} />
               <div className="icon">
-                {/* <FontAwesomeIcon icon="ellipsis-h" className="menu" /> */}
                 <Dropdown
                   isOpen={this.state.dropdownOpen}
                   toggle={this.toggleDropdown}
                   className="app-dropdown-root"
                 >
                   <DropdownToggle className="dropdown-toggle">
-                    <FontAwesomeIcon
-                      icon="ellipsis-h"
-                      className="menu"
-                      // className={
-                      //   this.state.dropdownOpen &&
-                      //   this.state.dropdownIndex === i
-                      //     ? 'keep-button options-button'
-                      //     : 'options-button'
-                      // }
-                    />
+                    <FontAwesomeIcon icon="ellipsis-h" className="menu" />
                   </DropdownToggle>
                   <DropdownMenu
                     right

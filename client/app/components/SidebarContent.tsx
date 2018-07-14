@@ -12,11 +12,13 @@ import SettingsIcon from '../../public/icons/settings-icon.svg'
 
 import { generateUuid } from '../helpers/helpers'
 import { loadModal } from '../actions/modal'
+import { changeQuestionNumber } from '../actions/quizzes'
 
 interface IProps extends RouteComponentProps<any> {
   username?: string
   questions?: any
   startAddTopic?: (nextTopic: any) => any
+  changeQuestionNumber?: (questionNumber: number) => any
   loadModal?: (string) => void
 }
 
@@ -30,6 +32,11 @@ export class SidebarContent extends Component<IProps, IState> {
     takingQuiz: false,
     isEditing: false,
     topic: ''
+  }
+
+  handleQuestionChange = e => {
+    const questionNumber = parseInt(e.target.dataset.questionnumber)
+    this.props.changeQuestionNumber(questionNumber)
   }
 
   onFieldChange = e => {
@@ -109,7 +116,12 @@ export class SidebarContent extends Component<IProps, IState> {
               <div className="questions">
                 {questions.length > 0 &&
                   questions.map((question, number) => (
-                    <p key={number} className="question-number">
+                    <p
+                      key={number}
+                      data-questionNumber={number}
+                      className="question-number"
+                      onClick={this.handleQuestionChange}
+                    >
                       {number + 1}
                     </p>
                   ))}
@@ -164,11 +176,10 @@ const mapStateToProps = (state, props) => ({
     state.takeQuiz.quizAttemptInfoObj !== null &&
     state.takeQuiz.quizAttemptInfoObj.questions
 })
-
 export default withRouter(
   connect<any, any>(
     mapStateToProps,
-    { loadModal },
+    { loadModal, changeQuestionNumber },
     undefined,
     { pure: false }
   )(SidebarContent)
