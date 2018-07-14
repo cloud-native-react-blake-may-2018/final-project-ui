@@ -272,7 +272,7 @@ export class TakeQuizPage extends Component<IProps, any> {
                         <FontAwesomeIcon icon="ellipsis-h" className="menu" />
                       </DropdownToggle>
                       <DropdownMenu
-                        left={true}
+                        left="true"
                         className="dropdown-menu"
                         style={{
                           display: this.state.dropdownOpen ? 'block' : 'none'

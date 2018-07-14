@@ -118,7 +118,7 @@ export class SidebarContent extends Component<IProps, IState> {
                   questions.map((question, number) => (
                     <p
                       key={number}
-                      data-questionNumber={number}
+                      data-questionnumber={number}
                       className="question-number"
                       onClick={this.handleQuestionChange}
                     >

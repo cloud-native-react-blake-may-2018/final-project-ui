@@ -19,22 +19,8 @@ interface IProps {
 
 export class DashboardPage extends Component<IProps> {
   //@ts-ignore
-  // componentDidMount = () => {
-  //   const username = localStorage.getItem('name')
-  //   console.log(username)
-  //   const {
-  //     //  username,
-  //     // startGetUserQuizzes
-  //   } = this.props
-  //   // console.log(username)
-  //   startGetUserQuizzes(username)
-  // }
-
-  //@ts-ignore
   render = () => {
     const { quizzes, allAttempts } = this.props
-    console.log('attempts', allAttempts === undefined)
-    console.log('quizzes', quizzes === undefined)
     return (
       <div className="dashboard-page">
         {quizzes === undefined && (

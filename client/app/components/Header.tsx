@@ -51,7 +51,7 @@ export class Header extends Component<Props> {
 
   determineClick = e => {
     // if click outside modal or not typing in input, hide search
-    if ((!e.target.closest('.section') && !e.target.dataset.search)) {
+    if (!e.target.closest('.section') && !e.target.dataset.search) {
       this.hideSearch()
     }
 
@@ -68,7 +68,8 @@ export class Header extends Component<Props> {
     } = e
     const { startSearch } = this.props
     this.setState({
-      term: value
+      term: value,
+      query: value
     } as any)
     // send term to database
     // await startSearch(query)
@@ -81,7 +82,8 @@ export class Header extends Component<Props> {
     })
   }
 
-  render() {
+  // @ts-ignore
+  render = () => {
     const { isAuthenticated, username, photo, startLogout } = this.props
     const { showSearch, term, query } = this.state
 

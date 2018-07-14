@@ -1,5 +1,6 @@
 import React from 'react'
 import pathList from '../path-list'
+import { Result } from '../../../node_modules/@types/range-parser'
 
 export const startEditQuiz = quiz => dispatch =>
   pathList.quizzes.edit(quiz).then(quiz => dispatch(editQuiz(quiz)))
@@ -46,15 +47,18 @@ export const getQuizAttempts = quizAttempts => ({
   quizAttempts
 })
 
-export const startGetSearchedQuiz = uuid => async dispatch =>
-  pathList.quizzes.searchByUuid(uuid).then(async meta => {
-    const questions = await pathList.questions.display(meta.uuid)
-    const tags = await pathList.questions.displayTags(meta.uuid)
-
-    // will contain quiz details, its questions, and its tags
-    const quiz = { ...meta, questions, tags }
-    dispatch(getSearchedQuiz(quiz))
-  })
+export const startGetSearchedQuiz = quiz => async dispatch => {
+  const result = await pathList.quizzes.getForeignQuiz(quiz)
+  const tags = await pathList.questions.displayTags(quiz.uuid)
+  const final = {
+    ...result,
+    author: quiz.username,
+    uuid: quiz.uuid,
+    tags
+  }
+  console.log('got the quiz!', final)
+  dispatch(getSearchedQuiz(final))
+}
 
 export const getSearchedQuiz = quiz => ({
   type: 'SEARCHED_QUIZ',
