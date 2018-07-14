@@ -15,7 +15,6 @@ interface IProps {
 const colors = [
   '#f26161',
   '#cc5252',
-  '#994545',
   '#e573b1',
   '#ff9d66',
   '#2ddbbc',
@@ -83,7 +82,7 @@ export class MyQuizzesPage extends Component<IProps> {
                     )}
                     {quiz.tags.length > 0 &&
                       quiz.tags.slice(0, 3).map(tag => (
-                        <div className="tag">
+                        <div key={tag.allLowerCase} className="tag">
                           <div
                             className="tag-dot"
                             style={{
@@ -96,9 +95,7 @@ export class MyQuizzesPage extends Component<IProps> {
                                 ]
                             }}
                           />
-                          <p key={tag.allLowerCase} className="tag-text">
-                            {tag.allLowerCase}
-                          </p>
+                          <p className="tag-text">{tag.allLowerCase}</p>
                         </div>
                       ))}
                   </div>
@@ -119,9 +116,12 @@ export class MyQuizzesPage extends Component<IProps> {
               >
                 <div className="block">
                   <h1 className="name">{quizAttempt.title}</h1>
-                  <p className="amount">
-                    {quizAttempt.questions.length} questions
-                  </p>
+                  {quizAttempt.questions !== undefined && (
+                    <p className="amount">
+                      {quizAttempt.questions.length}
+                      questions
+                    </p>
+                  )}
                   <p className="score">Your Score: {quizAttempt.score}</p>
                 </div>
               </Link>

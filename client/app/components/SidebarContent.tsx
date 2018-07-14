@@ -76,21 +76,27 @@ export class SidebarContent extends Component<IProps, IState> {
           <div className="container link-container">
             <Link to="/dashboard" className="link">
               <MenuIcon className="svg menu" />
+              <p className="hint">Home</p>
             </Link>
             <Link to="/add-quiz" className="link">
               <AddQuizIcon className="svg add-quiz" />
+              <p className="hint">Create quiz</p>
             </Link>
             <Link to="/quizzes/created" className="link">
               <ViewQuizzesIcon className="svg view-quizzes" />
+              <p className="hint">Quiz history</p>
             </Link>
             <Link to="/achievements" className="link">
               <AchievementsIcon className="svg achievements" />
+              <p className="hint">Trophies</p>
             </Link>
             <Link to="/store" className="link">
               <CartIcon className="svg store" />
+              <p className="hint">Store</p>
             </Link>
             <Link to="/settings" className="link">
               <SettingsIcon className="svg settings" />
+              <p className="hint">Settings</p>
             </Link>
           </div>
         )}

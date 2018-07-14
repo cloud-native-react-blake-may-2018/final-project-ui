@@ -22,7 +22,6 @@ interface IProps {
 const colors = [
   '#f26161',
   '#cc5252',
-  '#994545',
   '#e573b1',
   '#ff9d66',
   '#2ddbbc',
