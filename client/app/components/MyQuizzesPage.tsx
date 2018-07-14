@@ -35,9 +35,6 @@ export class MyQuizzesPage extends Component<IProps> {
 
   //@ts-ignore
   render = () => {
-    {
-      console.log(this.pageType)
-    }
     const { quizzes, type, quizAttempts } = this.props
 
     return (
@@ -109,23 +106,24 @@ export class MyQuizzesPage extends Component<IProps> {
             ))}
           {this.pageType === 'taken' &&
             quizAttempts !== undefined &&
-            quizAttempts.map((quizAttempt: any) => (
-              <Link
-                to={`/review-quiz/${quizAttempt.quizUUID}`}
-                key={quizAttempt.quizUUID}
-              >
-                <div className="block">
-                  <h1 className="name">{quizAttempt.title}</h1>
-                  {quizAttempt.questions !== undefined && (
-                    <p className="amount">
-                      {quizAttempt.questions.length}
-                      questions
-                    </p>
-                  )}
-                  <p className="score">Your Score: {quizAttempt.score}</p>
-                </div>
-              </Link>
-            ))}
+            quizAttempts.map(
+              (quizAttempt: any, index) =>
+                quizAttempt.timings.finished !== undefined && (
+                  <Link
+                    to={`/review-quiz/${quizAttempt.quizUUID}/${index}`}
+                    // key={quizAttempt.quizUUID}
+                    key={index}
+                  >
+                    <div className="block">
+                      <h1 className="name">{quizAttempt.title}</h1>
+                      <p className="amount">
+                        {quizAttempt.questions.length} questions
+                      </p>
+                      <p className="score">Your Score: {quizAttempt.score}</p>
+                    </div>
+                  </Link>
+                )
+            )}
         </div>
       </div>
     )

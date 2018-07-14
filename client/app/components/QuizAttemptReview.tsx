@@ -11,7 +11,8 @@ import {
   addMultipleChoiceAnswer,
   updateMultipleSelectAnswer,
   updateAnswerArray,
-  submitQuizAttempt
+  submitQuizAttempt,
+  clearQuizAttempt
 } from '../actions/quizzes'
 import { loadModal } from '../actions/modal'
 import {
@@ -24,12 +25,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 interface IProps extends RouteProps {
   username: any
   quiz: any
+  quizAttempt: any
   questionNumber: any
   multipleSelectAnswer: any
   multipleChoiceAnswer: any[]
   answerArray: any
   history: any
   done: any
+  clearQuizAttempt: (reset: number) => void
   loadModal: (any) => any
   changeQuestionNumber: (questionNumber: number) => void
   startAddAnswerToArray: (answerObj: {}) => void
@@ -56,6 +59,7 @@ export class QuizAttemptReviewPage extends Component<IProps, any> {
 
   params = window.location.href.split('/')
   quizUUID = this.params[4]
+  reatakeIndex = this.params[5]
 
   submitQuizModal = () => this.props.loadModal(SUBMIT_QUIZ_MODAL)
 
@@ -75,69 +79,158 @@ export class QuizAttemptReviewPage extends Component<IProps, any> {
     this.props.changeQuestionNumber(this.props.questionNumber + 1)
   }
 
+  componentWillUnmount() {
+    if (this.props.history.action === 'POP') {
+      console.log('user has left page')
+      this.props.clearQuizAttempt(0)
+    }
+  }
+
   // @ts-ignore
   render = () => {
-    const { quiz, questionNumber } = this.props
+    const { quiz, questionNumber, quizAttempt } = this.props
     return (
       <div className="take-quiz-page">
-        {quiz.questions === undefined && (
-          <Spinner className="loading-indicator" name="ball-spin-fade-loader" />
-        )}
-        {quiz.questions !== undefined && (
-          <div className="main">
-            <header>
-              <div className="meta">
-                <div className="container">
-                  <p className="current">Question {questionNumber + 1}</p>
-                  <div className="icon" onClick={this.reportQuestionModal}>
-                    <FontAwesomeIcon icon="ellipsis-h" className="menu" />
+        {quiz !== null
+          ? quiz.questions === undefined && (
+              <Spinner
+                className="loading-indicator"
+                name="ball-spin-fade-loader"
+              />
+            )
+          : quizAttempt[this.reatakeIndex].questions === undefined && (
+              <Spinner
+                className="loading-indicator"
+                name="ball-spin-fade-loader"
+              />
+            )}
+        {quiz !== null
+          ? quiz.questions !== undefined && (
+              <div className="main">
+                <header>
+                  <div className="meta">
+                    <div className="container">
+                      <p className="current">Question {questionNumber + 1}</p>
+                      <div className="icon" onClick={this.reportQuestionModal}>
+                        <FontAwesomeIcon icon="ellipsis-h" className="menu" />
+                      </div>
+                    </div>
+                    <p className="title">{quiz.title}</p>
+                    <p className="progress">
+                      Question {questionNumber + 1}/{quiz.questions.length}
+                    </p>
                   </div>
-                </div>
-                <p className="title">{quiz.title}</p>
-                <p className="progress">
-                  Question {questionNumber + 1}/{quiz.questions.length}
-                </p>
-              </div>
-              <p className="question">{quiz.questions[questionNumber].title}</p>
-            </header>
-            {/* DISPLAYS THE CHOICES */}
-            <main>
-              <div className="choices">
-                {quiz.questions[questionNumber].answers.map((answers, i) => (
-                  <div
-                    key={i}
-                    // key={answers.answer.answer}
-                    className="choice"
-                  >
-                    <p>{answers.answer}</p>
+                  <p className="question">
+                    {quiz.questions[questionNumber].title}
+                  </p>
+                </header>
+                {/* DISPLAYS THE CHOICES */}
+                <main>
+                  <div className="choices">
+                    {quiz.questions[questionNumber].answers.map(
+                      (answers, i) => (
+                        <div
+                          key={i}
+                          // key={answers.answer.answer}
+                          className="choice"
+                        >
+                          <p>{answers.answer}</p>
+                        </div>
+                      )
+                    )}
                   </div>
-                ))}
+                  <div className="buttons">
+                    {questionNumber !== 0 && (
+                      <button
+                        onClick={this.previousQuizQuestion}
+                        className="previous-button"
+                      >
+                        previous
+                      </button>
+                    )}
+                    {questionNumber + 1 !== quiz.questions.length ? (
+                      <button
+                        onClick={this.nextQuizQuestion}
+                        className="next-button"
+                      >
+                        next
+                      </button>
+                    ) : (
+                      <Link to={`/view-quiz/${this.quizUUID}`} className="link">
+                        <p className="retake-button">Retake quiz</p>
+                      </Link>
+                    )}
+                  </div>
+                </main>
               </div>
-              <div className="buttons">
-                {questionNumber !== 0 && (
-                  <button
-                    onClick={this.previousQuizQuestion}
-                    className="previous-button"
-                  >
-                    previous
-                  </button>
-                )}
-                {questionNumber + 1 !== quiz.questions.length ? (
-                  <button
-                    onClick={this.nextQuizQuestion}
-                    className="next-button"
-                  >
-                    next
-                  </button>
-                ) : (
-                  <Link to={`/view-quiz/${this.quizUUID}`} className="link">
-                    <p className="retake-button">Retake quiz</p>
-                  </Link>
-                )}
+            )
+          : quizAttempt[this.reatakeIndex].questions !== undefined && (
+              <div className="main">
+                <header>
+                  <div className="meta">
+                    <div className="container">
+                      <p className="current">Question {questionNumber + 1}</p>
+                      <div className="icon" onClick={this.reportQuestionModal}>
+                        <FontAwesomeIcon icon="ellipsis-h" className="menu" />
+                      </div>
+                    </div>
+                    <p className="title">
+                      {quizAttempt[this.reatakeIndex].title}
+                    </p>
+                    <p className="progress">
+                      Question {questionNumber + 1}/{
+                        quizAttempt[this.reatakeIndex].questions.length
+                      }
+                    </p>
+                  </div>
+                  <p className="question">
+                    {
+                      quizAttempt[this.reatakeIndex].questions[questionNumber]
+                        .title
+                    }
+                  </p>
+                </header>
+                {/* DISPLAYS THE CHOICES */}
+                <main>
+                  <div className="choices">
+                    {quizAttempt[this.reatakeIndex].questions[
+                      questionNumber
+                    ].answers.map((answers, i) => (
+                      <div
+                        key={i}
+                        // key={answers.answer.answer}
+                        className="choice"
+                      >
+                        <p>{answers.answer}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="buttons">
+                    {questionNumber !== 0 && (
+                      <button
+                        onClick={this.previousQuizQuestion}
+                        className="previous-button"
+                      >
+                        previous
+                      </button>
+                    )}
+                    {questionNumber + 1 !==
+                    quizAttempt[this.reatakeIndex].questions.length ? (
+                      <button
+                        onClick={this.nextQuizQuestion}
+                        className="next-button"
+                      >
+                        next
+                      </button>
+                    ) : (
+                      <Link to={`/view-quiz/${this.quizUUID}`} className="link">
+                        <p className="retake-button">Retake quiz</p>
+                      </Link>
+                    )}
+                  </div>
+                </main>
               </div>
-            </main>
-          </div>
-        )}
+            )}
       </div>
     )
   }
@@ -146,6 +239,7 @@ export class QuizAttemptReviewPage extends Component<IProps, any> {
 const mapStateToProps = (state, props) => ({
   username: state.auth.username,
   quiz: state.takeQuiz.results,
+  quizAttempt: state.quizzes.allAttempts,
   answers: state.takeQuiz.answers,
   answerArray: state.takeQuiz.answerArray,
   questionNumber: state.takeQuiz.questionNumber,
@@ -164,6 +258,7 @@ export default connect(
     updateMultipleSelectAnswer,
     updateAnswerArray,
     submitQuizAttempt,
-    loadModal
+    loadModal,
+    clearQuizAttempt
   }
 )(QuizAttemptReviewPage)
