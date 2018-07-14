@@ -19,6 +19,22 @@ interface IProps {
   startDeleteQuestion: (author: string, title: any) => any
 }
 
+const colors = [
+  '#f26161',
+  '#cc5252',
+  '#994545',
+  '#e573b1',
+  '#ff9d66',
+  '#2ddbbc',
+  '#42a6a6',
+  '#2d9cdb',
+  '#3f388c',
+  '#4775b2',
+  '#b866cc',
+  '#333ea6',
+  '#f2c94c'
+]
+
 export class EditQuizPage extends Component<IProps> {
   state = {
     displayPhoto: '',
@@ -223,12 +239,28 @@ export class EditQuizPage extends Component<IProps> {
                 <p className="hint">Permanently delete this quiz</p>
               </div>
               <div className="tags">
-                {quiz.tags.length === 0 && <p className="tag">No tags</p>}
+                {quiz.tags.length === 0 && (
+                  <p className="tag-null-set">No tags</p>
+                )}
                 {quiz.tags.length > 0 &&
-                  quiz.tags.map(tag => (
-                    <p key={tag.allLowerCase} className="tag">
-                      {tag.allLowerCase}
-                    </p>
+                  quiz.tags.slice(0, 3).map(tag => (
+                    <div className="tag">
+                      <div
+                        className="tag-dot"
+                        style={{
+                          height: 8,
+                          width: 8,
+                          borderRadius: 50,
+                          backgroundColor:
+                            colors[
+                              Math.floor(Math.random() * colors.length)
+                            ]
+                        }}
+                      />
+                      <p key={tag.allLowerCase} className="tag-text">
+                        {tag.allLowerCase}
+                      </p>
+                    </div>
                   ))}
               </div>
               {/* <p className="add-tag">+ tag</p> */}

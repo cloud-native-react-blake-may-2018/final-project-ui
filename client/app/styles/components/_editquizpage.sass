@@ -102,13 +102,28 @@
       .tags
         display: grid
         grid-auto-flow: column
+        grid-auto-columns: max-content
+        grid-column-gap: 15px
         margin: 10px 0 5px
 
-        .tag
+        .tag-null-set
           margin: 0
           width: max-content
           font: normal 18px Asap
           color: $light-grey
+
+        .tag
+          display: grid
+          grid-template-columns: repeat(2, max-content)
+          grid-auto-columns: max-content
+          grid-column-gap: 5px
+          align-items: center
+
+          .tag-text
+            margin: 0
+            width: max-content
+            font: normal 18px Asap
+            color: $light-grey
           
       .questions
         display: grid
@@ -257,7 +272,7 @@
             margin: 0 0 25px
             grid-column: 1 / span 2
             font: 600 21px Asap
-            color: $blue
+            color: $light-teal
 
           label, .label
             grid-column: 1 / span 2

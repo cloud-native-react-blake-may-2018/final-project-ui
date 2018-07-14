@@ -3,6 +3,7 @@ import moment from 'moment'
 import numeral from 'numeral'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 interface IProps {
   username: string
@@ -11,9 +12,27 @@ interface IProps {
   quizAttempts: any[]
 }
 
+const colors = [
+  '#f26161',
+  '#cc5252',
+  '#994545',
+  '#e573b1',
+  '#ff9d66',
+  '#2ddbbc',
+  '#42a6a6',
+  '#2d9cdb',
+  '#3f388c',
+  '#4775b2',
+  '#b866cc',
+  '#333ea6',
+  '#f2c94c'
+]
+
 export class MyQuizzesPage extends Component<IProps> {
   params = window.location.href.split('/')
   pageType = this.params[4]
+
+  deleteQuestion = e => console.log('quiz uuid: ', e.target.dataset.uuid)
 
   //@ts-ignore
   render = () => {
@@ -21,6 +40,7 @@ export class MyQuizzesPage extends Component<IProps> {
       console.log(this.pageType)
     }
     const { quizzes, type, quizAttempts } = this.props
+
     return (
       <div className="my-quizzes-page">
         {type === 'created' && (
@@ -48,12 +68,45 @@ export class MyQuizzesPage extends Component<IProps> {
               <Link to={`/view-quiz/${quiz.uuid}`} key={quiz.uuid}>
                 <div className="block">
                   <h1 className="name">{quiz.title}</h1>
+                  <div
+                    className="delete-quiz"
+                    data-uuid={quiz.uuid}
+                    onClick={this.deleteQuestion}
+                  >
+                    <FontAwesomeIcon icon="trash" />
+                    <p className="hint">Permanently delete this quiz</p>
+                  </div>
                   <p className="amount">{quiz.questions.length} questions</p>
-                  {quiz.tags.map(tag => (
+                  <div className="tags">
+                    {quiz.tags.length === 0 && (
+                      <p className="tag-null-set">No tags</p>
+                    )}
+                    {quiz.tags.length > 0 &&
+                      quiz.tags.slice(0, 3).map(tag => (
+                        <div className="tag">
+                          <div
+                            className="tag-dot"
+                            style={{
+                              height: 8,
+                              width: 8,
+                              borderRadius: 50,
+                              backgroundColor:
+                                colors[
+                                  Math.floor(Math.random() * colors.length)
+                                ]
+                            }}
+                          />
+                          <p key={tag.allLowerCase} className="tag-text">
+                            {tag.allLowerCase}
+                          </p>
+                        </div>
+                      ))}
+                  </div>
+                  {/* {quiz.tags.map(tag => (
                     <div key={tag.allLowerCase} className="tag">
                       {tag.allLowerCase}
                     </div>
-                  ))}
+                  ))} */}
                 </div>
               </Link>
             ))}
