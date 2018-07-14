@@ -175,3 +175,8 @@ export const startclearQuizAttempt = reset => ({
   type: 'CLEAR_QUIZ_ATTEMPT',
   reset
 })
+export const clearResults = () => dispatch => dispatch(startclearResults())
+
+export const startclearResults = () => ({
+  type: 'CLEAR_QUIZ_RESULTS'
+})
