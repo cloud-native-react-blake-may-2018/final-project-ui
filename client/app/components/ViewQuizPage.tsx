@@ -9,6 +9,12 @@ import { startGetSearchedQuiz, startQuizAttempt } from '../actions/quizzes'
 import { loadModal } from '../actions/modal'
 import { REPORT_QUIZ_MODAL } from '../constants/modaltypes'
 import { FontAwesomeIcon } from '../../../node_modules/@fortawesome/react-fontawesome'
+import {
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
+} from 'reactstrap'
 
 interface IProps {
   history?: any
@@ -17,6 +23,7 @@ interface IProps {
   quizzes: any
   quiz: any
   randomGradient: string
+  toggle: any
   gradientColor: string
   startQuizAttempt: (quizUUID: any, username: any, reset: number) => void
   startGetSearchedQuiz: (uuid: any) => any
@@ -27,8 +34,14 @@ export class ViewQuizPage extends Component<IProps> {
   state = {
     clickedQuestion: [],
     questionNumber: 0,
-    index: Math.floor(Math.random() * 5)
+    index: Math.floor(Math.random() * 5),
+    dropdownOpen: false
   }
+
+  toggleDropdown = () =>
+    this.setState((prevState: any) => ({
+      dropdownOpen: !prevState.dropdownOpen
+    }))
 
   params = window.location.href.split('/')
   quizUUID = this.params[4]
@@ -70,8 +83,40 @@ export class ViewQuizPage extends Component<IProps> {
           <div className="main">
             <main className={this.randomGradient[index]}>
               <ArrowIcon className="back" onClick={this.goBack} />
-              <div className="icon" onClick={this.reportQuizModal}>
-                <FontAwesomeIcon icon="ellipsis-h" className="menu" />
+              <div className="icon">
+                {/* <FontAwesomeIcon icon="ellipsis-h" className="menu" /> */}
+                <Dropdown
+                  isOpen={this.state.dropdownOpen}
+                  toggle={this.toggleDropdown}
+                  className="app-dropdown-root"
+                >
+                  <DropdownToggle className="dropdown-toggle">
+                    <FontAwesomeIcon
+                      icon="ellipsis-h"
+                      className="menu"
+                      // className={
+                      //   this.state.dropdownOpen &&
+                      //   this.state.dropdownIndex === i
+                      //     ? 'keep-button options-button'
+                      //     : 'options-button'
+                      // }
+                    />
+                  </DropdownToggle>
+                  <DropdownMenu
+                    right
+                    className="dropdown-menu"
+                    style={{
+                      display: this.state.dropdownOpen ? 'block' : 'none'
+                    }}
+                  >
+                    <DropdownItem
+                      className="dropdown-item"
+                      onClick={this.reportQuizModal}
+                    >
+                      Report quiz
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
               </div>
               <p className="author">By: {quiz.author}</p>
               <h1 className="title">{quiz.title}</h1>

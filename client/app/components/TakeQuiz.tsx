@@ -20,6 +20,12 @@ import {
 } from '../constants/modaltypes'
 import Spinner from 'react-spinkit'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
+} from 'reactstrap'
 
 interface IProps extends RouteProps {
   username: any
@@ -51,10 +57,18 @@ const questionStyle = {
 export class TakeQuizPage extends Component<IProps, any> {
   constructor(props) {
     super(props)
+    state: {
+      dropdownOpen: false
+    }
   }
 
   params = window.location.href.split('/')
   quizUUID = this.params[4]
+
+  toggleDropdown = () =>
+    this.setState((prevState: any) => ({
+      dropdownOpen: !prevState.dropdownOpen
+    }))
 
   submitQuizModal = () => this.props.loadModal(SUBMIT_QUIZ_MODAL)
 
