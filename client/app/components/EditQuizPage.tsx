@@ -243,7 +243,7 @@ export class EditQuizPage extends Component<IProps> {
                 )}
                 {quiz.tags.length > 0 &&
                   quiz.tags.slice(0, 3).map(tag => (
-                    <div className="tag">
+                    <div key={tag.allLowerCase} className="tag">
                       <div
                         className="tag-dot"
                         style={{
@@ -256,7 +256,7 @@ export class EditQuizPage extends Component<IProps> {
                             ]
                         }}
                       />
-                      <p key={tag.allLowerCase} className="tag-text">
+                      <p className="tag-text">
                         {tag.allLowerCase}
                       </p>
                     </div>
@@ -347,7 +347,7 @@ export class EditQuizPage extends Component<IProps> {
                 {page === 2 && (
                   <form className="options">
                     {clickedQuestion.answers.map((ans, index) => (
-                      <div key={ans.percentPoints}>
+                      <div key={ans.answer}>
                         <div className="group">
                           <label htmlFor="true-false-answer" className="label">
                             Choice
