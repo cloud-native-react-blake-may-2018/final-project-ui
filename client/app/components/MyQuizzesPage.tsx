@@ -36,8 +36,6 @@ export class MyQuizzesPage extends Component<IProps> {
   deleteQuestion = e => console.log('quiz uuid: ', e.target.dataset.uuid)
 
   clearResults = (e: any) => {
-    // e.preventDefault()
-
     this.props.clearResults()
     console.log('clearing results')
   }
