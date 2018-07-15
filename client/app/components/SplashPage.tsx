@@ -5,10 +5,6 @@ import dotenv from 'dotenv'
 
 export class SplashPage extends Component {
   // @ts-ignore
-  componentDidMount = () =>
-    console.log('is port working now? ', process.env.NODE_PORT)
-
-  // @ts-ignore
   render = () => {
     return (
       <div>

@@ -42,8 +42,7 @@ export class MyQuizzesPage extends Component<IProps> {
 
   //@ts-ignore
   render = () => {
-    const { quizzes, type, quizAttempts } = this.props
-
+    const { quizzes, type, quizAttempts, username } = this.props
     return (
       <div className="my-quizzes-page">
         {type === 'created' && (
@@ -73,72 +72,87 @@ export class MyQuizzesPage extends Component<IProps> {
         <div className="blocks">
           {this.pageType === 'created' &&
             quizzes !== undefined &&
-            quizzes.map((quiz: any) => (
-              <Link to={`/view-quiz/${quiz.uuid}`} key={quiz.uuid}>
-                <div className="block">
-                  <h1 className="name">{quiz.title}</h1>
-                  <div
-                    className="delete-quiz"
-                    data-uuid={quiz.uuid}
-                    onClick={this.deleteQuestion}
-                  >
-                    <FontAwesomeIcon icon="trash" />
-                    <p className="hint">Permanently delete this quiz</p>
-                  </div>
-                  <p className="amount">{quiz.questions.length} questions</p>
-                  <div className="tags">
-                    {quiz.tags.length === 0 && (
-                      <p className="tag-null-set">No tags</p>
-                    )}
-                    {quiz.tags.length > 0 &&
-                      quiz.tags.slice(0, 3).map(tag => (
-                        <div key={tag.allLowerCase} className="tag">
-                          <div
-                            className="tag-dot"
-                            style={{
-                              height: 8,
-                              width: 8,
-                              borderRadius: 50,
-                              backgroundColor:
-                                colors[
-                                  Math.floor(Math.random() * colors.length)
-                                ]
-                            }}
-                          />
-                          <p className="tag-text">{tag.allLowerCase}</p>
-                        </div>
-                      ))}
-                  </div>
-                  {/* {quiz.tags.map(tag => (
+            quizzes.map((quiz: any) => {
+              if (quiz.author === username)
+                return (
+                  <Link to={`/view-quiz/${quiz.uuid}`} key={quiz.uuid}>
+                    <div className="block">
+                      <h1 className="name">{quiz.title}</h1>
+                      <div
+                        className="delete-quiz"
+                        data-uuid={quiz.uuid}
+                        onClick={this.deleteQuestion}
+                      >
+                        <FontAwesomeIcon icon="trash" />
+                        <p className="hint">Permanently delete this quiz</p>
+                      </div>
+                      <p className="amount">
+                        {quiz.questions.length} questions
+                      </p>
+                      <div className="tags">
+                        {quiz.tags.length === 0 && (
+                          <p className="tag-null-set">No tags</p>
+                        )}
+                        {quiz.tags.length > 0 &&
+                          quiz.tags.slice(0, 3).map(tag => (
+                            <div key={tag.allLowerCase} className="tag">
+                              <div
+                                className="tag-dot"
+                                style={{
+                                  height: 8,
+                                  width: 8,
+                                  borderRadius: 50,
+                                  backgroundColor:
+                                    colors[
+                                      Math.floor(Math.random() * colors.length)
+                                    ]
+                                }}
+                              />
+                              <p className="tag-text">{tag.allLowerCase}</p>
+                            </div>
+                          ))}
+                        {quiz.tags.length > 3 && (
+                          <p className="extra-tags">+{quiz.tags.length - 3}</p>
+                        )}
+                      </div>
+                      {/* {quiz.tags.map(tag => (
                     <div key={tag.allLowerCase} className="tag">
                       {tag.allLowerCase}
                     </div>
                   ))} */}
-                </div>
-              </Link>
-            ))}
-          {/* {this.pageType === 'taken'} */}
+                    </div>
+                  </Link>
+                )
+            })}
           {this.pageType === 'taken' &&
             quizAttempts !== undefined &&
+            quizAttempts.length > 0 &&
             quizAttempts.map(
               (quizAttempt: any, index) =>
                 quizAttempt.timings.finished !== undefined && (
                   <Link
                     to={`/review-quiz/${quizAttempt.quizUUID}/${index}`}
-                    // key={quizAttempt.quizUUID}
                     key={index}
                   >
                     <div className="block">
                       <h1 className="name">{quizAttempt.title}</h1>
                       {quizAttempt.questions !== undefined && (
                         <p className="amount">
-                          {quizAttempt.questions.length} questions
+                          {quizAttempt.questions.length}
+                          questions
                         </p>
                       )}
                       <p className="score">Your Score: {quizAttempt.score}</p>
                     </div>
                   </Link>
                 )
+            )}
+          {this.pageType === 'taken' &&
+            quizAttempts !== undefined &&
+            quizAttempts.length === 0 && (
+              <p className="no-taken-quizzes">
+                You have not taken any quizzes yet.
+              </p>
             )}
         </div>
       </div>

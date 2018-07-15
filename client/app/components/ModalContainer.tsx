@@ -20,7 +20,7 @@ const MODAL_COMPONENTS = {
   REPORT_QUESTION_MODAL: ReportQuestionModal
 }
 
-const ModalContainer = props => {
+export const ModalContainer = props => {
   // if no modal set in store, do not render one
   if (!props.modalType) {
     return null
