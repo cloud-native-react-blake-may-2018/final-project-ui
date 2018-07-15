@@ -34,7 +34,7 @@ interface IProps extends RouteProps {
   multipleSelectAnswer: any
   multipleChoiceAnswer: any[]
   answerArray: any
-  history: any
+  history?: any
   loadModal: (any) => any
   changeQuestionNumber: (questionNumber: number) => void
   startAddAnswerToArray: (answerObj: {}) => void

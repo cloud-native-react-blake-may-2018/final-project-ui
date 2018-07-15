@@ -14,6 +14,7 @@ import { generateUuid } from '../helpers/helpers'
 import { loadModal } from '../actions/modal'
 import { changeQuestionNumber } from '../actions/quizzes'
 
+// interface IProps {
 interface IProps extends RouteComponentProps<any> {
   username?: string
   questions?: any

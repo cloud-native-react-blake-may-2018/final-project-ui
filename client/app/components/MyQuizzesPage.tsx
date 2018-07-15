@@ -42,15 +42,7 @@ export class MyQuizzesPage extends Component<IProps> {
 
   //@ts-ignore
   render = () => {
-<<<<<<< HEAD
-    {
-      console.log(this.pageType)
-    }
     const { quizzes, type, quizAttempts, username } = this.props
-=======
-    const { quizzes, type, quizAttempts } = this.props
->>>>>>> 37f9e487419d98ad85467f5539843ee239c41e13
-
     return (
       <div className="my-quizzes-page">
         {type === 'created' && (
@@ -128,7 +120,6 @@ export class MyQuizzesPage extends Component<IProps> {
                       {tag.allLowerCase}
                     </div>
                   ))} */}
-<<<<<<< HEAD
                     </div>
                   </Link>
                 )
@@ -136,56 +127,32 @@ export class MyQuizzesPage extends Component<IProps> {
           {this.pageType === 'taken' &&
             quizAttempts !== undefined &&
             quizAttempts.length > 0 &&
-            quizAttempts.map((quizAttempt: any) => (
-              <Link
-                to={`/review-quiz/${quizAttempt.quizUUID}`}
-                key={quizAttempt.quizUUID}
-              >
-                <div className="block">
-                  <h1 className="name">{quizAttempt.title}</h1>
-                  {quizAttempt.questions !== undefined && (
-                    <p className="amount">
-                      {quizAttempt.questions.length}
-                      questions
-                    </p>
-                  )}
-                  <p className="score">Your Score: {quizAttempt.score}</p>
-                </div>
-              </Link>
-            ))}
-          {this.pageType === 'taken' &&
-            quizAttempts !== undefined &&
-            quizAttempts.length === 0 && (
-              <p className="no-taken-quizzes">
-                You have not taken any quizzes yet.
-              </p>
-=======
-                </div>
-              </Link>
-            ))}
-          {/* {this.pageType === 'taken'} */}
-          {this.pageType === 'taken' &&
-            quizAttempts !== undefined &&
             quizAttempts.map(
               (quizAttempt: any, index) =>
                 quizAttempt.timings.finished !== undefined && (
                   <Link
                     to={`/review-quiz/${quizAttempt.quizUUID}/${index}`}
-                    // key={quizAttempt.quizUUID}
                     key={index}
                   >
                     <div className="block">
                       <h1 className="name">{quizAttempt.title}</h1>
                       {quizAttempt.questions !== undefined && (
                         <p className="amount">
-                          {quizAttempt.questions.length} questions
+                          {quizAttempt.questions.length}
+                          questions
                         </p>
                       )}
                       <p className="score">Your Score: {quizAttempt.score}</p>
                     </div>
                   </Link>
                 )
->>>>>>> 37f9e487419d98ad85467f5539843ee239c41e13
+            )}
+          {this.pageType === 'taken' &&
+            quizAttempts !== undefined &&
+            quizAttempts.length === 0 && (
+              <p className="no-taken-quizzes">
+                You have not taken any quizzes yet.
+              </p>
             )}
         </div>
       </div>

@@ -18,9 +18,17 @@ interface IProps {
 }
 
 export class DashboardPage extends Component<IProps> {
+  state = {
+    oscillate: false
+  }
+  start = () => this.setState({ oscillate: true })
+
+  stop = () => this.setState({ oscillate: false })
+
   //@ts-ignore
   render = () => {
     const { quizzes, allAttempts } = this.props
+    const { oscillate } = this.state
     return (
       <div className="dashboard-page">
         {quizzes === undefined && (
@@ -37,7 +45,11 @@ export class DashboardPage extends Component<IProps> {
                       <p className="count">{quizzes.length}</p>
                       <p className="label">/ created</p>
                       <Link to="/quizzes/created" className="link">
-                        <ArrowIcon className="arrow" />
+                        <ArrowIcon
+                          className={oscillate ? 'arrow animate' : 'arrow'}
+                          onMouseOver={this.start}
+                          onAnimationEnd={this.stop}
+                        />
                       </Link>
                     </div>
                     <div className="quizzes-taken">

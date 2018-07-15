@@ -7,7 +7,9 @@ import { connect } from 'react-redux'
 // import { startSignup } from '../actions/auth'
 import { generateUuid } from '../helpers/helpers'
 
-interface ClassProps extends RouteComponentProps<any> {
+interface ClassProps {
+  // interface ClassProps extends RouteComponentProps<any> {
+  history?: any
   startSignup(data: {}): any
 }
 
@@ -224,6 +226,6 @@ export class SignupPage extends Component<ClassProps, ClassState> {
 }
 
 export default connect(
-  undefined
+  null
   // { startSignup }
 )(SignupPage)
