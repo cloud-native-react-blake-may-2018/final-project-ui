@@ -89,6 +89,10 @@ export class EditQuizPage extends Component<IProps> {
           ...item,
           tags: testArr
         });
+      } else {
+        sendQuestionList.push({
+          ...item
+        });
       }
     }
     for (let item of sendQuestionList) {
