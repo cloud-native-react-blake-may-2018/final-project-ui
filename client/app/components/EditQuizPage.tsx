@@ -112,7 +112,7 @@ export class EditQuizPage extends Component<IProps> {
       updatedQuestions: newQArr
     });
     this.page1();
-    this.updateStore(this.state.clickedQuestion);
+    // this.updateStore(this.state.clickedQuestion);
   };
 
   private deleteQuestion = (e: any) => {

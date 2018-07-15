@@ -109,7 +109,7 @@ export class AddQuestion extends Component<IProps, any> {
       newQuestions: sendQuestionList
     };
     let testvar = await this.props.startBatchCreateQuestions(data);
-    await console.log(testvar);
+    console.log("updateReducerStore Test Var", testvar);
     if (Array.isArray(testvar)) {
       this.updateStore(sendQuestionList);
       this.setState({
@@ -237,6 +237,10 @@ export class AddQuestion extends Component<IProps, any> {
           quizList.splice(i, 1, modQuiz);
         }
       }
+      console.log("this is the quiz passed in props", this.props.quiz);
+      console.log("this is the modQuiz", modQuiz);
+      console.log("this is the quizID", this.props.quizID);
+      console.log("modified quizList", quizList);
       this.props.editStoreQuiz(quizList);
     }
   };
@@ -745,7 +749,8 @@ const mapStateToProps = (state, parentProps) => ({
   quiz:
     state.quizzes.all !== [] &&
     state.quizzes.all.find(
-      quiz => quiz.uuid === parentProps.quizID || state.create.quizID
+      quiz =>
+        quiz.uuid === parentProps.quizID || quiz.uuid === state.create.quizID
     )
 });
 
