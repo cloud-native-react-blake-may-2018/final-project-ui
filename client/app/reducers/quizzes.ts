@@ -29,8 +29,14 @@ export const quizzesReducer = (state = {} as any, action = {} as any) => {
     case 'SEARCHED_QUIZ':
       return {
         ...state,
-        all: [...state.quizzes.all, action.quiz]
+        all: [...state.all, action.quiz]
       }
+
+    // case 'APPEND_FOREIGN_QUIZ':
+    //   return {
+    //     ...state,
+    //     all: [...state.quizzes.all, action.quiz]
+    //   }
 
     case 'DISPLAY_QUIZ_QUESTIONS':
       return {

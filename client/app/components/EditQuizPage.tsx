@@ -19,6 +19,21 @@ interface IProps {
   startDeleteQuestion: (author: string, title: any) => any;
 }
 
+const colors = [
+  "#f26161",
+  "#cc5252",
+  "#e573b1",
+  "#ff9d66",
+  "#2ddbbc",
+  "#42a6a6",
+  "#2d9cdb",
+  "#3f388c",
+  "#4775b2",
+  "#b866cc",
+  "#333ea6",
+  "#f2c94c"
+];
+
 export class EditQuizPage extends Component<IProps> {
   state = {
     displayPhoto: "",
@@ -92,11 +107,11 @@ export class EditQuizPage extends Component<IProps> {
       ...this.state,
       updatedQuestions: newQArr
     });
+    this.page1();
     console.log(this.state.updatedQuestions);
   };
 
   private deleteQuestion = (e: any) => {
-    // Something that asks them if they really want to delete it
     this.updateStore();
     this.props.startDeleteQuestion(
       this.state.clickedQuestion.author,
@@ -135,7 +150,7 @@ export class EditQuizPage extends Component<IProps> {
 
   private setAddQuestion = (e: any) => {
     this.setState({
-      // we may not need this because if the component reloads this will be blank anyway
+      // we may not need this because if the component reloads this will be cleared anyway
       ...this.state,
       clickedQuestion: {
         author: "",
@@ -202,7 +217,8 @@ export class EditQuizPage extends Component<IProps> {
       page,
       clickedQuestion,
       questionNumber,
-      clickedAddQuestion
+      clickedAddQuestion,
+      displayPhoto
     } = this.state;
     let count = 0;
     return (
@@ -221,12 +237,26 @@ export class EditQuizPage extends Component<IProps> {
                 <p className="hint">Permanently delete this quiz</p>
               </div>
               <div className="tags">
-                {quiz.tags.length === 0 && <p className="tag">No tags</p>}
+                {quiz.tags.length === 0 && (
+                  <p className="tag-null-set">No tags</p>
+                )}
                 {quiz.tags.length > 0 &&
-                  quiz.tags.map(tag => (
-                    <p key={tag.allLowerCase} className="tag">
-                      {tag.allLowerCase}
-                    </p>
+                  quiz.tags.slice(0, 3).map(tag => (
+                    <div className="tag">
+                      <div
+                        className="tag-dot"
+                        style={{
+                          height: 8,
+                          width: 8,
+                          borderRadius: 50,
+                          backgroundColor:
+                            colors[Math.floor(Math.random() * colors.length)]
+                        }}
+                      />
+                      <p key={tag.allLowerCase} className="tag-text">
+                        {tag.allLowerCase}
+                      </p>
+                    </div>
                   ))}
               </div>
               {/* <p className="add-tag">+ tag</p> */}
@@ -257,7 +287,7 @@ export class EditQuizPage extends Component<IProps> {
                 to={`/take-quiz/${quiz.uuid}`}
                 className="unset-anchor nav-link"
               >
-                <div style={quizButton}>Test Quiz</div>
+                <div style={quizButzest Quiz</div>
               </Link> */}
             </div>
 
@@ -272,8 +302,7 @@ export class EditQuizPage extends Component<IProps> {
                   <form className="details">
                     <div className="group">
                       <label>Question {questionNumber}</label>
-                      <input placeholder={clickedQuestion.title} />
-                      {/* // Should not be an input. */}
+                      <p className="question-text">{clickedQuestion.title}</p>
                     </div>
                     <div className="group">
                       <label>Tags</label>
@@ -288,12 +317,18 @@ export class EditQuizPage extends Component<IProps> {
                       // This is not a thing
                     >
                       <div className="group">
-                        <h2 className="label">Image</h2>
-                        <Dropzone onDrop={this.onDrop} className="dropzone">
-                          <p className="button">+ Upload</p>
+                        <label>Image</label>
+                        <Dropzone
+                          onDrop={this.onDrop}
+                          className={
+                            displayPhoto ? "dropzone" : "dropzone with-dots"
+                          }
+                        >
+                          <p className={displayPhoto ? "white-text" : ""}>
+                            + Upload
+                          </p>
+                          {displayPhoto && <img src={displayPhoto} alt="img" />}
                         </Dropzone>
-                        {this.state.displayPhoto}
-                        {/* Put in ability to display picture that is an S3 URL, stored in this.state.displayPhoto */}
                         <input
                           className="file-upload"
                           style={{ display: "none" }}

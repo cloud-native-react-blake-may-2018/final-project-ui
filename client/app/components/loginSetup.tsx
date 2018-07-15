@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import LoadingScreen from 'react-loading-screen';
+import LoadingScreen from 'react-loading-screen'
 import { Link } from 'react-router-dom'
 import fontawesome from '@fortawesome/fontawesome'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
