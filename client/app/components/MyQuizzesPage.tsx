@@ -4,12 +4,14 @@ import numeral from 'numeral'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { clearResults } from '../actions/quizzes'
 
 interface IProps {
   username: string
   quizzes: any[]
   type: string
   quizAttempts: any[]
+  clearResults?: () => any
 }
 
 const colors = [
@@ -33,6 +35,11 @@ export class MyQuizzesPage extends Component<IProps> {
 
   deleteQuestion = e => console.log('quiz uuid: ', e.target.dataset.uuid)
 
+  clearResults = (e: any) => {
+    this.props.clearResults()
+    console.log('clearing results')
+  }
+
   //@ts-ignore
   render = () => {
     const { quizzes, type, quizAttempts } = this.props
@@ -43,7 +50,12 @@ export class MyQuizzesPage extends Component<IProps> {
           <p className="links">
             <Link to="/quizzes/created" className="quiz-type">
               created
-            </Link>&nbsp;/&nbsp;<Link to="/quizzes/taken">taken</Link>
+            </Link>&nbsp;/&nbsp;<Link
+              to="/quizzes/taken"
+              onClick={this.clearResults}
+            >
+              taken
+            </Link>
           </p>
         )}
         {type === 'taken' && (
@@ -51,6 +63,7 @@ export class MyQuizzesPage extends Component<IProps> {
             <Link to="/quizzes/created">created</Link>&nbsp;/&nbsp;<Link
               to="/quizzes/taken"
               className="quiz-type"
+              onClick={this.clearResults}
             >
               taken
             </Link>
@@ -104,6 +117,7 @@ export class MyQuizzesPage extends Component<IProps> {
                 </div>
               </Link>
             ))}
+          {/* {this.pageType === 'taken'} */}
           {this.pageType === 'taken' &&
             quizAttempts !== undefined &&
             quizAttempts.map(
@@ -116,9 +130,11 @@ export class MyQuizzesPage extends Component<IProps> {
                   >
                     <div className="block">
                       <h1 className="name">{quizAttempt.title}</h1>
-                      <p className="amount">
-                        {quizAttempt.questions.length} questions
-                      </p>
+                      {quizAttempt.questions !== undefined && (
+                        <p className="amount">
+                          {quizAttempt.questions.length} questions
+                        </p>
+                      )}
                       <p className="score">Your Score: {quizAttempt.score}</p>
                     </div>
                   </Link>
@@ -137,4 +153,9 @@ const mapStateToProps = (state, props) => ({
   type: props.match.params.type
 })
 
-export default connect(mapStateToProps)(MyQuizzesPage)
+export default connect(
+  mapStateToProps,
+  {
+    clearResults
+  }
+)(MyQuizzesPage)

@@ -128,8 +128,7 @@ export const updateAnswerArray = answerArray => dispatch =>
 
 export const startupdateAnswerArray = answer => ({
   type: 'UPDATE_ANSWER_ARRAY',
-  answerArray: answer.answerArray,
-  done: answer.done
+  answerArray: answer.answerArray
 })
 
 export const changeQuestionNumber = questionNumber => dispatch =>
@@ -174,4 +173,9 @@ export const clearQuizAttempt = reset => dispatch =>
 export const startclearQuizAttempt = reset => ({
   type: 'CLEAR_QUIZ_ATTEMPT',
   reset
+})
+export const clearResults = () => dispatch => dispatch(startclearResults())
+
+export const startclearResults = () => ({
+  type: 'CLEAR_QUIZ_RESULTS'
 })
