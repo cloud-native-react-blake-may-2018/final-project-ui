@@ -15,22 +15,20 @@ interface IProps {
   username: string
   quizzes: any
   allAttempts: any
-  startGetUserQuizzes: (user: string) => void
 }
 
 export class DashboardPage extends Component<IProps> {
-  constructor(props) {
-    super(props)
+  state = {
+    oscillate: false
   }
-  // componentDidMount() {
-  //   console.log('component did mount')
-  //   this.props.startGetUserQuizzes(
-  //     JSON.parse(localStorage.userInfoToken).username
-  //   )
-  // }
+  start = () => this.setState({ oscillate: true })
+
+  stop = () => this.setState({ oscillate: false })
+
   //@ts-ignore
   render = () => {
     const { quizzes, allAttempts } = this.props
+    const { oscillate } = this.state
     return (
       <div className="dashboard-page">
         {quizzes === undefined && (
@@ -47,7 +45,11 @@ export class DashboardPage extends Component<IProps> {
                       <p className="count">{quizzes.length}</p>
                       <p className="label">/ created</p>
                       <Link to="/quizzes/created" className="link">
-                        <ArrowIcon className="arrow" />
+                        <ArrowIcon
+                          className={oscillate ? 'arrow animate' : 'arrow'}
+                          onMouseOver={this.start}
+                          onAnimationEnd={this.stop}
+                        />
                       </Link>
                     </div>
                     <div className="quizzes-taken">

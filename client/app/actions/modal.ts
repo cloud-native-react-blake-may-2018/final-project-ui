@@ -1,6 +1,7 @@
-export const loadModal = modalType => ({
+export const loadModal = (modalType, questionUUID) => ({
   type: 'SHOW_MODAL',
-  modalType
+  modalType,
+  questionUUID
 })
 
 // set modalType to null in redux store

@@ -112,7 +112,6 @@ export class EditQuizPage extends Component<IProps> {
   }
 
   private deleteQuestion = (e: any) => {
-    // Something that asks them if they really want to delete it
     this.updateStore()
     this.props.startDeleteQuestion(
       this.state.clickedQuestion.author,
@@ -151,7 +150,7 @@ export class EditQuizPage extends Component<IProps> {
 
   private setAddQuestion = (e: any) => {
     this.setState({
-      // we may not need this because if the component reloads this will be blank anyway
+      // we may not need this because if the component reloads this will be cleared anyway
       ...this.state,
       clickedQuestion: {
         author: '',
@@ -213,7 +212,7 @@ export class EditQuizPage extends Component<IProps> {
 
   // @ts-ignore
   render = () => {
-    const { quiz } = this.props
+    const { quiz, username } = this.props
     const {
       page,
       clickedQuestion,
@@ -224,16 +223,14 @@ export class EditQuizPage extends Component<IProps> {
     let count = 0
     return (
       <div className="edit-quiz-page">
-        {quiz.tags === undefined && (
+        {(quiz === undefined || quiz.tags === undefined) && (
           <Spinner className="loading-indicator" name="ball-spin-fade-loader" />
         )}
-        {console.log('this is what quiz looks like', quiz)}
         {quiz.tags !== undefined && (
           <main>
             <div className="quiz-container">
               <h1 className="title">{quiz.title}</h1>
               <div className="close">
-                {/* <div className="close" onClick={this.onClose}> */}
                 <FontAwesomeIcon icon="trash" />
                 <p className="hint">Permanently delete this quiz</p>
               </div>
@@ -243,7 +240,7 @@ export class EditQuizPage extends Component<IProps> {
                 )}
                 {quiz.tags.length > 0 &&
                   quiz.tags.slice(0, 3).map(tag => (
-                    <div className="tag">
+                    <div key={tag.allLowerCase} className="tag">
                       <div
                         className="tag-dot"
                         style={{
@@ -251,33 +248,35 @@ export class EditQuizPage extends Component<IProps> {
                           width: 8,
                           borderRadius: 50,
                           backgroundColor:
-                            colors[
-                              Math.floor(Math.random() * colors.length)
-                            ]
+                            colors[Math.floor(Math.random() * colors.length)]
                         }}
                       />
-                      <p key={tag.allLowerCase} className="tag-text">
-                        {tag.allLowerCase}
-                      </p>
+                      <p className="tag-text">{tag.allLowerCase}</p>
                     </div>
                   ))}
+                {quiz.tags.length > 3 && (
+                  <p className="extra-tags">+{quiz.tags.length - 3}</p>
+                )}
               </div>
               {/* <p className="add-tag">+ tag</p> */}
               <div className="questions">
-                {quiz.questions.map(question => (
-                  <div key={question.title}>
-                    <p
-                      className="question"
-                      onClick={this.showQuizQuestion.bind(
-                        this,
-                        quiz.questions[count],
-                        count + 1
-                      )}
-                    >
-                      Question {(count += 1)}
-                    </p>
-                  </div>
-                ))}
+                {quiz.questions.map(question => {
+                  if (question !== null && question.author === username)
+                    return (
+                      <div key={question.title}>
+                        <p
+                          className="question"
+                          onClick={this.showQuizQuestion.bind(
+                            this,
+                            quiz.questions[count],
+                            count + 1
+                          )}
+                        >
+                          Question {(count += 1)}
+                        </p>
+                      </div>
+                    )
+                })}
               </div>
               <p onClick={e => this.setAddQuestion(e)} className="add-question">
                 + question
@@ -312,6 +311,13 @@ export class EditQuizPage extends Component<IProps> {
                       <input
                         onChange={this.updateTags}
                         placeholder="Assign tags to this question"
+                        // placeholder={
+                        //   clickedQuestion.tags.length > 0
+                        //     ? clickedQuestion.tags.map(
+                        //         tag => `${tag.enteredAs}`
+                        //       )
+                        //     : 'Assign tags to this question'
+                        // }
                       />
                     </div>
                     <div
@@ -347,7 +353,7 @@ export class EditQuizPage extends Component<IProps> {
                 {page === 2 && (
                   <form className="options">
                     {clickedQuestion.answers.map((ans, index) => (
-                      <div key={ans.percentPoints}>
+                      <div key={ans.answer}>
                         <div className="group">
                           <label htmlFor="true-false-answer" className="label">
                             Choice

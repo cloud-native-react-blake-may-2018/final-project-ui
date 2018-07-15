@@ -9,7 +9,8 @@ export const modalReducer = (state = initialModalState, action = {} as any) => {
     case 'SHOW_MODAL':
       return {
         ...state,
-        modalType: action.modalType
+        modalType: action.modalType,
+        questionUUID: action.questionUUID
       }
 
     case 'HIDE_MODAL':

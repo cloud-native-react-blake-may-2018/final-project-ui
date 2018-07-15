@@ -22,6 +22,7 @@ import {
 import Spinner from 'react-spinkit'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+// interface IProps {
 interface IProps extends RouteProps {
   username: any
   quiz: any
@@ -30,8 +31,7 @@ interface IProps extends RouteProps {
   multipleSelectAnswer: any
   multipleChoiceAnswer: any[]
   answerArray: any
-  history: any
-  done: any
+  history?: any
   clearQuizAttempt: (reset: number) => void
   loadModal: (any) => any
   changeQuestionNumber: (questionNumber: number) => void

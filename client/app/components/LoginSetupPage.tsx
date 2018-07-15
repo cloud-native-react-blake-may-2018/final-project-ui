@@ -5,10 +5,10 @@ import { Link } from 'react-router-dom'
 import fontawesome from '@fortawesome/fontawesome'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { startCreateNewQuiz } from '../actions/create'
-import Axios from '../../../node_modules/axios'
+import Axios from 'axios'
 import { environment } from '../../../environment'
 
-export class SetupLogin extends Component {
+export class LoginSetupPage extends Component {
   // @ts-ignore
   componentDidMount = () => {
     const uri = document.location.href
@@ -18,13 +18,13 @@ export class SetupLogin extends Component {
     /** End on & before id_token= */
     const endAccessIndex = uri.indexOf('&', startAccessIndex)
     const access_token = uri.slice(startAccessIndex, endAccessIndex)
-    console.log('access_token:\n' + access_token)
+    // console.log('access_token:\n' + access_token)
     /** Start after id_token= */
     const startIdIndex = uri.indexOf('id_token=') + 9
     /** End on & */
     const endIdIndex = uri.indexOf('&', startIdIndex)
     const id_token = uri.slice(startIdIndex, endIdIndex)
-    console.log('id_token:\n' + id_token)
+    // console.log('id_token:\n' + id_token)
 
     // Axios.get("https://quizard.auth.us-east-1.amazoncognito.com/oauth2/authorize?response_type=code&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=https://localhost:3222/dashboard")
     //   .then(resp => {
@@ -96,18 +96,16 @@ export class SetupLogin extends Component {
           bgColor='#42a6a6'
           spinnerColor='#fcfeff'
           textColor='#ffffff'
-          logoSrc='https://vignette.wikia.nocookie.net/2007scape/images/5/59/Blue_wizard_hat_%28t%29_detail.png/revision/latest?cb=20180514220409
- https://vignette.wikia.nocookie.net/2007scape/images/5/59/Blue_wizard_hat_%28t%29_detail.png/revision/latest?cb=20180514220409
- '
           text='Welcome to the World of Quizzard!'
-        />
+          logoSrc='https://vignette.wikia.nocookie.net/2007scape/images/5/59/Blue_wizard_hat_%28t%29_detail.png/revision/latest?cb=20180514220409
+ https://vignette.wikia.nocookie.net/2007scape/images/5/59/Blue_wizard_hat_%28t%29_detail.png/revision/latest?cb=20180514220409'
+        ><div/></LoadingScreen>
      </div>
-    
     )
   }
  }
 
 export default connect(
-  undefined,
+  null,
   { startCreateNewQuiz }
-)(SetupLogin)
+)(LoginSetupPage)

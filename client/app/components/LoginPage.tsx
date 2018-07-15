@@ -11,7 +11,7 @@ interface IData {
 }
 
 // define types of props, with route component props included
-interface IProps extends RouteComponentProps<any> {
+interface IProps {
   startLogin(data: IData): any
 }
 
@@ -138,13 +138,6 @@ export class LoginPage extends Component<IProps, IState> {
       cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: result => {
           const token = result.getIdToken().getJwtToken()
-
-          // add token to localstorage
-          // localStorage.setItem('token', token)
-
-          // this.props.history.push('/dashboard')
-          // console.log('history object ', this.props.history)
-          // console.log(cc)
 
           /******************************************************************
            * I Don't Know if this is needed

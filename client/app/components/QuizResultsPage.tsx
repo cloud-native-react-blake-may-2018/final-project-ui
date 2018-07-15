@@ -16,7 +16,7 @@ import CoinIcon from '../../public/icons/coin-icon.svg'
 
 interface IProps {
   quiz: any
-  history: any
+  history?: any
 }
 
 export class QuizResultsPage extends Component<IProps, any> {
@@ -53,11 +53,7 @@ export class QuizResultsPage extends Component<IProps, any> {
 
   // @ts-ignore
   render = () => {
-    {
-      console.log(this.props.history)
-    }
     const { quiz } = this.props
-    // const score = parseInt(amount) / 10
     return (
       <div className="quiz-results-page">
         {quiz === null && (

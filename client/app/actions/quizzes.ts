@@ -100,6 +100,28 @@ export const addAnswerToArray = answerObj => ({
   answerObj
 })
 
+export const startSendQuizReport = (quizReport: object) => dispatch =>
+  pathList.quizzes
+    .sendQuizReport(quizReport)
+    .then(quizReportResponse => dispatch(sendQuizReport(quizReportResponse)))
+
+export const sendQuizReport = quizReportResponse => ({
+  type: 'SEND_QUIZ_REPORT',
+  quizReportResponse
+})
+
+export const startSendQuestionReport = (questionReport: object) => dispatch =>
+  pathList.questions
+    .sendQuestionReport(questionReport)
+    .then(questionReportResponse =>
+      dispatch(sendQuestionReport(questionReportResponse))
+    )
+
+export const sendQuestionReport = questionReportResponse => ({
+  type: 'SEND_QUESTION_REPORT',
+  questionReportResponse
+})
+
 export const addMultipleSelectAnswer = answerObj => dispatch =>
   dispatch(startAddMultipleSelectAnswer(answerObj))
 

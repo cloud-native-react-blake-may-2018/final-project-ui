@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { authInterceptor } from '../app/interceptors/auth.interceptor'
+import { authInterceptor } from './interceptors/auth.interceptor'
 // const authAxios = axios.create();
 // authAxios.interceptors.request.use(config => {
 //   config.headers.Authorization = localStorage.token;
@@ -69,6 +69,9 @@ const addTagsToSingleQuestionUrl =
 const addTagsToQuizUrl =
   'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/tag/batch'
 
+const sendQuizReport =
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/ticket'
+
 export default {
   create: {
     addQuestion: newQuestion =>
@@ -129,6 +132,11 @@ export default {
         .get(`${getQuizAttempt}${quizUUID}/user/${username}`)
         .then(res => res.data),
 
+    sendQuizReport: quizReport =>
+      authInterceptor
+        .post(sendQuizReport, { quizReport: quizReport })
+        .then(res => res.data),
+
     submitQuizAttempt: (quizUUID, user, attemptUUID, answerArray) =>
       authInterceptor
         .post(
@@ -158,6 +166,11 @@ export default {
     deleteQuestion: (author, title) =>
       authInterceptor
         .delete(`${deleteQuestionUrl}/${author}/title`, { data: { title } })
+        .then(res => res.data),
+
+    sendQuestionReport: questionReport =>
+      authInterceptor
+        .post(sendQuizReport, { questionReport: questionReport })
         .then(res => res.data)
 
     // deleteJunction: (quizUUID, questionUUID) =>

@@ -34,8 +34,8 @@ interface IProps extends RouteProps {
   multipleSelectAnswer: any
   multipleChoiceAnswer: any[]
   answerArray: any
-  history: any
-  loadModal: (any) => any
+  history?: any
+  loadModal: (any, string?) => void
   changeQuestionNumber: (questionNumber: number) => void
   startAddAnswerToArray: (answerObj: {}) => void
   addMultipleChoiceAnswer: (answerObj: {}) => void
@@ -68,7 +68,10 @@ export class TakeQuizPage extends Component<IProps, any> {
 
   submitQuizModal = () => this.props.loadModal(SUBMIT_QUIZ_MODAL)
 
-  reportQuestionModal = () => this.props.loadModal(REPORT_QUESTION_MODAL)
+  public reportQuestionModal = questionUUID => e => {
+    console.log('reporting question', questionUUID)
+    this.props.loadModal(REPORT_QUESTION_MODAL, questionUUID)
+  }
 
   // will take you to the previous question and update answer array
   // if a choice is selected
@@ -305,7 +308,9 @@ export class TakeQuizPage extends Component<IProps, any> {
                       >
                         <DropdownItem
                           className="dropdown-item"
-                          onClick={this.reportQuestionModal}
+                          onClick={this.reportQuestionModal(
+                            this.props.quiz.questions[questionNumber].uuid
+                          )}
                         >
                           Report question
                         </DropdownItem>
