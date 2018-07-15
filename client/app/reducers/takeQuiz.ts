@@ -82,8 +82,7 @@ export const takeQuizReducer = (state = initialState, action = {} as any) => {
           author: action.answerObj.author,
           title: action.answerObj.title,
           answer: action.answerObj.answer
-        },
-        done: action.done
+        }
       }
     case 'UPDATE_MULTIPLE_SELECT_ANSWER':
       // console.log('multiple select ', action.answerArray)

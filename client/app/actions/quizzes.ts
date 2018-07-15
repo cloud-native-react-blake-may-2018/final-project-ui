@@ -128,8 +128,7 @@ export const updateAnswerArray = answerArray => dispatch =>
 
 export const startupdateAnswerArray = answer => ({
   type: 'UPDATE_ANSWER_ARRAY',
-  answerArray: answer.answerArray,
-  done: answer.done
+  answerArray: answer.answerArray
 })
 
 export const changeQuestionNumber = questionNumber => dispatch =>
