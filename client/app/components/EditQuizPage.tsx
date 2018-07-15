@@ -93,7 +93,11 @@ export class EditQuizPage extends Component<IProps> {
         sendQuestionList.push({
           ...item,
           tags: testArr
-        })
+        });
+      } else {
+        sendQuestionList.push({
+          ...item
+        });
       }
     }
     for (let item of sendQuestionList) {
@@ -112,21 +116,21 @@ export class EditQuizPage extends Component<IProps> {
     this.setState({
       ...this.state,
       updatedQuestions: newQArr
-    })
-    this.page1()
-    console.log(this.state.updatedQuestions)
-  }
+    });
+    this.page1();
+    // this.updateStore(this.state.clickedQuestion);
+  };
 
   private deleteQuestion = (e: any) => {
-    this.updateStore()
+    this.deleteFromStore();
     this.props.startDeleteQuestion(
       this.state.clickedQuestion.author,
       this.state.clickedQuestion.title
     )
   }
 
-  private updateStore = () => {
-    let modQuiz = this.props.quiz
+  private deleteFromStore = () => {
+    let modQuiz = this.props.quiz;
     for (let i = 0; i < modQuiz.questions.length; i++) {
       if (modQuiz.questions[i].uuid === this.state.clickedQuestion.uuid) {
         modQuiz.questions.splice(i, 1)
@@ -141,6 +145,25 @@ export class EditQuizPage extends Component<IProps> {
     }
     this.props.editStoreQuiz(quizList)
   }
+
+  private updateStore = clickedQuestion => {
+    if (this.props.quizzes !== [] && this.props.quiz) {
+      let modQuiz = this.props.quiz;
+      for (let i = 0; i < modQuiz.questions.length; i++) {
+        if (modQuiz.questions[i].uuid === this.state.clickedQuestion.uuid) {
+          modQuiz.questions = modQuiz.questions.concat(clickedQuestion);
+        }
+      }
+
+      let quizList = this.props.quizzes;
+      for (let i = 0; i < quizList.length; i++) {
+        if (quizList[i].uuid === this.props.quiz.uuid) {
+          quizList.splice(i, 1, modQuiz);
+        }
+      }
+      this.props.editStoreQuiz(quizList);
+    }
+  };
 
   public showQuizQuestion = (question: any, count: number, e: any) => {
     e.preventDefault()
