@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
 import { Link, Redirect } from 'react-router-dom'
-import Axios from 'axios'
+import axios from 'axios'
 import dotenv from 'dotenv'
 
 export class SplashPage extends Component {
   // @ts-ignore
   render = () => {
     return (
-      <div>
+      <div className="splash-page">
         <header>
           <nav className="splash-nav">
             <Link to="/" className="item">
-              Logo
+              Quizzard
             </Link>
             <Link to="/login" className="item">
               Login
@@ -22,9 +22,8 @@ export class SplashPage extends Component {
           </nav>
         </header>
         <main className="splash-body">
-          <h1>{'<App name>'}</h1>
-          <p>Create and take quizzes</p>
-          <p>{'<splash page image>'}</p>
+          <h1>Quizzard</h1>
+          <p>And learn!</p>
         </main>
       </div>
     )

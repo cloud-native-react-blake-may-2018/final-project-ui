@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render SplashPage component 1`] = `
-<div>
+<div
+  className="splash-page"
+>
   <header>
     <nav
       className="splash-nav"
@@ -11,7 +13,7 @@ exports[`should render SplashPage component 1`] = `
         replace={false}
         to="/"
       >
-        Logo
+        Quizzard
       </Link>
       <Link
         className="item"
@@ -33,13 +35,10 @@ exports[`should render SplashPage component 1`] = `
     className="splash-body"
   >
     <h1>
-      &lt;App name&gt;
+      Quizzard
     </h1>
     <p>
-      Create and take quizzes
-    </p>
-    <p>
-      &lt;splash page image&gt;
+      And learn!
     </p>
   </main>
 </div>

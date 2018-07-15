@@ -8,7 +8,9 @@ import Dropzone from 'react-dropzone'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { startDeleteQuestion, startEditQuestion } from '../actions/questions'
 import { editStoreQuiz, startUpdateQuestionsDisplay } from '../actions/quizzes'
-import AddQuestion from '../components/AddQuestion'
+import AddQuestion from './AddQuestion'
+import { loadModal } from '../actions/modal'
+import { DELETE_QUIZ_MODAL } from '../constants/modaltypes'
 
 interface IProps {
   username: any
@@ -17,6 +19,7 @@ interface IProps {
   editStoreQuiz: (any) => any
   startEditQuestion: (any) => any
   startDeleteQuestion: (author: string, title: any) => any
+  loadModal?: (string) => any
 }
 
 const colors = [
@@ -62,6 +65,8 @@ export class EditQuizPage extends Component<IProps> {
   page1 = () => this.setState({ page: 1 })
 
   page2 = () => this.setState({ page: 2 })
+
+  deleteQuizModal = () => this.props.loadModal(DELETE_QUIZ_MODAL)
 
   private updateArr = (e: any, arg1: number, arg2: string) => {
     let newAnswersArr = this.state.clickedQuestion.answers
@@ -231,7 +236,7 @@ export class EditQuizPage extends Component<IProps> {
           <main>
             <div className="quiz-container">
               <h1 className="title">{quiz.title}</h1>
-              <div className="close">
+              <div className="close" onClick={this.deleteQuizModal}>
                 <FontAwesomeIcon icon="trash" />
                 <p className="hint">Permanently delete this quiz</p>
               </div>
@@ -453,6 +458,7 @@ export default connect(
   {
     editStoreQuiz,
     startDeleteQuestion,
-    startEditQuestion
+    startEditQuestion,
+    loadModal
   }
 )(EditQuizPage)

@@ -5,6 +5,8 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { clearResults } from '../actions/quizzes'
+import { loadModal } from '../actions/modal'
+import { DELETE_QUIZ_MODAL } from '../constants/modaltypes'
 
 interface IProps {
   username: string
@@ -12,6 +14,7 @@ interface IProps {
   type: string
   quizAttempts: any[]
   clearResults?: () => any
+  loadModal?: (string) => any
 }
 
 const colors = [
@@ -33,12 +36,14 @@ export class MyQuizzesPage extends Component<IProps> {
   params = window.location.href.split('/')
   pageType = this.params[4]
 
-  deleteQuestion = e => console.log('quiz uuid: ', e.target.dataset.uuid)
-
   clearResults = (e: any) => {
     this.props.clearResults()
     console.log('clearing results')
   }
+
+  deleteQuizModal = () => this.props.loadModal(DELETE_QUIZ_MODAL)
+
+  deleteQuestion = e => console.log('quiz uuid: ', e.target.dataset.uuid)
 
   //@ts-ignore
   render = () => {
@@ -75,17 +80,18 @@ export class MyQuizzesPage extends Component<IProps> {
             quizzes.map((quiz: any) => {
               if (quiz.author === username)
                 return (
-                  <Link to={`/view-quiz/${quiz.uuid}`} key={quiz.uuid}>
-                    <div className="block">
+                  <div className="block">
+                    <div
+                      key={quiz.uuid}
+                      className="delete-quiz"
+                      data-uuid={quiz.uuid}
+                      onClick={this.deleteQuizModal}
+                    >
+                      <FontAwesomeIcon icon="trash" />
+                      <p className="hint">Permanently delete this quiz</p>
+                    </div>
+                    <Link to={`/view-quiz/${quiz.uuid}`}>
                       <h1 className="name">{quiz.title}</h1>
-                      <div
-                        className="delete-quiz"
-                        data-uuid={quiz.uuid}
-                        onClick={this.deleteQuestion}
-                      >
-                        <FontAwesomeIcon icon="trash" />
-                        <p className="hint">Permanently delete this quiz</p>
-                      </div>
                       <p className="amount">
                         {quiz.questions.length} questions
                       </p>
@@ -120,8 +126,8 @@ export class MyQuizzesPage extends Component<IProps> {
                       {tag.allLowerCase}
                     </div>
                   ))} */}
-                    </div>
-                  </Link>
+                    </Link>
+                  </div>
                 )
             })}
           {this.pageType === 'taken' &&
@@ -170,6 +176,7 @@ const mapStateToProps = (state, props) => ({
 export default connect(
   mapStateToProps,
   {
-    clearResults
+    clearResults,
+    loadModal
   }
 )(MyQuizzesPage)
