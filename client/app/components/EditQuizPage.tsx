@@ -92,6 +92,7 @@ export class EditQuizPage extends Component<IProps> {
       }
     }
     for (let item of sendQuestionList) {
+      console.log('here')
       const data = {
         quizID: window.location.href.split('/')[4],
         question: item
