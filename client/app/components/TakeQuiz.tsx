@@ -50,10 +50,6 @@ interface IProps extends RouteProps {
   ) => void
 }
 
-const questionStyle = {
-  cursor: 'pointer'
-}
-
 export class TakeQuizPage extends Component<IProps, any> {
   constructor(props) {
     super(props)

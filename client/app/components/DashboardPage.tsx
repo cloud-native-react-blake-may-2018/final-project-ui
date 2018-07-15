@@ -15,9 +15,19 @@ interface IProps {
   username: string
   quizzes: any
   allAttempts: any
+  startGetUserQuizzes: (user: string) => void
 }
 
 export class DashboardPage extends Component<IProps> {
+  constructor(props) {
+    super(props)
+  }
+  // componentDidMount() {
+  //   console.log('component did mount')
+  //   this.props.startGetUserQuizzes(
+  //     JSON.parse(localStorage.userInfoToken).username
+  //   )
+  // }
   //@ts-ignore
   render = () => {
     const { quizzes, allAttempts } = this.props
