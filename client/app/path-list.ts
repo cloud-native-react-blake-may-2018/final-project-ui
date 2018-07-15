@@ -37,8 +37,6 @@ const displayQuizTagsURL =
 
 const editQuizUrl = ''
 
-const deleteQuizUrl = ''
-
 const searchByAuthorUrl =
   'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/author/'
 
@@ -56,6 +54,9 @@ const sendQuizAttempt =
 
 const deleteQuestionUrl =
   'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/question/author'
+
+const deleteQuizUrl =
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/author/'
 
 // const deleteJunctionUrl = // this is done automatically in deleteQuestion
 //   "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz";
@@ -135,6 +136,11 @@ export default {
           `${sendQuizAttempt}${quizUUID}/user/${user}/attempt/${attemptUUID}`,
           answerArray
         )
+        .then(res => res.data),
+
+    deleteQuiz: (author, title) =>
+      authInterceptor
+        .delete(`${deleteQuizUrl}${author}/title/${title}`)
         .then(res => res.data)
   },
 

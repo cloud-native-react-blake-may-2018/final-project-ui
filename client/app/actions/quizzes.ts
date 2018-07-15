@@ -179,3 +179,12 @@ export const clearResults = () => dispatch => dispatch(startclearResults())
 export const startclearResults = () => ({
   type: 'CLEAR_QUIZ_RESULTS'
 })
+
+export const deleteQuiz = (author, title) => dispatch =>
+  pathList.quizzes
+    .deleteQuiz(author, title)
+    .then(quizResults => dispatch(startSubmitQuizAttempt(quizResults)))
+
+export const startDeleteQuiz = () => ({
+  type: 'DELETE_QUIZ_ATTEMPT'
+})
