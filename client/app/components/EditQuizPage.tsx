@@ -1,232 +1,244 @@
-import React, { Component } from "react";
-import moment from "moment";
-import numeral from "numeral";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import Spinner from "react-spinkit";
-import Dropzone from "react-dropzone";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { startDeleteQuestion, startEditQuestion } from "../actions/questions";
-import { editStoreQuiz, startUpdateQuestionsDisplay } from "../actions/quizzes";
-import AddQuestion from "../components/AddQuestion";
+import React, { Component } from 'react'
+import moment from 'moment'
+import numeral from 'numeral'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import Spinner from 'react-spinkit'
+import Dropzone from 'react-dropzone'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { startDeleteQuestion, startEditQuestion } from '../actions/questions'
+import { editStoreQuiz, startUpdateQuestionsDisplay } from '../actions/quizzes'
+import AddQuestion from '../components/AddQuestion'
 
 interface IProps {
-  username: any;
-  quiz: any;
-  quizzes: any[];
-  editStoreQuiz: (any) => any;
-  startEditQuestion: (any) => any;
-  startDeleteQuestion: (author: string, title: any) => any;
+  username: any
+  quiz: any
+  quizzes: any[]
+  editStoreQuiz: (any) => any
+  startEditQuestion: (any) => any
+  startDeleteQuestion: (author: string, title: any) => any
 }
 
 const colors = [
-  "#f26161",
-  "#cc5252",
-  "#e573b1",
-  "#ff9d66",
-  "#2ddbbc",
-  "#42a6a6",
-  "#2d9cdb",
-  "#3f388c",
-  "#4775b2",
-  "#b866cc",
-  "#333ea6",
-  "#f2c94c"
-];
+  '#f26161',
+  '#cc5252',
+  '#e573b1',
+  '#ff9d66',
+  '#2ddbbc',
+  '#42a6a6',
+  '#2d9cdb',
+  '#3f388c',
+  '#4775b2',
+  '#b866cc',
+  '#333ea6',
+  '#f2c94c'
+]
 
 export class EditQuizPage extends Component<IProps> {
   state = {
-    displayPhoto: "",
+    displayPhoto: '',
     page: 1,
     clickedQuestion: {
-      author: "",
-      title: "",
-      uuid: "",
-      format: "",
+      author: '',
+      title: '',
+      uuid: '',
+      format: '',
       answers: [
         {
-          answer: "",
+          answer: '',
           percentPoints: 0,
-          feedback: ""
+          feedback: ''
         }
       ]
     },
     questionNumber: 0,
     updatedQuestions: [],
     clickedAddQuestion: false
-  };
+  }
 
-  params = window.location.href.split("/");
-  quizUUID = this.params[4];
+  params = window.location.href.split('/')
+  quizUUID = this.params[4]
 
-  page1 = () => this.setState({ page: 1 });
+  page1 = () => this.setState({ page: 1 })
 
-  page2 = () => this.setState({ page: 2 });
+  page2 = () => this.setState({ page: 2 })
 
   private updateArr = (e: any, arg1: number, arg2: string) => {
-    let newAnswersArr = this.state.clickedQuestion.answers;
-    newAnswersArr[arg1][arg2] = e.target.value;
+    let newAnswersArr = this.state.clickedQuestion.answers
+    newAnswersArr[arg1][arg2] = e.target.value
     this.setState({
       currentQuestion: {
         ...this.state.clickedQuestion,
         answers: newAnswersArr
       }
-    });
-  };
+    })
+  }
 
   private updateQuiz = (e: any) => {
-    let sendQuestionList = [];
+    let sendQuestionList = []
     for (let item of this.state.updatedQuestions) {
       if (item.tags) {
         let set = new Set(
-          item.tags.split(",").map(string => {
-            return string.trim();
+          item.tags.split(',').map(string => {
+            return string.trim()
           })
-        );
+        )
 
-        let testArr: any[] = [...set];
+        let testArr: any[] = [...set]
         sendQuestionList.push({
           ...item,
           tags: testArr
-        });
+        })
       }
     }
     for (let item of sendQuestionList) {
       const data = {
-        quizID: window.location.href.split("/")[4],
+        quizID: window.location.href.split('/')[4],
         question: item
-      };
-      this.props.startEditQuestion(data);
+      }
+      this.props.startEditQuestion(data)
     }
-  };
+  }
 
   private saveChangeToState = (e: any) => {
-    let newQArr = this.state.updatedQuestions;
-    newQArr.push(this.state.clickedQuestion);
+    let newQArr = this.state.updatedQuestions
+    newQArr.push(this.state.clickedQuestion)
     this.setState({
       ...this.state,
       updatedQuestions: newQArr
-    });
-    this.page1();
-    console.log(this.state.updatedQuestions);
-  };
+    })
+    this.page1()
+    console.log(this.state.updatedQuestions)
+  }
 
   private deleteQuestion = (e: any) => {
-    this.updateStore();
+    this.updateStore()
     this.props.startDeleteQuestion(
       this.state.clickedQuestion.author,
       this.state.clickedQuestion.title
-    );
-  };
+    )
+  }
 
   private updateStore = () => {
-    let modQuiz = this.props.quiz;
+    let modQuiz = this.props.quiz
     for (let i = 0; i < modQuiz.questions.length; i++) {
       if (modQuiz.questions[i].uuid === this.state.clickedQuestion.uuid) {
-        modQuiz.questions.splice(i, 1);
+        modQuiz.questions.splice(i, 1)
         //here is where we delete a question
       }
     }
-    let quizList = this.props.quizzes;
+    let quizList = this.props.quizzes
     for (let i = 0; i < quizList.length; i++) {
       if (quizList[i].uuid === this.props.quiz.uuid) {
-        quizList.splice(i, 1, modQuiz);
+        quizList.splice(i, 1, modQuiz)
       }
     }
-    this.props.editStoreQuiz(quizList);
-  };
+    this.props.editStoreQuiz(quizList)
+  }
 
   public showQuizQuestion = (question: any, count: number, e: any) => {
-    e.preventDefault();
+    e.preventDefault()
 
     this.setState({
       ...this.state,
       questionNumber: count,
       clickedQuestion: question,
       clickedAddQuestion: false,
-      displayPhoto: question.image || ""
-    });
-  };
+      displayPhoto: question.image || ''
+    })
+  }
 
   private setAddQuestion = (e: any) => {
     this.setState({
       // we may not need this because if the component reloads this will be cleared anyway
       ...this.state,
       clickedQuestion: {
-        author: "",
-        title: "",
-        uuid: "",
-        format: "",
+        author: '',
+        title: '',
+        uuid: '',
+        format: '',
         answers: [
           {
-            answer: "",
+            answer: '',
             percentPoints: 0,
-            feedback: ""
+            feedback: ''
           }
         ]
       },
       clickedAddQuestion: true
-    });
-  };
+    })
+  }
 
-  private photoUpload: HTMLInputElement;
+  private photoUpload: HTMLInputElement
 
-  fileSelectedHandler = e => this.setState({ selectedFile: e.target.files[0] });
+  fileSelectedHandler = e => this.setState({ selectedFile: e.target.files[0] })
 
   private updateTags = (e: any) => {
-    const tags = e.target.value;
+    const tags = e.target.value
     this.setState({
       clickedQuestion: {
         ...this.state.clickedQuestion,
         tags: tags
       }
-    });
-  };
+    })
+  }
 
   private onDrop = (files: any) => {
-    const file = files[0];
+    const file = files[0]
     const getBase64 = async file => {
-      var reader = new FileReader();
-      reader.readAsDataURL(file);
-      let codeString;
+      var reader = new FileReader()
+      reader.readAsDataURL(file)
+      let codeString
       reader.onload = function() {
-        codeString = reader.result;
-        codeString = codeString.split(",", 2);
+        codeString = reader.result
+        codeString = codeString.split(',', 2)
         this.setState({
           ...this.state,
           clickedQuestion: {
             ...this.state.clickedQuestion,
             image: codeString[1],
-            newImage: "yes"
+            newImage: 'yes'
           },
-          displayPhoto: codeString.join(",")
-        });
-      }.bind(this);
+          displayPhoto: codeString.join(',')
+        })
+      }.bind(this)
       reader.onerror = function(error) {
-        console.log("Error: ", error);
-      };
-      return codeString;
-    };
-    getBase64(file);
-  };
+        console.log('Error: ', error)
+      }
+      return codeString
+    }
+    getBase64(file)
+  }
 
   // @ts-ignore
   render = () => {
-    const { quiz } = this.props;
+    // let { quiz } = this.props
+    console.log('props passed', this.props.quizzes)
+    // let quiz = this.props.quizzes.find(quiz => {
+    //   return quiz.uuid === window.location.href.split('/')[4]
+    // })
+    let quiz
+    for (let testQuiz of this.props.quizzes) {
+      if (testQuiz.uuid === window.location.href.split('/')[4]) {
+        console.log('insides quiz assignmente')
+        quiz = testQuiz
+      }
+    }
+    console.log('this is the quiz being passed', quiz)
     const {
       page,
       clickedQuestion,
       questionNumber,
       clickedAddQuestion,
       displayPhoto
-    } = this.state;
-    let count = 0;
+    } = this.state
+    let count = 0
     return (
       <div className="edit-quiz-page">
         {quiz.tags === undefined && (
           <Spinner className="loading-indicator" name="ball-spin-fade-loader" />
         )}
-        {console.log("this is what quiz looks like", quiz)}
+        {console.log('this is what quiz looks like', quiz)}
         {quiz.tags !== undefined && (
           <main>
             <div className="quiz-container">
@@ -261,8 +273,8 @@ export class EditQuizPage extends Component<IProps> {
               </div>
               {/* <p className="add-tag">+ tag</p> */}
               <div className="questions">
-                {quiz.questions.map(question => (
-                  <div key={question.title}>
+                {quiz.questions.map((question, i) => (
+                  <div key={'question' + i}>
                     <p
                       className="question"
                       onClick={this.showQuizQuestion.bind(
@@ -321,17 +333,17 @@ export class EditQuizPage extends Component<IProps> {
                         <Dropzone
                           onDrop={this.onDrop}
                           className={
-                            displayPhoto ? "dropzone" : "dropzone with-dots"
+                            displayPhoto ? 'dropzone' : 'dropzone with-dots'
                           }
                         >
-                          <p className={displayPhoto ? "white-text" : ""}>
+                          <p className={displayPhoto ? 'white-text' : ''}>
                             + Upload
                           </p>
                           {displayPhoto && <img src={displayPhoto} alt="img" />}
                         </Dropzone>
                         <input
                           className="file-upload"
-                          style={{ display: "none" }}
+                          style={{ display: 'none' }}
                           name="file"
                           type="file"
                           onChange={this.fileSelectedHandler}
@@ -354,7 +366,7 @@ export class EditQuizPage extends Component<IProps> {
                             value={ans.answer}
                             className="input"
                             onChange={(e: any) => {
-                              this.updateArr(e, index, "answer");
+                              this.updateArr(e, index, 'answer')
                             }}
                             data-enable-grammarly="false"
                           />
@@ -370,7 +382,7 @@ export class EditQuizPage extends Component<IProps> {
                             id="true-false-percent-points"
                             value={ans.percentPoints}
                             onChange={(e: any) => {
-                              this.updateArr(e, index, "percentPoints");
+                              this.updateArr(e, index, 'percentPoints')
                             }}
                             data-enable-grammarly="false"
                           />
@@ -382,7 +394,7 @@ export class EditQuizPage extends Component<IProps> {
                             value={ans.feedback}
                             className="input"
                             onChange={(e: any) => {
-                              this.updateArr(e, index, "feedback");
+                              this.updateArr(e, index, 'feedback')
                             }}
                             data-enable-grammarly="false"
                           />
@@ -393,13 +405,13 @@ export class EditQuizPage extends Component<IProps> {
                 )}
                 <div className="page-navigation">
                   <p
-                    className={page === 1 ? "page-1 active" : "page-1"}
+                    className={page === 1 ? 'page-1 active' : 'page-1'}
                     onClick={this.page1}
                   >
                     1
                   </p>
                   <p
-                    className={page === 2 ? "page-2 active" : "page-2"}
+                    className={page === 2 ? 'page-2 active' : 'page-2'}
                     onClick={this.page2}
                   >
                     2
@@ -422,8 +434,8 @@ export class EditQuizPage extends Component<IProps> {
           </main>
         )}
       </div>
-    );
-  };
+    )
+  }
 }
 
 const mapStateToProps = (state, props) => ({
@@ -433,10 +445,10 @@ const mapStateToProps = (state, props) => ({
     state.quizzes.all.find(
       quiz =>
         quiz.uuid === props.match.params.uuid ||
-        quiz.uuid === window.location.href.split("/")[4]
+        quiz.uuid === window.location.href.split('/')[4]
     ),
   quizzes: state.quizzes.all
-});
+})
 
 export default connect(
   mapStateToProps,
@@ -445,4 +457,4 @@ export default connect(
     startDeleteQuestion,
     startEditQuestion
   }
-)(EditQuizPage);
+)(EditQuizPage)
