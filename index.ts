@@ -74,7 +74,9 @@ if (isDev) {
         // would display built modules info to chuck info
         chunkModules: false,
         // would display built modules info
-        modules: false
+        modules: false,
+        entrypoints: false,
+        assets: false
       }
     } as any)
   )
@@ -103,4 +105,25 @@ app.listen(port, '0.0.0.0', err => {
       environment.context
     } in your browser.`
   )
+})
+
+// const signals = [
+//   `exit`,
+//   `SIGINT`,
+//   `SIGUSR1`,
+//   `SIGUSR2`,
+//   `uncaughtException`,
+//   `SIGTERM`
+// ]
+
+// signals.forEach(signal =>
+//   // @ts-ignore
+//   process.on(signal, () => process.kill(process.pid))
+// )
+
+// process.on('exit', code => {
+process.on('SIGINT', encodeURIComponent => {
+  console.log('Exiting on event: ', encodeURIComponent)
+  // process.exit()
+  return process.kill(process.pid)
 })

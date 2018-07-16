@@ -16,6 +16,7 @@ import CoinIcon from '../../public/icons/coin-icon.svg'
 
 interface IProps {
   quiz: any
+  history?: any
 }
 
 export class QuizResultsPage extends Component<IProps, any> {
@@ -43,10 +44,16 @@ export class QuizResultsPage extends Component<IProps, any> {
     if (score === 100) return 'green-dark-green'
   }
 
+  componentWillUnmount() {
+    if (this.props.history.action === 'POP') {
+      console.log('user has left page')
+      this.props.history.push('/quizzes/taken')
+    }
+  }
+
   // @ts-ignore
   render = () => {
     const { quiz } = this.props
-    // const score = parseInt(amount) / 10
     return (
       <div className="quiz-results-page">
         {quiz === null && (

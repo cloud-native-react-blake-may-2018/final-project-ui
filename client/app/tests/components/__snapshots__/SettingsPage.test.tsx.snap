@@ -1,0 +1,116 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render SettingsPage component 1`] = `
+<div
+  className="settings-page"
+>
+  <div
+    className="main"
+  >
+    <aside>
+      <p
+        className="active"
+        onClick={[Function]}
+      >
+        General
+      </p>
+      <p
+        className={null}
+        onClick={[Function]}
+      >
+        Password
+      </p>
+      <p
+        className={null}
+        onClick={[Function]}
+      >
+        Themes
+      </p>
+    </aside>
+    <main>
+      <form
+        className="settings-form"
+        onChange={[Function]}
+        onSubmit={[Function]}
+      >
+        <div
+          className="input-group"
+        >
+          <label
+            htmlFor="photo"
+          >
+            Photo
+          </label>
+          <div
+            className="photo-container"
+            onClick={[Function]}
+          >
+            <t
+              className="dropzone"
+              disableClick={false}
+              disablePreview={false}
+              disabled={false}
+              inputProps={Object {}}
+              maxSize={Infinity}
+              minSize={0}
+              multiple={true}
+              onDrop={[Function]}
+              preventDropOnDocument={true}
+            />
+          </div>
+          <input
+            className="file-upload"
+            data-cloudinary-field="image_id"
+            name="file"
+            onChange={[Function]}
+            style={
+              Object {
+                "display": "none",
+              }
+            }
+            type="file"
+          />
+        </div>
+        <div
+          className="input-group"
+        >
+          <label
+            htmlFor="fullname"
+          >
+            Full Name
+          </label>
+          <input
+            name="fullname"
+            placeholder="Marty"
+            type="text"
+          />
+        </div>
+        <div
+          className="input-group"
+        >
+          <label
+            htmlFor="email"
+          >
+            Email
+          </label>
+          <input
+            name="email"
+            placeholder="marty@slackjaw.com"
+            type="email"
+          />
+        </div>
+        <div
+          className="input-group"
+        >
+          <button
+            className="save-button"
+            type="submit"
+          >
+            Save changes
+          </button>
+        </div>
+      </form>
+    </main>
+  </div>
+</div>
+`;

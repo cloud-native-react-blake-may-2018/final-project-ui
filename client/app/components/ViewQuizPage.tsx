@@ -5,10 +5,14 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import ArrowIcon from '../../public/icons/arrow-icon.svg'
 import Spinner from 'react-spinkit'
-import { startGetSearchedQuiz, startQuizAttempt } from '../actions/quizzes'
+import {
+  startGetSearchedQuiz,
+  startQuizAttempt,
+  clearResults
+} from '../actions/quizzes'
 import { loadModal } from '../actions/modal'
 import { REPORT_QUIZ_MODAL } from '../constants/modaltypes'
-import { FontAwesomeIcon } from '../../../node_modules/@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   Dropdown,
   DropdownToggle,
@@ -21,10 +25,12 @@ interface IProps {
   match?: any
   username: any
   quizzes: any
+  results: any
   quiz: any
   randomGradient: string
   toggle: any
   gradientColor: string
+  clearResults?: () => any
   startQuizAttempt: (quizUUID: any, username: any, reset: number) => void
   startGetSearchedQuiz: (uuid: any) => any
   loadModal: (string) => any
@@ -57,6 +63,7 @@ export class ViewQuizPage extends Component<IProps> {
     })
   }
   public startQuizAttempt = (e: any) => {
+    this.props.results !== null && this.props.clearResults()
     this.props.startQuizAttempt(this.quizUUID, this.props.username, 0)
   }
 
@@ -117,14 +124,20 @@ export class ViewQuizPage extends Component<IProps> {
                 <Link to={`/edit-quiz/${quiz.uuid}`} className="link">
                   <p className="edit-button">Edit quiz</p>
                 </Link>
-                {quiz.questions.length > 0 && (
+                {quiz.questions.length > 0 ? (
                   <Link
                     to={`/take-quiz/${quiz.uuid}`}
                     onClick={this.startQuizAttempt}
                     className="link"
                   >
-                    <p className="take-button">Take quiz</p>
+                    <button className="take-button">Take quiz</button>
                   </Link>
+                ) : (
+                  <div className="link">
+                    <button className="take-button" disabled={true}>
+                      Take quiz
+                    </button>
+                  </div>
                 )}
               </footer>
             </div>
@@ -136,6 +149,7 @@ export class ViewQuizPage extends Component<IProps> {
 
 const mapStateToProps = (state, props) => ({
   username: state.auth.username,
+  results: state.takeQuiz.results,
   quiz:
     state.quizzes.all !== undefined &&
     state.quizzes.all.find(quiz => quiz.uuid === props.match.params.uuid),
@@ -144,5 +158,5 @@ const mapStateToProps = (state, props) => ({
 
 export default connect<any, any>(
   mapStateToProps,
-  { startGetSearchedQuiz, startQuizAttempt, loadModal }
+  { startGetSearchedQuiz, startQuizAttempt, loadModal, clearResults }
 )(ViewQuizPage)

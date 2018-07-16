@@ -1,6 +1,5 @@
 import React from 'react'
 import pathList from '../path-list'
-import { Result } from '../../../node_modules/@types/range-parser'
 
 export const startEditQuiz = quiz => dispatch =>
   pathList.quizzes.edit(quiz).then(quiz => dispatch(editQuiz(quiz)))
@@ -18,9 +17,9 @@ export const editStoreQuiz = quizzes => dispatch => {
 }
 
 export const startGetUserQuizzes = author => {
-  return async dispatch => {
+  return async dispatch =>
     // const quizAttempts = await pathList.quizzes.displayQuizAttempts(author)
-    pathList.quizzes.display(author).then(async quizzes => {
+    await pathList.quizzes.display(author).then(async quizzes => {
       const all = await Promise.all(
         quizzes.map(async quiz => {
           const questions = await pathList.questions.display(quiz.uuid)
@@ -30,11 +29,14 @@ export const startGetUserQuizzes = author => {
           return { ...quiz, questions, tags }
         })
       )
+      const points = await pathList.points.getUserPoints(author)
+      const allPoints = await pathList.points.getAllPoints()
       const quizAttempts = await pathList.quizzes.displayQuizAttempts(author)
       dispatch(getUserQuizzes(all))
-      dispatch(getQuizAttempts(quizAttempts))
+      dispatch(getUserPoints(points))
+      dispatch(getAllPoints(allPoints))
+      return dispatch(getQuizAttempts(quizAttempts))
     })
-  }
 }
 
 export const getUserQuizzes = quizzes => ({
@@ -45,6 +47,16 @@ export const getUserQuizzes = quizzes => ({
 export const getQuizAttempts = quizAttempts => ({
   type: 'ALL_QUIZ_ATTEMPTS',
   quizAttempts
+})
+
+export const getUserPoints = points => ({
+  type: 'USER_POINTS',
+  points
+})
+
+export const getAllPoints = points => ({
+  type: 'ALL_POINTS',
+  points
 })
 
 export const startGetSearchedQuiz = quiz => async dispatch => {
@@ -100,6 +112,28 @@ export const addAnswerToArray = answerObj => ({
   answerObj
 })
 
+export const startSendQuizReport = (quizReport: object) => dispatch =>
+  pathList.quizzes
+    .sendQuizReport(quizReport)
+    .then(quizReportResponse => dispatch(sendQuizReport(quizReportResponse)))
+
+export const sendQuizReport = quizReportResponse => ({
+  type: 'SEND_QUIZ_REPORT',
+  quizReportResponse
+})
+
+export const startSendQuestionReport = (questionReport: object) => dispatch =>
+  pathList.questions
+    .sendQuestionReport(questionReport)
+    .then(questionReportResponse =>
+      dispatch(sendQuestionReport(questionReportResponse))
+    )
+
+export const sendQuestionReport = questionReportResponse => ({
+  type: 'SEND_QUESTION_REPORT',
+  questionReportResponse
+})
+
 export const addMultipleSelectAnswer = answerObj => dispatch =>
   dispatch(startAddMultipleSelectAnswer(answerObj))
 
@@ -128,8 +162,7 @@ export const updateAnswerArray = answerArray => dispatch =>
 
 export const startupdateAnswerArray = answer => ({
   type: 'UPDATE_ANSWER_ARRAY',
-  answerArray: answer.answerArray,
-  done: answer.done
+  answerArray: answer.answerArray
 })
 
 export const changeQuestionNumber = questionNumber => dispatch =>
@@ -158,10 +191,29 @@ export const submitQuizAttempt = (
   user: string,
   attemptUUID: string,
   answerArray: any[]
-) => dispatch =>
-  pathList.quizzes
-    .submitQuizAttempt(quizUUID, user, attemptUUID, answerArray)
-    .then(quizResults => dispatch(startSubmitQuizAttempt(quizResults)))
+) => {
+  return async dispatch => {
+    const quizResults = await pathList.quizzes.submitQuizAttempt(
+      quizUUID,
+      user,
+      attemptUUID,
+      answerArray
+    )
+    // GO HERE!
+    dispatch(startSubmitQuizAttempt(quizResults))
+    dispatch(startGetUserQuizzes(user))
+  }
+}
+
+// export const submitQuizAttempt = (
+//   quizUUID: string,
+//   user: string,
+//   attemptUUID: string,
+//   answerArray: any[]
+// ) => dispatch =>
+//   pathList.quizzes
+//     .submitQuizAttempt(quizUUID, user, attemptUUID, answerArray)
+//     .then(quizResults => dispatch(startSubmitQuizAttempt(quizResults)))
 
 export const startSubmitQuizAttempt = quizResults => ({
   type: 'SUBMIT_QUIZ_ATTEMPT',
@@ -174,4 +226,27 @@ export const clearQuizAttempt = reset => dispatch =>
 export const startclearQuizAttempt = reset => ({
   type: 'CLEAR_QUIZ_ATTEMPT',
   reset
+})
+export const clearResults = () => dispatch => dispatch(startclearResults())
+
+export const startclearResults = () => ({
+  type: 'CLEAR_QUIZ_RESULTS'
+})
+
+export const deleteQuiz = (author, title) => {
+  return async dispatch => {
+    const quizResults = await pathList.quizzes.deleteQuiz(author, title)
+
+    dispatch(startSubmitQuizAttempt(quizResults))
+    dispatch(startGetUserQuizzes(author))
+  }
+}
+
+// export const deleteQuiz = (author, title) => dispatch =>
+//   pathList.quizzes
+//     .deleteQuiz(author, title)
+//     .then(quizResults => dispatch(startSubmitQuizAttempt(quizResults)))
+
+export const startDeleteQuiz = () => ({
+  type: 'DELETE_QUIZ_ATTEMPT'
 })
