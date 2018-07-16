@@ -14,7 +14,7 @@ interface IProps {
   type: string
   quizAttempts: any[]
   clearResults?: () => any
-  loadModal?: (string, any) => any
+  loadModal?: (type: string, title: string, uuid: any) => any
 }
 
 const colors = [
@@ -42,7 +42,7 @@ export class MyQuizzesPage extends Component<IProps> {
   }
 
   deleteQuizModal = data => (e: any) =>
-    this.props.loadModal(DELETE_QUIZ_MODAL, data)
+    this.props.loadModal(DELETE_QUIZ_MODAL, data, null)
 
   deleteQuestion = e => console.log('quiz uuid: ', e.target.dataset.uuid)
 

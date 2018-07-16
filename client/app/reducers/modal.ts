@@ -10,11 +10,8 @@ export const modalReducer = (state = initialModalState, action = {} as any) => {
       return {
         ...state,
         modalType: action.modalType,
-<<<<<<< HEAD
-        quizTitle: action.quizTitle && action.quizTitle
-=======
-        questionUUID: action.questionUUID
->>>>>>> 94b82c8b9e2922249a11c98a292740cb1103f24d
+        quizTitle: action.quizTitle && action.quizTitle,
+        questionUUID: action.questionUUID && action.questionUUID
       }
 
     case 'HIDE_MODAL':

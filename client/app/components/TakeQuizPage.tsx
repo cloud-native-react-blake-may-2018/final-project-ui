@@ -35,7 +35,7 @@ interface IProps extends RouteProps {
   multipleChoiceAnswer: any[]
   answerArray: any
   history?: any
-  loadModal: (any, string?) => void
+  loadModal: (type: string, title?: string, uuid?: string) => void
   changeQuestionNumber: (questionNumber: number) => void
   startAddAnswerToArray: (answerObj: {}) => void
   addMultipleChoiceAnswer: (answerObj: {}) => void
@@ -70,7 +70,7 @@ export class TakeQuizPage extends Component<IProps, any> {
 
   public reportQuestionModal = questionUUID => e => {
     console.log('reporting question', questionUUID)
-    this.props.loadModal(REPORT_QUESTION_MODAL, questionUUID)
+    this.props.loadModal(REPORT_QUESTION_MODAL, null, questionUUID)
   }
 
   // will take you to the previous question and update answer array

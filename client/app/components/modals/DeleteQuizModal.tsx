@@ -21,6 +21,7 @@ export class SubmitQuizModal extends Component<IProps> {
     this.props.deleteQuiz(author, title)
     console.log(`in delete function author: ${author} and title ${title}`)
     console.log('deleting quiz...')
+    this.onClose()
   }
 
   // @ts-ignore
