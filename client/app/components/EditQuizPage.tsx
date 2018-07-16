@@ -13,6 +13,7 @@ import { loadModal } from '../actions/modal'
 import { DELETE_QUIZ_MODAL } from '../constants/modaltypes'
 
 interface IProps {
+  history?: any
   username: any
   quiz: any
   quizzes: any[]
@@ -66,8 +67,10 @@ export class EditQuizPage extends Component<IProps> {
 
   page2 = () => this.setState({ page: 2 })
 
-  deleteQuizModal = title => (e: any) =>
+  deleteQuizModal = title => (e: any) => {
     this.props.loadModal(DELETE_QUIZ_MODAL, title, null)
+    this.props.history.push('/quizzes/created')
+  }
 
   private updateArr = (e: any, arg1: number, arg2: string) => {
     let newAnswersArr = this.state.clickedQuestion.answers
