@@ -156,7 +156,10 @@ export class MyQuizzesPage extends Component<IProps> {
             )}
           {this.pageType === 'taken' &&
             quizAttempts !== undefined &&
-            quizAttempts.length === 0 && (
+            (quizAttempts.every(
+              quizAttempt => quizAttempt.timings.finished === undefined
+            ) ||
+              quizAttempts.length === 0) && (
               <p className="no-taken-quizzes">
                 You have not taken any quizzes yet.
               </p>

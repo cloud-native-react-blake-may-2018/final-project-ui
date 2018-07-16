@@ -14,16 +14,28 @@ interface IProps {
 export class ReportQuizModal extends Component<IProps> {
   onClose = () => this.props.hideModal()
 
+  state = {
+    report: ''
+  }
+
+  handleReport = e => {
+    console.log(e.target.value)
+    const message = e.target.value
+    this.setState(prevState => ({
+      report: message
+    }))
+  }
+
   params = window.location.href.split('/')
   quizUUID = this.params[4]
 
   sendQuizReport = () => {
-    const quizReport = {
-      uuid: this.quizUUID,
-      type: 'quiz',
-      message: 'string user selected to report (feedback)'
-    }
-    this.props.startSendQuizReport(quizReport)
+    this.state.report.length > 0 &&
+      this.props.startSendQuizReport({
+        uuid: this.quizUUID,
+        type: 'quiz',
+        message: this.state.report
+      })
     this.onClose()
   }
 
@@ -37,27 +49,27 @@ export class ReportQuizModal extends Component<IProps> {
             <FontAwesomeIcon icon="times" />
           </div>
           <p className="title">What is wrong with this quiz?</p>
-          <form>
+          <form onChange={this.handleReport}>
             <label className="container">
-              <input type="radio" name="radio" />
+              <input type="radio" name="radio" value="Incorrect" />
               <p className="reason">Incorrect</p>
               <span className="checkmark" />
             </label>
 
             <label className="container">
-              <input type="radio" name="radio" />
+              <input type="radio" name="radio" value="Badly Worded" />
               <p className="reason">Badly worded</p>
               <span className="checkmark" />
             </label>
 
             <label className="container">
-              <input type="radio" name="radio" />
+              <input type="radio" name="radio" value="No valid answer" />
               <p className="reason">No valid answer</p>
               <span className="checkmark" />
             </label>
 
             <label className="container">
-              <input type="radio" name="radio" />
+              <input type="radio" name="radio" value="Other" />
               <p className="reason">Other</p>
               <span className="checkmark" />
             </label>

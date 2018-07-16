@@ -134,9 +134,7 @@ export default {
         .then(res => res.data),
 
     sendQuizReport: quizReport =>
-      authInterceptor
-        .post(sendQuizReport, { quizReport: quizReport })
-        .then(res => res.data),
+      authInterceptor.post(sendQuizReport, quizReport).then(res => res.data),
 
     submitQuizAttempt: (quizUUID, user, attemptUUID, answerArray) =>
       authInterceptor
@@ -175,9 +173,7 @@ export default {
         .then(res => res.data),
 
     sendQuestionReport: questionReport =>
-      authInterceptor
-        .post(sendQuizReport, { questionReport: questionReport })
-        .then(res => res.data)
+      authInterceptor.post(sendQuizReport, questionReport).then(res => res.data)
 
     // deleteJunction: (quizUUID, questionUUID) =>
     //   axios
