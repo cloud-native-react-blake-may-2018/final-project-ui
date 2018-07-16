@@ -235,7 +235,15 @@ export class EditQuizPage extends Component<IProps> {
 
   // @ts-ignore
   render = () => {
-    const { quiz } = this.props;
+    // const { quiz } = this.props;
+    let quiz;
+    for (let testQuiz of this.props.quizzes) {
+      if (testQuiz.uuid === window.location.href.split("/")[4]) {
+        console.log("inside quiz assignment");
+        quiz = testQuiz;
+      }
+    }
+    console.log("this is the quiz being passed", quiz);
     const {
       page,
       clickedQuestion,
