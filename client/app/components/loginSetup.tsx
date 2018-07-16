@@ -21,7 +21,9 @@ export class SetupLogin extends Component {
     // console.log(uri);
     /** Pull code from url */
     const startAccessIndex = uri.indexOf('code=') + 5
-    const code = uri.slice(startAccessIndex)
+    let code = uri.slice(startAccessIndex)
+    const hashIndex = code.lastIndexOf('#');
+    if (hashIndex !== -1) code = code.slice(0, hashIndex);
     console.log('code:\n' + code)
     /***********************************************************************************/
 
@@ -105,10 +107,7 @@ export class SetupLogin extends Component {
       .catch(err => {
         console.log(err)
       })
-
-    
   }
-  
 
   // @ts-ignore
   render = () => {

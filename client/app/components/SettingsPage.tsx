@@ -57,21 +57,32 @@ if (localStorage.getItem('refresh_token') !== 'undefined') {
       AccessToken: accessToken,
       RefreshToken: refreshToken
     }
-    console.log(tokenData);
+
+    // console.log(tokenData);
     let session = new awsCognito.CognitoUserSession(tokenData)
-    console.log(session)
+    // console.log(session)
     cognitoUser.setSignInUserSession(session)
 
-    if (cognitoUser != null) {
-      cognitoUser.getSession((err, session) => {
-          if (err) {
-              console.log(err);
-              return;
-          }
-          console.log('session validity: ' + session.isValid());
-      });
+    cognitoUser.getSession((err, session) => {
+      if (err) {
+          console.log(err);
+          return;
+      } else
+      console.log('session validity: ' + session.isValid());
+        
+      var attributeList = [];
+      cognitoUser.getUserAttributes((err, result) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        for (let i=0; i < result.length; i++) {
+          attributeList.push({Name: result[i].getName(), Value: result[i].getValue()});
+        }
+      })
+      console.log(attributeList)
+    })
   }
-}
 }
 
 export class SettingsPage extends Component<ClassProps> {
@@ -146,36 +157,7 @@ export class SettingsPage extends Component<ClassProps> {
 
   //     if(!this.isAuthenticated) return;
 
-  //     cognitoUser.getSession((err, session) => {
-  //       // console.log(session);
-  //       if (err) {
-  //         console.log(err);
-  //         return;
-  //       }
-  //       // console.log('session validity: ' + session.isValid());
-
-  //       AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-  //         IdentityPoolId: 'us-east-2:2bf920c2-7094-49a7-bfd0-eec2d6f36ee4',
-  //         Logins: {
-  //           'cognito-idp.us-east-2.amazonaws.com/us-east-2_fMMquWRem' : session.getIdToken().getJwtToken()
-  //         }
-  //       })
-
-  //       var s3 = new AWS.S3();
-  //     })
-
-  //     var attributeList = [];
-  //     cognitoUser.getUserAttributes((err, result) => {
-  //       if (err) {
-  //         console.log(err);
-  //         return;
-  //       }
-  //       for (let i=0; i < result.length; i++) {
-  //         attributeList.push({Name: result[i].getName(), Value: result[i].getValue()});
-  //       }
-  //     })
-  //     console.log(attributeList);
-  //   }
+  //     
   // }
 
   onFieldChange = e => {
