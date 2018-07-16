@@ -191,10 +191,29 @@ export const submitQuizAttempt = (
   user: string,
   attemptUUID: string,
   answerArray: any[]
-) => dispatch =>
-  pathList.quizzes
-    .submitQuizAttempt(quizUUID, user, attemptUUID, answerArray)
-    .then(quizResults => dispatch(startSubmitQuizAttempt(quizResults)))
+) => {
+  return async dispatch => {
+    const quizResults = await pathList.quizzes.submitQuizAttempt(
+      quizUUID,
+      user,
+      attemptUUID,
+      answerArray
+    )
+    // GO HERE!
+    dispatch(startSubmitQuizAttempt(quizResults))
+    dispatch(startGetUserQuizzes(user))
+  }
+}
+
+// export const submitQuizAttempt = (
+//   quizUUID: string,
+//   user: string,
+//   attemptUUID: string,
+//   answerArray: any[]
+// ) => dispatch =>
+//   pathList.quizzes
+//     .submitQuizAttempt(quizUUID, user, attemptUUID, answerArray)
+//     .then(quizResults => dispatch(startSubmitQuizAttempt(quizResults)))
 
 export const startSubmitQuizAttempt = quizResults => ({
   type: 'SUBMIT_QUIZ_ATTEMPT',
@@ -214,10 +233,19 @@ export const startclearResults = () => ({
   type: 'CLEAR_QUIZ_RESULTS'
 })
 
-export const deleteQuiz = (author, title) => dispatch =>
-  pathList.quizzes
-    .deleteQuiz(author, title)
-    .then(quizResults => dispatch(startSubmitQuizAttempt(quizResults)))
+export const deleteQuiz = (author, title) => {
+  return async dispatch => {
+    const quizResults = await pathList.quizzes.deleteQuiz(author, title)
+
+    dispatch(startSubmitQuizAttempt(quizResults))
+    dispatch(startGetUserQuizzes(author))
+  }
+}
+
+// export const deleteQuiz = (author, title) => dispatch =>
+//   pathList.quizzes
+//     .deleteQuiz(author, title)
+//     .then(quizResults => dispatch(startSubmitQuizAttempt(quizResults)))
 
 export const startDeleteQuiz = () => ({
   type: 'DELETE_QUIZ_ATTEMPT'
