@@ -130,6 +130,10 @@
             cursor: pointer
             transform: translateY(-2px)
 
+          &:disabled
+            box-shadow: 0 10px 24px rgba(0,0,0,.1), 0 3px 10px rgba(0,0,0,.05)
+            background-color: lighten($light-grey, 3%)
+
           &:active
             cursor: pointer
             transform: scale(.9)

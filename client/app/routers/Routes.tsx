@@ -22,9 +22,8 @@ import SignInRedirectPage from '../components/SignInRedirectPage'
 import AchievementsPage from '../components/AchievementsPage'
 import StorePage from '../components/StorePage'
 import ResetPasswordPage from '../components/ResetPasswordPage'
-import CreateQuiz from '../components/CreateQuiz'
 import AddQuestion from '../components/AddQuestion'
-import AddQuiz from '../components/AddQuiz'
+import CreateQuizPage from '../components/CreateQuizPage'
 
 import SettingsPage from '../components/SettingsPage'
 import ProfilePage from '../components/ProfilePage'
@@ -117,9 +116,9 @@ export class Pages extends Component<IProps, IState> {
               path="/quiz-results/:quizUUID"
               component={QuizResultsPage}
             />
-            <PrivateRoute path="/create-quiz" component={CreateQuiz} />
+            {/* <PrivateRoute path="/create-quiz" component={CreateQuiz} /> */}
             <PrivateRoute path="/add-question" component={AddQuestion} />
-            <PrivateRoute path="/add-quiz" component={AddQuiz} />
+            <PrivateRoute path="/create-quiz" component={CreateQuizPage} />
             <PrivateRoute path="/achievements" component={AchievementsPage} />
             <PrivateRoute path="/store" component={StorePage} />
             <PrivateRoute path="/profile" component={ProfilePage} />

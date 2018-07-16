@@ -80,9 +80,8 @@ export class MyQuizzesPage extends Component<IProps> {
             quizzes.map((quiz: any) => {
               if (quiz.author === username)
                 return (
-                  <div className="block">
+                  <div key={quiz.uuid} className="block">
                     <div
-                      key={quiz.uuid}
                       className="delete-quiz"
                       data-uuid={quiz.uuid}
                       onClick={this.deleteQuizModal}
@@ -155,7 +154,10 @@ export class MyQuizzesPage extends Component<IProps> {
             )}
           {this.pageType === 'taken' &&
             quizAttempts !== undefined &&
-            quizAttempts.length === 0 && (
+            (quizAttempts.every(
+              quizAttempt => quizAttempt.timings.finished === undefined
+            ) ||
+              quizAttempts.length === 0) && (
               <p className="no-taken-quizzes">
                 You have not taken any quizzes yet.
               </p>

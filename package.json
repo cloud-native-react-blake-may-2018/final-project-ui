@@ -4,9 +4,8 @@
   "description": "create and take quizzes",
   "main": "index.ts",
   "scripts": {
-    "start": "concurrently -k \"npm run serve\" \"npm run test\"",
-    "//": "npm run test & npm run serve",
-    "serve": "ts-node index.ts",
+    "//": "concurrently -k \"npm run serve\" \"npm run test\"",
+    "start": "ts-node index.ts",
     "test": "jest --watchAll",
     "build": "NODE_ENV=production webpack"
   },
@@ -74,6 +73,7 @@
     "react-sidebar": "latest",
     "react-spinkit": "latest",
     "react-toggle": "latest",
+    "react-typewriter": "^0.4.1",
     "reactstrap": "latest",
     "redux": "latest",
     "redux-thunk": "latest",

@@ -1,6 +1,5 @@
 import React from 'react'
 import pathList from '../path-list'
-import { Result } from '../../../node_modules/@types/range-parser'
 
 export const startEditQuiz = quiz => dispatch =>
   pathList.quizzes.edit(quiz).then(quiz => dispatch(editQuiz(quiz)))
@@ -18,9 +17,9 @@ export const editStoreQuiz = quizzes => dispatch => {
 }
 
 export const startGetUserQuizzes = author => {
-  return async dispatch => {
+  return async dispatch =>
     // const quizAttempts = await pathList.quizzes.displayQuizAttempts(author)
-    pathList.quizzes.display(author).then(async quizzes => {
+    await pathList.quizzes.display(author).then(async quizzes => {
       const all = await Promise.all(
         quizzes.map(async quiz => {
           const questions = await pathList.questions.display(quiz.uuid)
@@ -32,9 +31,8 @@ export const startGetUserQuizzes = author => {
       )
       const quizAttempts = await pathList.quizzes.displayQuizAttempts(author)
       dispatch(getUserQuizzes(all))
-      dispatch(getQuizAttempts(quizAttempts))
+      return dispatch(getQuizAttempts(quizAttempts))
     })
-  }
 }
 
 export const getUserQuizzes = quizzes => ({

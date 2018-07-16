@@ -11,6 +11,18 @@ import DoubleIcon from '../../public/icons/double-icon.svg'
 import ForgiveIcon from '../../public/icons/forgive-icon.svg'
 import Spinner from 'react-spinkit'
 
+// GET USER POINTS
+// '/user/{username}' to get points
+
+// 'updatePoints/post
+
+/*
+{
+  username,
+  token (encrypted points)
+}
+*/
+
 interface IProps {
   username: string
   quizzes: any
@@ -19,16 +31,21 @@ interface IProps {
 
 export class DashboardPage extends Component<IProps> {
   state = {
-    oscillate: false
+    oscillate1: false,
+    oscillate2: false
   }
-  start = () => this.setState({ oscillate: true })
+  start1 = () => this.setState({ oscillate1: true })
 
-  stop = () => this.setState({ oscillate: false })
+  start2 = () => this.setState({ oscillate2: true })
+
+  stop1 = () => this.setState({ oscillate1: false })
+
+  stop2 = () => this.setState({ oscillate2: false })
 
   //@ts-ignore
   render = () => {
     const { quizzes, allAttempts } = this.props
-    const { oscillate } = this.state
+    const { oscillate1, oscillate2 } = this.state
     return (
       <div className="dashboard-page">
         {quizzes === undefined && (
@@ -46,17 +63,28 @@ export class DashboardPage extends Component<IProps> {
                       <p className="label">/ created</p>
                       <Link to="/quizzes/created" className="link">
                         <ArrowIcon
-                          className={oscillate ? 'arrow animate' : 'arrow'}
-                          onMouseOver={this.start}
-                          onAnimationEnd={this.stop}
+                          className={oscillate1 ? 'arrow animate' : 'arrow'}
+                          onMouseOver={this.start1}
+                          onAnimationEnd={this.stop1}
                         />
                       </Link>
                     </div>
                     <div className="quizzes-taken">
-                      <p className="count">{allAttempts.length}</p>
+                      <p className="count">
+                        {allAttempts.every(
+                          quizAttempt =>
+                            quizAttempt.timings.finished === undefined
+                        )
+                          ? 0
+                          : allAttempts.length}
+                      </p>
                       <p className="label">/ taken</p>
                       <Link to="/quizzes/taken" className="link">
-                        <ArrowIcon className="arrow" />
+                        <ArrowIcon
+                          className={oscillate2 ? 'arrow animate' : 'arrow'}
+                          onMouseOver={this.start2}
+                          onAnimationEnd={this.stop2}
+                        />
                       </Link>
                     </div>
                   </main>
