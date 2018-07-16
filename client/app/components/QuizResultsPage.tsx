@@ -39,12 +39,13 @@ export class QuizResultsPage extends Component<IProps, any> {
   determineColor = () => {
     const score = this.props.quiz.score
     if (score < 70) return 'red-dark-red'
-    if (score > 69 && score < 81) return 'yellow-orange'
+    if (score > 69 && score < 91) return 'yellow-orange'
     if (score > 90 && score < 100) return 'yellow-green'
     if (score === 100) return 'green-dark-green'
   }
 
-  componentWillUnmount() {
+  // @ts-ignore
+  componentWillUnmount = () => {
     if (this.props.history.action === 'POP') {
       console.log('user has left page')
       this.props.history.push('/quizzes/taken')
