@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import moment from 'moment'
 import numeral from 'numeral'
+import ImageGallery from 'react-image-gallery'
 import { connect } from 'react-redux'
 import { RouteProps } from 'react-router'
 import { Link } from 'react-router-dom'
@@ -344,10 +345,20 @@ export class TakeQuizPage extends Component<IProps, any> {
                 ))}
               </div>
               <div>
-                {
-                  quiz.questions[questionNumber].image !== undefined &&
-                  <img src={quiz.questions[questionNumber].image} alt="question image"/>
-                }
+                {quiz.questions[questionNumber].image !== undefined && (
+                  <ImageGallery
+                    items={[
+                      {
+                        original: quiz.questions[questionNumber].image,
+                        thumbnail: quiz.questions[questionNumber].image
+                      }
+                    ]}
+                    showThumbnails={false}
+                    showPlayButton={false}
+                    showImageFullScreenButton
+                    alt="question image"
+                  />
+                )}
               </div>
               <div className="buttons">
                 {questionNumber !== 0 && (
