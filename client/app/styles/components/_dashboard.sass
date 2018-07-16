@@ -83,11 +83,11 @@
               right: 0px
 
               &:hover
-                transition: all 1s ease-in-out
-                animation: dash-oscillate .7s infinite
+                // animation: dash-oscillate .7s infinite forwards
                 cursor: pointer
 
               &:hover path
+                transition: all .3s ease-in-out
                 cursor: pointer
                 fill: $blue
               
@@ -95,6 +95,10 @@
               transform: scale(.7)
               font: normal 22px Asap
               fill: $white
+
+            .animate
+              animation: dash-oscillate .7s 2 forwards
+
 
             .label
               grid-row: 2

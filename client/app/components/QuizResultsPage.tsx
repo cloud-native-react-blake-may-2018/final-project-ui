@@ -16,6 +16,7 @@ import CoinIcon from '../../public/icons/coin-icon.svg'
 
 interface IProps {
   quiz: any
+  history?: any
 }
 
 export class QuizResultsPage extends Component<IProps, any> {
@@ -44,6 +45,14 @@ export class QuizResultsPage extends Component<IProps, any> {
   }
 
   // @ts-ignore
+  componentWillUnmount = () => {
+    if (this.props.history.action === 'POP') {
+      console.log('user has left page')
+      this.props.history.push('/quizzes/taken')
+    }
+  }
+
+  // @ts-ignore
   render = () => {
     const { quiz } = this.props
     return (
@@ -65,7 +74,7 @@ export class QuizResultsPage extends Component<IProps, any> {
                 <p className="score">{Math.round(this.props.quiz.score)}%</p>
                 <div className="points-container">
                   <p className="points">
-                    +{parseInt(this.props.quiz.score) / 10}&nbsp;
+                    +{Math.round(parseInt(quiz.score) / 10)}&nbsp;
                   </p>
                   <CoinIcon className="coin-icon" />
                 </div>
@@ -74,11 +83,7 @@ export class QuizResultsPage extends Component<IProps, any> {
                 <Link to={`/view-quiz/${this.quizUUID}`} className="link">
                   <p className="retake-button">Retake quiz</p>
                 </Link>
-                <Link
-                  to={`/review-quiz/${quiz.attemptUUID}`}
-                  // onClick={this.startQuizAttempt}
-                  className="link"
-                >
+                <Link to={`/review-quiz/${this.quizUUID}`} className="link">
                   <p className="results-button">Review Quiz</p>
                 </Link>
               </footer>

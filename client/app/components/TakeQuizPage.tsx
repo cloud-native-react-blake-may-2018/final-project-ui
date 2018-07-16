@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import moment from 'moment'
 import numeral from 'numeral'
+import ImageGallery from 'react-image-gallery'
 import { connect } from 'react-redux'
 import { RouteProps } from 'react-router'
 import { Link } from 'react-router-dom'
@@ -20,6 +21,12 @@ import {
 } from '../constants/modaltypes'
 import Spinner from 'react-spinkit'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
+} from 'reactstrap'
 
 interface IProps extends RouteProps {
   username: any
@@ -28,8 +35,8 @@ interface IProps extends RouteProps {
   multipleSelectAnswer: any
   multipleChoiceAnswer: any[]
   answerArray: any
-  history: any
-  loadModal: (any) => any
+  history?: any
+  loadModal: (type: string, title?: string, uuid?: string) => void
   changeQuestionNumber: (questionNumber: number) => void
   startAddAnswerToArray: (answerObj: {}) => void
   addMultipleChoiceAnswer: (answerObj: {}) => void
@@ -44,21 +51,28 @@ interface IProps extends RouteProps {
   ) => void
 }
 
-const questionStyle = {
-  cursor: 'pointer'
-}
-
 export class TakeQuizPage extends Component<IProps, any> {
   constructor(props) {
     super(props)
+  }
+  state = {
+    dropdownOpen: false
   }
 
   params = window.location.href.split('/')
   quizUUID = this.params[4]
 
+  toggleDropdown = () =>
+    this.setState((prevState: any) => ({
+      dropdownOpen: !prevState.dropdownOpen
+    }))
+
   submitQuizModal = () => this.props.loadModal(SUBMIT_QUIZ_MODAL)
 
-  reportQuestionModal = () => this.props.loadModal(REPORT_QUESTION_MODAL)
+  public reportQuestionModal = questionUUID => e => {
+    console.log('reporting question', questionUUID)
+    this.props.loadModal(REPORT_QUESTION_MODAL, null, questionUUID)
+  }
 
   // will take you to the previous question and update answer array
   // if a choice is selected
@@ -114,6 +128,8 @@ export class TakeQuizPage extends Component<IProps, any> {
   // been answered if it has the answer will be updated
   public addAnswerToObject = (choices: object, answer: any) => {
     let index
+    let newArrayAnswers
+    let newArray
     switch (choices[this.props.questionNumber].format) {
       case 'multiple-choice':
         console.log(this.props.answerArray)
@@ -152,35 +168,62 @@ export class TakeQuizPage extends Component<IProps, any> {
             }
           })
         ) {
+          newArrayAnswers = this.props.answerArray[index].answer
+          this.props.addMultipleSelectAnswer({
+            author: choices[this.props.questionNumber].author,
+            title: choices[this.props.questionNumber].title,
+            answer: newArrayAnswers
+          })
+          console.log(newArrayAnswers)
+          // CLEARS ANSWERARRAY
           let newArray = this.props.answerArray
           newArray.splice(index, 1)
-          console.log(newArray)
           updateAnswerArray({
             newArray
           })
         }
-        let newArray: any[]
+
         if (
-          this.props.multipleSelectAnswer.answer.includes(answer.answer.answer)
+          this.props.multipleSelectAnswer.answer.includes(
+            answer.answer.answer
+          ) ||
+          (newArrayAnswers !== undefined &&
+            newArrayAnswers.includes(answer.answer.answer))
         ) {
           console.log('found a match, now remove it', answer.answer.answer)
-          const index = this.props.multipleSelectAnswer.answer.indexOf(
-            answer.answer.answer
-          )
-          newArray = this.props.multipleSelectAnswer.answer
-          newArray.splice(index, 1)
-          this.props.addMultipleSelectAnswer({
-            author: choices[this.props.questionNumber].author,
-            title: choices[this.props.questionNumber].title,
-            answer: newArray
-          })
+          if (newArrayAnswers !== undefined) {
+            const index = newArrayAnswers.indexOf(answer.answer.answer)
+            newArray = newArrayAnswers
+            newArray.splice(index, 1)
+            this.props.addMultipleSelectAnswer({
+              author: choices[this.props.questionNumber].author,
+              title: choices[this.props.questionNumber].title,
+              answer: newArray
+            })
+          } else {
+            const index = this.props.multipleSelectAnswer.answer.indexOf(
+              answer.answer.answer
+            )
+            newArray = this.props.multipleSelectAnswer.answer
+            console.log(newArray)
+            newArray.splice(index, 1)
+            this.props.addMultipleSelectAnswer({
+              author: choices[this.props.questionNumber].author,
+              title: choices[this.props.questionNumber].title,
+              answer: newArray
+            })
+          }
         } else {
           newArray = this.props.multipleSelectAnswer.answer
+          console.log(newArray)
+          newArrayAnswers !== undefined &&
+            newArrayAnswers.push(answer.answer.answer)
+          console.log(newArrayAnswers)
           newArray.push(answer.answer.answer)
           this.props.addMultipleSelectAnswer({
             author: choices[this.props.questionNumber].author,
             title: choices[this.props.questionNumber].title,
-            answer: newArray
+            answer: newArrayAnswers !== undefined ? newArrayAnswers : newArray
           })
         }
         break
@@ -248,8 +291,32 @@ export class TakeQuizPage extends Component<IProps, any> {
               <div className="meta">
                 <div className="container">
                   <p className="current">Question {questionNumber + 1}</p>
-                  <div className="icon" onClick={this.reportQuestionModal}>
-                    <FontAwesomeIcon icon="ellipsis-h" className="menu" />
+                  <div className="icon">
+                    <Dropdown
+                      isOpen={this.state.dropdownOpen}
+                      toggle={this.toggleDropdown}
+                      className="app-dropdown-root"
+                    >
+                      <DropdownToggle className="dropdown-toggle">
+                        <FontAwesomeIcon icon="ellipsis-h" className="menu" />
+                      </DropdownToggle>
+                      <DropdownMenu
+                        left="true"
+                        className="dropdown-menu"
+                        style={{
+                          display: this.state.dropdownOpen ? 'block' : 'none'
+                        }}
+                      >
+                        <DropdownItem
+                          className="dropdown-item"
+                          onClick={this.reportQuestionModal(
+                            this.props.quiz.questions[questionNumber].uuid
+                          )}
+                        >
+                          Report question
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
                   </div>
                 </div>
                 <p className="title">{quiz.title}</p>
@@ -276,6 +343,22 @@ export class TakeQuizPage extends Component<IProps, any> {
                     <p>{answers.answer.answer}</p>
                   </div>
                 ))}
+              </div>
+              <div>
+                {quiz.questions[questionNumber].image !== undefined && (
+                  <ImageGallery
+                    items={[
+                      {
+                        original: quiz.questions[questionNumber].image,
+                        thumbnail: quiz.questions[questionNumber].image
+                      }
+                    ]}
+                    showThumbnails={false}
+                    showPlayButton={false}
+                    showImageFullScreenButton
+                    alt="question image"
+                  />
+                )}
               </div>
               <div className="buttons">
                 {questionNumber !== 0 && (

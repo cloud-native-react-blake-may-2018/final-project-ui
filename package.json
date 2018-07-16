@@ -4,8 +4,8 @@
   "description": "create and take quizzes",
   "main": "index.ts",
   "scripts": {
-    "start": "npm run serve & npm run test",
-    "serve": "ts-node index.ts",
+    "//": "concurrently -k \"npm run serve\" \"npm run test\"",
+    "start": "ts-node index.ts",
     "test": "jest --watchAll",
     "build": "NODE_ENV=production webpack"
   },
@@ -13,14 +13,13 @@
   "license": "ISC",
   "jest": {
     "roots": [
-      "<rootDir>/client"
-    ],
-    "files": [
-      "client/app/typings/custom.d.ts"
+      "<rootDir>/client",
+      "<rootDir>/client/app/tests/"
     ],
     "setupFiles": [
       "raf/polyfill",
-      "<rootDir>/client/app/tests/setupTests.ts"
+      "<rootDir>/client/app/tests/setupTests.ts",
+      "jest-localstorage-mock"
     ],
     "setupTestFrameworkScriptFile": "<rootDir>/client/app/tests/setupTests.ts",
     "snapshotSerializers": [
@@ -29,10 +28,12 @@
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "transform": {
       "^.+\\.jsx?$": "<rootDir>/node_modules/babel-jest",
-      "^.+\\.tsx?$": "ts-jest"
+      "^.+\\.tsx?$": "ts-jest",
+      "^.+\\.svg$": "jest-svg-transformer"
     },
     "moduleNameMapper": {
-      "\\.(css|jpg|png|svg)$": "<rootDir>/node_modules/jest-css-modules"
+      "\\.(s?css|less)$": "identity-obj-proxy",
+      "\\.(jpg|png)$": "<rootDir>/node_modules/jest-css-modules"
     },
     "moduleFileExtensions": [
       "ts",
@@ -57,14 +58,15 @@
     "jsonwebtoken": "latest",
     "jwt-decode": "latest",
     "moment": "latest",
+    "node-sass": "latest",
     "numeral": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "react-dropzone": "^4.2.13",
+    "react-dropzone": "latest",
     "react-hot-loader": "latest",
-    "react-image-gallery": "latest",
+    "react-image-gallery": "^0.8.9",
     "react-input-autosize": "latest",
-    "react-loading-screen": "0.0.17",
+    "react-loading-screen": "latest",
     "react-redux": "latest",
     "react-router-dom": "latest",
     "react-router-hash-link": "latest",
@@ -72,6 +74,7 @@
     "react-sidebar": "latest",
     "react-spinkit": "latest",
     "react-toggle": "latest",
+    "react-typewriter": "^0.4.1",
     "reactstrap": "latest",
     "redux": "latest",
     "redux-thunk": "latest",
@@ -91,7 +94,7 @@
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
-    "@types/react-dropzone": "^4.2.0",
+    "@types/react-dropzone": "latest",
     "@types/react-hot-loader": "latest",
     "@types/react-redux": "latest",
     "@types/react-router-dom": "latest",
@@ -103,11 +106,12 @@
     "@types/webpack-hot-middleware": "latest",
     "awesome-typescript-loader": "latest",
     "babel-core": "latest",
-    "babel-loader": "^7.1.5",
+    "babel-loader": "latest",
     "babel-plugin-inline-react-svg": "latest",
     "babel-preset-env": "latest",
     "babel-preset-react": "latest",
     "babel-preset-stage-0": "latest",
+    "concurrently": "latest",
     "connect-history-api-fallback": "latest",
     "css-loader": "latest",
     "enzyme": "latest",
@@ -115,8 +119,10 @@
     "enzyme-to-json": "latest",
     "extract-css-chunks-webpack-plugin": "latest",
     "html-webpack-plugin": "latest",
+    "identity-obj-proxy": "latest",
     "jest": "latest",
-    "node-sass": "latest",
+    "jest-localstorage-mock": "latest",
+    "jest-svg-transformer": "latest",
     "raf": "latest",
     "react-svg-loader": "latest",
     "sass-loader": "latest",

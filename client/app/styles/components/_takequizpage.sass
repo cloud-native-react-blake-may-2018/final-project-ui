@@ -28,8 +28,8 @@
           align-items: center
           justify-self: start
 
-          &:hover .icon
-            opacity: 1
+          // &:hover .icon
+          //   opacity: 1
 
           .current
             justify-self: start
@@ -40,17 +40,16 @@
 
           .icon
             display: relative
-            opacity: 0
             transition: .15s all ease-in-out
 
-            &:hover
-              cursor: pointer
-              color: darken($light-grey, 10%)
+            .app-dropdown-root
+              .dropdown-toggle
+                .menu
+                  color: $light-grey
 
-            .menu
-              // display: absolute
-              color: $light-grey
-
+                &:hover
+                  cursor: pointer
+                  color: darken($light-grey, 10%)
 
         .title
           justify-self: center
@@ -92,7 +91,6 @@
           &:hover
             border: 3px solid lighten($blue, 5%)
 
-
       .buttons
         display: grid
         grid-template-columns: repeat(2, max-content)
@@ -117,6 +115,7 @@
 
           &:hover
             cursor: pointer
+            filter: brightness(97%)
 
           &:active
             cursor: pointer
@@ -140,6 +139,7 @@
 
           &:hover
             cursor: pointer
+            filter: brightness(97%)
 
           &:active
             cursor: pointer

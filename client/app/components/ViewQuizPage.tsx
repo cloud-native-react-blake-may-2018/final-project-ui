@@ -5,19 +5,32 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import ArrowIcon from '../../public/icons/arrow-icon.svg'
 import Spinner from 'react-spinkit'
-import { startGetSearchedQuiz, startQuizAttempt } from '../actions/quizzes'
+import {
+  startGetSearchedQuiz,
+  startQuizAttempt,
+  clearResults
+} from '../actions/quizzes'
 import { loadModal } from '../actions/modal'
 import { REPORT_QUIZ_MODAL } from '../constants/modaltypes'
-import { FontAwesomeIcon } from '../../../node_modules/@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
+} from 'reactstrap'
 
 interface IProps {
   history?: any
   match?: any
   username: any
   quizzes: any
+  results: any
   quiz: any
   randomGradient: string
+  toggle: any
   gradientColor: string
+  clearResults?: () => any
   startQuizAttempt: (quizUUID: any, username: any, reset: number) => void
   startGetSearchedQuiz: (uuid: any) => any
   loadModal: (string) => any
@@ -27,8 +40,14 @@ export class ViewQuizPage extends Component<IProps> {
   state = {
     clickedQuestion: [],
     questionNumber: 0,
-    index: Math.floor(Math.random() * 5)
+    index: Math.floor(Math.random() * 5),
+    dropdownOpen: false
   }
+
+  toggleDropdown = () =>
+    this.setState((prevState: any) => ({
+      dropdownOpen: !prevState.dropdownOpen
+    }))
 
   params = window.location.href.split('/')
   quizUUID = this.params[4]
@@ -44,6 +63,7 @@ export class ViewQuizPage extends Component<IProps> {
     })
   }
   public startQuizAttempt = (e: any) => {
+    this.props.results !== null && this.props.clearResults()
     this.props.startQuizAttempt(this.quizUUID, this.props.username, 0)
   }
 
@@ -63,52 +83,80 @@ export class ViewQuizPage extends Component<IProps> {
     const { index } = this.state
     return (
       <div className="view-quiz-page">
-        {quiz.questions === undefined && (
+        {(quiz === undefined || quiz.questions === undefined) && (
           <Spinner className="loading-indicator" name="ball-spin-fade-loader" />
         )}
-        {quiz.questions !== undefined && (
-          <div className="main">
-            <main className={this.randomGradient[index]}>
-              <ArrowIcon className="back" onClick={this.goBack} />
-              <div className="icon" onClick={this.reportQuizModal}>
-                <FontAwesomeIcon icon="ellipsis-h" className="menu" />
-              </div>
-              <p className="author">By: {quiz.author}</p>
-              <h1 className="title">{quiz.title}</h1>
-              <h2 className="total">{quiz.questions.length} questions</h2>
-            </main>
-            <footer>
-              <Link to={`/edit-quiz/${quiz.uuid}`} className="link">
-                <p className="edit-button">Edit quiz</p>
-              </Link>
-              {quiz.questions.length > 0 && (
-                <Link
-                  to={`/take-quiz/${quiz.uuid}`}
-                  onClick={this.startQuizAttempt}
-                  className="link"
-                >
-                  <p className="take-button">Take quiz</p>
+        {quiz !== undefined &&
+          quiz.questions !== undefined && (
+            <div className="main">
+              <main className={this.randomGradient[index]}>
+                <ArrowIcon className="back" onClick={this.goBack} />
+                <div className="icon">
+                  <Dropdown
+                    isOpen={this.state.dropdownOpen}
+                    toggle={this.toggleDropdown}
+                    className="app-dropdown-root"
+                  >
+                    <DropdownToggle className="dropdown-toggle">
+                      <FontAwesomeIcon icon="ellipsis-h" className="menu" />
+                    </DropdownToggle>
+                    <DropdownMenu
+                      right
+                      className="dropdown-menu"
+                      style={{
+                        display: this.state.dropdownOpen ? 'block' : 'none'
+                      }}
+                    >
+                      <DropdownItem
+                        className="dropdown-item"
+                        onClick={this.reportQuizModal}
+                      >
+                        Report quiz
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </div>
+                <p className="author">By: {quiz.author}</p>
+                <h1 className="title">{quiz.title}</h1>
+                <h2 className="total">{quiz.questions.length} questions</h2>
+              </main>
+              <footer>
+                <Link to={`/edit-quiz/${quiz.uuid}`} className="link">
+                  <p className="edit-button">Edit quiz</p>
                 </Link>
-              )}
-            </footer>
-          </div>
-        )}
+                {quiz.questions.length > 0 ? (
+                  <Link
+                    to={`/take-quiz/${quiz.uuid}`}
+                    onClick={this.startQuizAttempt}
+                    className="link"
+                  >
+                    <button className="take-button">Take quiz</button>
+                  </Link>
+                ) : (
+                  <div className="link">
+                    <button className="take-button" disabled={true}>
+                      Take quiz
+                    </button>
+                  </div>
+                )}
+              </footer>
+            </div>
+          )}
       </div>
     )
   }
 }
 
-// flag 1: quizzes.quizzes -> quizzes.all
 const mapStateToProps = (state, props) => ({
   username: state.auth.username,
+  results: state.takeQuiz.results,
   quiz:
     state.quizzes.all !== undefined &&
     state.quizzes.all.find(quiz => quiz.uuid === props.match.params.uuid),
   quizzes: state.quizzes.all
-  // clickedQuestion: state.quizzes.clickedQuestion
 })
 
 export default connect<any, any>(
   mapStateToProps,
-  { startGetSearchedQuiz, startQuizAttempt, loadModal }
+  { startGetSearchedQuiz, startQuizAttempt, loadModal, clearResults }
 )(ViewQuizPage)
