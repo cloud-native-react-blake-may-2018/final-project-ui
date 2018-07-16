@@ -9,6 +9,7 @@ interface ITakeQuiz {
   answerArray: any[]
   results: any
   done: any
+  quizReportResponse: any
 }
 
 const initialState: ITakeQuiz = {
@@ -22,7 +23,8 @@ const initialState: ITakeQuiz = {
   },
   answerArray: [],
   results: null,
-  done: false
+  done: false,
+  quizReportResponse: null
 }
 
 export const takeQuizReducer = (state = initialState, action = {} as any) => {
@@ -82,8 +84,7 @@ export const takeQuizReducer = (state = initialState, action = {} as any) => {
           author: action.answerObj.author,
           title: action.answerObj.title,
           answer: action.answerObj.answer
-        },
-        done: action.done
+        }
       }
     case 'UPDATE_MULTIPLE_SELECT_ANSWER':
       // console.log('multiple select ', action.answerArray)
@@ -109,6 +110,13 @@ export const takeQuizReducer = (state = initialState, action = {} as any) => {
         quizAttemptInfoObj: action.quizAttemptInfo,
         questionNumber: action.reset,
         answerArray: []
+      }
+
+    case 'SEND_QUIZ_REPORT':
+      console.log('quiz Report Response ', action.quizReportResponse)
+      return {
+        ...state,
+        quizReportResponse: action.quizReportResponse
       }
 
     case 'SUBMIT_QUIZ_ATTEMPT':

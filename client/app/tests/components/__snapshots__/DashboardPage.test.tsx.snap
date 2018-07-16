@@ -59,6 +59,7 @@ exports[`should render DashboardPage component 1`] = `
             </p>
             <Link
               className="link"
+              onClick={[Function]}
               replace={false}
               to="/quizzes/taken"
             >

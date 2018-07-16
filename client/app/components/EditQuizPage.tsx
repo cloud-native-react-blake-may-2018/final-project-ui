@@ -13,13 +13,14 @@ import { loadModal } from '../actions/modal'
 import { DELETE_QUIZ_MODAL } from '../constants/modaltypes'
 
 interface IProps {
+  history?: any
   username: any
   quiz: any
   quizzes: any[]
   editStoreQuiz: (any) => any
   startEditQuestion: (any) => any
   startDeleteQuestion: (author: string, title: any) => any
-  loadModal?: (string) => any
+  loadModal?: (type: string, title: string, uuid: any) => any
 }
 
 const colors = [
@@ -66,7 +67,10 @@ export class EditQuizPage extends Component<IProps> {
 
   page2 = () => this.setState({ page: 2 })
 
-  deleteQuizModal = () => this.props.loadModal(DELETE_QUIZ_MODAL)
+  deleteQuizModal = title => (e: any) => {
+    this.props.loadModal(DELETE_QUIZ_MODAL, title, null)
+    this.props.history.push('/quizzes/created')
+  }
 
   private updateArr = (e: any, arg1: number, arg2: string) => {
     let newAnswersArr = this.state.clickedQuestion.answers
@@ -94,9 +98,14 @@ export class EditQuizPage extends Component<IProps> {
           ...item,
           tags: testArr
         })
+      } else {
+        sendQuestionList.push({
+          ...item
+        })
       }
     }
     for (let item of sendQuestionList) {
+      console.log('here')
       const data = {
         quizID: window.location.href.split('/')[4],
         question: item
@@ -113,18 +122,18 @@ export class EditQuizPage extends Component<IProps> {
       updatedQuestions: newQArr
     })
     this.page1()
-    console.log(this.state.updatedQuestions)
+    // this.updateStore(this.state.clickedQuestion);
   }
 
   private deleteQuestion = (e: any) => {
-    this.updateStore()
+    this.deleteFromStore()
     this.props.startDeleteQuestion(
       this.state.clickedQuestion.author,
       this.state.clickedQuestion.title
     )
   }
 
-  private updateStore = () => {
+  private deleteFromStore = () => {
     let modQuiz = this.props.quiz
     for (let i = 0; i < modQuiz.questions.length; i++) {
       if (modQuiz.questions[i].uuid === this.state.clickedQuestion.uuid) {
@@ -139,6 +148,25 @@ export class EditQuizPage extends Component<IProps> {
       }
     }
     this.props.editStoreQuiz(quizList)
+  }
+
+  private updateStore = clickedQuestion => {
+    if (this.props.quizzes !== [] && this.props.quiz) {
+      let modQuiz = this.props.quiz
+      for (let i = 0; i < modQuiz.questions.length; i++) {
+        if (modQuiz.questions[i].uuid === this.state.clickedQuestion.uuid) {
+          modQuiz.questions = modQuiz.questions.concat(clickedQuestion)
+        }
+      }
+
+      let quizList = this.props.quizzes
+      for (let i = 0; i < quizList.length; i++) {
+        if (quizList[i].uuid === this.props.quiz.uuid) {
+          quizList.splice(i, 1, modQuiz)
+        }
+      }
+      this.props.editStoreQuiz(quizList)
+    }
   }
 
   public showQuizQuestion = (question: any, count: number, e: any) => {
@@ -217,7 +245,15 @@ export class EditQuizPage extends Component<IProps> {
 
   // @ts-ignore
   render = () => {
-    const { quiz, username } = this.props
+    const { username } = this.props
+    let quiz
+    for (let testQuiz of this.props.quizzes) {
+      if (testQuiz.uuid === window.location.href.split('/')[4]) {
+        console.log('inside quiz assignment')
+        quiz = testQuiz
+      }
+    }
+    console.log('this is the quiz being passed', quiz)
     const {
       page,
       clickedQuestion,
@@ -236,7 +272,10 @@ export class EditQuizPage extends Component<IProps> {
             <main>
               <div className="quiz-container">
                 <h1 className="title">{quiz.title}</h1>
-                <div className="close" onClick={this.deleteQuizModal}>
+                <div
+                  className="close"
+                  onClick={this.deleteQuizModal(this.props.quiz.title)}
+                >
                   <FontAwesomeIcon icon="trash" />
                   <p className="hint">Permanently delete this quiz</p>
                 </div>

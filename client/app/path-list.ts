@@ -37,8 +37,6 @@ const displayQuizTagsURL =
 
 const editQuizUrl = ''
 
-const deleteQuizUrl = ''
-
 const searchByAuthorUrl =
   'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/author/'
 
@@ -57,6 +55,9 @@ const sendQuizAttempt =
 const deleteQuestionUrl =
   'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/question/author'
 
+const deleteQuizUrl =
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/author/'
+
 // const deleteJunctionUrl = // this is done automatically in deleteQuestion
 //   "https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz";
 
@@ -68,6 +69,9 @@ const addTagsToSingleQuestionUrl =
 
 const addTagsToQuizUrl =
   'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/quiz/tag/batch'
+
+const sendQuizReport =
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/ticket'
 
 export default {
   create: {
@@ -129,12 +133,20 @@ export default {
         .get(`${getQuizAttempt}${quizUUID}/user/${username}`)
         .then(res => res.data),
 
+    sendQuizReport: quizReport =>
+      authInterceptor.post(sendQuizReport, quizReport).then(res => res.data),
+
     submitQuizAttempt: (quizUUID, user, attemptUUID, answerArray) =>
       authInterceptor
         .post(
           `${sendQuizAttempt}${quizUUID}/user/${user}/attempt/${attemptUUID}`,
           answerArray
         )
+        .then(res => res.data),
+
+    deleteQuiz: (author, title) =>
+      authInterceptor
+        .delete(`${deleteQuizUrl}${author}/title/${title}`)
         .then(res => res.data)
   },
 
@@ -158,7 +170,10 @@ export default {
     deleteQuestion: (author, title) =>
       authInterceptor
         .delete(`${deleteQuestionUrl}/${author}/title`, { data: { title } })
-        .then(res => res.data)
+        .then(res => res.data),
+
+    sendQuestionReport: questionReport =>
+      authInterceptor.post(sendQuizReport, questionReport).then(res => res.data)
 
     // deleteJunction: (quizUUID, questionUUID) =>
     //   axios

@@ -3,20 +3,31 @@ import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Modal from '../Modal'
 import { hideModal } from '../../actions/modal'
+import { deleteQuiz } from '../../actions/quizzes'
 // import { deleteQuiz } from '../../actions/quizzes'
 import { RouteProps, withRouter } from 'react-router'
 
 interface IProps {
+  username: string
+  title: string
   hideModal: () => any
+  deleteQuiz: (author: string, title) => any
 }
 
 export class SubmitQuizModal extends Component<IProps> {
   onClose = () => this.props.hideModal()
 
-  deleteQuiz = () => console.log('deleting quiz...')
+  deleteQuiz = (author: string, title: string) => (e: any) => {
+    this.props.deleteQuiz(author, title)
+    console.log(`in delete function author: ${author} and title ${title}`)
+    console.log('deleting quiz...')
+    this.onClose()
+  }
 
   // @ts-ignore
   render = () => {
+    const { username, title } = this.props
+    console.log('checking title', title)
     return (
       <Modal onClose={this.onClose}>
         <div className="delete-quiz-modal">
@@ -32,7 +43,10 @@ export class SubmitQuizModal extends Component<IProps> {
             <button onClick={this.onClose} className="cancel">
               Cancel
             </button>
-            <button onClick={this.deleteQuiz} className="submit">
+            <button
+              onClick={this.deleteQuiz(username, title)}
+              className="submit"
+            >
               Delete
             </button>
           </div>
@@ -43,12 +57,13 @@ export class SubmitQuizModal extends Component<IProps> {
 }
 
 const mapStateToProps = (state, props) => ({
-  username: state.auth.username
+  username: state.auth.username,
+  title: state.modal.quizTitle
 })
 
 export default withRouter(
   connect(
     mapStateToProps,
-    { hideModal }
+    { hideModal, deleteQuiz }
   )(SubmitQuizModal)
 )

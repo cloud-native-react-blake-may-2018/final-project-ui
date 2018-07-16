@@ -3,7 +3,12 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 import numeral from 'numeral'
 import { Link } from 'react-router-dom'
-import { startGetUserQuizzes } from '../actions/quizzes'
+import {
+  startGetUserQuizzes,
+  clearResults,
+  clearQuizAttempt
+} from '../actions/quizzes'
+
 import CoinIcon from '../../public/icons/coin-icon.svg'
 import ArrowIcon from '../../public/icons/arrow-icon.svg'
 import ParseIcon from '../../public/icons/parse-icon.svg'
@@ -27,9 +32,15 @@ interface IProps {
   username: string
   quizzes: any
   allAttempts: any
+  clearResults?: () => any
+  clearQuizAttempt?: (reset: number) => void
 }
 
 export class DashboardPage extends Component<IProps> {
+  constructor(props) {
+    super(props)
+  }
+
   state = {
     oscillate1: false,
     oscillate2: false
@@ -41,6 +52,12 @@ export class DashboardPage extends Component<IProps> {
   stop1 = () => this.setState({ oscillate1: false })
 
   stop2 = () => this.setState({ oscillate2: false })
+
+  clearResults = (e: any) => {
+    this.props.clearResults()
+    this.props.clearQuizAttempt(0)
+    console.log('clearing results')
+  }
 
   //@ts-ignore
   render = () => {
@@ -161,5 +178,9 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { startGetUserQuizzes }
+  {
+    startGetUserQuizzes,
+    clearResults,
+    clearQuizAttempt
+  }
 )(DashboardPage)
