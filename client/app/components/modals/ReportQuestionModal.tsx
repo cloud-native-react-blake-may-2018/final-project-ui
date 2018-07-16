@@ -29,14 +29,12 @@ export class ReportQuestionModal extends Component<IProps, any> {
   }
 
   sendQuestionReport = () => {
-    const questionReport = {
-      uuid: this.props.questionUUID,
-      type: 'question',
-      message: this.state.report
-    }
-    console.log(questionReport.message)
-    questionReport.message.length > 0 &&
-      this.props.startSendQuestionReport(questionReport)
+    this.state.report.length > 0 &&
+      this.props.startSendQuestionReport({
+        uuid: this.props.questionUUID,
+        type: 'question',
+        message: this.state.report
+      })
     this.onClose()
   }
 
