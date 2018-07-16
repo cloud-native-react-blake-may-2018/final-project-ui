@@ -4,7 +4,6 @@ import Dropzone from 'react-dropzone'
 import axios from 'axios'
 import * as awsCognito from 'amazon-cognito-identity-js'
 import * as AWS from 'aws-sdk'
-import { FontAwesomeIcon } from '../../../node_modules/@fortawesome/react-fontawesome'
 import { Modal } from './Modal'
 import { startUpdateEmail, startUpdateName } from '../actions/auth'
 import Axios from '../../../node_modules/axios'
@@ -14,11 +13,10 @@ interface ClassProps {
   username: string
   photo: string
   name: string
-  file
+  file: string
   startUpdateUser?: (any) => any
   startUpdateName?: (name: string) => void
   startUpdateEmail?: (email: string) => void
-  hideModal: () => any
 }
 
 if (localStorage.getItem('refresh_token') !== 'undefined') {
@@ -99,8 +97,6 @@ export class SettingsPage extends Component<ClassProps> {
   // declare ref
   private photoUpload: HTMLInputElement
   private isAuthenticated: boolean = false
-
-  onClose = () => this.props.hideModal()
 
   setPage = e => {
     console.log('target: ', e.target.textContent)
