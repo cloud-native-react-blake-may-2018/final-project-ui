@@ -343,6 +343,12 @@ export class TakeQuizPage extends Component<IProps, any> {
                   </div>
                 ))}
               </div>
+              <div>
+                {
+                  quiz.questions[questionNumber].image !== undefined &&
+                  <img src={quiz.questions[questionNumber].image} alt="question image"/>
+                }
+              </div>
               <div className="buttons">
                 {questionNumber !== 0 && (
                   <button
