@@ -18,6 +18,7 @@ interface RProps {
   isAuthenticated: Boolean
   username: string
   photo?: string
+  points: number
 }
 
 interface RState {
@@ -84,7 +85,7 @@ export class Header extends Component<Props> {
 
   // @ts-ignore
   render = () => {
-    const { isAuthenticated, username, photo, startLogout } = this.props
+    const { isAuthenticated, username, photo, points, startLogout } = this.props
     const { showSearch, term, query } = this.state
 
     return (
@@ -108,10 +109,12 @@ export class Header extends Component<Props> {
           </form>
         </div>
 
-        <div className="coin-group">
-          <CoinIcon className="coin-icon" />
-          <p className="coin-total">0</p>
-        </div>
+        {points !== undefined && (
+          <div className="coin-group">
+            <CoinIcon className="coin-icon" />
+            <p className="coin-total">{points}</p>
+          </div>
+        )}
 
         <Dropdown
           isOpen={this.state.dropdownOpen}
@@ -155,7 +158,8 @@ export class Header extends Component<Props> {
 
 const mapStateToProps = state => ({
   isAuthenticated: !!state.auth.token,
-  username: state.auth.username
+  username: state.auth.username,
+  points: state.app.points
   // photo: state.auth.profileImage
 })
 

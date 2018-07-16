@@ -29,8 +29,12 @@ export const startGetUserQuizzes = author => {
           return { ...quiz, questions, tags }
         })
       )
+      const points = await pathList.points.getUserPoints(author)
+      const allPoints = await pathList.points.getAllPoints()
       const quizAttempts = await pathList.quizzes.displayQuizAttempts(author)
       dispatch(getUserQuizzes(all))
+      dispatch(getUserPoints(points))
+      dispatch(getAllPoints(allPoints))
       return dispatch(getQuizAttempts(quizAttempts))
     })
 }
@@ -43,6 +47,16 @@ export const getUserQuizzes = quizzes => ({
 export const getQuizAttempts = quizAttempts => ({
   type: 'ALL_QUIZ_ATTEMPTS',
   quizAttempts
+})
+
+export const getUserPoints = points => ({
+  type: 'USER_POINTS',
+  points
+})
+
+export const getAllPoints = points => ({
+  type: 'ALL_POINTS',
+  points
 })
 
 export const startGetSearchedQuiz = quiz => async dispatch => {

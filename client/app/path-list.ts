@@ -73,6 +73,26 @@ const addTagsToQuizUrl =
 const sendQuizReport =
   'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/ticket'
 
+const getUserPointsUrl =
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/user/'
+
+const getAllPointsUrl =
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/user/all/points'
+
+/* GET USER POINTS */
+// '/user/{username}' to get points
+
+// 'updatePoints/post
+
+// '/user/all/points'
+
+/*
+{
+  username,
+  token (encrypted points)
+}
+*/
+
 export default {
   create: {
     addQuestion: newQuestion =>
@@ -179,5 +199,13 @@ export default {
     //   axios
     //     .delete(`${deleteJunctionUrl}/${quizUUID}/question/${questionUUID}`)
     //     .then(res => res.data)
+  },
+
+  points: {
+    getUserPoints: username =>
+      authInterceptor.get(getUserPointsUrl + username).then(res => res.data),
+
+    getAllPoints: () =>
+      authInterceptor.get(getAllPointsUrl).then(res => res.data)
   }
 }

@@ -23,6 +23,7 @@ test('should render DashboardPage component', () => {
       username="named_manager"
       quizzes="quiz array placeholder"
       allAttempts={allAttempts}
+      top3={[{ username: 'malin20', points: 25 }]}
     />
   )
   expect(wrapper).toMatchSnapshot()

@@ -16,22 +16,11 @@ import DoubleIcon from '../../public/icons/double-icon.svg'
 import ForgiveIcon from '../../public/icons/forgive-icon.svg'
 import Spinner from 'react-spinkit'
 
-// GET USER POINTS
-// '/user/{username}' to get points
-
-// 'updatePoints/post
-
-/*
-{
-  username,
-  token (encrypted points)
-}
-*/
-
 interface IProps {
   username: string
   quizzes: any
   allAttempts: any
+  top3: any
   clearResults?: () => any
   clearQuizAttempt?: (reset: number) => void
 }
@@ -61,7 +50,7 @@ export class DashboardPage extends Component<IProps> {
 
   //@ts-ignore
   render = () => {
-    const { quizzes, allAttempts } = this.props
+    const { quizzes, allAttempts, top3 } = this.props
     const { oscillate1, oscillate2 } = this.state
     return (
       <div className="dashboard-page">
@@ -136,7 +125,15 @@ export class DashboardPage extends Component<IProps> {
               <aside className="side-bottom">
                 <h2 className="header-title">Leaderboards</h2>
                 <main>
-                  <div className="container">
+                  {top3 !== undefined &&
+                    top3.map(user => (
+                      <div className="container">
+                        <p className="username">{user.username}</p>
+                        <p className="total">{user.points}</p>
+                        <CoinIcon className="coin" />
+                      </div>
+                    ))}
+                  {/* <div className="container">
                     <p className="username">wave_forms</p>
                     <p className="total">217</p>
                     <CoinIcon className="coin" />
@@ -150,7 +147,7 @@ export class DashboardPage extends Component<IProps> {
                     <p className="username">malin_2</p>
                     <p className="total">74</p>
                     <CoinIcon className="coin" />
-                  </div>
+                  </div> */}
                 </main>
               </aside>
             </div>
@@ -173,7 +170,8 @@ const mapStateToProps = state => ({
   token: state.auth.token,
   username: state.auth.username,
   quizzes: state.quizzes.all,
-  allAttempts: state.quizzes.allAttempts
+  allAttempts: state.quizzes.allAttempts,
+  top3: state.app.allPoints
 })
 
 export default connect(

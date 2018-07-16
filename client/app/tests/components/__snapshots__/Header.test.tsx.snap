@@ -62,7 +62,7 @@ exports[`should render Header component 1`] = `
     <p
       className="coin-total"
     >
-      0
+      4
     </p>
   </div>
   <Dropdown
