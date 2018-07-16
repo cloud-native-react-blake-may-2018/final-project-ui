@@ -19,7 +19,7 @@ interface IProps {
   editStoreQuiz: (any) => any
   startEditQuestion: (any) => any
   startDeleteQuestion: (author: string, title: any) => any
-  loadModal?: (string) => any
+  loadModal?: (type: string, title: string, uuid: any) => any
 }
 
 const colors = [
@@ -66,7 +66,8 @@ export class EditQuizPage extends Component<IProps> {
 
   page2 = () => this.setState({ page: 2 })
 
-  deleteQuizModal = () => this.props.loadModal(DELETE_QUIZ_MODAL)
+  deleteQuizModal = title => (e: any) =>
+    this.props.loadModal(DELETE_QUIZ_MODAL, title, null)
 
   private updateArr = (e: any, arg1: number, arg2: string) => {
     let newAnswersArr = this.state.clickedQuestion.answers
@@ -93,11 +94,11 @@ export class EditQuizPage extends Component<IProps> {
         sendQuestionList.push({
           ...item,
           tags: testArr
-        });
+        })
       } else {
         sendQuestionList.push({
           ...item
-        });
+        })
       }
     }
     for (let item of sendQuestionList) {
@@ -116,13 +117,13 @@ export class EditQuizPage extends Component<IProps> {
     this.setState({
       ...this.state,
       updatedQuestions: newQArr
-    });
-    this.page1();
+    })
+    this.page1()
     // this.updateStore(this.state.clickedQuestion);
-  };
+  }
 
   private deleteQuestion = (e: any) => {
-    this.deleteFromStore();
+    this.deleteFromStore()
     this.props.startDeleteQuestion(
       this.state.clickedQuestion.author,
       this.state.clickedQuestion.title
@@ -130,7 +131,7 @@ export class EditQuizPage extends Component<IProps> {
   }
 
   private deleteFromStore = () => {
-    let modQuiz = this.props.quiz;
+    let modQuiz = this.props.quiz
     for (let i = 0; i < modQuiz.questions.length; i++) {
       if (modQuiz.questions[i].uuid === this.state.clickedQuestion.uuid) {
         modQuiz.questions.splice(i, 1)
@@ -148,22 +149,22 @@ export class EditQuizPage extends Component<IProps> {
 
   private updateStore = clickedQuestion => {
     if (this.props.quizzes !== [] && this.props.quiz) {
-      let modQuiz = this.props.quiz;
+      let modQuiz = this.props.quiz
       for (let i = 0; i < modQuiz.questions.length; i++) {
         if (modQuiz.questions[i].uuid === this.state.clickedQuestion.uuid) {
-          modQuiz.questions = modQuiz.questions.concat(clickedQuestion);
+          modQuiz.questions = modQuiz.questions.concat(clickedQuestion)
         }
       }
 
-      let quizList = this.props.quizzes;
+      let quizList = this.props.quizzes
       for (let i = 0; i < quizList.length; i++) {
         if (quizList[i].uuid === this.props.quiz.uuid) {
-          quizList.splice(i, 1, modQuiz);
+          quizList.splice(i, 1, modQuiz)
         }
       }
-      this.props.editStoreQuiz(quizList);
+      this.props.editStoreQuiz(quizList)
     }
-  };
+  }
 
   public showQuizQuestion = (question: any, count: number, e: any) => {
     e.preventDefault()
@@ -259,7 +260,10 @@ export class EditQuizPage extends Component<IProps> {
           <main>
             <div className="quiz-container">
               <h1 className="title">{quiz.title}</h1>
-              <div className="close" onClick={this.deleteQuizModal}>
+              <div
+                className="close"
+                onClick={this.deleteQuizModal(this.props.quiz.title)}
+              >
                 <FontAwesomeIcon icon="trash" />
                 <p className="hint">Permanently delete this quiz</p>
               </div>
