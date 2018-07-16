@@ -246,7 +246,6 @@ export class EditQuizPage extends Component<IProps> {
   // @ts-ignore
   render = () => {
     const { username } = this.props
-    // const { quiz } = this.props;
     let quiz
     for (let testQuiz of this.props.quizzes) {
       if (testQuiz.uuid === window.location.href.split('/')[4]) {

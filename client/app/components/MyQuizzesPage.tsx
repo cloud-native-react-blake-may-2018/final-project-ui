@@ -4,7 +4,7 @@ import numeral from 'numeral'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { clearResults } from '../actions/quizzes'
+import { clearResults, clearQuizAttempt } from '../actions/quizzes'
 import { loadModal } from '../actions/modal'
 import { DELETE_QUIZ_MODAL } from '../constants/modaltypes'
 
@@ -14,6 +14,7 @@ interface IProps {
   type: string
   quizAttempts: any[]
   clearResults?: () => any
+  clearQuizAttempt?: (reset: number) => void
   loadModal?: (type: string, title: string, uuid: any) => any
 }
 
@@ -33,11 +34,15 @@ const colors = [
 ]
 
 export class MyQuizzesPage extends Component<IProps> {
+  constructor(props) {
+    super(props)
+  }
   params = window.location.href.split('/')
   pageType = this.params[4]
 
   clearResults = (e: any) => {
     this.props.clearResults()
+    this.props.clearQuizAttempt(0)
     console.log('clearing results')
   }
 
@@ -181,6 +186,7 @@ export default connect(
   mapStateToProps,
   {
     clearResults,
-    loadModal
+    loadModal,
+    clearQuizAttempt
   }
 )(MyQuizzesPage)
