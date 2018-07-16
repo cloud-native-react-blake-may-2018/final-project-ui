@@ -21,7 +21,7 @@ interface IPayload {
 }
 
 // TODO: data persistence from localhost
-if (localStorage.idTokenKey) {
+if (localStorage.id_token) {
   const data = {
     ClientId: '1q83lmu6khfnc0v8jjdrde9291', // Your client id here
     UserPoolId: 'us-east-2_fMMquWRem' // Your user pool id here
@@ -32,7 +32,7 @@ if (localStorage.idTokenKey) {
   const payload: IPayload = JSON.parse(localStorage.userInfoToken)
   const user = {
     email: payload.email,
-    token: localStorage.idTokenKey,
+    token: localStorage.id_token,
     uid: payload.sub, // what is this in cognito token?
     name: payload.name,
     // @ts-ignore

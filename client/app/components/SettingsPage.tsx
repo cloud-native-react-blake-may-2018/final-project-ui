@@ -4,8 +4,10 @@ import Dropzone from 'react-dropzone'
 import axios from 'axios'
 import * as awsCognito from 'amazon-cognito-identity-js'
 import * as AWS from 'aws-sdk'
-import { FontAwesomeIcon } from '../../../node_modules/@fortawesome/react-fontawesome';
-import { Modal } from './Modal';
+import { FontAwesomeIcon } from '../../../node_modules/@fortawesome/react-fontawesome'
+import { Modal } from './Modal'
+import { startUpdateEmail, startUpdateName } from '../actions/auth'
+import Axios from '../../../node_modules/axios'
 // import { startUpdateUser } from '../actions/auth'
 interface ClassProps {
   email: string
@@ -13,61 +15,69 @@ interface ClassProps {
   photo: string
   name: string
   file
-  startUpdateUser: (any) => any
+  startUpdateUser?: (any) => any
+  startUpdateName?: (name: string) => void
+  startUpdateEmail?: (email: string) => void
   hideModal: () => any
 }
 
-const data = {
-  UserPoolId: 'us-east-2_fMMquWRem',
-  ClientId: '1q83lmu6khfnc0v8jjdrde9291'
-}
-const token = JSON.parse(localStorage.getItem('userInfoToken'));
-const userPool = new awsCognito.CognitoUserPool(data);
-const userData = {
-  Username: token !== null && token.username,
-  Pool: userPool
-}
-// const cognitoUser = new awsCognito.CognitoUser(userData);
-const cognitoUser = userPool.getCurrentUser();
-console.log(cognitoUser);
-
-cognitoUser.getSession((err, session) => {
-  // console.log(session);
-  if (err) {
-    console.log(err);
-    return;
+if (localStorage.getItem('refresh_token') !== 'undefined') {
+  const data = {
+    UserPoolId: 'us-east-2_fMMquWRem',
+    ClientId: '1q83lmu6khfnc0v8jjdrde9291'
   }
-  // console.log('session validity: ' + session.isValid());
 
-  AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: 'us-east-2:2bf920c2-7094-49a7-bfd0-eec2d6f36ee4',
-    Logins: {
-      'cognito-idp.us-east-2.amazonaws.com/us-east-2_fMMquWRem' : session.getIdToken().getJwtToken()
+  const token = JSON.parse(localStorage.getItem('userInfoToken'))
+  const userPool = new awsCognito.CognitoUserPool(data)
+  const userData = {
+    Username: token !== null && token.username,
+    Pool: userPool
+  }
+
+  const cognitoUser = new awsCognito.CognitoUser(userData)
+  // const cognitoUser = userPool.getCurrentUser();
+  console.log(cognitoUser)
+
+  if (cognitoUser !== null) {
+    const token1 = localStorage.getItem('id_token')
+    const idToken = new awsCognito.CognitoIdToken({
+      IdToken: token1 !== null && token1
+    })
+    const token2 = localStorage.getItem('access_token')
+    const accessToken = new awsCognito.CognitoAccessToken({
+      AccessToken: token2 !== null && token2
+    })
+    const token3 = localStorage.getItem('refresh_token')
+    const refreshToken = new awsCognito.CognitoRefreshToken({
+      RefreshToken: token3 !== null && token3
+    })
+
+    let tokenData = {
+      IdToken: idToken,
+      AccessToken: accessToken,
+      RefreshToken: refreshToken
     }
-  })
+    console.log(tokenData);
+    let session = new awsCognito.CognitoUserSession(tokenData)
+    console.log(session)
+    cognitoUser.setSignInUserSession(session)
 
-  var s3 = new AWS.S3();
-})
-
-var attributeList = [];
-cognitoUser.getUserAttributes((err, result) => {
-  if (err) {
-    console.log(err);
-    return;
+    if (cognitoUser != null) {
+      cognitoUser.getSession((err, session) => {
+          if (err) {
+              console.log(err);
+              return;
+          }
+          console.log('session validity: ' + session.isValid());
+      });
   }
-  for (let i=0; i < result.length; i++) {
-    attributeList.push({Name: result[i].getName(), Value: result[i].getValue()});
-  }
-})
-console.log(attributeList);
-
-
-
-
-
-
+}
+}
 
 export class SettingsPage extends Component<ClassProps> {
+  constructor(props) {
+    super(props)
+  }
   state = {
     page: 'General',
     name: this.props.name,
@@ -77,7 +87,7 @@ export class SettingsPage extends Component<ClassProps> {
   }
   // declare ref
   private photoUpload: HTMLInputElement
-  private isAuthenticated: boolean = false;
+  private isAuthenticated: boolean = false
 
   onClose = () => this.props.hideModal()
 
@@ -110,7 +120,7 @@ export class SettingsPage extends Component<ClassProps> {
   //             <button type="submit" onSubmit={this.authenticate} className="submit">Report</button>
   //           </div>
   //         </div>
-  //       </Modal> 
+  //       </Modal>
   //     )
   //   }
   // }
@@ -133,7 +143,7 @@ export class SettingsPage extends Component<ClassProps> {
   //         console.log(err);
   //       }
   //     })
-      
+
   //     if(!this.isAuthenticated) return;
 
   //     cognitoUser.getSession((err, session) => {
@@ -143,17 +153,17 @@ export class SettingsPage extends Component<ClassProps> {
   //         return;
   //       }
   //       // console.log('session validity: ' + session.isValid());
-    
+
   //       AWS.config.credentials = new AWS.CognitoIdentityCredentials({
   //         IdentityPoolId: 'us-east-2:2bf920c2-7094-49a7-bfd0-eec2d6f36ee4',
   //         Logins: {
   //           'cognito-idp.us-east-2.amazonaws.com/us-east-2_fMMquWRem' : session.getIdToken().getJwtToken()
   //         }
   //       })
-    
+
   //       var s3 = new AWS.S3();
   //     })
-    
+
   //     var attributeList = [];
   //     cognitoUser.getUserAttributes((err, result) => {
   //       if (err) {
@@ -169,9 +179,12 @@ export class SettingsPage extends Component<ClassProps> {
   // }
 
   onFieldChange = e => {
-    e.props = ({
-      [e.target.name]: e.target.value
-    })
+    // e.props = ({
+    //   [e.target.name]: e.target.value
+    // })
+    this.updateName(e)
+    this.updateEmail(e)
+    console.log(this.state)
   }
   fileSelectedHandler = e => this.setState({ selectedFile: e.target.files[0] })
   generalUploadHandler = async e => {
@@ -226,15 +239,24 @@ export class SettingsPage extends Component<ClassProps> {
     // console.log(`Name: ${fullName}\nEmail: ${email}`);
   }
 
-  updateEmail = e => {
-    const nameField = e.target.name;
-    const name = nameField.value;
-    // this.props.name = name;
-    const emailField = e.target.email;
-    const email = emailField.value;
-    // this.props.email = email;
+  updateName = (e: any) => {
+    const nameField = e.target.name
+    const name = nameField.value
+    this.props.startUpdateName(name)
+    // this.setState({
+    //   name: name
+    // })
     // ({
     //   [e.target.name]: e.target.value
+    // })
+  }
+
+  updateEmail = e => {
+    const emailField = e.target.email
+    const email = emailField.value
+    this.props.startUpdateEmail(email)
+    // this.setState({
+    //   email: email
     // })
   }
 
@@ -299,14 +321,34 @@ export class SettingsPage extends Component<ClassProps> {
               >
                 <div className="input-group">
                   <label htmlFor="fullname">Full Name</label>
-                  <input type="text" name="fullname" placeholder={name} onChange={this.onFieldChange} value={this.props.name}/>
+                  <input
+                    type="text"
+                    name="fullname"
+                    placeholder={name}
+                    onChange={(e: any) => {
+                      this.updateName(e)
+                    }}
+                    value={this.state.name}
+                  />
                 </div>
                 <div className="input-group">
                   <label htmlFor="email">Email</label>
-                  <input type="email" name="email" placeholder={email} onChange={this.onFieldChange} value={this.props.email}/>
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder={email}
+                    onChange={(e: any) => {
+                      this.updateEmail(e)
+                    }}
+                    value={this.state.email}
+                  />
                 </div>
                 <div className="input-group">
-                  <button className="save-button" type="submit" onSubmit={this.updateProfile}>
+                  <button
+                    className="save-button"
+                    type="submit"
+                    onSubmit={this.updateProfile}
+                  >
                     Save changes
                   </button>
                 </div>
@@ -366,4 +408,7 @@ const mapStateToProps = state => ({
   email: state.auth.email,
   photo: state.auth.profileImage
 })
-export default connect(mapStateToProps)(SettingsPage)
+export default connect(
+  mapStateToProps,
+  { startUpdateName, startUpdateEmail }
+)(SettingsPage)
