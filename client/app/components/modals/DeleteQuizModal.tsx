@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Modal from '../Modal'
 import { hideModal } from '../../actions/modal'
 import { deleteQuiz } from '../../actions/quizzes'
-// import { deleteQuiz } from '../../actions/quizzes'
 import { RouteProps, withRouter } from 'react-router'
 
 interface IProps {

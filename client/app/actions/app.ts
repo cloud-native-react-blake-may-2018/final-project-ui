@@ -24,7 +24,6 @@ export const startSearch = query => async dispatch => {
     ...quizzesByTags
   }
 
-  console.log('results from db ', quizResults)
   return dispatch(search(quizResults))
 }
 

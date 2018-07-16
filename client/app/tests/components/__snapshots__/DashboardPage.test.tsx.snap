@@ -50,7 +50,7 @@ exports[`should render DashboardPage component 1`] = `
             <p
               className="count"
             >
-              29
+              2
             </p>
             <p
               className="label"
@@ -59,12 +59,13 @@ exports[`should render DashboardPage component 1`] = `
             </p>
             <Link
               className="link"
-              onClick={[Function]}
               replace={false}
               to="/quizzes/taken"
             >
               <SvgArrowIcon
                 className="arrow"
+                onAnimationEnd={[Function]}
+                onMouseOver={[Function]}
               />
             </Link>
           </div>

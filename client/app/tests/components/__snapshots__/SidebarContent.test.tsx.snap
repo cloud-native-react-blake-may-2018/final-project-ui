@@ -27,7 +27,7 @@ exports[`should render SidebarContent component 1`] = `
     <Link
       className="link"
       replace={false}
-      to="/add-quiz"
+      to="/create-quiz"
     >
       <SvgAddQuizIcon
         className="svg add-quiz"

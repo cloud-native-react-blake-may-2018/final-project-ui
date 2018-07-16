@@ -12,7 +12,7 @@ import {
 } from '../actions/quizzes'
 import { loadModal } from '../actions/modal'
 import { REPORT_QUIZ_MODAL } from '../constants/modaltypes'
-import { FontAwesomeIcon } from '../../../node_modules/@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   Dropdown,
   DropdownToggle,
@@ -121,19 +121,23 @@ export class ViewQuizPage extends Component<IProps> {
                 <h2 className="total">{quiz.questions.length} questions</h2>
               </main>
               <footer>
-                {this.props.quiz.author === this.props.username && (
-                  <Link to={`/edit-quiz/${quiz.uuid}`} className="link">
-                    <p className="edit-button">Edit quiz</p>
-                  </Link>
-                )}
-                {quiz.questions.length > 0 && (
+                <Link to={`/edit-quiz/${quiz.uuid}`} className="link">
+                  <p className="edit-button">Edit quiz</p>
+                </Link>
+                {quiz.questions.length > 0 ? (
                   <Link
                     to={`/take-quiz/${quiz.uuid}`}
                     onClick={this.startQuizAttempt}
                     className="link"
                   >
-                    <p className="take-button">Take quiz</p>
+                    <button className="take-button">Take quiz</button>
                   </Link>
+                ) : (
+                  <div className="link">
+                    <button className="take-button" disabled={true}>
+                      Take quiz
+                    </button>
+                  </div>
                 )}
               </footer>
             </div>

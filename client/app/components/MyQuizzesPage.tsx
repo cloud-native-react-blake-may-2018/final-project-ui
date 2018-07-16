@@ -86,9 +86,8 @@ export class MyQuizzesPage extends Component<IProps> {
             quizzes.map((quiz: any) => {
               if (quiz.author === username)
                 return (
-                  <div className="block">
+                  <div key={quiz.uuid} className="block">
                     <div
-                      key={quiz.uuid}
                       className="delete-quiz"
                       data-uuid={quiz.uuid}
                       onClick={this.deleteQuizModal(quiz.title)}

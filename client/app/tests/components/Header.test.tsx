@@ -7,6 +7,7 @@ test('should render Header component', () => {
     <Header
       isAuthenticated={true}
       username="mock-user"
+      points={4}
       startLogout={() => console.log('placeholder')}
     />
   )

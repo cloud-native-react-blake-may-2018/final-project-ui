@@ -20,6 +20,7 @@ interface IProps {
   username: string
   quizzes: any
   allAttempts: any
+  top3: any
   clearResults?: () => any
   clearQuizAttempt?: (reset: number) => void
 }
@@ -30,11 +31,16 @@ export class DashboardPage extends Component<IProps> {
   }
 
   state = {
-    oscillate: false
+    oscillate1: false,
+    oscillate2: false
   }
-  start = () => this.setState({ oscillate: true })
+  start1 = () => this.setState({ oscillate1: true })
 
-  stop = () => this.setState({ oscillate: false })
+  start2 = () => this.setState({ oscillate2: true })
+
+  stop1 = () => this.setState({ oscillate1: false })
+
+  stop2 = () => this.setState({ oscillate2: false })
 
   clearResults = (e: any) => {
     this.props.clearResults()
@@ -44,8 +50,8 @@ export class DashboardPage extends Component<IProps> {
 
   //@ts-ignore
   render = () => {
-    const { quizzes, allAttempts } = this.props
-    const { oscillate } = this.state
+    const { quizzes, allAttempts, top3 } = this.props
+    const { oscillate1, oscillate2 } = this.state
     return (
       <div className="dashboard-page">
         {quizzes === undefined && (
@@ -63,21 +69,28 @@ export class DashboardPage extends Component<IProps> {
                       <p className="label">/ created</p>
                       <Link to="/quizzes/created" className="link">
                         <ArrowIcon
-                          className={oscillate ? 'arrow animate' : 'arrow'}
-                          onMouseOver={this.start}
-                          onAnimationEnd={this.stop}
+                          className={oscillate1 ? 'arrow animate' : 'arrow'}
+                          onMouseOver={this.start1}
+                          onAnimationEnd={this.stop1}
                         />
                       </Link>
                     </div>
                     <div className="quizzes-taken">
-                      <p className="count">{allAttempts.length}</p>
+                      <p className="count">
+                        {allAttempts.every(
+                          quizAttempt =>
+                            quizAttempt.timings.finished === undefined
+                        )
+                          ? 0
+                          : allAttempts.length}
+                      </p>
                       <p className="label">/ taken</p>
-                      <Link
-                        to="/quizzes/taken"
-                        className="link"
-                        onClick={this.clearResults}
-                      >
-                        <ArrowIcon className="arrow" />
+                      <Link to="/quizzes/taken" className="link">
+                        <ArrowIcon
+                          className={oscillate2 ? 'arrow animate' : 'arrow'}
+                          onMouseOver={this.start2}
+                          onAnimationEnd={this.stop2}
+                        />
                       </Link>
                     </div>
                   </main>
@@ -112,7 +125,15 @@ export class DashboardPage extends Component<IProps> {
               <aside className="side-bottom">
                 <h2 className="header-title">Leaderboards</h2>
                 <main>
-                  <div className="container">
+                  {top3 !== undefined &&
+                    top3.map(user => (
+                      <div key={user.username} className="container">
+                        <p className="username">{user.username}</p>
+                        <p className="total">{user.points}</p>
+                        <CoinIcon className="coin" />
+                      </div>
+                    ))}
+                  {/* <div className="container">
                     <p className="username">wave_forms</p>
                     <p className="total">217</p>
                     <CoinIcon className="coin" />
@@ -126,7 +147,7 @@ export class DashboardPage extends Component<IProps> {
                     <p className="username">malin_2</p>
                     <p className="total">74</p>
                     <CoinIcon className="coin" />
-                  </div>
+                  </div> */}
                 </main>
               </aside>
             </div>
@@ -149,7 +170,8 @@ const mapStateToProps = state => ({
   token: state.auth.token,
   username: state.auth.username,
   quizzes: state.quizzes.all,
-  allAttempts: state.quizzes.allAttempts
+  allAttempts: state.quizzes.allAttempts,
+  top3: state.app.allPoints
 })
 
 export default connect(

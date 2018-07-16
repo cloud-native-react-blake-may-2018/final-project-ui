@@ -86,7 +86,7 @@ export class SidebarContent extends Component<IProps, IState> {
               <MenuIcon className="svg menu" />
               <p className="hint">Home</p>
             </Link>
-            <Link to="/add-quiz" className="link">
+            <Link to="/create-quiz" className="link">
               <AddQuizIcon className="svg add-quiz" />
               <p className="hint">Create quiz</p>
             </Link>

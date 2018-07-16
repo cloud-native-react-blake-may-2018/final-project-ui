@@ -44,7 +44,8 @@ export class QuizResultsPage extends Component<IProps, any> {
     if (score === 100) return 'green-dark-green'
   }
 
-  componentWillUnmount() {
+  // @ts-ignore
+  componentWillUnmount = () => {
     if (this.props.history.action === 'POP') {
       console.log('user has left page')
       this.props.history.push('/quizzes/taken')

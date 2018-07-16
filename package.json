@@ -4,9 +4,8 @@
   "description": "create and take quizzes",
   "main": "index.ts",
   "scripts": {
-    "start": "concurrently -k \"npm run serve\" \"npm run test\"",
-    "//": "npm run test & npm run serve",
-    "serve": "ts-node index.ts",
+    "//": "concurrently -k \"npm run serve\" \"npm run test\"",
+    "start": "ts-node index.ts",
     "test": "jest --watchAll",
     "build": "NODE_ENV=production webpack"
   },
@@ -19,7 +18,8 @@
     ],
     "setupFiles": [
       "raf/polyfill",
-      "<rootDir>/client/app/tests/setupTests.ts"
+      "<rootDir>/client/app/tests/setupTests.ts",
+      "jest-localstorage-mock"
     ],
     "setupTestFrameworkScriptFile": "<rootDir>/client/app/tests/setupTests.ts",
     "snapshotSerializers": [
@@ -74,6 +74,7 @@
     "react-sidebar": "latest",
     "react-spinkit": "latest",
     "react-toggle": "latest",
+    "react-typewriter": "^0.4.1",
     "reactstrap": "latest",
     "redux": "latest",
     "redux-thunk": "latest",
@@ -120,6 +121,7 @@
     "html-webpack-plugin": "latest",
     "identity-obj-proxy": "latest",
     "jest": "latest",
+    "jest-localstorage-mock": "latest",
     "jest-svg-transformer": "latest",
     "raf": "latest",
     "react-svg-loader": "latest",
