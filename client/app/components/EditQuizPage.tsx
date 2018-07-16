@@ -54,7 +54,8 @@ export class EditQuizPage extends Component<IProps> {
     },
     questionNumber: 0,
     updatedQuestions: [],
-    clickedAddQuestion: false
+    clickedAddQuestion: false,
+    mounted: false
   };
 
   params = window.location.href.split("/");
@@ -64,6 +65,19 @@ export class EditQuizPage extends Component<IProps> {
 
   page2 = () => this.setState({ page: 2 });
 
+  public componentDidMount() {
+    this.setState({
+      ...this.state,
+      mounted: true
+    });
+  }
+
+  public componentWillUnmount() {
+    this.setState({
+      ...this.state,
+      mounted: false
+    });
+  }
   private updateArr = (e: any, arg1: number, arg2: string) => {
     let newAnswersArr = this.state.clickedQuestion.answers;
     newAnswersArr[arg1][arg2] = e.target.value;
@@ -103,19 +117,39 @@ export class EditQuizPage extends Component<IProps> {
       };
 
       let testvar = await this.props.startEditQuestion(data);
-      await console.log(testvar["response"]["status"]);
+      console.log(testvar["response"]["status"]);
 
-      if (testvar["response"]["status"] === 400) {
-        this.setState({
-          ...this.state,
-          errMsg: "Please make sure all boxes have been filed in and re-submit."
-        });
-      } else if (testvar["response"]["status"] === 502) {
-        this.setState({
-          ...this.state,
-          errMsg:
-            "Your selected image is too large. Please upload a smaller image."
-        });
+      let errorHandling = () => {
+        if (testvar["response"]["status"] === 400) {
+          this.setState({
+            ...this.state,
+            errMsg:
+              "Please make sure all boxes have been filled in and re-submit."
+          });
+        } else if (testvar["response"]["status"] === 502) {
+          this.setState({
+            ...this.state,
+            errMsg:
+              "Your selected image is too large. Please upload a smaller image."
+          });
+        } else if (testvar["response"]["status"] === 200) {
+          this.setState({
+            ...this.state,
+            errMsg: "Your quiz was successfully submitted."
+          });
+        } else {
+          console.log("it was submitted successfully yeah");
+          this.setState({
+            ...this.state,
+            errMsg: "Your quiz was successfully submitted."
+          });
+        }
+        console.log("it was submitted successfully yeah");
+      };
+      if (!this.state.mounted) {
+        setTimeout(errorHandling, 1000);
+      } else {
+        errorHandling();
       }
     }
   };
@@ -125,7 +159,8 @@ export class EditQuizPage extends Component<IProps> {
     newQArr.push(this.state.clickedQuestion);
     this.setState({
       ...this.state,
-      updatedQuestions: newQArr
+      updatedQuestions: newQArr,
+      errMsg: ""
     });
     this.page1();
     // this.updateStore(this.state.clickedQuestion);

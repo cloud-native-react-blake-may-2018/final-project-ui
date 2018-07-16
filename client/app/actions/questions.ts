@@ -32,7 +32,11 @@ export const editQuestion = question => ({
 
 export const startEditQuestion = incoming => async dispatch => {
   try {
-    let response = "";
+    let response = {
+      response: {
+        status: 200
+      }
+    };
     await pathlist.questions.edit(incoming.question);
     dispatch(editQuestion(incoming.question));
     // .then(question => dispatch(editQuestion(incoming.question)))
