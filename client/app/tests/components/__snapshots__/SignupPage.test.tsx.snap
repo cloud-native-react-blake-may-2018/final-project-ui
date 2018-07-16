@@ -1,0 +1,117 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render SignupPage component 1`] = `
+<div
+  className="signup-page"
+>
+  <div
+    className="signup-bg"
+  />
+  <Link
+    replace={false}
+    to="/"
+  >
+    <h1
+      className="app-name"
+    >
+      Quizzard
+    </h1>
+  </Link>
+  <form
+    autoComplete="off"
+    className="signup-form"
+    onChange={[Function]}
+    onSubmit={[Function]}
+  >
+    <div
+      className="input-group"
+    >
+      <label
+        className="title"
+        htmlFor="email"
+      >
+        email
+      </label>
+      <input
+        name="email"
+        type="email"
+      />
+    </div>
+    <div
+      className="input-group"
+    >
+      <label
+        className="title"
+        htmlFor="fullname"
+      >
+        full name
+      </label>
+      <input
+        name="fullname"
+        type="text"
+      />
+    </div>
+    <div
+      className="input-group"
+    >
+      <label
+        className="title"
+        htmlFor="username"
+      >
+        username
+      </label>
+      <input
+        name="username"
+        type="text"
+      />
+    </div>
+    <div
+      className="input-group"
+    >
+      <label
+        className="title"
+        htmlFor="password"
+      >
+        password
+      </label>
+      <input
+        autoComplete="new-password"
+        name="password"
+        type="password"
+      />
+    </div>
+    <div
+      className="input-group"
+    >
+      <div
+        className="switch-page"
+      >
+        <p
+          className="text"
+        >
+          Already have an account?
+        </p>
+        <Link
+          className="login-link"
+          replace={false}
+          to="/login"
+        >
+           Login
+        </Link>
+      </div>
+      <button
+        className="signup-button button"
+        type="submit"
+      >
+        Signup
+      </button>
+    </div>
+  </form>
+  <div
+    className="signup-overlay"
+  />
+  <div
+    className="signup-bg"
+  />
+</div>
+`;

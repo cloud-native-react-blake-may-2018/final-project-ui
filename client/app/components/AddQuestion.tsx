@@ -17,6 +17,7 @@ interface IProps {
   quizUUID?: string;
   quizzes?: any[];
   quiz?: any;
+  page?: 1;
   editStoreQuiz?: (any) => any;
   startCreateNewQuestion?: (any) => any;
   startBatchCreateQuestions?: (any) => any;
@@ -69,8 +70,13 @@ export class AddQuestion extends Component<IProps, any> {
         answers: []
       }
     },
-    editQuestion: 0
+    editQuestion: 0,
+    page: 1
   };
+
+  page1 = () => this.setState({ page: 1 });
+
+  page2 = () => this.setState({ page: 2 });
 
   private updateTitle = (e: any) => {
     const title = e.target.value;
@@ -103,14 +109,14 @@ export class AddQuestion extends Component<IProps, any> {
       newQuestions: sendQuestionList
     };
     let testvar = await this.props.startBatchCreateQuestions(data);
-    await console.log(testvar);
+    console.log("updateReducerStore Test Var", testvar);
     if (Array.isArray(testvar)) {
       this.updateStore(sendQuestionList);
       this.setState({
         ...this.state,
         newQuestions: []
       });
-      console.log(window.location.href.split("/")[1]);
+      console.log(window.location.href.split("/")[3]);
       if (window.location.href.split("/")[3] === "add-question") {
         this.props.history.push("/quizzes/created");
       }
@@ -120,6 +126,7 @@ export class AddQuestion extends Component<IProps, any> {
         errMsg: "Invalid question format. Please edit and try again."
       });
     }
+    this.page1();
   };
 
   private updateFormat = (e: any) => {
@@ -230,6 +237,10 @@ export class AddQuestion extends Component<IProps, any> {
           quizList.splice(i, 1, modQuiz);
         }
       }
+      console.log("this is the quiz passed in props", this.props.quiz);
+      console.log("this is the modQuiz", modQuiz);
+      console.log("this is the quizID", this.props.quizID);
+      console.log("modified quizList", quizList);
       this.props.editStoreQuiz(quizList);
     }
   };
@@ -247,43 +258,43 @@ export class AddQuestion extends Component<IProps, any> {
     questionToView?: {},
     i?: number
   ) => {
-    if (typeOfView === 'questionDisplay') {
+    if (typeOfView === "questionDisplay") {
       this.setState({
         mainView: {
-          display: 'questionDisplay',
+          display: "questionDisplay",
           questionToDisplay: questionToView
         },
         editQuestion: i
-      })
+      });
     } else {
       this.setState({
         mainView: {
-          display: 'inputDisplay',
+          display: "inputDisplay",
           questionToDisplay: {}
         },
         editQuestion: 0
-      })
+      });
     }
-    console.log('changeViewCalled', this.state)
-  }
+    console.log("changeViewCalled", this.state);
+  };
 
   private formatValidator = (questionToValidate: QuestionFormat) => {
-    let validObject = true
-    let percentPoints = 0
+    let validObject = true;
+    let percentPoints = 0;
 
     if (!questionToValidate.title || !questionToValidate.author) {
-      return (validObject = false)
+      return (validObject = false);
     } else {
       for (let item of questionToValidate.answers) {
         if (!item.answer) {
-          return (validObject = false)
+          return (validObject = false);
         }
-        percentPoints = percentPoints + item.percentPoints
+        percentPoints = percentPoints + item.percentPoints;
       }
     }
-    console.log('Inside Validator Function', percentPoints, validObject)
-    return percentPoints > 99 || false
-  }
+    console.log("Inside Validator Function", percentPoints, validObject);
+    return percentPoints > 99 || false;
+  };
 
   private printQuestionsArr = () => {
     return (
@@ -291,75 +302,75 @@ export class AddQuestion extends Component<IProps, any> {
         {this.state.newQuestions.map((item, i) => {
           return (
             <div
-              key={'questions' + i}
-              onClick={event => this.changeView('questionDisplay', item, i)}
+              key={"questions" + i}
+              onClick={event => this.changeView("questionDisplay", item, i)}
             >
               Question {i + 1}
             </div>
-          )
+          );
         })}
       </div>
-    )
-  }
+    );
+  };
 
   private onDrop = (files: any) => {
-    const file = files[0]
+    const file = files[0];
     const getBase64 = async file => {
-      var reader = new FileReader()
-      reader.readAsDataURL(file)
-      let codeString
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      let codeString;
       reader.onload = function() {
-        codeString = reader.result
-        codeString = codeString.split(',', 2)
+        codeString = reader.result;
+        codeString = codeString.split(",", 2);
         this.setState({
           ...this.state,
           currentQuestion: {
             ...this.state.currentQuestion,
             image: codeString[1]
           },
-          displayPhoto: codeString.join(',')
-        })
-      }.bind(this)
+          displayPhoto: codeString.join(",")
+        });
+      }.bind(this);
       reader.onerror = function(error) {
-        console.log('Error: ', error)
-      }
-      return codeString
-    }
-    getBase64(file)
-  }
+        console.log("Error: ", error);
+      };
+      return codeString;
+    };
+    getBase64(file);
+  };
 
   private editQuestionElements = (e: any, propertyName) => {
-    const index = this.state.editQuestion
-    let updatedQuestions = this.state.newQuestions
+    const index = this.state.editQuestion;
+    let updatedQuestions = this.state.newQuestions;
     updatedQuestions[index] = {
       ...updatedQuestions[index],
       [propertyName]: e.target.value
-    }
-    console.log('propertyname', propertyName)
+    };
+    console.log("propertyname", propertyName);
     this.setState({
       newQuestions: updatedQuestions,
       mainView: {
         ...this.state.mainView,
         questionToDisplay: updatedQuestions[index]
       }
-    })
-  }
+    });
+  };
 
   private editQuizAnswers = (e: any, propertyName, i: number) => {
-    const index = this.state.editQuestion
-    let updatedQuestions = this.state.newQuestions
+    const index = this.state.editQuestion;
+    let updatedQuestions = this.state.newQuestions;
     updatedQuestions[index].answers[i] = {
       ...updatedQuestions[index].answers[i],
       [propertyName]: e.target.value
-    }
+    };
     this.setState({
       newQuestions: updatedQuestions,
       mainView: {
         ...this.state.mainView,
         questionToDisplay: updatedQuestions[index]
       }
-    })
-  }
+    });
+  };
 
   private editTagElement = (e: any) => {
     this.setState({
@@ -367,12 +378,12 @@ export class AddQuestion extends Component<IProps, any> {
         ...this.state.currentQuestion,
         tags: e.target.value
       }
-    })
-  }
+    });
+  };
 
   private renderMainDisplayElement = () => {
     switch (this.state.mainView.display) {
-      case 'questionDisplay':
+      case "questionDisplay":
         return (
           <div className="details">
             <div className="group">
@@ -382,7 +393,7 @@ export class AddQuestion extends Component<IProps, any> {
                 id="editQuestionTitle"
                 value={this.state.mainView.questionToDisplay.title}
                 onChange={e => {
-                  this.editQuestionElements(e, 'title')
+                  this.editQuestionElements(e, "title");
                 }}
               />
             </div>
@@ -393,7 +404,7 @@ export class AddQuestion extends Component<IProps, any> {
                 id="editQuestionTag"
                 value={this.state.mainView.questionToDisplay.tags}
                 onChange={e => {
-                  this.editQuestionElements(e, 'tags')
+                  this.editQuestionElements(e, "tags");
                 }}
               />
             </div>
@@ -406,7 +417,7 @@ export class AddQuestion extends Component<IProps, any> {
                     id="true-false-answer"
                     value={item.answer}
                     onChange={e => {
-                      this.editQuizAnswers(e, 'answer', i)
+                      this.editQuizAnswers(e, "answer", i);
                     }}
                   />
                   <label htmlFor="true-false-percent-points">
@@ -417,7 +428,7 @@ export class AddQuestion extends Component<IProps, any> {
                     id="true-false-percent-points"
                     value={item.percentPoints}
                     onChange={e => {
-                      this.editQuizAnswers(e, 'percentPoints', i)
+                      this.editQuizAnswers(e, "percentPoints", i);
                     }}
                   />
                   <label htmlFor="true-false-feed-back">feed Back</label>
@@ -426,61 +437,31 @@ export class AddQuestion extends Component<IProps, any> {
                     id="true-false-feed-back"
                     value={item.feedback}
                     onChange={e => {
-                      this.editQuizAnswers(e, 'feedback', i)
+                      this.editQuizAnswers(e, "feedback", i);
                     }}
                   />
                 </div>
-              )
+              );
             })}
             <button
               onClick={() => {
-                this.changeView('inputDisplay')
+                this.changeView("inputDisplay");
               }}
             >
               Create New Question
             </button>
           </div>
-        )
+        );
       default:
-        return <div>{this.createTable()}</div>
+        return <div>{this.createQuestions()}</div>;
     }
-  }
+  };
 
-  private createTable = () => {
+  private createQuestions = () => {
     switch (this.state.currentQuestion.format) {
       case "true-false":
         return (
-          <div className="details">
-            <div className="group">
-              <label htmlFor="title">Question</label>
-              <input
-                type="text"
-                id="title"
-                value={this.state.currentQuestion.title}
-                onChange={this.updateTitle}
-              />
-            </div>
-            <div className="group">
-              <label htmlFor="tags">Tags</label>
-              <input
-                type="text"
-                id="tags"
-                value={this.state.currentQuestion.tags}
-                onChange={this.editTagElement}
-              />
-            </div>
-            <div className="group">
-              <select
-                name=""
-                id="question-options-dropdown"
-                value={this.state.currentQuestion.format}
-                onChange={this.updateFormat}
-              >
-                <option value="true-false">True-or-False</option>
-                <option value="multiple-choice">Multiple Choice</option>
-                <option value="multiple-select">Multiple Select</option>
-              </select>
-            </div>
+          <div>
             <div className="row">
               <label htmlFor="true-false-answer">Answer</label>
               <input
@@ -547,32 +528,6 @@ export class AddQuestion extends Component<IProps, any> {
       default:
         return (
           <form>
-            <label htmlFor="title">Title</label>
-            <input
-              type="text"
-              id="title"
-              value={this.state.currentQuestion.title}
-              onChange={this.updateTitle}
-            />
-            <label htmlFor="tags">Tags</label>
-            <input
-              type="text"
-              id="tags"
-              value={this.state.currentQuestion.tags}
-              onChange={this.editTagElement}
-            />
-            <br />
-            <br />
-            <select
-              name=""
-              id="question-options-dropdown"
-              value={this.state.currentQuestion.format}
-              onChange={this.updateFormat}
-            >
-              <option value="true-false">True-or-False</option>
-              <option value="multiple-choice">Multiple Choice</option>
-              <option value="multiple-select">Multiple Select</option>
-            </select>
             <div className="row">
               <label htmlFor="true-false-answer">Answer</label>
               <input
@@ -699,7 +654,8 @@ export class AddQuestion extends Component<IProps, any> {
 
   // @ts-ignore
   render = () => {
-    const { startCreateNewQuestion } = this.props
+    const { startCreateNewQuestion } = this.props;
+    const { page, displayPhoto } = this.state;
     // const {
     //   currentQuestion: { format },
     //   mainView: { display }
@@ -711,33 +667,75 @@ export class AddQuestion extends Component<IProps, any> {
           {/* <div className="close" onClick={this.deleteQuestion}> */}
           <FontAwesomeIcon icon="times" />
         </div>
-        {this.renderMainDisplayElement()}
-        <br />
-        <div className="row">
-          <div className="col">
-            <Dropzone onDrop={this.onDrop}>
-              Drop your files here,
-              <br />
-              or click to select one.
-            </Dropzone>
+        {page === 1 && (
+          <div className="details">
+            <div className="group">
+              <label htmlFor="title">Question</label>
+              <input
+                type="text"
+                id="title"
+                value={this.state.currentQuestion.title}
+                onChange={this.updateTitle}
+              />
+            </div>
+            <div className="split-group">
+              <div className="group">
+                <label htmlFor="tags">Tags</label>
+                <input
+                  type="text"
+                  id="tags"
+                  value={this.state.currentQuestion.tags}
+                  onChange={this.editTagElement}
+                />
+              </div>
+              <div className="group">
+                <label htmlFor="type">Type</label>
+                <FontAwesomeIcon className="icon" icon="angle-down" />
+                <select
+                  name="type"
+                  id="question-options-dropdown"
+                  value={this.state.currentQuestion.format}
+                  onChange={this.updateFormat}
+                >
+                  <option value="true-false">True-or-False</option>
+                  <option value="multiple-choice">Multiple Choice</option>
+                  <option value="multiple-select">Multiple Select</option>
+                </select>
+              </div>
+            </div>
+            <div className="group">
+              <label>Image</label>
+              <Dropzone
+                onDrop={this.onDrop}
+                className={displayPhoto ? "dropzone" : "dropzone with-dots"}
+              >
+                <p className={displayPhoto ? "white-text" : ""}>+ Upload</p>
+                {displayPhoto && <img src={displayPhoto} alt="img" />}
+              </Dropzone>
+            </div>
           </div>
-          <div className="col">
-            {this.state.displayPhoto && (
-              <img src={this.state.displayPhoto} alt="img" />
-            )}
-          </div>
-        </div>
+        )}
+        {page === 2 && this.renderMainDisplayElement()}
         {this.state.errMsg && this.state.errMsg}
-        <button
-          type="button"
-          onClick={this.updateReducerStore}
-          className="save-question"
-        >
-          Save
-        </button>
-        {/* <button onClick={this.sendOneQuestion}>
-          Just add this one Question
-        </button> */}
+        <div className="page-navigation">
+          <p
+            className={page === 1 ? "page-1 active" : "page-1"}
+            onClick={this.page1}
+          >
+            1
+          </p>
+          <p
+            className={page === 2 ? "page-2 active" : "page-2"}
+            onClick={this.page2}
+          >
+            2
+          </p>
+        </div>
+        {page === 2 && (
+          <button onClick={this.updateReducerStore} className="save-question">
+            Save
+          </button>
+        )}
         <div>{this.printQuestionsArr()}</div>
       </div>
     );
@@ -751,7 +749,8 @@ const mapStateToProps = (state, parentProps) => ({
   quiz:
     state.quizzes.all !== [] &&
     state.quizzes.all.find(
-      quiz => quiz.uuid === parentProps.quizID || state.create.quizID
+      quiz =>
+        quiz.uuid === parentProps.quizID || quiz.uuid === state.create.quizID
     )
 });
 

@@ -25,7 +25,15 @@
     grid-gap: 25px
     padding: 25px 0
     
+    .no-taken-quizzes
+      margin: 0
+      width: max-content
+      font: normal 18px Asap
+      color: $grey
+
+
     .block
+      position: relative
       padding: 15px 25px
       height: 200px
       width: 250px
@@ -44,7 +52,6 @@
         .name
           color: $violet
 
-
         .amount
           color: lighten($violet, 10%)
         
@@ -54,13 +61,83 @@
         font: 500 24px Asap
         color: $blue
 
+      .delete-quiz
+        position: absolute
+        top: 25px
+        right: 25px
+        cursor: pointer
+        color: $light-grey
+        z-index: 9
+
+        &:hover
+          color: $red
+          // animation: wiggle .5s infinite
+          // -ms-animation: wiggle .5s infinite
+          // -moz-animation: wiggle .5s infinite
+          // -webkit-animation: wiggle .5s infinite
+
+        &:hover .hint
+          opacity: 1
+
+        .hint
+          position: absolute
+          top: -55px
+          right: -50px
+          width: max-content
+          padding: 5px 15px
+          border-radius: 8px
+          opacity: 0
+          color: $white
+          background-color: $grey
+          transition: .3s all ease-in-out
+
+          &:after
+            content: ''
+            position: absolute
+            right: 47px
+            top: 25px
+            width: 0
+            height: 0
+            border-left: 10px solid transparent
+            border-right: 10px solid transparent
+            border-top: 10px solid $grey
+
       .amount
         margin: 0
         font: normal 18px Asap
         color: lighten($blue, 10%)
 
-      .tag
-      
+      .tags
+        display: grid
+        grid-auto-flow: column
+        grid-auto-columns: max-content
+        grid-column-gap: 15px
+        margin: 10px 0 5px
+
+        .tag-null-set
+          margin: 0
+          width: max-content
+          font: normal 18px Asap
+          color: $light-grey
+
+        .tag
+          display: grid
+          grid-template-columns: repeat(2, max-content)
+          grid-auto-columns: max-content
+          grid-column-gap: 5px
+          align-items: center
+
+          .tag-text
+            margin: 0
+            width: max-content
+            font: normal 18px Asap
+            color: $light-grey
+
+        .extra-tags
+          margin: 0
+          font: italic normal 18px Asap
+          color: $light-grey
+
 
 @keyframes twinkle 
   0% 

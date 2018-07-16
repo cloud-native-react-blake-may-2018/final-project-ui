@@ -8,19 +8,39 @@ import Dropzone from "react-dropzone";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { startDeleteQuestion, startEditQuestion } from "../actions/questions";
 import { editStoreQuiz, startUpdateQuestionsDisplay } from "../actions/quizzes";
-import AddQuestion from "../components/AddQuestion";
+import AddQuestion from "./AddQuestion";
+import { loadModal } from "../actions/modal";
+import { DELETE_QUIZ_MODAL } from "../constants/modaltypes";
 
 interface IProps {
+  history?: any;
   username: any;
   quiz: any;
   quizzes: any[];
   editStoreQuiz: (any) => any;
   startEditQuestion: (any) => any;
   startDeleteQuestion: (author: string, title: any) => any;
+  loadModal?: (type: string, title: string, uuid: any) => any;
 }
+
+const colors = [
+  "#f26161",
+  "#cc5252",
+  "#e573b1",
+  "#ff9d66",
+  "#2ddbbc",
+  "#42a6a6",
+  "#2d9cdb",
+  "#3f388c",
+  "#4775b2",
+  "#b866cc",
+  "#333ea6",
+  "#f2c94c"
+];
 
 export class EditQuizPage extends Component<IProps> {
   state = {
+    errMsg: "",
     displayPhoto: "",
     page: 1,
     clickedQuestion: {
@@ -38,7 +58,8 @@ export class EditQuizPage extends Component<IProps> {
     },
     questionNumber: 0,
     updatedQuestions: [],
-    clickedAddQuestion: false
+    clickedAddQuestion: false,
+    mounted: false
   };
 
   params = window.location.href.split("/");
@@ -48,6 +69,24 @@ export class EditQuizPage extends Component<IProps> {
 
   page2 = () => this.setState({ page: 2 });
 
+  deleteQuizModal = title => (e: any) => {
+    this.props.loadModal(DELETE_QUIZ_MODAL, title, null);
+    this.props.history.push("/quizzes/created");
+  };
+
+  public componentDidMount() {
+    this.setState({
+      ...this.state,
+      mounted: true
+    });
+  }
+
+  public componentWillUnmount() {
+    this.setState({
+      ...this.state,
+      mounted: false
+    });
+  }
   private updateArr = (e: any, arg1: number, arg2: string) => {
     let newAnswersArr = this.state.clickedQuestion.answers;
     newAnswersArr[arg1][arg2] = e.target.value;
@@ -59,7 +98,7 @@ export class EditQuizPage extends Component<IProps> {
     });
   };
 
-  private updateQuiz = (e: any) => {
+  private updateQuiz = async (e: any) => {
     let sendQuestionList = [];
     for (let item of this.state.updatedQuestions) {
       if (item.tags) {
@@ -74,14 +113,54 @@ export class EditQuizPage extends Component<IProps> {
           ...item,
           tags: testArr
         });
+      } else {
+        sendQuestionList.push({
+          ...item
+        });
       }
     }
     for (let item of sendQuestionList) {
+      console.log("here");
       const data = {
         quizID: window.location.href.split("/")[4],
         question: item
       };
-      this.props.startEditQuestion(data);
+
+      let testvar = await this.props.startEditQuestion(data);
+      console.log(testvar["response"]["status"]);
+
+      let errorHandling = () => {
+        if (testvar["response"]["status"] === 400) {
+          this.setState({
+            ...this.state,
+            errMsg:
+              "Please make sure all boxes have been filled in and re-submit."
+          });
+        } else if (testvar["response"]["status"] === 502) {
+          this.setState({
+            ...this.state,
+            errMsg:
+              "Your selected image is too large. Please upload a smaller image."
+          });
+        } else if (testvar["response"]["status"] === 200) {
+          this.setState({
+            ...this.state,
+            errMsg: "Your quiz was successfully submitted."
+          });
+        } else {
+          console.log("it was submitted successfully yeah");
+          this.setState({
+            ...this.state,
+            errMsg: "Your quiz was successfully submitted."
+          });
+        }
+        console.log("it was submitted successfully yeah");
+      };
+      if (!this.state.mounted) {
+        setTimeout(errorHandling, 1000);
+      } else {
+        errorHandling();
+      }
     }
   };
 
@@ -90,21 +169,22 @@ export class EditQuizPage extends Component<IProps> {
     newQArr.push(this.state.clickedQuestion);
     this.setState({
       ...this.state,
-      updatedQuestions: newQArr
+      updatedQuestions: newQArr,
+      errMsg: ""
     });
-    console.log(this.state.updatedQuestions);
+    this.page1();
+    // this.updateStore(this.state.clickedQuestion);
   };
 
   private deleteQuestion = (e: any) => {
-    // Something that asks them if they really want to delete it
-    this.updateStore();
+    this.deleteFromStore();
     this.props.startDeleteQuestion(
       this.state.clickedQuestion.author,
       this.state.clickedQuestion.title
     );
   };
 
-  private updateStore = () => {
+  private deleteFromStore = () => {
     let modQuiz = this.props.quiz;
     for (let i = 0; i < modQuiz.questions.length; i++) {
       if (modQuiz.questions[i].uuid === this.state.clickedQuestion.uuid) {
@@ -121,6 +201,25 @@ export class EditQuizPage extends Component<IProps> {
     this.props.editStoreQuiz(quizList);
   };
 
+  private updateStore = clickedQuestion => {
+    if (this.props.quizzes !== [] && this.props.quiz) {
+      let modQuiz = this.props.quiz;
+      for (let i = 0; i < modQuiz.questions.length; i++) {
+        if (modQuiz.questions[i].uuid === this.state.clickedQuestion.uuid) {
+          modQuiz.questions = modQuiz.questions.concat(clickedQuestion);
+        }
+      }
+
+      let quizList = this.props.quizzes;
+      for (let i = 0; i < quizList.length; i++) {
+        if (quizList[i].uuid === this.props.quiz.uuid) {
+          quizList.splice(i, 1, modQuiz);
+        }
+      }
+      this.props.editStoreQuiz(quizList);
+    }
+  };
+
   public showQuizQuestion = (question: any, count: number, e: any) => {
     e.preventDefault();
 
@@ -135,7 +234,7 @@ export class EditQuizPage extends Component<IProps> {
 
   private setAddQuestion = (e: any) => {
     this.setState({
-      // we may not need this because if the component reloads this will be blank anyway
+      // we may not need this because if the component reloads this will be cleared anyway
       ...this.state,
       clickedQuestion: {
         author: "",
@@ -197,195 +296,249 @@ export class EditQuizPage extends Component<IProps> {
 
   // @ts-ignore
   render = () => {
-    const { quiz } = this.props;
+    const { username } = this.props;
+    let quiz;
+    for (let testQuiz of this.props.quizzes) {
+      if (testQuiz.uuid === window.location.href.split("/")[4]) {
+        console.log("inside quiz assignment");
+        quiz = testQuiz;
+      }
+    }
+    console.log("this is the quiz being passed", quiz);
     const {
       page,
       clickedQuestion,
       questionNumber,
-      clickedAddQuestion
+      clickedAddQuestion,
+      displayPhoto
     } = this.state;
     let count = 0;
     return (
       <div className="edit-quiz-page">
-        {quiz.tags === undefined && (
+        {(quiz === undefined || quiz.tags === undefined) && (
           <Spinner className="loading-indicator" name="ball-spin-fade-loader" />
         )}
-        {console.log("this is what quiz looks like", quiz)}
-        {quiz.tags !== undefined && (
-          <main>
-            <div className="quiz-container">
-              <h1 className="title">{quiz.title}</h1>
-              <div className="close">
-                {/* <div className="close" onClick={this.onClose}> */}
-                <FontAwesomeIcon icon="trash" />
-                <p className="hint">Permanently delete this quiz</p>
-              </div>
-              <div className="tags">
-                {quiz.tags.length === 0 && <p className="tag">No tags</p>}
-                {quiz.tags.length > 0 &&
-                  quiz.tags.map(tag => (
-                    <p key={tag.allLowerCase} className="tag">
-                      {tag.allLowerCase}
-                    </p>
-                  ))}
-              </div>
-              {/* <p className="add-tag">+ tag</p> */}
-              <div className="questions">
-                {quiz.questions.map(question => (
-                  <div key={question.title}>
-                    <p
-                      className="question"
-                      onClick={this.showQuizQuestion.bind(
-                        this,
-                        quiz.questions[count],
-                        count + 1
-                      )}
-                    >
-                      Question {(count += 1)}
-                    </p>
-                  </div>
-                ))}
-              </div>
-              <p onClick={e => this.setAddQuestion(e)} className="add-question">
-                + question
-              </p>
-              <button onClick={this.updateQuiz} className="save-quiz">
-                Save Quiz
-              </button>
+        {quiz !== undefined &&
+          quiz.tags !== undefined && (
+            <main>
+              <div className="quiz-container">
+                <h1 className="title">{quiz.title}</h1>
+                <div
+                  className="close"
+                  onClick={this.deleteQuizModal(this.props.quiz.title)}
+                >
+                  <FontAwesomeIcon icon="trash" />
+                  <p className="hint">Permanently delete this quiz</p>
+                </div>
+                <div className="tags">
+                  {quiz.tags.length === 0 && (
+                    <p className="tag-null-set">No tags</p>
+                  )}
+                  {quiz.tags.length > 0 &&
+                    quiz.tags.slice(0, 3).map(tag => (
+                      <div key={tag.allLowerCase} className="tag">
+                        <div
+                          className="tag-dot"
+                          style={{
+                            height: 8,
+                            width: 8,
+                            borderRadius: 50,
+                            backgroundColor:
+                              colors[Math.floor(Math.random() * colors.length)]
+                          }}
+                        />
+                        <p className="tag-text">{tag.allLowerCase}</p>
+                      </div>
+                    ))}
+                  {quiz.tags.length > 3 && (
+                    <p className="extra-tags">+{quiz.tags.length - 3}</p>
+                  )}
+                </div>
+                {/* <p className="add-tag">+ tag</p> */}
+                <div className="questions">
+                  {quiz.questions.map(question => {
+                    if (question !== null && question.author === username)
+                      return (
+                        <div key={question.title}>
+                          <p
+                            className="question"
+                            onClick={this.showQuizQuestion.bind(
+                              this,
+                              quiz.questions[count],
+                              count + 1
+                            )}
+                          >
+                            Question {(count += 1)}
+                          </p>
+                        </div>
+                      );
+                  })}
+                </div>
+                <p
+                  onClick={e => this.setAddQuestion(e)}
+                  className="add-question"
+                >
+                  + question
+                </p>
+                {this.state.errMsg && this.state.errMsg}
+                <button onClick={this.updateQuiz} className="save-quiz">
+                  Save Quiz
+                </button>
 
-              {/* <Link
+                {/* <Link
                 to={`/take-quiz/${quiz.uuid}`}
                 className="unset-anchor nav-link"
               >
-                <div style={quizButton}>Test Quiz</div>
+                <div style={quizButzest Quiz</div>
               </Link> */}
-            </div>
+              </div>
 
-            {clickedQuestion.title && (
-              <div key={clickedQuestion.uuid} className="question-container">
-                <p className="title">Edit question</p>
-                <div className="close" onClick={this.deleteQuestion}>
-                  <FontAwesomeIcon icon="trash" />
-                  <p className="hint">Permanently delete this question</p>
-                </div>
-                {page === 1 && (
-                  <form className="details">
-                    <div className="group">
-                      <label>Question {questionNumber}</label>
-                      <input placeholder={clickedQuestion.title} />
-                      {/* // Should not be an input. */}
-                    </div>
-                    <div className="group">
-                      <label>Tags</label>
-                      <input
-                        onChange={this.updateTags}
-                        placeholder="Assign tags to this question"
-                      />
-                    </div>
-                    <div
-                      className="group photo-container"
-                      onClick={() => this.photoUpload.click()}
-                      // This is not a thing
-                    >
+              {clickedQuestion.title && (
+                <div key={clickedQuestion.uuid} className="question-container">
+                  <p className="title">Edit question</p>
+                  <div className="close" onClick={this.deleteQuestion}>
+                    <FontAwesomeIcon icon="trash" />
+                    <p className="hint">Permanently delete this question</p>
+                  </div>
+                  {page === 1 && (
+                    <form className="details">
                       <div className="group">
-                        <h2 className="label">Image</h2>
-                        <Dropzone onDrop={this.onDrop} className="dropzone">
-                          <p className="button">+ Upload</p>
-                        </Dropzone>
-                        {this.state.displayPhoto}
-                        {/* Put in ability to display picture that is an S3 URL, stored in this.state.displayPhoto */}
+                        <label>Question {questionNumber}</label>
+                        <p className="question-text">{clickedQuestion.title}</p>
+                      </div>
+                      <div className="group">
+                        <label>Tags</label>
                         <input
-                          className="file-upload"
-                          style={{ display: "none" }}
-                          name="file"
-                          type="file"
-                          onChange={this.fileSelectedHandler}
-                          ref={photoUpload => (this.photoUpload = photoUpload)}
+                          onChange={this.updateTags}
+                          placeholder="Assign tags to this question"
+                          // placeholder={
+                          //   clickedQuestion.tags.length > 0
+                          //     ? clickedQuestion.tags.map(
+                          //         tag => `${tag.enteredAs}`
+                          //       )
+                          //     : 'Assign tags to this question'
+                          // }
                         />
                       </div>
-                    </div>
-                  </form>
-                )}
-                {page === 2 && (
-                  <form className="options">
-                    {clickedQuestion.answers.map((ans, index) => (
-                      <div key={ans.percentPoints}>
+                      <div
+                        className="group photo-container"
+                        onClick={() => this.photoUpload.click()}
+                        // This is not a thing
+                      >
                         <div className="group">
-                          <label htmlFor="true-false-answer" className="label">
-                            Choice
-                          </label>
-                          <textarea
-                            id="true-false-answer"
-                            value={ans.answer}
-                            className="input"
-                            onChange={(e: any) => {
-                              this.updateArr(e, index, "answer");
-                            }}
-                            data-enable-grammarly="false"
-                          />
-                        </div>
-                        <div className="group">
-                          <label
-                            htmlFor="true-false-percent-points"
-                            className="input"
+                          <label>Image</label>
+                          <Dropzone
+                            onDrop={this.onDrop}
+                            className={
+                              displayPhoto ? "dropzone" : "dropzone with-dots"
+                            }
                           >
-                            Percent Points
-                          </label>
-                          <textarea
-                            id="true-false-percent-points"
-                            value={ans.percentPoints}
-                            onChange={(e: any) => {
-                              this.updateArr(e, index, "percentPoints");
-                            }}
-                            data-enable-grammarly="false"
-                          />
-                        </div>
-                        <div className="group">
-                          <label htmlFor="true-false-feed-back">Feedback</label>
-                          <textarea
-                            id="true-false-feed-back"
-                            value={ans.feedback}
-                            className="input"
-                            onChange={(e: any) => {
-                              this.updateArr(e, index, "feedback");
-                            }}
-                            data-enable-grammarly="false"
+                            <p className={displayPhoto ? "white-text" : ""}>
+                              + Upload
+                            </p>
+                            {displayPhoto && (
+                              <img src={displayPhoto} alt="img" />
+                            )}
+                          </Dropzone>
+                          <input
+                            className="file-upload"
+                            style={{ display: "none" }}
+                            name="file"
+                            type="file"
+                            onChange={this.fileSelectedHandler}
+                            ref={photoUpload =>
+                              (this.photoUpload = photoUpload)
+                            }
                           />
                         </div>
                       </div>
-                    ))}
-                  </form>
-                )}
-                <div className="page-navigation">
-                  <p
-                    className={page === 1 ? "page-1 active" : "page-1"}
-                    onClick={this.page1}
-                  >
-                    1
-                  </p>
-                  <p
-                    className={page === 2 ? "page-2 active" : "page-2"}
-                    onClick={this.page2}
-                  >
-                    2
-                  </p>
+                    </form>
+                  )}
+                  {page === 2 && (
+                    <form className="options">
+                      {clickedQuestion.answers.map((ans, index) => (
+                        <div key={ans.answer}>
+                          <div className="group">
+                            <label
+                              htmlFor="true-false-answer"
+                              className="label"
+                            >
+                              Choice
+                            </label>
+                            <textarea
+                              id="true-false-answer"
+                              value={ans.answer}
+                              className="input"
+                              onChange={(e: any) => {
+                                this.updateArr(e, index, "answer");
+                              }}
+                              data-enable-grammarly="false"
+                            />
+                          </div>
+                          <div className="group">
+                            <label
+                              htmlFor="true-false-percent-points"
+                              className="input"
+                            >
+                              Percent Points
+                            </label>
+                            <textarea
+                              id="true-false-percent-points"
+                              value={ans.percentPoints}
+                              onChange={(e: any) => {
+                                this.updateArr(e, index, "percentPoints");
+                              }}
+                              data-enable-grammarly="false"
+                            />
+                          </div>
+                          <div className="group">
+                            <label htmlFor="true-false-feed-back">
+                              Feedback
+                            </label>
+                            <textarea
+                              id="true-false-feed-back"
+                              value={ans.feedback}
+                              className="input"
+                              onChange={(e: any) => {
+                                this.updateArr(e, index, "feedback");
+                              }}
+                              data-enable-grammarly="false"
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </form>
+                  )}
+                  <div className="page-navigation">
+                    <p
+                      className={page === 1 ? "page-1 active" : "page-1"}
+                      onClick={this.page1}
+                    >
+                      1
+                    </p>
+                    <p
+                      className={page === 2 ? "page-2 active" : "page-2"}
+                      onClick={this.page2}
+                    >
+                      2
+                    </p>
+                  </div>
+                  {page === 2 && (
+                    <button
+                      onClick={this.saveChangeToState}
+                      className="save-question"
+                    >
+                      Save
+                    </button>
+                  )}
                 </div>
-                {page === 2 && (
-                  <button
-                    onClick={this.saveChangeToState}
-                    className="save-question"
-                  >
-                    Save
-                  </button>
-                )}
-              </div>
-            )}
+              )}
 
-            {clickedAddQuestion && (
-              <AddQuestion quizID={this.props.quiz.uuid} />
-            )}
-          </main>
-        )}
+              {clickedAddQuestion && (
+                <AddQuestion quizID={this.props.quiz.uuid} />
+              )}
+            </main>
+          )}
       </div>
     );
   };
@@ -408,6 +561,7 @@ export default connect(
   {
     editStoreQuiz,
     startDeleteQuestion,
-    startEditQuestion
+    startEditQuestion,
+    loadModal
   }
 )(EditQuizPage);
