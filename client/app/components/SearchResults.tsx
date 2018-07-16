@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import api from '../path-list'
+import { startGetSearchedQuiz } from '../actions/quizzes'
 
 interface IState {
   results: any | string
@@ -9,11 +10,13 @@ interface IState {
 
 interface IProps {
   query: string
+  quizzes: any
   showSearch: boolean
+  startGetSearchedQuiz: (quiz: any) => any
 }
 
-const matchFound = term => x =>
-  x.word.toLowerCase().includes(term.toLowerCase()) || !term
+// const matchFound = term => x =>
+//   x.word.toLowerCase().includes(term.toLowerCase()) || !term
 
 export class SearchResults extends Component<IProps, IState> {
   state = {
@@ -23,22 +26,44 @@ export class SearchResults extends Component<IProps, IState> {
   // @ts-ignore
   componentWillReceiveProps = async props => {
     const { query } = props
-    console.log('props', query)
+
     if (query.length > 0) {
       let resultSet1 = await api.quizzes.searchByAuthor(query)
-      let resultSet2 = await api.quizzes.searchByTag(query)
+      let resultSet2 = await api.quizzes.searchByTag(query.toLowerCase())
 
       resultSet1 = resultSet1.filter(result => result !== null)
-      resultSet2 = resultSet2.filter(result => result !== null)
+      resultSet2 = resultSet2.filter(
+        // both must return true to stay in returned array
+        // "if every uuid in resultSet1 does not match this result.uuid in resultSet2"
+        result =>
+          result !== null &&
+          resultSet1.every(result1 => result1.uuid !== result.uuid)
+      )
 
-      console.log('resultsSet2', resultSet2)
+      // console.log('resultsSet1', resultSet1)
+      // console.log('resultsSet2', resultSet2)
 
       const results = [...resultSet1, ...resultSet2]
 
-      results.length > 0 && this.setState({ results })
-      results.length === 0 && this.setState({ results: ['none'] })
-      console.log('results: ', results)
+      this.setState(prevState => ({ results }))
+
+      // original
+      // prevState ensures state updates each time
+      // results.length > 0 && this.setState(prevState => ({ results }))
+
+      // results.length === 0 &&
+      //   this.setState(prevState => ({ results: ['none'] }))
+      // console.log('results: ', results)
     }
+  }
+
+  fetchQuiz = e => {
+    const { quizzes, startGetSearchedQuiz } = this.props
+    const uuid = e.currentTarget.dataset.uuid
+    const username = e.currentTarget.dataset.author
+    const ownQuiz = quizzes.some(quiz => quiz.uuid === uuid)
+
+    if (!ownQuiz) startGetSearchedQuiz({ uuid, username })
   }
 
   // @ts-ignore
@@ -59,7 +84,13 @@ export class SearchResults extends Component<IProps, IState> {
             {results.length > 0 &&
               results[0] !== 'none' &&
               results.map(quiz => (
-                <Link key={quiz.uuid} to={`/view-quiz/${quiz.uuid}`}>
+                <Link
+                  key={quiz.uuid + new Date()}
+                  to={`/view-quiz/${quiz.uuid}`}
+                  data-uuid={quiz.uuid}
+                  data-author={quiz.author}
+                  onClick={this.fetchQuiz}
+                >
                   <div className="record">
                     <p className="title">{quiz.title}</p>
                     <p className="description">{quiz.description}</p>
@@ -76,11 +107,12 @@ export class SearchResults extends Component<IProps, IState> {
 
 const mapStateToProps = state => ({
   username: state.auth.username,
+  quizzes: state.quizzes.all,
   searching: state.app.searching,
   results: state.app.results
 })
 
 export default connect(
   mapStateToProps,
-  null
+  { startGetSearchedQuiz }
 )(SearchResults)

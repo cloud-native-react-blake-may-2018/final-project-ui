@@ -1,5 +1,6 @@
 import React from 'react'
 import pathList from '../path-list'
+import { Result } from '../../../node_modules/@types/range-parser'
 
 export const startEditQuiz = quiz => dispatch =>
   pathList.quizzes.edit(quiz).then(quiz => dispatch(editQuiz(quiz)))
@@ -16,34 +17,48 @@ export const editStoreQuiz = quizzes => dispatch => {
   })
 }
 
-export const startGetUserQuizzes = author => async dispatch =>
-  pathList.quizzes.display(author).then(async quizzes => {
-    const all = await Promise.all(
-      quizzes.map(async quiz => {
-        const questions = await pathList.questions.display(quiz.uuid)
-        const tags = await pathList.questions.displayTags(quiz.uuid)
+export const startGetUserQuizzes = author => {
+  return async dispatch => {
+    // const quizAttempts = await pathList.quizzes.displayQuizAttempts(author)
+    pathList.quizzes.display(author).then(async quizzes => {
+      const all = await Promise.all(
+        quizzes.map(async quiz => {
+          const questions = await pathList.questions.display(quiz.uuid)
+          const tags = await pathList.questions.displayTags(quiz.uuid)
 
-        // will contain quiz details, its questions, and its tags
-        return { ...quiz, questions, tags }
-      })
-    )
-    dispatch(getUserQuizzes(all))
-  })
+          // will contain quiz details, its questions, and its tags
+          return { ...quiz, questions, tags }
+        })
+      )
+      const quizAttempts = await pathList.quizzes.displayQuizAttempts(author)
+      dispatch(getUserQuizzes(all))
+      dispatch(getQuizAttempts(quizAttempts))
+    })
+  }
+}
 
 export const getUserQuizzes = quizzes => ({
   type: 'ALL_QUIZZES',
   quizzes
 })
 
-export const startGetSearchedQuiz = uuid => async dispatch =>
-  pathList.quizzes.searchByUuid(uuid).then(async meta => {
-    const questions = await pathList.questions.display(meta.uuid)
-    const tags = await pathList.questions.displayTags(meta.uuid)
+export const getQuizAttempts = quizAttempts => ({
+  type: 'ALL_QUIZ_ATTEMPTS',
+  quizAttempts
+})
 
-    // will contain quiz details, its questions, and its tags
-    const quiz = { ...meta, questions, tags }
-    dispatch(getSearchedQuiz(quiz))
-  })
+export const startGetSearchedQuiz = quiz => async dispatch => {
+  const result = await pathList.quizzes.getForeignQuiz(quiz)
+  const tags = await pathList.questions.displayTags(quiz.uuid)
+  const final = {
+    ...result,
+    author: quiz.username,
+    uuid: quiz.uuid,
+    tags
+  }
+  console.log('got the quiz!', final)
+  dispatch(getSearchedQuiz(final))
+}
 
 export const getSearchedQuiz = quiz => ({
   type: 'SEARCHED_QUIZ',
@@ -85,6 +100,28 @@ export const addAnswerToArray = answerObj => ({
   answerObj
 })
 
+export const startSendQuizReport = (quizReport: object) => dispatch =>
+  pathList.quizzes
+    .sendQuizReport(quizReport)
+    .then(quizReportResponse => dispatch(sendQuizReport(quizReportResponse)))
+
+export const sendQuizReport = quizReportResponse => ({
+  type: 'SEND_QUIZ_REPORT',
+  quizReportResponse
+})
+
+export const startSendQuestionReport = (questionReport: object) => dispatch =>
+  pathList.questions
+    .sendQuestionReport(questionReport)
+    .then(questionReportResponse =>
+      dispatch(sendQuestionReport(questionReportResponse))
+    )
+
+export const sendQuestionReport = questionReportResponse => ({
+  type: 'SEND_QUESTION_REPORT',
+  questionReportResponse
+})
+
 export const addMultipleSelectAnswer = answerObj => dispatch =>
   dispatch(startAddMultipleSelectAnswer(answerObj))
 
@@ -113,8 +150,7 @@ export const updateAnswerArray = answerArray => dispatch =>
 
 export const startupdateAnswerArray = answer => ({
   type: 'UPDATE_ANSWER_ARRAY',
-  answerArray: answer.answerArray,
-  done: answer.done
+  answerArray: answer.answerArray
 })
 
 export const changeQuestionNumber = questionNumber => dispatch =>
@@ -159,4 +195,18 @@ export const clearQuizAttempt = reset => dispatch =>
 export const startclearQuizAttempt = reset => ({
   type: 'CLEAR_QUIZ_ATTEMPT',
   reset
+})
+export const clearResults = () => dispatch => dispatch(startclearResults())
+
+export const startclearResults = () => ({
+  type: 'CLEAR_QUIZ_RESULTS'
+})
+
+export const deleteQuiz = (author, title) => dispatch =>
+  pathList.quizzes
+    .deleteQuiz(author, title)
+    .then(quizResults => dispatch(startSubmitQuizAttempt(quizResults)))
+
+export const startDeleteQuiz = () => ({
+  type: 'DELETE_QUIZ_ATTEMPT'
 })

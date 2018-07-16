@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { startCreateNewQuiz } from '../actions/create'
 import { environment } from '../../../environment'
 
-export class SignInRedirect extends Component {
+export class SignInRedirectPage extends Component {
   // @ts-ignore
   componentDidMount = () => {
     // let redirectUrl = `https://quizard.auth.us-east-2.amazoncognito.com/login?response_type=token&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=https://dwea2klqp52vb.cloudfront.net/redirect`
@@ -25,8 +25,8 @@ export class SignInRedirect extends Component {
             environment.context
           }/redirect/__webpack_hmr`
 
-    console.log('environment', environment.context)
-    console.log('redirect url', redirectUrl)
+    // console.log('environment', environment.context)
+    // console.log('redirect url', redirectUrl)
 
     window.location.href = redirectUrl
     
@@ -39,6 +39,6 @@ export class SignInRedirect extends Component {
 }
 
 export default connect(
-  undefined,
+  null,
   { startCreateNewQuiz }
-)(SignInRedirect)
+)(SignInRedirectPage)

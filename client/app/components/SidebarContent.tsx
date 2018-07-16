@@ -12,11 +12,14 @@ import SettingsIcon from '../../public/icons/settings-icon.svg'
 
 import { generateUuid } from '../helpers/helpers'
 import { loadModal } from '../actions/modal'
+import { changeQuestionNumber } from '../actions/quizzes'
 
+// interface IProps {
 interface IProps extends RouteComponentProps<any> {
   username?: string
   questions?: any
   startAddTopic?: (nextTopic: any) => any
+  changeQuestionNumber?: (questionNumber: number) => any
   loadModal?: (string) => void
 }
 
@@ -30,6 +33,11 @@ export class SidebarContent extends Component<IProps, IState> {
     takingQuiz: false,
     isEditing: false,
     topic: ''
+  }
+
+  handleQuestionChange = e => {
+    const questionNumber = parseInt(e.target.dataset.questionnumber)
+    this.props.changeQuestionNumber(questionNumber)
   }
 
   onFieldChange = e => {
@@ -76,21 +84,27 @@ export class SidebarContent extends Component<IProps, IState> {
           <div className="container link-container">
             <Link to="/dashboard" className="link">
               <MenuIcon className="svg menu" />
+              <p className="hint">Home</p>
             </Link>
             <Link to="/add-quiz" className="link">
               <AddQuizIcon className="svg add-quiz" />
+              <p className="hint">Create quiz</p>
             </Link>
             <Link to="/quizzes/created" className="link">
               <ViewQuizzesIcon className="svg view-quizzes" />
+              <p className="hint">Quiz history</p>
             </Link>
             <Link to="/achievements" className="link">
               <AchievementsIcon className="svg achievements" />
+              <p className="hint">Trophies</p>
             </Link>
             <Link to="/store" className="link">
               <CartIcon className="svg store" />
+              <p className="hint">Store</p>
             </Link>
             <Link to="/settings" className="link">
               <SettingsIcon className="svg settings" />
+              <p className="hint">Settings</p>
             </Link>
           </div>
         )}
@@ -103,7 +117,12 @@ export class SidebarContent extends Component<IProps, IState> {
               <div className="questions">
                 {questions.length > 0 &&
                   questions.map((question, number) => (
-                    <p key={number} className="question-number">
+                    <p
+                      key={number}
+                      data-questionnumber={number}
+                      className="question-number"
+                      onClick={this.handleQuestionChange}
+                    >
                       {number + 1}
                     </p>
                   ))}
@@ -158,11 +177,10 @@ const mapStateToProps = (state, props) => ({
     state.takeQuiz.quizAttemptInfoObj !== null &&
     state.takeQuiz.quizAttemptInfoObj.questions
 })
-
 export default withRouter(
   connect<any, any>(
     mapStateToProps,
-    { loadModal },
+    { loadModal, changeQuestionNumber },
     undefined,
     { pure: false }
   )(SidebarContent)

@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import LoadingScreen from 'react-loading-screen'
 import { Link } from 'react-router-dom'
 import fontawesome from '@fortawesome/fontawesome'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { startCreateNewQuiz } from '../actions/create'
-import Axios from '../../../node_modules/axios'
+import Axios from 'axios'
 import { environment } from '../../../environment'
-import LoadingScreen from 'react-loading-screen'
+
 
 export class SetupLogin extends Component {
   componentDidMount() {
@@ -124,9 +125,9 @@ export class SetupLogin extends Component {
       </div>
     )
   }
-}
+ }
 
 export default connect(
-  undefined,
+  null,
   { startCreateNewQuiz }
 )(SetupLogin)
