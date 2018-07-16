@@ -1,6 +1,7 @@
 import React from 'react'
 import { startGetUserQuizzes } from './quizzes'
 import { environment } from '../../../environment'
+import * as awsCognito from 'amazon-cognito-identity-js'
 
 export const login = user => ({
   type: 'LOGIN',
@@ -26,8 +27,8 @@ export const startLogout = () => dispatch => {
     ClientId: '1q83lmu6khfnc0v8jjdrde9291' // Your client id here
   }
   const userPool = new awsCognito.CognitoUserPool(data)
-  const cognitoUser = userPool.getCurrentUser();
-  console.log(cognitoUser);
+  const cognitoUser = userPool.getCurrentUser()
+  console.log(cognitoUser)
   if (cognitoUser != null) {
     // console.log(this.props.cognitoUser.user)
     // cognitoUser.signOut();
@@ -36,14 +37,14 @@ export const startLogout = () => dispatch => {
       onSuccess: () => {
         console.log('successful logout')
       },
-      onFailure: (err) => {
+      onFailure: err => {
         console.log(cognitoUser)
         console.log(err)
       }
     })
   }
-  
-  localStorage.clear();
+
+  localStorage.clear()
   // let redirectUrl = `https://quizard.auth.us-east-2.amazoncognito.com/logout?response_type=code&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=${
   //   environment.context
   // }/redirect`

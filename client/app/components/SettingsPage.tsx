@@ -65,19 +65,21 @@ if (localStorage.getItem('refresh_token') !== 'undefined') {
 
     cognitoUser.getSession((err, session) => {
       if (err) {
-          console.log(err);
-          return;
-      } else
-      console.log('session validity: ' + session.isValid());
-        
-      var attributeList = [];
+        console.log(err)
+        return
+      } else console.log('session validity: ' + session.isValid())
+
+      var attributeList = []
       cognitoUser.getUserAttributes((err, result) => {
         if (err) {
-          console.log(err);
-          return;
+          console.log(err)
+          return
         }
-        for (let i=0; i < result.length; i++) {
-          attributeList.push({Name: result[i].getName(), Value: result[i].getValue()});
+        for (let i = 0; i < result.length; i++) {
+          attributeList.push({
+            Name: result[i].getName(),
+            Value: result[i].getValue()
+          })
         }
       })
       console.log(attributeList)
@@ -157,7 +159,7 @@ export class SettingsPage extends Component<ClassProps> {
 
   //     if(!this.isAuthenticated) return;
 
-  //     
+  //
   // }
 
   onFieldChange = e => {
