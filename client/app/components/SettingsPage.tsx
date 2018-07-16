@@ -34,7 +34,7 @@ if (localStorage.getItem('refresh_token') !== 'undefined') {
     Pool: userPool
   }
 
-  const cognitoUser = new awsCognito.CognitoUser(userData)
+  var cognitoUser = new awsCognito.CognitoUser(userData)
   // const cognitoUser = userPool.getCurrentUser();
   console.log(cognitoUser)
 
@@ -136,37 +136,12 @@ export class SettingsPage extends Component<ClassProps> {
   //   }
   // }
 
-  // authenticate = (e) => {
-  //   /** Authenticate given password */
-  //   if (cognitoUser != null) {
-  //     const authenticationData = {
-  //       Username: token !== null && token.username,
-  //       Password: 'quailious'
-  //     }
-  //     const authenticationDetails = new awsCognito.AuthenticationDetails(authenticationData);
-  //     cognitoUser.authenticateUser(authenticationDetails, {
-  //       onSuccess: (result) => {
-  //         const accessToken = result.getAccessToken().getJwtToken();
-  //         const idToken = result.getIdToken;
-  //         this.isAuthenticated = true;
-  //       },
-  //       onFailure: (err) => {
-  //         console.log(err);
-  //       }
-  //     })
-
-  //     if(!this.isAuthenticated) return;
-
-  //     
-  // }
-
   onFieldChange = e => {
-    // e.props = ({
-    //   [e.target.name]: e.target.value
-    // })
-    this.updateName(e)
-    this.updateEmail(e)
-    console.log(this.state)
+    e.props = ({
+      [e.target.name]: e.target.value
+    })
+    // this.updateName(e)
+    // console.log(this.state)
   }
   fileSelectedHandler = e => this.setState({ selectedFile: e.target.files[0] })
   generalUploadHandler = async e => {
@@ -216,31 +191,36 @@ export class SettingsPage extends Component<ClassProps> {
 
   updateProfile = e => {
     e.preventDefault()
+    console.log(e.target.namefield.value);
+    const formObj = {
+      Name: 'name',
+      Value: e.target.namefield.value
+    }
+    if(cognitoUser !== null) {
+      cognitoUser.updateAttributes([formObj], (err, result) => {
+        if (err) {
+          alert(err);
+          return;
+        }
+        console.log('call result: ' + result);
+      })
+    }
     // const fullName = document.getElementById('fullname').value;
     // const email = document.getElementById('email').value;
     // console.log(`Name: ${fullName}\nEmail: ${email}`);
   }
 
-  updateName = (e: any) => {
+  /*updateName = (e: any) => {
     const nameField = e.target.name
     const name = nameField.value
-    this.props.startUpdateName(name)
-    // this.setState({
-    //   name: name
-    // })
+    // this.props.startUpdateName(name)
+    this.setState({
+      name: name
+    })
     // ({
     //   [e.target.name]: e.target.value
     // })
-  }
-
-  updateEmail = e => {
-    const emailField = e.target.email
-    const email = emailField.value
-    this.props.startUpdateEmail(email)
-    // this.setState({
-    //   email: email
-    // })
-  }
+  }*/
 
   // @ts-ignore
   render = () => {
@@ -307,10 +287,11 @@ export class SettingsPage extends Component<ClassProps> {
                     type="text"
                     name="fullname"
                     placeholder={name}
-                    onChange={(e: any) => {
-                      this.updateName(e)
-                    }}
-                    value={this.state.name}
+                    id="namefield"
+                    // onChange={(e: any) => {
+                    //   this.updateName(e)
+                    // }}
+                    // value={this.state.name}
                   />
                 </div>
                 <div className="input-group">
@@ -319,9 +300,7 @@ export class SettingsPage extends Component<ClassProps> {
                     type="email"
                     name="email"
                     placeholder={email}
-                    onChange={(e: any) => {
-                      this.updateEmail(e)
-                    }}
+                    readOnly
                     value={this.state.email}
                   />
                 </div>
