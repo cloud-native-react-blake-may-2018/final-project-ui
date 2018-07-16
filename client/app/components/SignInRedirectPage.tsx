@@ -18,19 +18,17 @@ export class SignInRedirectPage extends Component {
     // working: do not change
     let redirectUrl =
       process.env.NODE_ENV === 'production'
-        ? `https://quizard.auth.us-east-2.amazoncognito.com/login?response_type=token&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=${
+        ? `https://quizard.auth.us-east-2.amazoncognito.com/login?response_type=code&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=${
             environment.context
           }/redirect`
-        : `https://quizard.auth.us-east-2.amazoncognito.com/login?response_type=token&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=${
+        : `https://quizard.auth.us-east-2.amazoncognito.com/login?response_type=code&client_id=1q83lmu6khfnc0v8jjdrde9291&redirect_uri=${
             environment.context
           }/redirect/__webpack_hmr`
 
     // console.log('environment', environment.context)
     // console.log('redirect url', redirectUrl)
 
-    // to make compatible with tests
-    window.location.assign(redirectUrl)
-    // window.location.href = redirectUrl
+    window.location.href = redirectUrl
   }
 
   // @ts-ignore
