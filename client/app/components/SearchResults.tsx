@@ -15,9 +15,6 @@ interface IProps {
   startGetSearchedQuiz: (quiz: any) => any
 }
 
-// const matchFound = term => x =>
-//   x.word.toLowerCase().includes(term.toLowerCase()) || !term
-
 export class SearchResults extends Component<IProps, IState> {
   state = {
     results: []
@@ -46,14 +43,6 @@ export class SearchResults extends Component<IProps, IState> {
       const results = [...resultSet1, ...resultSet2]
 
       this.setState(prevState => ({ results }))
-
-      // original
-      // prevState ensures state updates each time
-      // results.length > 0 && this.setState(prevState => ({ results }))
-
-      // results.length === 0 &&
-      //   this.setState(prevState => ({ results: ['none'] }))
-      // console.log('results: ', results)
     }
   }
 

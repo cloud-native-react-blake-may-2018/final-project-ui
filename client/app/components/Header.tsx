@@ -112,7 +112,7 @@ export class Header extends Component<Props> {
         {points !== undefined && (
           <div className="coin-group">
             <CoinIcon className="coin-icon" />
-            <p className="coin-total">{points}</p>
+            <p className="coin-total">{points > 0 ? points : points}</p>
           </div>
         )}
 

@@ -18,7 +18,8 @@
     ],
     "setupFiles": [
       "raf/polyfill",
-      "<rootDir>/client/app/tests/setupTests.ts"
+      "<rootDir>/client/app/tests/setupTests.ts",
+      "jest-localstorage-mock"
     ],
     "setupTestFrameworkScriptFile": "<rootDir>/client/app/tests/setupTests.ts",
     "snapshotSerializers": [
@@ -120,6 +121,7 @@
     "html-webpack-plugin": "latest",
     "identity-obj-proxy": "latest",
     "jest": "latest",
+    "jest-localstorage-mock": "latest",
     "jest-svg-transformer": "latest",
     "raf": "latest",
     "react-svg-loader": "latest",
