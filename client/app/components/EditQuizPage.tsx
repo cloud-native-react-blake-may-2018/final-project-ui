@@ -36,6 +36,7 @@ const colors = [
 
 export class EditQuizPage extends Component<IProps> {
   state = {
+    errMsg: "",
     displayPhoto: "",
     page: 1,
     clickedQuestion: {
@@ -74,7 +75,7 @@ export class EditQuizPage extends Component<IProps> {
     });
   };
 
-  private updateQuiz = (e: any) => {
+  private updateQuiz = async (e: any) => {
     let sendQuestionList = [];
     for (let item of this.state.updatedQuestions) {
       if (item.tags) {
@@ -100,7 +101,22 @@ export class EditQuizPage extends Component<IProps> {
         quizID: window.location.href.split("/")[4],
         question: item
       };
-      this.props.startEditQuestion(data);
+
+      let testvar = await this.props.startEditQuestion(data);
+      await console.log(testvar["response"]["status"]);
+
+      if (testvar["response"]["status"] === 400) {
+        this.setState({
+          ...this.state,
+          errMsg: "Please make sure all boxes have been filed in and re-submit."
+        });
+      } else if (testvar["response"]["status"] === 502) {
+        this.setState({
+          ...this.state,
+          errMsg:
+            "Your selected image is too large. Please upload a smaller image."
+        });
+      }
     }
   };
 
@@ -310,6 +326,7 @@ export class EditQuizPage extends Component<IProps> {
               <p onClick={e => this.setAddQuestion(e)} className="add-question">
                 + question
               </p>
+              {this.state.errMsg && this.state.errMsg}
               <button onClick={this.updateQuiz} className="save-quiz">
                 Save Quiz
               </button>

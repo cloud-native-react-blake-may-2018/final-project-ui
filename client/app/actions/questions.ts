@@ -30,11 +30,13 @@ export const editQuestion = question => ({
 //     .then(question => dispatch(editQuestion(question)));
 // };
 
-export const startEditQuestion = incoming => dispatch => {
+export const startEditQuestion = incoming => async dispatch => {
   try {
-    pathlist.questions
-      .edit(incoming.question)
-      .then(question => dispatch(editQuestion(incoming.question)));
+    let response = "";
+    await pathlist.questions.edit(incoming.question);
+    dispatch(editQuestion(incoming.question));
+    // .then(question => dispatch(editQuestion(incoming.question)))
+    // .catch(err => (response = err));
 
     try {
       const tagObj = {
@@ -47,8 +49,9 @@ export const startEditQuestion = incoming => dispatch => {
         incoming.question.tags
       );
     } catch (error) {}
-    return;
+    return response;
   } catch (error) {
+    console.log("the error was caught by this block", error);
     return error;
   }
 };
