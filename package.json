@@ -64,7 +64,7 @@
     "react-dom": "latest",
     "react-dropzone": "latest",
     "react-hot-loader": "latest",
-    "react-image-gallery": "latest",
+    "react-image-gallery": "^0.8.9",
     "react-input-autosize": "latest",
     "react-loading-screen": "latest",
     "react-redux": "latest",
