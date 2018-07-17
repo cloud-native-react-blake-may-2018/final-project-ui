@@ -9,6 +9,8 @@ exports[`should render LoginSetupPage component 1`] = `
     spinnerColor="#fcfeff"
     text="Welcome to the World of Quizzard!"
     textColor="#ffffff"
-  />
+  >
+    <div />
+  </LoadingScreen>
 </div>
 `;

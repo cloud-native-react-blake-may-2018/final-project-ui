@@ -86,10 +86,31 @@
           background-color: $white
           border: 3px solid $white
           box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
-          transition: .3s all
 
           &:hover
-            border: 3px solid lighten($blue, 5%)
+            transition: .3s all ease-in-out
+            border: 3px dotted lighten($blue, 5%)
+
+        .selected
+          color: $blue
+          border: 3px solid lighten($blue, 5%)
+  
+
+
+          // svg
+          //   border: 1px solid green
+
+          //   .rect-border
+          //     animation: marching_ants 0.34s steps(12) infinite
+          //     stroke-dasharray: 8
+          //     border: 3px solid blue
+            
+          //   .text
+          //     border: 1px solid red
+          //     color: $blue
+          //     background-color: orange
+          //     z-index: 1000
+
 
       .buttons
         display: grid
@@ -166,3 +187,10 @@
             cursor: pointer
             transform: scale(.95)
             filter: brightness(93%)
+
+
+@keyframes marching_ants
+  0%
+    stroke-dashoffset: 0
+  100%
+    stroke-dashoffset: 16

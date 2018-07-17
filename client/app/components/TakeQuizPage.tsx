@@ -33,7 +33,7 @@ interface IProps extends RouteProps {
   quiz: any
   questionNumber: any
   multipleSelectAnswer: any
-  multipleChoiceAnswer: any[]
+  multipleChoiceAnswer: any
   answerArray: any
   history?: any
   loadModal: (type: string, title?: string, uuid?: string) => void
@@ -277,9 +277,185 @@ export class TakeQuizPage extends Component<IProps, any> {
     this.submitQuizModal()
   }
 
+  handleSelection = (choice, title) => {
+    const {
+      multipleChoiceAnswer: multCh,
+      multipleSelectAnswer: multSe,
+      answerArray: ansArr,
+      questionNumber: curr,
+      quiz
+    } = this.props
+
+    const quizTitles = quiz.questions.map(question => question.title)
+
+    /*birth check*/
+    const mca = multCh !== null && multCh !== undefined
+
+    const msa =
+      multCh === null && multSe !== undefined && multSe.answer.length > 0
+
+    /* check previous answers */
+    const aarr =
+      !mca &&
+      multSe !== undefined &&
+      multSe.answer.length === 0 &&
+      ansArr.length > 0 &&
+      ansArr.some(ans => quizTitles.includes(title))
+    // ansArr.length >= curr
+    // ansArr[curr] !== undefined
+
+    /* display defaults */
+    const choose =
+      !mca &&
+      multSe !== undefined &&
+      multSe.answer.length === 0 &&
+      ansArr.every(ans => !quizTitles.includes(title))
+
+    // console.log('choice', choice)
+    // console.log('title', title)
+    // console.log('quiz titles', quizTitles)
+
+    // console.log(
+    //   'quiz titles does include the title',
+    //   ansArr.some(ans => quizTitles.includes(title))
+    // )
+
+    // console.log(
+    //   'quiz titles does not include the title',
+    //   ansArr.every(ans => !quizTitles.includes(title))
+    // )
+    // ansArr.length < curr
+    // ansArr[curr] === undefined
+    // const aarr =
+    //   multCh === null &&
+    //   (multSe.answer.length === 0 || multSe !== undefined) &&
+    //   ansArr.length > 0
+
+    // console.log('msa', msa)
+    // console.log('multSe', multSe)
+
+    /*answer comparison*/
+
+    // check multiple choice object
+    if (mca) {
+      console.log('checking multiple choice...')
+      return multCh.answer === choice ? 'choice selected' : 'choice'
+    }
+
+    // check multiple select object
+    if (msa) {
+      // if (msa && multSe.answers !== undefined) {
+      console.log(
+        'checking multiple select...',
+        multSe.answer.some(answer => answer === choice)
+      )
+      return multSe.answer.some(answer => answer === choice)
+        ? multSe.answer
+            .map(answer => {
+              if (answer === choice) return 'choice selected'
+            })
+            .join('')
+        : 'choice'
+    }
+
+    // check answer array
+    if (aarr) {
+      // console.log('here is answers array', ansArr)
+      const arr = ansArr.map(answer => {
+        // let finalClass = ansArr.map(answer => {
+        console.log('logging tritle? ', answer.title)
+        let className = ''
+        if (!Array.isArray(answer.answer)) {
+          if (answer.answer === choice && answer.title === title) {
+            className = 'choice selected'
+            console.log('not an array, className: ', className)
+          }
+          if (answer.answer !== choice) {
+            className = 'choice'
+            console.log('not an array, className: ', className)
+          }
+        }
+        if (Array.isArray(answer.answer) && answer.title === title) {
+          answer.answer.includes(choice)
+            ? (className = 'choice selected')
+            : (className = 'choice')
+          console.log('is an array, className is now: ', className)
+        }
+        console.log('before submission, className is', className)
+        return className
+      })
+
+      console.log('array', arr)
+      return arr.includes('choice selected') ? 'choice selected' : 'choice'
+
+      // finalClass = [...new Set(finalClass)].join('')
+      // console.log('finalClass: ', finalClass)
+      // return finalClass
+    }
+    // if (aarr) {
+    //   // console.log('here is answers array', ansArr)
+    //   let finalClass = ansArr.map(answer => {
+    //     // console.log('is array? ', Array.isArray(answer.answer))
+    //     let className = ''
+    //     if (!Array.isArray(answer.answer)) {
+    //       if (ansArr.some(ans1 => ans1.answer === choice)) {
+    //         className = answer.answer === choice ? 'choice selected' : 'choice'
+    //         console.log('not an array, some, className: ', className)
+    //       }
+    //       if (!ansArr.some(ans1 => ans1.answer === choice)) {
+    //         className = 'choice'
+    //         console.log('not an array, !some, className is now: ', className)
+    //       }
+    //     }
+    //     if (Array.isArray(answer.answer)) {
+    //       if (answer.answer.includes(choice)) className = 'choice selected'
+    //       console.log('is an array, className is now: ', className)
+    //     }
+    //     return className
+    //   })
+
+    //   finalClass = [...new Set(finalClass)].join('')
+    //   console.log('finalClass: ', finalClass)
+    //   return finalClass
+    // }
+    // const finalClass = ansArr.map(answer => {
+    //   console.log('is array? ', Array.isArray(answer.answer))
+    //   // a. if instance of user answer is a string,
+    //   !Array.isArray(answer.answer)
+    //     ? // b1. then, if question choice matches some user answer in ansArr
+    //       ansArr.some(ans1 => ans1.answer === choice)
+    //       ? // c1. then, if answer
+    //         answer.answer === choice && 'choice selected'
+    //       : // ansArr
+    //         //   .map(answer => answer.answer === choice && 'choice selected')
+    //         //   .join('')
+    //         // c2. else, if question choice not in ansArray, set default styling
+    //         'choice'
+    //     : // b2. else if answer is an array
+    //       answer.answer
+    //         .map(ans2 => (ans2 === choice ? 'choice selected' : 'choice'))
+    //         .join('')
+    // })
+
+    //   console.log('final class value', finalClass)
+    //   return finalClass
+    // }
+
+    if (choose) {
+      console.log('setting defaults')
+      return 'choice'
+    }
+  }
+
   // @ts-ignore
   render = () => {
-    const { quiz, questionNumber } = this.props
+    const {
+      quiz,
+      questionNumber,
+      multipleChoiceAnswer,
+      multipleSelectAnswer,
+      answerArray
+    } = this.props
     return (
       <div className="take-quiz-page">
         {quiz.questions === undefined && (
@@ -332,15 +508,43 @@ export class TakeQuizPage extends Component<IProps, any> {
                 {quiz.questions[questionNumber].answers.map((answers, i) => (
                   <div
                     key={i}
-                    // key={answers.answer.answer}
-                    className="choice"
+                    className={this.handleSelection(
+                      answers.answer.answer,
+                      quiz.questions[questionNumber].title
+                    )}
                     onClick={this.addAnswerToObject.bind(
                       this,
                       quiz.questions,
                       answers
                     )}
                   >
-                    <p>{answers.answer.answer}</p>
+                    <p>
+                      {answers.answer.answer}
+                      <span>
+                        &nbsp;&nbsp;{this.handleSelection(
+                          answers.answer.answer,
+                          quiz.questions[questionNumber].title
+                        )}
+                      </span>
+                    </p>
+
+                    {/* <svg
+                      height="100%"
+                      width="100%"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <g>
+                        <rect
+                          className="rect-border"
+                          height="100%"
+                          width="100%"
+                          fill="none"
+                        />
+                        <text x="20%" y="50" className="text">
+                          {answers.answer.answer}
+                        </text>
+                      </g>
+                    </svg> */}
                   </div>
                 ))}
               </div>

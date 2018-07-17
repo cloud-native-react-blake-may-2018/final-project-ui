@@ -29,9 +29,20 @@ export const startGetUserQuizzes = author => {
           return { ...quiz, questions, tags }
         })
       )
+
+      const url = window.location.href.split('/')
+      const uuid = url[4] !== undefined ? url[4] : null
+
+      console.log('UUID of url:', uuid)
+
+      if (uuid) await dispatch(startGetSearchedQuiz(uuid))
+
       const points = await pathList.points.getUserPoints(author)
       const allPoints = await pathList.points.getAllPoints()
       const quizAttempts = await pathList.quizzes.displayQuizAttempts(author)
+
+      // if url not in all, dispatch(startGetSearchedQuiz(history.match.params.uuid))
+
       dispatch(getUserQuizzes(all))
       dispatch(getUserPoints(points))
       dispatch(getAllPoints(allPoints))
@@ -60,6 +71,7 @@ export const getAllPoints = points => ({
 })
 
 export const startGetSearchedQuiz = quiz => async dispatch => {
+  // quize = { uuid: "quiz uuid", username: "quiz username" }
   const result = await pathList.quizzes.getForeignQuiz(quiz)
   const tags = await pathList.questions.displayTags(quiz.uuid)
   const final = {
