@@ -1,0 +1,1558 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1531773975467" clover="3.2.0">
+  <project timestamp="1531773975467" name="All files">
+    <metrics statements="1365" coveredstatements="635" conditionals="441" coveredconditionals="97" methods="495" coveredmethods="58" elements="2301" coveredelements="790" complexity="0" loc="1365" ncloc="1365" packages="10" files="52" classes="52">
+      <package name="final-project-ui">
+        <metrics statements="3" coveredstatements="3" conditionals="2" coveredconditionals="1" methods="0" coveredmethods="0"/>
+        <file name="environment.ts" path="C:\Users\Shawn\Documents\revature\final-project-ui\environment.ts">
+          <metrics statements="3" coveredstatements="3" conditionals="2" coveredconditionals="1" methods="0" coveredmethods="0"/>
+          <line num="1" count="5" type="stmt"/>
+          <line num="4" count="5" type="stmt"/>
+          <line num="13" count="5" type="cond" truecount="1" falsecount="1"/>
+        </file>
+      </package>
+      <package name="final-project-ui.client.app">
+        <metrics statements="63" coveredstatements="26" conditionals="0" coveredconditionals="0" methods="52" coveredmethods="0"/>
+        <file name="path-list.ts" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\path-list.ts">
+          <metrics statements="63" coveredstatements="26" conditionals="0" coveredconditionals="0" methods="52" coveredmethods="0"/>
+          <line num="2" count="16" type="stmt"/>
+          <line num="9" count="16" type="stmt"/>
+          <line num="12" count="16" type="stmt"/>
+          <line num="15" count="16" type="stmt"/>
+          <line num="18" count="16" type="stmt"/>
+          <line num="21" count="16" type="stmt"/>
+          <line num="24" count="16" type="stmt"/>
+          <line num="27" count="16" type="stmt"/>
+          <line num="30" count="16" type="stmt"/>
+          <line num="33" count="16" type="stmt"/>
+          <line num="36" count="16" type="stmt"/>
+          <line num="38" count="16" type="stmt"/>
+          <line num="41" count="16" type="stmt"/>
+          <line num="44" count="16" type="stmt"/>
+          <line num="47" count="16" type="stmt"/>
+          <line num="50" count="16" type="stmt"/>
+          <line num="53" count="16" type="stmt"/>
+          <line num="56" count="16" type="stmt"/>
+          <line num="59" count="16" type="stmt"/>
+          <line num="65" count="16" type="stmt"/>
+          <line num="68" count="16" type="stmt"/>
+          <line num="71" count="16" type="stmt"/>
+          <line num="74" count="16" type="stmt"/>
+          <line num="77" count="16" type="stmt"/>
+          <line num="80" count="16" type="stmt"/>
+          <line num="96" count="16" type="stmt"/>
+          <line num="99" count="0" type="stmt"/>
+          <line num="102" count="0" type="stmt"/>
+          <line num="105" count="0" type="stmt"/>
+          <line num="107" count="0" type="stmt"/>
+          <line num="110" count="0" type="stmt"/>
+          <line num="112" count="0" type="stmt"/>
+          <line num="115" count="0" type="stmt"/>
+          <line num="117" count="0" type="stmt"/>
+          <line num="120" count="0" type="stmt"/>
+          <line num="122" count="0" type="stmt"/>
+          <line num="126" count="0" type="stmt"/>
+          <line num="129" count="0" type="stmt"/>
+          <line num="132" count="0" type="stmt"/>
+          <line num="135" count="0" type="stmt"/>
+          <line num="138" count="0" type="stmt"/>
+          <line num="141" count="0" type="stmt"/>
+          <line num="144" count="0" type="stmt"/>
+          <line num="147" count="0" type="stmt"/>
+          <line num="149" count="0" type="stmt"/>
+          <line num="152" count="0" type="stmt"/>
+          <line num="154" count="0" type="stmt"/>
+          <line num="157" count="0" type="stmt"/>
+          <line num="160" count="0" type="stmt"/>
+          <line num="165" count="0" type="stmt"/>
+          <line num="168" count="0" type="stmt"/>
+          <line num="170" count="0" type="stmt"/>
+          <line num="175" count="0" type="stmt"/>
+          <line num="177" count="0" type="stmt"/>
+          <line num="180" count="0" type="stmt"/>
+          <line num="183" count="0" type="stmt"/>
+          <line num="185" count="0" type="stmt"/>
+          <line num="188" count="0" type="stmt"/>
+          <line num="191" count="0" type="stmt"/>
+          <line num="193" count="0" type="stmt"/>
+          <line num="196" count="0" type="stmt"/>
+          <line num="206" count="0" type="stmt"/>
+          <line num="209" count="0" type="stmt"/>
+        </file>
+      </package>
+      <package name="final-project-ui.client.app.actions">
+        <metrics statements="185" coveredstatements="75" conditionals="2" coveredconditionals="0" methods="128" coveredmethods="0"/>
+        <file name="app.ts" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\actions\app.ts">
+          <metrics statements="11" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="0"/>
+          <line num="2" count="1" type="stmt"/>
+          <line num="7" count="1" type="stmt"/>
+          <line num="8" count="0" type="stmt"/>
+          <line num="13" count="1" type="stmt"/>
+          <line num="14" count="0" type="stmt"/>
+          <line num="18" count="1" type="stmt"/>
+          <line num="19" count="0" type="stmt"/>
+          <line num="20" count="0" type="stmt"/>
+          <line num="22" count="0" type="stmt"/>
+          <line num="27" count="0" type="stmt"/>
+          <line num="30" count="1" type="stmt"/>
+        </file>
+        <file name="auth.ts" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\actions\auth.ts">
+          <metrics statements="29" coveredstatements="11" conditionals="2" coveredconditionals="0" methods="15" coveredmethods="0"/>
+          <line num="2" count="3" type="stmt"/>
+          <line num="3" count="3" type="stmt"/>
+          <line num="4" count="3" type="stmt"/>
+          <line num="6" count="3" type="stmt"/>
+          <line num="11" count="3" type="stmt"/>
+          <line num="12" count="0" type="stmt"/>
+          <line num="13" count="0" type="stmt"/>
+          <line num="15" count="0" type="stmt"/>
+          <line num="19" count="3" type="stmt"/>
+          <line num="23" count="3" type="stmt"/>
+          <line num="25" count="0" type="stmt"/>
+          <line num="29" count="0" type="stmt"/>
+          <line num="30" count="0" type="stmt"/>
+          <line num="31" count="0" type="stmt"/>
+          <line num="32" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="36" count="0" type="stmt"/>
+          <line num="38" count="0" type="stmt"/>
+          <line num="41" count="0" type="stmt"/>
+          <line num="42" count="0" type="stmt"/>
+          <line num="47" count="0" type="stmt"/>
+          <line num="51" count="0" type="stmt"/>
+          <line num="54" count="0" type="stmt"/>
+          <line num="55" count="0" type="stmt"/>
+          <line num="59" count="3" type="stmt"/>
+          <line num="64" count="3" type="stmt"/>
+          <line num="65" count="0" type="stmt"/>
+          <line num="68" count="3" type="stmt"/>
+          <line num="73" count="3" type="stmt"/>
+          <line num="74" count="0" type="stmt"/>
+        </file>
+        <file name="create.ts" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\actions\create.ts">
+          <metrics statements="36" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="19" coveredmethods="0"/>
+          <line num="2" count="5" type="stmt"/>
+          <line num="3" count="5" type="stmt"/>
+          <line num="5" count="5" type="stmt"/>
+          <line num="10" count="5" type="stmt"/>
+          <line num="11" count="0" type="stmt"/>
+          <line num="13" count="0" type="stmt"/>
+          <line num="14" count="0" type="stmt"/>
+          <line num="17" count="5" type="stmt"/>
+          <line num="22" count="5" type="stmt"/>
+          <line num="23" count="0" type="stmt"/>
+          <line num="29" count="5" type="stmt"/>
+          <line num="30" count="0" type="stmt"/>
+          <line num="31" count="0" type="stmt"/>
+          <line num="32" count="0" type="stmt"/>
+          <line num="33" count="0" type="stmt"/>
+          <line num="34" count="0" type="stmt"/>
+          <line num="52" count="5" type="stmt"/>
+          <line num="57" count="5" type="stmt"/>
+          <line num="58" count="0" type="stmt"/>
+          <line num="59" count="0" type="stmt"/>
+          <line num="60" count="0" type="stmt"/>
+          <line num="61" count="0" type="stmt"/>
+          <line num="63" count="0" type="stmt"/>
+          <line num="64" count="0" type="stmt"/>
+          <line num="65" count="0" type="stmt"/>
+          <line num="67" count="0" type="stmt"/>
+          <line num="68" count="0" type="stmt"/>
+          <line num="72" count="0" type="stmt"/>
+          <line num="73" count="0" type="stmt"/>
+          <line num="74" count="0" type="stmt"/>
+          <line num="75" count="0" type="stmt"/>
+          <line num="77" count="0" type="stmt"/>
+          <line num="78" count="0" type="stmt"/>
+          <line num="80" count="0" type="stmt"/>
+          <line num="82" count="0" type="stmt"/>
+          <line num="84" count="0" type="stmt"/>
+        </file>
+        <file name="modal.ts" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\actions\modal.ts">
+          <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+          <line num="1" count="6" type="stmt"/>
+          <line num="9" count="6" type="stmt"/>
+        </file>
+        <file name="questions.ts" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\actions\questions.ts">
+          <metrics statements="16" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="0"/>
+          <line num="3" count="1" type="stmt"/>
+          <line num="22" count="1" type="stmt"/>
+          <line num="33" count="1" type="stmt"/>
+          <line num="34" count="0" type="stmt"/>
+          <line num="35" count="0" type="stmt"/>
+          <line num="37" count="0" type="stmt"/>
+          <line num="39" count="0" type="stmt"/>
+          <line num="40" count="0" type="stmt"/>
+          <line num="44" count="0" type="stmt"/>
+          <line num="45" count="0" type="stmt"/>
+          <line num="50" count="0" type="stmt"/>
+          <line num="52" count="0" type="stmt"/>
+          <line num="56" count="1" type="stmt"/>
+          <line num="61" count="1" type="stmt"/>
+          <line num="62" count="0" type="stmt"/>
+          <line num="64" count="0" type="stmt"/>
+        </file>
+        <file name="quizzes.ts" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\actions\quizzes.ts">
+          <metrics statements="91" coveredstatements="43" conditionals="0" coveredconditionals="0" methods="76" coveredmethods="0"/>
+          <line num="2" count="16" type="stmt"/>
+          <line num="4" count="16" type="stmt"/>
+          <line num="5" count="0" type="stmt"/>
+          <line num="7" count="16" type="stmt"/>
+          <line num="12" count="16" type="stmt"/>
+          <line num="13" count="0" type="stmt"/>
+          <line num="19" count="16" type="stmt"/>
+          <line num="20" count="0" type="stmt"/>
+          <line num="22" count="0" type="stmt"/>
+          <line num="23" count="0" type="stmt"/>
+          <line num="24" count="0" type="stmt"/>
+          <line num="25" count="0" type="stmt"/>
+          <line num="26" count="0" type="stmt"/>
+          <line num="29" count="0" type="stmt"/>
+          <line num="32" count="0" type="stmt"/>
+          <line num="33" count="0" type="stmt"/>
+          <line num="34" count="0" type="stmt"/>
+          <line num="35" count="0" type="stmt"/>
+          <line num="36" count="0" type="stmt"/>
+          <line num="37" count="0" type="stmt"/>
+          <line num="38" count="0" type="stmt"/>
+          <line num="42" count="16" type="stmt"/>
+          <line num="47" count="16" type="stmt"/>
+          <line num="52" count="16" type="stmt"/>
+          <line num="57" count="16" type="stmt"/>
+          <line num="62" count="16" type="stmt"/>
+          <line num="63" count="0" type="stmt"/>
+          <line num="64" count="0" type="stmt"/>
+          <line num="65" count="0" type="stmt"/>
+          <line num="71" count="0" type="stmt"/>
+          <line num="72" count="0" type="stmt"/>
+          <line num="75" count="16" type="stmt"/>
+          <line num="80" count="16" type="stmt"/>
+          <line num="81" count="0" type="stmt"/>
+          <line num="83" count="0" type="stmt"/>
+          <line num="85" count="16" type="stmt"/>
+          <line num="90" count="16" type="stmt"/>
+          <line num="91" count="0" type="stmt"/>
+          <line num="93" count="0" type="stmt"/>
+          <line num="95" count="16" type="stmt"/>
+          <line num="99" count="16" type="stmt"/>
+          <line num="100" count="0" type="stmt"/>
+          <line num="102" count="16" type="stmt"/>
+          <line num="107" count="16" type="stmt"/>
+          <line num="108" count="0" type="stmt"/>
+          <line num="110" count="16" type="stmt"/>
+          <line num="115" count="16" type="stmt"/>
+          <line num="116" count="0" type="stmt"/>
+          <line num="118" count="0" type="stmt"/>
+          <line num="120" count="16" type="stmt"/>
+          <line num="125" count="16" type="stmt"/>
+          <line num="126" count="0" type="stmt"/>
+          <line num="129" count="0" type="stmt"/>
+          <line num="132" count="16" type="stmt"/>
+          <line num="137" count="16" type="stmt"/>
+          <line num="138" count="0" type="stmt"/>
+          <line num="140" count="16" type="stmt"/>
+          <line num="144" count="16" type="stmt"/>
+          <line num="145" count="0" type="stmt"/>
+          <line num="147" count="16" type="stmt"/>
+          <line num="152" count="16" type="stmt"/>
+          <line num="153" count="0" type="stmt"/>
+          <line num="155" count="16" type="stmt"/>
+          <line num="160" count="16" type="stmt"/>
+          <line num="161" count="0" type="stmt"/>
+          <line num="163" count="16" type="stmt"/>
+          <line num="168" count="16" type="stmt"/>
+          <line num="169" count="0" type="stmt"/>
+          <line num="171" count="16" type="stmt"/>
+          <line num="175" count="16" type="stmt"/>
+          <line num="179" count="0" type="stmt"/>
+          <line num="180" count="0" type="stmt"/>
+          <line num="182" count="0" type="stmt"/>
+          <line num="184" count="16" type="stmt"/>
+          <line num="189" count="16" type="stmt"/>
+          <line num="195" count="0" type="stmt"/>
+          <line num="196" count="0" type="stmt"/>
+          <line num="202" count="0" type="stmt"/>
+          <line num="203" count="0" type="stmt"/>
+          <line num="217" count="16" type="stmt"/>
+          <line num="222" count="16" type="stmt"/>
+          <line num="223" count="0" type="stmt"/>
+          <line num="225" count="16" type="stmt"/>
+          <line num="229" count="16" type="stmt"/>
+          <line num="231" count="16" type="stmt"/>
+          <line num="235" count="16" type="stmt"/>
+          <line num="236" count="0" type="stmt"/>
+          <line num="237" count="0" type="stmt"/>
+          <line num="239" count="0" type="stmt"/>
+          <line num="240" count="0" type="stmt"/>
+          <line num="249" count="16" type="stmt"/>
+        </file>
+      </package>
+      <package name="final-project-ui.client.app.components">
+        <metrics statements="958" coveredstatements="457" conditionals="415" coveredconditionals="96" methods="268" coveredmethods="58"/>
+        <file name="AchievementsPage.tsx" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\components\AchievementsPage.tsx">
+          <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+          <line num="1" count="1" type="stmt"/>
+          <line num="2" count="1" type="stmt"/>
+          <line num="4" count="1" type="stmt"/>
+          <line num="6" count="1" type="stmt"/>
+          <line num="7" count="1" type="stmt"/>
+          <line num="22" count="1" type="stmt"/>
+        </file>
+        <file name="AddQuestion.tsx" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\components\AddQuestion.tsx">
+          <metrics statements="144" coveredstatements="32" conditionals="52" coveredconditionals="10" methods="54" coveredmethods="3"/>
+          <line num="1" count="2" type="stmt"/>
+          <line num="2" count="2" type="stmt"/>
+          <line num="5" count="2" type="stmt"/>
+          <line num="6" count="2" type="stmt"/>
+          <line num="7" count="2" type="stmt"/>
+          <line num="11" count="2" type="stmt"/>
+          <line num="42" count="2" type="stmt"/>
+          <line num="43" count="1" type="stmt"/>
+          <line num="77" count="1" type="stmt"/>
+          <line num="79" count="1" type="stmt"/>
+          <line num="81" count="1" type="stmt"/>
+          <line num="82" count="0" type="stmt"/>
+          <line num="83" count="0" type="stmt"/>
+          <line num="91" count="1" type="stmt"/>
+          <line num="92" count="0" type="stmt"/>
+          <line num="93" count="0" type="stmt"/>
+          <line num="95" count="0" type="stmt"/>
+          <line num="97" count="0" type="stmt"/>
+          <line num="101" count="0" type="stmt"/>
+          <line num="102" count="0" type="stmt"/>
+          <line num="107" count="0" type="stmt"/>
+          <line num="111" count="0" type="stmt"/>
+          <line num="112" count="0" type="stmt"/>
+          <line num="113" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="114" count="0" type="stmt"/>
+          <line num="115" count="0" type="stmt"/>
+          <line num="119" count="0" type="stmt"/>
+          <line num="120" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="121" count="0" type="stmt"/>
+          <line num="124" count="0" type="stmt"/>
+          <line num="129" count="0" type="stmt"/>
+          <line num="132" count="1" type="stmt"/>
+          <line num="133" count="0" type="stmt"/>
+          <line num="134" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="135" count="0" type="stmt"/>
+          <line num="154" count="0" type="stmt"/>
+          <line num="185" count="1" type="stmt"/>
+          <line num="190" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="191" count="0" type="stmt"/>
+          <line num="192" count="0" type="stmt"/>
+          <line num="193" count="0" type="stmt"/>
+          <line num="218" count="1" type="stmt"/>
+          <line num="219" count="0" type="stmt"/>
+          <line num="220" count="0" type="stmt"/>
+          <line num="221" count="0" type="stmt"/>
+          <line num="229" count="1" type="stmt"/>
+          <line num="230" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="231" count="0" type="stmt"/>
+          <line num="232" count="0" type="stmt"/>
+          <line num="234" count="0" type="stmt"/>
+          <line num="235" count="0" type="stmt"/>
+          <line num="236" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="237" count="0" type="stmt"/>
+          <line num="240" count="0" type="stmt"/>
+          <line num="241" count="0" type="stmt"/>
+          <line num="242" count="0" type="stmt"/>
+          <line num="243" count="0" type="stmt"/>
+          <line num="244" count="0" type="stmt"/>
+          <line num="256" count="1" type="stmt"/>
+          <line num="261" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="262" count="0" type="stmt"/>
+          <line num="270" count="0" type="stmt"/>
+          <line num="278" count="0" type="stmt"/>
+          <line num="281" count="1" type="stmt"/>
+          <line num="282" count="0" type="stmt"/>
+          <line num="283" count="0" type="stmt"/>
+          <line num="285" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="286" count="0" type="stmt"/>
+          <line num="288" count="0" type="stmt"/>
+          <line num="289" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="290" count="0" type="stmt"/>
+          <line num="292" count="0" type="stmt"/>
+          <line num="295" count="0" type="stmt"/>
+          <line num="296" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="299" count="1" type="stmt"/>
+          <line num="300" count="1" type="stmt"/>
+          <line num="303" count="0" type="stmt"/>
+          <line num="306" count="0" type="stmt"/>
+          <line num="316" count="1" type="stmt"/>
+          <line num="317" count="0" type="stmt"/>
+          <line num="318" count="0" type="stmt"/>
+          <line num="319" count="0" type="stmt"/>
+          <line num="320" count="0" type="stmt"/>
+          <line num="322" count="0" type="stmt"/>
+          <line num="323" count="0" type="stmt"/>
+          <line num="324" count="0" type="stmt"/>
+          <line num="325" count="0" type="stmt"/>
+          <line num="334" count="0" type="stmt"/>
+          <line num="335" count="0" type="stmt"/>
+          <line num="337" count="0" type="stmt"/>
+          <line num="339" count="0" type="stmt"/>
+          <line num="342" count="1" type="stmt"/>
+          <line num="343" count="0" type="stmt"/>
+          <line num="344" count="0" type="stmt"/>
+          <line num="345" count="0" type="stmt"/>
+          <line num="349" count="0" type="stmt"/>
+          <line num="350" count="0" type="stmt"/>
+          <line num="359" count="1" type="stmt"/>
+          <line num="360" count="0" type="stmt"/>
+          <line num="361" count="0" type="stmt"/>
+          <line num="362" count="0" type="stmt"/>
+          <line num="366" count="0" type="stmt"/>
+          <line num="375" count="1" type="stmt"/>
+          <line num="376" count="0" type="stmt"/>
+          <line num="384" count="1" type="stmt"/>
+          <line num="385" count="0" type="stmt"/>
+          <line num="387" count="0" type="stmt"/>
+          <line num="396" count="0" type="stmt"/>
+          <line num="407" count="0" type="stmt"/>
+          <line num="412" count="0" type="stmt"/>
+          <line num="420" count="0" type="stmt"/>
+          <line num="431" count="0" type="stmt"/>
+          <line num="440" count="0" type="stmt"/>
+          <line num="448" count="0" type="stmt"/>
+          <line num="456" count="0" type="stmt"/>
+          <line num="460" count="1" type="stmt"/>
+          <line num="461" count="0" type="stmt"/>
+          <line num="463" count="0" type="stmt"/>
+          <line num="472" count="0" type="stmt"/>
+          <line num="481" count="0" type="stmt"/>
+          <line num="490" count="0" type="stmt"/>
+          <line num="501" count="0" type="stmt"/>
+          <line num="510" count="0" type="stmt"/>
+          <line num="519" count="0" type="stmt"/>
+          <line num="529" count="0" type="stmt"/>
+          <line num="538" count="0" type="stmt"/>
+          <line num="547" count="0" type="stmt"/>
+          <line num="556" count="0" type="stmt"/>
+          <line num="567" count="0" type="stmt"/>
+          <line num="576" count="0" type="stmt"/>
+          <line num="585" count="0" type="stmt"/>
+          <line num="596" count="0" type="stmt"/>
+          <line num="605" count="0" type="stmt"/>
+          <line num="614" count="0" type="stmt"/>
+          <line num="625" count="0" type="stmt"/>
+          <line num="634" count="0" type="stmt"/>
+          <line num="643" count="0" type="stmt"/>
+          <line num="656" count="1" type="stmt"/>
+          <line num="657" count="1" type="stmt"/>
+          <line num="658" count="1" type="stmt"/>
+          <line num="663" count="1" type="stmt"/>
+          <line num="745" count="2" type="stmt"/>
+          <line num="753" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="757" count="2" type="stmt"/>
+        </file>
+        <file name="CreateQuizPage.tsx" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\components\CreateQuizPage.tsx">
+          <metrics statements="30" coveredstatements="14" conditionals="9" coveredconditionals="2" methods="9" coveredmethods="2"/>
+          <line num="1" count="1" type="stmt"/>
+          <line num="2" count="1" type="stmt"/>
+          <line num="5" count="1" type="stmt"/>
+          <line num="6" count="1" type="stmt"/>
+          <line num="15" count="1" type="stmt"/>
+          <line num="16" count="1" type="stmt"/>
+          <line num="27" count="1" type="stmt"/>
+          <line num="28" count="0" type="stmt"/>
+          <line num="30" count="0" type="stmt"/>
+          <line num="36" count="0" type="stmt"/>
+          <line num="38" count="0" type="stmt"/>
+          <line num="45" count="0" type="stmt"/>
+          <line num="50" count="1" type="stmt"/>
+          <line num="51" count="0" type="stmt"/>
+          <line num="53" count="0" type="stmt"/>
+          <line num="59" count="0" type="stmt"/>
+          <line num="62" count="0" type="stmt"/>
+          <line num="68" count="0" type="stmt"/>
+          <line num="72" count="1" type="stmt"/>
+          <line num="73" count="0" type="stmt"/>
+          <line num="74" count="0" type="stmt"/>
+          <line num="75" count="0" type="stmt"/>
+          <line num="78" count="0" type="stmt"/>
+          <line num="95" count="1" type="stmt"/>
+          <line num="98" count="1" type="stmt"/>
+          <line num="99" count="1" type="stmt"/>
+          <line num="118" count="0" type="stmt"/>
+          <line num="129" count="0" type="stmt"/>
+          <line num="164" count="1" type="stmt"/>
+          <line num="169" count="1" type="stmt"/>
+        </file>
+        <file name="DashboardPage.tsx" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\components\DashboardPage.tsx">
+          <metrics statements="29" coveredstatements="26" conditionals="13" coveredconditionals="9" methods="10" coveredmethods="4"/>
+          <line num="1" count="1" type="stmt"/>
+          <line num="2" count="1" type="stmt"/>
+          <line num="5" count="1" type="stmt"/>
+          <line num="6" count="1" type="stmt"/>
+          <line num="12" count="1" type="stmt"/>
+          <line num="13" count="1" type="stmt"/>
+          <line num="14" count="1" type="stmt"/>
+          <line num="15" count="1" type="stmt"/>
+          <line num="16" count="1" type="stmt"/>
+          <line num="17" count="1" type="stmt"/>
+          <line num="28" count="1" type="stmt"/>
+          <line num="30" count="1" type="stmt"/>
+          <line num="33" count="1" type="stmt"/>
+          <line num="37" count="1" type="stmt"/>
+          <line num="39" count="1" type="stmt"/>
+          <line num="41" count="1" type="stmt"/>
+          <line num="43" count="1" type="stmt"/>
+          <line num="45" count="1" type="stmt"/>
+          <line num="46" count="0" type="stmt"/>
+          <line num="47" count="0" type="stmt"/>
+          <line num="48" count="0" type="stmt"/>
+          <line num="52" count="1" type="stmt"/>
+          <line num="53" count="1" type="stmt"/>
+          <line num="54" count="1" type="stmt"/>
+          <line num="55" count="1" type="stmt"/>
+          <line num="82" count="2" type="stmt"/>
+          <line num="130" count="1" type="stmt"/>
+          <line num="169" count="1" type="stmt"/>
+          <line num="177" count="1" type="stmt"/>
+        </file>
+        <file name="EditQuizPage.tsx" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\components\EditQuizPage.tsx">
+          <metrics statements="111" coveredstatements="41" conditionals="58" coveredconditionals="6" methods="33" coveredmethods="2"/>
+          <line num="1" count="1" type="stmt"/>
+          <line num="4" count="1" type="stmt"/>
+          <line num="6" count="1" type="stmt"/>
+          <line num="7" count="1" type="stmt"/>
+          <line num="8" count="1" type="stmt"/>
+          <line num="9" count="1" type="stmt"/>
+          <line num="10" count="1" type="stmt"/>
+          <line num="11" count="1" type="stmt"/>
+          <line num="12" count="1" type="stmt"/>
+          <line num="13" count="1" type="stmt"/>
+          <line num="26" count="1" type="stmt"/>
+          <line num="41" count="1" type="stmt"/>
+          <line num="42" count="1" type="stmt"/>
+          <line num="63" count="1" type="stmt"/>
+          <line num="64" count="1" type="stmt"/>
+          <line num="66" count="1" type="stmt"/>
+          <line num="68" count="1" type="stmt"/>
+          <line num="70" count="1" type="stmt"/>
+          <line num="71" count="0" type="stmt"/>
+          <line num="72" count="0" type="stmt"/>
+          <line num="75" count="1" type="stmt"/>
+          <line num="76" count="0" type="stmt"/>
+          <line num="77" count="0" type="stmt"/>
+          <line num="78" count="0" type="stmt"/>
+          <line num="86" count="1" type="stmt"/>
+          <line num="87" count="0" type="stmt"/>
+          <line num="88" count="0" type="stmt"/>
+          <line num="89" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="90" count="0" type="stmt"/>
+          <line num="92" count="0" type="stmt"/>
+          <line num="96" count="0" type="stmt"/>
+          <line num="97" count="0" type="stmt"/>
+          <line num="102" count="0" type="stmt"/>
+          <line num="107" count="0" type="stmt"/>
+          <line num="108" count="0" type="stmt"/>
+          <line num="109" count="0" type="stmt"/>
+          <line num="113" count="0" type="stmt"/>
+          <line num="117" count="1" type="stmt"/>
+          <line num="118" count="0" type="stmt"/>
+          <line num="119" count="0" type="stmt"/>
+          <line num="120" count="0" type="stmt"/>
+          <line num="124" count="0" type="stmt"/>
+          <line num="128" count="1" type="stmt"/>
+          <line num="129" count="0" type="stmt"/>
+          <line num="130" count="0" type="stmt"/>
+          <line num="136" count="1" type="stmt"/>
+          <line num="137" count="0" type="stmt"/>
+          <line num="138" count="0" type="stmt"/>
+          <line num="139" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="140" count="0" type="stmt"/>
+          <line num="144" count="0" type="stmt"/>
+          <line num="145" count="0" type="stmt"/>
+          <line num="146" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="147" count="0" type="stmt"/>
+          <line num="150" count="0" type="stmt"/>
+          <line num="153" count="1" type="stmt"/>
+          <line num="154" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="155" count="0" type="stmt"/>
+          <line num="156" count="0" type="stmt"/>
+          <line num="157" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="158" count="0" type="stmt"/>
+          <line num="162" count="0" type="stmt"/>
+          <line num="163" count="0" type="stmt"/>
+          <line num="164" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="165" count="0" type="stmt"/>
+          <line num="168" count="0" type="stmt"/>
+          <line num="172" count="1" type="stmt"/>
+          <line num="173" count="0" type="stmt"/>
+          <line num="175" count="0" type="stmt"/>
+          <line num="184" count="1" type="stmt"/>
+          <line num="185" count="0" type="stmt"/>
+          <line num="207" count="1" type="stmt"/>
+          <line num="209" count="1" type="stmt"/>
+          <line num="210" count="0" type="stmt"/>
+          <line num="211" count="0" type="stmt"/>
+          <line num="219" count="1" type="stmt"/>
+          <line num="220" count="0" type="stmt"/>
+          <line num="221" count="0" type="stmt"/>
+          <line num="222" count="0" type="stmt"/>
+          <line num="223" count="0" type="stmt"/>
+          <line num="225" count="0" type="stmt"/>
+          <line num="226" count="0" type="stmt"/>
+          <line num="227" count="0" type="stmt"/>
+          <line num="228" count="0" type="stmt"/>
+          <line num="238" count="0" type="stmt"/>
+          <line num="239" count="0" type="stmt"/>
+          <line num="241" count="0" type="stmt"/>
+          <line num="243" count="0" type="stmt"/>
+          <line num="247" count="1" type="stmt"/>
+          <line num="248" count="1" type="stmt"/>
+          <line num="250" count="1" type="stmt"/>
+          <line num="251" count="1" type="cond" truecount="1" falsecount="1"/>
+          <line num="252" count="1" type="stmt"/>
+          <line num="253" count="1" type="stmt"/>
+          <line num="256" count="1" type="stmt"/>
+          <line num="263" count="1" type="stmt"/>
+          <line num="264" count="1" type="stmt"/>
+          <line num="265" count="1" type="stmt"/>
+          <line num="288" count="0" type="stmt"/>
+          <line num="309" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="310" count="0" type="stmt"/>
+          <line num="327" count="0" type="stmt"/>
+          <line num="373" count="0" type="stmt"/>
+          <line num="398" count="0" type="stmt"/>
+          <line num="408" count="0" type="stmt"/>
+          <line num="421" count="0" type="stmt"/>
+          <line num="437" count="0" type="stmt"/>
+          <line num="451" count="0" type="stmt"/>
+          <line num="495" count="1" type="stmt"/>
+          <line num="501" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="507" count="1" type="stmt"/>
+        </file>
+        <file name="Header.tsx" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\components\Header.tsx">
+          <metrics statements="36" coveredstatements="26" conditionals="12" coveredconditionals="5" methods="13" coveredmethods="3"/>
+          <line num="1" count="1" type="stmt"/>
+          <line num="2" count="1" type="stmt"/>
+          <line num="3" count="1" type="stmt"/>
+          <line num="4" count="1" type="stmt"/>
+          <line num="10" count="1" type="stmt"/>
+          <line num="11" count="1" type="stmt"/>
+          <line num="13" count="1" type="stmt"/>
+          <line num="14" count="1" type="stmt"/>
+          <line num="15" count="1" type="stmt"/>
+          <line num="32" count="1" type="stmt"/>
+          <line num="33" count="1" type="stmt"/>
+          <line num="40" count="1" type="stmt"/>
+          <line num="41" count="0" type="stmt"/>
+          <line num="45" count="1" type="stmt"/>
+          <line num="46" count="1" type="stmt"/>
+          <line num="50" count="1" type="stmt"/>
+          <line num="51" count="0" type="stmt"/>
+          <line num="53" count="1" type="stmt"/>
+          <line num="55" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="56" count="0" type="stmt"/>
+          <line num="62" count="1" type="stmt"/>
+          <line num="64" count="1" type="stmt"/>
+          <line num="66" count="1" type="stmt"/>
+          <line num="69" count="0" type="stmt"/>
+          <line num="70" count="0" type="stmt"/>
+          <line num="71" count="0" type="stmt"/>
+          <line num="79" count="1" type="stmt"/>
+          <line num="80" count="0" type="stmt"/>
+          <line num="81" count="0" type="stmt"/>
+          <line num="87" count="1" type="stmt"/>
+          <line num="88" count="1" type="stmt"/>
+          <line num="89" count="1" type="stmt"/>
+          <line num="91" count="1" type="stmt"/>
+          <line num="148" count="0" type="stmt"/>
+          <line num="159" count="1" type="stmt"/>
+          <line num="166" count="1" type="stmt"/>
+        </file>
+        <file name="LoginPage.tsx" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\components\LoginPage.tsx">
+          <metrics statements="47" coveredstatements="14" conditionals="26" coveredconditionals="5" methods="12" coveredmethods="2"/>
+          <line num="1" count="1" type="stmt"/>
+          <line num="2" count="1" type="stmt"/>
+          <line num="3" count="1" type="stmt"/>
+          <line num="4" count="1" type="stmt"/>
+          <line num="6" count="1" type="stmt"/>
+          <line num="29" count="1" type="stmt"/>
+          <line num="30" count="1" type="stmt"/>
+          <line num="39" count="1" type="stmt"/>
+          <line num="40" count="0" type="stmt"/>
+          <line num="41" count="0" type="stmt"/>
+          <line num="46" count="1" type="stmt"/>
+          <line num="47" count="0" type="stmt"/>
+          <line num="51" count="1" type="stmt"/>
+          <line num="52" count="0" type="stmt"/>
+          <line num="53" count="0" type="stmt"/>
+          <line num="59" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="60" count="0" type="stmt"/>
+          <line num="67" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="68" count="0" type="stmt"/>
+          <line num="86" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="87" count="0" type="stmt"/>
+          <line num="94" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="95" count="0" type="stmt"/>
+          <line num="104" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="105" count="0" type="stmt"/>
+          <line num="106" count="0" type="stmt"/>
+          <line num="109" count="0" type="stmt"/>
+          <line num="111" count="0" type="stmt"/>
+          <line num="117" count="0" type="stmt"/>
+          <line num="121" count="0" type="stmt"/>
+          <line num="126" count="0" type="stmt"/>
+          <line num="129" count="0" type="stmt"/>
+          <line num="135" count="0" type="stmt"/>
+          <line num="138" count="0" type="stmt"/>
+          <line num="140" count="0" type="stmt"/>
+          <line num="145" count="0" type="stmt"/>
+          <line num="149" count="0" type="stmt"/>
+          <line num="150" count="0" type="stmt"/>
+          <line num="151" count="0" type="stmt"/>
+          <line num="155" count="0" type="stmt"/>
+          <line num="156" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="160" count="0" type="stmt"/>
+          <line num="168" count="0" type="stmt"/>
+          <line num="179" count="1" type="stmt"/>
+          <line num="180" count="1" type="stmt"/>
+          <line num="181" count="1" type="stmt"/>
+          <line num="245" count="1" type="stmt"/>
+        </file>
+        <file name="LoginSetupPage.tsx" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\components\LoginSetupPage.tsx">
+          <metrics statements="38" coveredstatements="12" conditionals="6" coveredconditionals="0" methods="10" coveredmethods="3"/>
+          <line num="1" count="1" type="stmt"/>
+          <line num="2" count="1" type="stmt"/>
+          <line num="3" count="1" type="stmt"/>
+          <line num="7" count="1" type="stmt"/>
+          <line num="8" count="1" type="stmt"/>
+          <line num="9" count="1" type="stmt"/>
+          <line num="11" count="1" type="stmt"/>
+          <line num="13" count="1" type="stmt"/>
+          <line num="19" count="1" type="stmt"/>
+          <line num="20" count="0" type="stmt"/>
+          <line num="23" count="0" type="stmt"/>
+          <line num="24" count="0" type="stmt"/>
+          <line num="25" count="0" type="stmt"/>
+          <line num="26" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="27" count="0" type="stmt"/>
+          <line num="34" count="0" type="stmt"/>
+          <line num="52" count="0" type="stmt"/>
+          <line num="58" count="0" type="stmt"/>
+          <line num="60" count="0" type="stmt"/>
+          <line num="66" count="0" type="stmt"/>
+          <line num="73" count="0" type="stmt"/>
+          <line num="75" count="0" type="stmt"/>
+          <line num="76" count="0" type="stmt"/>
+          <line num="77" count="0" type="stmt"/>
+          <line num="78" count="0" type="stmt"/>
+          <line num="80" count="0" type="stmt"/>
+          <line num="85" count="0" type="stmt"/>
+          <line num="90" count="0" type="stmt"/>
+          <line num="91" count="0" type="stmt"/>
+          <line num="92" count="0" type="stmt"/>
+          <line num="93" count="0" type="stmt"/>
+          <line num="95" count="0" type="stmt"/>
+          <line num="101" count="0" type="stmt"/>
+          <line num="104" count="0" type="stmt"/>
+          <line num="108" count="0" type="stmt"/>
+          <line num="113" count="1" type="stmt"/>
+          <line num="114" count="1" type="stmt"/>
+          <line num="129" count="1" type="stmt"/>
+        </file>
+        <file name="Modal.tsx" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\components\Modal.tsx">
+          <metrics statements="18" coveredstatements="12" conditionals="8" coveredconditionals="1" methods="7" coveredmethods="3"/>
+          <line num="1" count="2" type="stmt"/>
+          <line num="7" count="2" type="stmt"/>
+          <line num="9" count="1" type="stmt"/>
+          <line num="10" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="11" count="0" type="stmt"/>
+          <line num="16" count="1" type="stmt"/>
+          <line num="17" count="1" type="cond" truecount="1" falsecount="1"/>
+          <line num="18" count="1" type="stmt"/>
+          <line num="24" count="1" type="stmt"/>
+          <line num="25" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="26" count="0" type="stmt"/>
+          <line num="31" count="1" type="stmt"/>
+          <line num="32" count="0" type="stmt"/>
+          <line num="37" count="1" type="stmt"/>
+          <line num="38" count="0" type="stmt"/>
+          <line num="42" count="1" type="stmt"/>
+          <line num="43" count="1" type="stmt"/>
+          <line num="56" count="2" type="stmt"/>
+        </file>
+        <file name="ModalContainer.tsx" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\components\ModalContainer.tsx">
+          <metrics statements="14" coveredstatements="12" conditionals="2" coveredconditionals="1" methods="2" coveredmethods="1"/>
+          <line num="1" count="1" type="stmt"/>
+          <line num="2" count="1" type="stmt"/>
+          <line num="5" count="1" type="stmt"/>
+          <line num="6" count="1" type="stmt"/>
+          <line num="7" count="1" type="stmt"/>
+          <line num="8" count="1" type="stmt"/>
+          <line num="19" count="1" type="stmt"/>
+          <line num="26" count="1" type="stmt"/>
+          <line num="28" count="1" type="cond" truecount="1" falsecount="1"/>
+          <line num="29" count="1" type="stmt"/>
+          <line num="33" count="0" type="stmt"/>
+          <line num="35" count="0" type="stmt"/>
+          <line num="38" count="1" type="stmt"/>
+          <line num="42" count="1" type="stmt"/>
+        </file>
+        <file name="MyQuizzesPage.tsx" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\components\MyQuizzesPage.tsx">
+          <metrics statements="29" coveredstatements="20" conditionals="28" coveredconditionals="5" methods="11" coveredmethods="2"/>
+          <line num="1" count="1" type="stmt"/>
+          <line num="4" count="1" type="stmt"/>
+          <line num="5" count="1" type="stmt"/>
+          <line num="6" count="1" type="stmt"/>
+          <line num="7" count="1" type="stmt"/>
+          <line num="8" count="1" type="stmt"/>
+          <line num="9" count="1" type="stmt"/>
+          <line num="21" count="1" type="stmt"/>
+          <line num="36" count="1" type="stmt"/>
+          <line num="38" count="1" type="stmt"/>
+          <line num="40" count="1" type="stmt"/>
+          <line num="41" count="1" type="stmt"/>
+          <line num="43" count="1" type="stmt"/>
+          <line num="44" count="0" type="stmt"/>
+          <line num="45" count="0" type="stmt"/>
+          <line num="46" count="0" type="stmt"/>
+          <line num="49" count="1" type="stmt"/>
+          <line num="50" count="0" type="stmt"/>
+          <line num="52" count="1" type="stmt"/>
+          <line num="55" count="1" type="stmt"/>
+          <line num="56" count="1" type="stmt"/>
+          <line num="57" count="1" type="stmt"/>
+          <line num="87" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="88" count="0" type="stmt"/>
+          <line num="109" count="0" type="stmt"/>
+          <line num="143" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="164" count="0" type="stmt"/>
+          <line num="177" count="1" type="stmt"/>
+          <line num="184" count="1" type="stmt"/>
+        </file>
+        <file name="NotFoundPage.tsx" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\components\NotFoundPage.tsx">
+          <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+          <line num="1" count="1" type="stmt"/>
+          <line num="3" count="1" type="stmt"/>
+          <line num="5" count="1" type="stmt"/>
+        </file>
+        <file name="ProfilePage.tsx" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\components\ProfilePage.tsx">
+          <metrics statements="12" coveredstatements="12" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="2"/>
+          <line num="1" count="1" type="stmt"/>
+          <line num="2" count="1" type="stmt"/>
+          <line num="3" count="1" type="stmt"/>
+          <line num="4" count="1" type="stmt"/>
+          <line num="14" count="1" type="stmt"/>
+          <line num="15" count="1" type="stmt"/>
+          <line num="19" count="1" type="stmt"/>
+          <line num="20" count="1" type="stmt"/>
+          <line num="21" count="1" type="stmt"/>
+          <line num="23" count="1" type="stmt"/>
+          <line num="67" count="1" type="stmt"/>
+          <line num="75" count="1" type="stmt"/>
+        </file>
+        <file name="QuizAttemptReviewPage.tsx" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\components\QuizAttemptReviewPage.tsx">
+          <metrics statements="32" coveredstatements="23" conditionals="22" coveredconditionals="5" methods="10" coveredmethods="2"/>
+          <line num="1" count="1" type="stmt"/>
+          <line num="4" count="1" type="stmt"/>
+          <line num="6" count="1" type="stmt"/>
+          <line num="7" count="1" type="stmt"/>
+          <line num="17" count="1" type="stmt"/>
+          <line num="18" count="1" type="stmt"/>
+          <line num="22" count="1" type="stmt"/>
+          <line num="23" count="1" type="stmt"/>
+          <line num="51" count="1" type="stmt"/>
+          <line num="55" count="1" type="stmt"/>
+          <line num="57" count="1" type="stmt"/>
+          <line num="60" count="1" type="stmt"/>
+          <line num="61" count="1" type="stmt"/>
+          <line num="62" count="1" type="stmt"/>
+          <line num="64" count="1" type="stmt"/>
+          <line num="66" count="1" type="stmt"/>
+          <line num="70" count="1" type="stmt"/>
+          <line num="71" count="0" type="stmt"/>
+          <line num="72" count="0" type="stmt"/>
+          <line num="77" count="1" type="stmt"/>
+          <line num="78" count="0" type="stmt"/>
+          <line num="79" count="0" type="stmt"/>
+          <line num="83" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="84" count="0" type="stmt"/>
+          <line num="85" count="0" type="stmt"/>
+          <line num="90" count="1" type="stmt"/>
+          <line num="91" count="1" type="stmt"/>
+          <line num="92" count="1" type="stmt"/>
+          <line num="132" count="0" type="stmt"/>
+          <line num="199" count="0" type="stmt"/>
+          <line num="239" count="1" type="stmt"/>
+          <line num="251" count="1" type="stmt"/>
+        </file>
+        <file name="QuizResultsPage.tsx" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\components\QuizResultsPage.tsx">
+          <metrics statements="35" coveredstatements="30" conditionals="42" coveredconditionals="21" methods="6" coveredmethods="4"/>
+          <line num="1" count="1" type="stmt"/>
+          <line num="4" count="1" type="stmt"/>
+          <line num="5" count="1" type="stmt"/>
+          <line num="6" count="1" type="stmt"/>
+          <line num="14" count="1" type="stmt"/>
+          <line num="15" count="1" type="stmt"/>
+          <line num="22" count="1" type="stmt"/>
+          <line num="23" count="1" type="stmt"/>
+          <line num="24" count="1" type="stmt"/>
+          <line num="26" count="1" type="stmt"/>
+          <line num="27" count="1" type="stmt"/>
+          <line num="28" count="1" type="cond" truecount="1" falsecount="1"/>
+          <line num="29" count="1" type="cond" truecount="2" falsecount="2"/>
+          <line num="30" count="1" type="cond" truecount="2" falsecount="2"/>
+          <line num="31" count="0" type="stmt"/>
+          <line num="32" count="1" type="cond" truecount="2" falsecount="2"/>
+          <line num="33" count="0" type="stmt"/>
+          <line num="34" count="1" type="cond" truecount="2" falsecount="2"/>
+          <line num="35" count="1" type="cond" truecount="2" falsecount="2"/>
+          <line num="36" count="1" type="cond" truecount="1" falsecount="1"/>
+          <line num="39" count="1" type="stmt"/>
+          <line num="40" count="1" type="stmt"/>
+          <line num="41" count="1" type="cond" truecount="1" falsecount="1"/>
+          <line num="42" count="1" type="cond" truecount="2" falsecount="2"/>
+          <line num="43" count="1" type="cond" truecount="2" falsecount="2"/>
+          <line num="44" count="1" type="cond" truecount="1" falsecount="1"/>
+          <line num="48" count="1" type="stmt"/>
+          <line num="49" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="50" count="0" type="stmt"/>
+          <line num="51" count="0" type="stmt"/>
+          <line num="56" count="1" type="stmt"/>
+          <line num="57" count="1" type="stmt"/>
+          <line num="58" count="1" type="stmt"/>
+          <line num="98" count="1" type="stmt"/>
+          <line num="104" count="1" type="stmt"/>
+        </file>
+        <file name="ResetPasswordPage.tsx" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\components\ResetPasswordPage.tsx">
+          <metrics statements="13" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="2"/>
+          <line num="1" count="1" type="stmt"/>
+          <line num="2" count="1" type="stmt"/>
+          <line num="8" count="1" type="stmt"/>
+          <line num="9" count="1" type="stmt"/>
+          <line num="13" count="1" type="stmt"/>
+          <line num="15" count="0" type="stmt"/>
+          <line num="20" count="1" type="stmt"/>
+          <line num="21" count="0" type="stmt"/>
+          <line num="22" count="0" type="stmt"/>
+          <line num="29" count="1" type="stmt"/>
+          <line num="30" count="1" type="stmt"/>
+          <line num="31" count="1" type="stmt"/>
+          <line num="46" count="1" type="stmt"/>
+        </file>
+        <file name="SearchResults.tsx" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\components\SearchResults.tsx">
+          <metrics statements="31" coveredstatements="15" conditionals="13" coveredconditionals="3" methods="12" coveredmethods="2"/>
+          <line num="1" count="2" type="stmt"/>
+          <line num="2" count="2" type="stmt"/>
+          <line num="3" count="2" type="stmt"/>
+          <line num="4" count="2" type="stmt"/>
+          <line num="5" count="2" type="stmt"/>
+          <line num="18" count="2" type="stmt"/>
+          <line num="19" count="1" type="stmt"/>
+          <line num="24" count="1" type="stmt"/>
+          <line num="25" count="0" type="stmt"/>
+          <line num="27" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="28" count="0" type="stmt"/>
+          <line num="29" count="0" type="stmt"/>
+          <line num="31" count="0" type="stmt"/>
+          <line num="32" count="0" type="stmt"/>
+          <line num="36" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="37" count="0" type="stmt"/>
+          <line num="43" count="0" type="stmt"/>
+          <line num="45" count="0" type="stmt"/>
+          <line num="49" count="1" type="stmt"/>
+          <line num="50" count="0" type="stmt"/>
+          <line num="51" count="0" type="stmt"/>
+          <line num="52" count="0" type="stmt"/>
+          <line num="53" count="0" type="stmt"/>
+          <line num="55" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="59" count="1" type="stmt"/>
+          <line num="60" count="1" type="stmt"/>
+          <line num="61" count="1" type="stmt"/>
+          <line num="62" count="1" type="stmt"/>
+          <line num="76" count="0" type="stmt"/>
+          <line num="97" count="2" type="stmt"/>
+          <line num="104" count="2" type="stmt"/>
+        </file>
+        <file name="SettingsPage.tsx" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\components\SettingsPage.tsx">
+          <metrics statements="88" coveredstatements="47" conditionals="28" coveredconditionals="14" methods="20" coveredmethods="3"/>
+          <line num="1" count="1" type="stmt"/>
+          <line num="2" count="1" type="stmt"/>
+          <line num="3" count="1" type="stmt"/>
+          <line num="4" count="1" type="stmt"/>
+          <line num="5" count="1" type="stmt"/>
+          <line num="9" count="1" type="stmt"/>
+          <line num="24" count="1" type="cond" truecount="1" falsecount="1"/>
+          <line num="25" count="1" type="stmt"/>
+          <line num="30" count="1" type="stmt"/>
+          <line num="31" count="1" type="stmt"/>
+          <line num="32" count="1" type="stmt"/>
+          <line num="37" count="1" type="stmt"/>
+          <line num="39" count="1" type="stmt"/>
+          <line num="41" count="1" type="cond" truecount="1" falsecount="1"/>
+          <line num="42" count="1" type="stmt"/>
+          <line num="43" count="1" type="stmt"/>
+          <line num="46" count="1" type="stmt"/>
+          <line num="47" count="1" type="stmt"/>
+          <line num="50" count="1" type="stmt"/>
+          <line num="51" count="1" type="stmt"/>
+          <line num="55" count="1" type="stmt"/>
+          <line num="62" count="1" type="stmt"/>
+          <line num="64" count="1" type="stmt"/>
+          <line num="66" count="1" type="stmt"/>
+          <line num="67" count="1" type="cond" truecount="1" falsecount="1"/>
+          <line num="68" count="1" type="stmt"/>
+          <line num="69" count="1" type="stmt"/>
+          <line num="70" count="0" type="stmt"/>
+          <line num="72" count="0" type="stmt"/>
+          <line num="73" count="0" type="stmt"/>
+          <line num="74" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="75" count="0" type="stmt"/>
+          <line num="76" count="0" type="stmt"/>
+          <line num="78" count="0" type="stmt"/>
+          <line num="79" count="0" type="stmt"/>
+          <line num="85" count="0" type="stmt"/>
+          <line num="90" count="1" type="stmt"/>
+          <line num="92" count="1" type="stmt"/>
+          <line num="94" count="1" type="stmt"/>
+          <line num="103" count="1" type="stmt"/>
+          <line num="105" count="1" type="stmt"/>
+          <line num="107" count="1" type="stmt"/>
+          <line num="108" count="0" type="stmt"/>
+          <line num="109" count="0" type="stmt"/>
+          <line num="165" count="1" type="stmt"/>
+          <line num="169" count="0" type="stmt"/>
+          <line num="170" count="0" type="stmt"/>
+          <line num="171" count="0" type="stmt"/>
+          <line num="173" count="1" type="stmt"/>
+          <line num="174" count="1" type="stmt"/>
+          <line num="175" count="0" type="stmt"/>
+          <line num="176" count="0" type="stmt"/>
+          <line num="177" count="0" type="stmt"/>
+          <line num="178" count="0" type="stmt"/>
+          <line num="179" count="0" type="stmt"/>
+          <line num="186" count="0" type="stmt"/>
+          <line num="188" count="0" type="stmt"/>
+          <line num="190" count="0" type="stmt"/>
+          <line num="192" count="0" type="stmt"/>
+          <line num="193" count="0" type="stmt"/>
+          <line num="198" count="0" type="stmt"/>
+          <line num="199" count="0" type="stmt"/>
+          <line num="201" count="0" type="stmt"/>
+          <line num="204" count="1" type="stmt"/>
+          <line num="206" count="0" type="stmt"/>
+          <line num="209" count="0" type="stmt"/>
+          <line num="213" count="0" type="stmt"/>
+          <line num="219" count="1" type="stmt"/>
+          <line num="220" count="0" type="stmt"/>
+          <line num="226" count="1" type="stmt"/>
+          <line num="227" count="0" type="stmt"/>
+          <line num="228" count="0" type="stmt"/>
+          <line num="229" count="0" type="stmt"/>
+          <line num="238" count="1" type="stmt"/>
+          <line num="239" count="0" type="stmt"/>
+          <line num="240" count="0" type="stmt"/>
+          <line num="241" count="0" type="stmt"/>
+          <line num="248" count="1" type="stmt"/>
+          <line num="249" count="1" type="stmt"/>
+          <line num="250" count="1" type="stmt"/>
+          <line num="251" count="1" type="stmt"/>
+          <line num="252" count="1" type="stmt"/>
+          <line num="281" count="0" type="stmt"/>
+          <line num="297" count="0" type="stmt"/>
+          <line num="313" count="0" type="stmt"/>
+          <line num="325" count="0" type="stmt"/>
+          <line num="389" count="1" type="stmt"/>
+          <line num="395" count="1" type="stmt"/>
+        </file>
+        <file name="SidebarContent.tsx" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\components\SidebarContent.tsx">
+          <metrics statements="41" coveredstatements="27" conditionals="10" coveredconditionals="3" methods="9" coveredmethods="2"/>
+          <line num="1" count="1" type="stmt"/>
+          <line num="2" count="1" type="stmt"/>
+          <line num="3" count="1" type="stmt"/>
+          <line num="4" count="1" type="stmt"/>
+          <line num="5" count="1" type="stmt"/>
+          <line num="6" count="1" type="stmt"/>
+          <line num="7" count="1" type="stmt"/>
+          <line num="8" count="1" type="stmt"/>
+          <line num="9" count="1" type="stmt"/>
+          <line num="10" count="1" type="stmt"/>
+          <line num="11" count="1" type="stmt"/>
+          <line num="13" count="1" type="stmt"/>
+          <line num="14" count="1" type="stmt"/>
+          <line num="15" count="1" type="stmt"/>
+          <line num="31" count="1" type="stmt"/>
+          <line num="32" count="1" type="stmt"/>
+          <line num="38" count="1" type="stmt"/>
+          <line num="39" count="0" type="stmt"/>
+          <line num="40" count="0" type="stmt"/>
+          <line num="43" count="1" type="stmt"/>
+          <line num="44" count="0" type="stmt"/>
+          <line num="45" count="0" type="stmt"/>
+          <line num="50" count="1" type="stmt"/>
+          <line num="51" count="0" type="stmt"/>
+          <line num="52" count="0" type="stmt"/>
+          <line num="53" count="0" type="stmt"/>
+          <line num="54" count="0" type="stmt"/>
+          <line num="55" count="0" type="stmt"/>
+          <line num="60" count="0" type="stmt"/>
+          <line num="65" count="1" type="stmt"/>
+          <line num="66" count="0" type="stmt"/>
+          <line num="70" count="1" type="stmt"/>
+          <line num="71" count="0" type="stmt"/>
+          <line num="73" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="77" count="1" type="stmt"/>
+          <line num="78" count="1" type="stmt"/>
+          <line num="79" count="1" type="stmt"/>
+          <line num="80" count="1" type="stmt"/>
+          <line num="120" count="0" type="stmt"/>
+          <line num="174" count="1" type="stmt"/>
+          <line num="180" count="1" type="stmt"/>
+        </file>
+        <file name="SignInRedirectPage.tsx" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\components\SignInRedirectPage.tsx">
+          <metrics statements="11" coveredstatements="11" conditionals="2" coveredconditionals="1" methods="3" coveredmethods="3"/>
+          <line num="1" count="1" type="stmt"/>
+          <line num="2" count="1" type="stmt"/>
+          <line num="6" count="1" type="stmt"/>
+          <line num="7" count="1" type="stmt"/>
+          <line num="9" count="1" type="stmt"/>
+          <line num="11" count="1" type="stmt"/>
+          <line num="20" count="1" type="stmt"/>
+          <line num="31" count="1" type="stmt"/>
+          <line num="35" count="1" type="stmt"/>
+          <line num="36" count="1" type="stmt"/>
+          <line num="40" count="1" type="stmt"/>
+        </file>
+        <file name="SignupPage.tsx" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\components\SignupPage.tsx">
+          <metrics statements="47" coveredstatements="13" conditionals="6" coveredconditionals="2" methods="9" coveredmethods="2"/>
+          <line num="1" count="1" type="stmt"/>
+          <line num="2" count="1" type="stmt"/>
+          <line num="4" count="1" type="stmt"/>
+          <line num="6" count="1" type="stmt"/>
+          <line num="8" count="1" type="stmt"/>
+          <line num="29" count="1" type="stmt"/>
+          <line num="30" count="1" type="stmt"/>
+          <line num="46" count="1" type="stmt"/>
+          <line num="47" count="0" type="stmt"/>
+          <line num="48" count="0" type="stmt"/>
+          <line num="57" count="1" type="stmt"/>
+          <line num="58" count="0" type="stmt"/>
+          <line num="59" count="0" type="stmt"/>
+          <line num="62" count="0" type="stmt"/>
+          <line num="64" count="0" type="stmt"/>
+          <line num="75" count="0" type="stmt"/>
+          <line num="81" count="0" type="stmt"/>
+          <line num="83" count="0" type="stmt"/>
+          <line num="85" count="0" type="stmt"/>
+          <line num="89" count="0" type="stmt"/>
+          <line num="93" count="0" type="stmt"/>
+          <line num="94" count="0" type="stmt"/>
+          <line num="98" count="0" type="stmt"/>
+          <line num="101" count="0" type="stmt"/>
+          <line num="105" count="0" type="stmt"/>
+          <line num="106" count="0" type="stmt"/>
+          <line num="108" count="0" type="stmt"/>
+          <line num="109" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="110" count="0" type="stmt"/>
+          <line num="116" count="0" type="stmt"/>
+          <line num="120" count="0" type="stmt"/>
+          <line num="124" count="0" type="stmt"/>
+          <line num="127" count="0" type="stmt"/>
+          <line num="128" count="0" type="stmt"/>
+          <line num="132" count="0" type="stmt"/>
+          <line num="134" count="0" type="stmt"/>
+          <line num="136" count="0" type="stmt"/>
+          <line num="138" count="0" type="stmt"/>
+          <line num="140" count="0" type="stmt"/>
+          <line num="145" count="0" type="stmt"/>
+          <line num="148" count="0" type="stmt"/>
+          <line num="151" count="0" type="stmt"/>
+          <line num="158" count="0" type="stmt"/>
+          <line num="165" count="1" type="stmt"/>
+          <line num="166" count="1" type="stmt"/>
+          <line num="167" count="1" type="stmt"/>
+          <line num="228" count="1" type="stmt"/>
+        </file>
+        <file name="SplashPage.tsx" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\components\SplashPage.tsx">
+          <metrics statements="19" coveredstatements="15" conditionals="8" coveredconditionals="0" methods="7" coveredmethods="4"/>
+          <line num="1" count="1" type="stmt"/>
+          <line num="2" count="1" type="stmt"/>
+          <line num="3" count="1" type="stmt"/>
+          <line num="4" count="1" type="stmt"/>
+          <line num="6" count="1" type="stmt"/>
+          <line num="43" count="1" type="stmt"/>
+          <line num="44" count="1" type="stmt"/>
+          <line num="51" count="1" type="stmt"/>
+          <line num="53" count="1" type="stmt"/>
+          <line num="54" count="0" type="stmt"/>
+          <line num="56" count="0" type="stmt"/>
+          <line num="61" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="62" count="0" type="stmt"/>
+          <line num="68" count="1" type="stmt"/>
+          <line num="69" count="1" type="stmt"/>
+          <line num="74" count="1" type="stmt"/>
+          <line num="75" count="2" type="stmt"/>
+          <line num="76" count="2" type="stmt"/>
+          <line num="123" count="1" type="stmt"/>
+        </file>
+        <file name="StorePage.tsx" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\components\StorePage.tsx">
+          <metrics statements="10" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+          <line num="1" count="2" type="stmt"/>
+          <line num="2" count="2" type="stmt"/>
+          <line num="3" count="2" type="stmt"/>
+          <line num="4" count="2" type="stmt"/>
+          <line num="5" count="2" type="stmt"/>
+          <line num="6" count="2" type="stmt"/>
+          <line num="8" count="2" type="stmt"/>
+          <line num="10" count="2" type="stmt"/>
+          <line num="11" count="2" type="stmt"/>
+          <line num="81" count="2" type="stmt"/>
+        </file>
+        <file name="TakeQuizPage.tsx" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\components\TakeQuizPage.tsx">
+          <metrics statements="114" coveredstatements="26" conditionals="70" coveredconditionals="3" methods="19" coveredmethods="2"/>
+          <line num="1" count="1" type="stmt"/>
+          <line num="4" count="1" type="stmt"/>
+          <line num="5" count="1" type="stmt"/>
+          <line num="8" count="1" type="stmt"/>
+          <line num="17" count="1" type="stmt"/>
+          <line num="18" count="1" type="stmt"/>
+          <line num="22" count="1" type="stmt"/>
+          <line num="23" count="1" type="stmt"/>
+          <line num="24" count="1" type="stmt"/>
+          <line num="54" count="1" type="stmt"/>
+          <line num="56" count="1" type="stmt"/>
+          <line num="58" count="1" type="stmt"/>
+          <line num="62" count="1" type="stmt"/>
+          <line num="63" count="1" type="stmt"/>
+          <line num="65" count="1" type="stmt"/>
+          <line num="66" count="0" type="stmt"/>
+          <line num="70" count="1" type="stmt"/>
+          <line num="72" count="1" type="stmt"/>
+          <line num="73" count="0" type="stmt"/>
+          <line num="74" count="0" type="stmt"/>
+          <line num="79" count="1" type="stmt"/>
+          <line num="80" count="0" type="stmt"/>
+          <line num="81" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="85" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="89" count="0" type="stmt"/>
+          <line num="90" count="0" type="stmt"/>
+          <line num="91" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="94" count="0" type="stmt"/>
+          <line num="95" count="0" type="stmt"/>
+          <line num="98" count="0" type="stmt"/>
+          <line num="103" count="1" type="stmt"/>
+          <line num="104" count="0" type="stmt"/>
+          <line num="105" count="0" type="stmt"/>
+          <line num="106" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="110" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="114" count="0" type="stmt"/>
+          <line num="115" count="0" type="stmt"/>
+          <line num="116" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="119" count="0" type="stmt"/>
+          <line num="120" count="0" type="stmt"/>
+          <line num="123" count="0" type="stmt"/>
+          <line num="129" count="1" type="stmt"/>
+          <line num="133" count="0" type="stmt"/>
+          <line num="135" count="0" type="stmt"/>
+          <line num="136" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="138" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="139" count="0" type="stmt"/>
+          <line num="140" count="0" type="stmt"/>
+          <line num="141" count="0" type="stmt"/>
+          <line num="142" count="0" type="stmt"/>
+          <line num="146" count="0" type="stmt"/>
+          <line num="147" count="0" type="stmt"/>
+          <line num="148" count="0" type="stmt"/>
+          <line num="149" count="0" type="stmt"/>
+          <line num="153" count="0" type="stmt"/>
+          <line num="159" count="0" type="stmt"/>
+          <line num="161" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="163" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="164" count="0" type="stmt"/>
+          <line num="165" count="0" type="stmt"/>
+          <line num="166" count="0" type="stmt"/>
+          <line num="167" count="0" type="stmt"/>
+          <line num="171" count="0" type="stmt"/>
+          <line num="172" count="0" type="stmt"/>
+          <line num="177" count="0" type="stmt"/>
+          <line num="179" count="0" type="stmt"/>
+          <line num="180" count="0" type="stmt"/>
+          <line num="181" count="0" type="stmt"/>
+          <line num="186" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="193" count="0" type="stmt"/>
+          <line num="194" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="195" count="0" type="stmt"/>
+          <line num="196" count="0" type="stmt"/>
+          <line num="197" count="0" type="stmt"/>
+          <line num="198" count="0" type="stmt"/>
+          <line num="204" count="0" type="stmt"/>
+          <line num="207" count="0" type="stmt"/>
+          <line num="208" count="0" type="stmt"/>
+          <line num="209" count="0" type="stmt"/>
+          <line num="210" count="0" type="stmt"/>
+          <line num="217" count="0" type="stmt"/>
+          <line num="218" count="0" type="stmt"/>
+          <line num="219" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="221" count="0" type="stmt"/>
+          <line num="222" count="0" type="stmt"/>
+          <line num="223" count="0" type="stmt"/>
+          <line num="229" count="0" type="stmt"/>
+          <line num="232" count="0" type="stmt"/>
+          <line num="233" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="235" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="236" count="0" type="stmt"/>
+          <line num="237" count="0" type="stmt"/>
+          <line num="238" count="0" type="stmt"/>
+          <line num="239" count="0" type="stmt"/>
+          <line num="243" count="0" type="stmt"/>
+          <line num="244" count="0" type="stmt"/>
+          <line num="245" count="0" type="stmt"/>
+          <line num="246" count="0" type="stmt"/>
+          <line num="250" count="0" type="stmt"/>
+          <line num="256" count="0" type="stmt"/>
+          <line num="260" count="1" type="stmt"/>
+          <line num="261" count="0" type="stmt"/>
+          <line num="262" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="266" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="270" count="0" type="stmt"/>
+          <line num="271" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="274" count="0" type="stmt"/>
+          <line num="277" count="0" type="stmt"/>
+          <line num="281" count="1" type="stmt"/>
+          <line num="282" count="1" type="stmt"/>
+          <line num="283" count="1" type="stmt"/>
+          <line num="333" count="0" type="stmt"/>
+          <line num="396" count="1" type="stmt"/>
+          <line num="408" count="1" type="stmt"/>
+        </file>
+      </package>
+      <package name="final-project-ui.client.app.components.modals">
+        <metrics statements="94" coveredstatements="38" conditionals="10" coveredconditionals="0" methods="29" coveredmethods="0"/>
+        <file name="DeleteQuizModal.tsx" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\components\modals\DeleteQuizModal.tsx">
+          <metrics statements="20" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="0"/>
+          <line num="1" count="1" type="stmt"/>
+          <line num="2" count="1" type="stmt"/>
+          <line num="3" count="1" type="stmt"/>
+          <line num="4" count="1" type="stmt"/>
+          <line num="5" count="1" type="stmt"/>
+          <line num="6" count="1" type="stmt"/>
+          <line num="7" count="1" type="stmt"/>
+          <line num="16" count="1" type="stmt"/>
+          <line num="17" count="0" type="stmt"/>
+          <line num="19" count="0" type="stmt"/>
+          <line num="20" count="0" type="stmt"/>
+          <line num="21" count="0" type="stmt"/>
+          <line num="22" count="0" type="stmt"/>
+          <line num="23" count="0" type="stmt"/>
+          <line num="27" count="0" type="stmt"/>
+          <line num="28" count="0" type="stmt"/>
+          <line num="29" count="0" type="stmt"/>
+          <line num="30" count="0" type="stmt"/>
+          <line num="58" count="1" type="stmt"/>
+          <line num="63" count="1" type="stmt"/>
+        </file>
+        <file name="ReportQuestionModal.tsx" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\components\modals\ReportQuestionModal.tsx">
+          <metrics statements="20" coveredstatements="9" conditionals="2" coveredconditionals="0" methods="7" coveredmethods="0"/>
+          <line num="1" count="1" type="stmt"/>
+          <line num="2" count="1" type="stmt"/>
+          <line num="4" count="1" type="stmt"/>
+          <line num="5" count="1" type="stmt"/>
+          <line num="6" count="1" type="stmt"/>
+          <line num="7" count="1" type="stmt"/>
+          <line num="16" count="1" type="stmt"/>
+          <line num="17" count="0" type="stmt"/>
+          <line num="19" count="0" type="stmt"/>
+          <line num="23" count="0" type="stmt"/>
+          <line num="24" count="0" type="stmt"/>
+          <line num="25" count="0" type="stmt"/>
+          <line num="26" count="0" type="stmt"/>
+          <line num="31" count="0" type="stmt"/>
+          <line num="32" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="38" count="0" type="stmt"/>
+          <line num="42" count="0" type="stmt"/>
+          <line num="43" count="0" type="stmt"/>
+          <line num="90" count="1" type="stmt"/>
+          <line num="95" count="1" type="stmt"/>
+        </file>
+        <file name="ReportQuizModal.tsx" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\components\modals\ReportQuizModal.tsx">
+          <metrics statements="22" coveredstatements="9" conditionals="2" coveredconditionals="0" methods="7" coveredmethods="0"/>
+          <line num="1" count="1" type="stmt"/>
+          <line num="2" count="1" type="stmt"/>
+          <line num="4" count="1" type="stmt"/>
+          <line num="5" count="1" type="stmt"/>
+          <line num="6" count="1" type="stmt"/>
+          <line num="7" count="1" type="stmt"/>
+          <line num="14" count="1" type="stmt"/>
+          <line num="15" count="0" type="stmt"/>
+          <line num="17" count="0" type="stmt"/>
+          <line num="21" count="0" type="stmt"/>
+          <line num="22" count="0" type="stmt"/>
+          <line num="23" count="0" type="stmt"/>
+          <line num="24" count="0" type="stmt"/>
+          <line num="29" count="0" type="stmt"/>
+          <line num="30" count="0" type="stmt"/>
+          <line num="32" count="0" type="stmt"/>
+          <line num="33" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="39" count="0" type="stmt"/>
+          <line num="43" count="0" type="stmt"/>
+          <line num="44" count="0" type="stmt"/>
+          <line num="92" count="1" type="stmt"/>
+          <line num="96" count="1" type="stmt"/>
+        </file>
+        <file name="SubmitQuizModal.tsx" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\components\modals\SubmitQuizModal.tsx">
+          <metrics statements="32" coveredstatements="10" conditionals="6" coveredconditionals="0" methods="9" coveredmethods="0"/>
+          <line num="1" count="1" type="stmt"/>
+          <line num="2" count="1" type="stmt"/>
+          <line num="3" count="1" type="stmt"/>
+          <line num="4" count="1" type="stmt"/>
+          <line num="5" count="1" type="stmt"/>
+          <line num="6" count="1" type="stmt"/>
+          <line num="7" count="1" type="stmt"/>
+          <line num="25" count="1" type="stmt"/>
+          <line num="27" count="0" type="stmt"/>
+          <line num="30" count="0" type="stmt"/>
+          <line num="31" count="0" type="stmt"/>
+          <line num="33" count="0" type="stmt"/>
+          <line num="35" count="0" type="stmt"/>
+          <line num="36" count="0" type="stmt"/>
+          <line num="37" count="0" type="stmt"/>
+          <line num="38" count="0" type="stmt"/>
+          <line num="53" count="0" type="stmt"/>
+          <line num="54" count="0" type="stmt"/>
+          <line num="55" count="0" type="stmt"/>
+          <line num="61" count="0" type="stmt"/>
+          <line num="64" count="0" type="stmt"/>
+          <line num="65" count="0" type="stmt"/>
+          <line num="66" count="0" type="stmt"/>
+          <line num="67" count="0" type="stmt"/>
+          <line num="71" count="0" type="stmt"/>
+          <line num="74" count="0" type="stmt"/>
+          <line num="76" count="0" type="stmt"/>
+          <line num="77" count="0" type="stmt"/>
+          <line num="81" count="0" type="stmt"/>
+          <line num="82" count="0" type="stmt"/>
+          <line num="115" count="1" type="stmt"/>
+          <line num="125" count="1" type="stmt"/>
+        </file>
+      </package>
+      <package name="final-project-ui.client.app.constants">
+        <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <file name="modaltypes.ts" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\constants\modaltypes.ts">
+          <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+          <line num="1" count="4" type="stmt"/>
+          <line num="2" count="4" type="stmt"/>
+          <line num="3" count="4" type="stmt"/>
+          <line num="4" count="4" type="stmt"/>
+        </file>
+      </package>
+      <package name="final-project-ui.client.app.helpers">
+        <metrics statements="14" coveredstatements="2" conditionals="12" coveredconditionals="0" methods="5" coveredmethods="0"/>
+        <file name="helpers.ts" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\helpers\helpers.ts">
+          <metrics statements="14" coveredstatements="2" conditionals="12" coveredconditionals="0" methods="5" coveredmethods="0"/>
+          <line num="2" count="2" type="stmt"/>
+          <line num="3" count="0" type="stmt"/>
+          <line num="4" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="8" count="0" type="stmt"/>
+          <line num="10" count="0" type="stmt"/>
+          <line num="11" count="0" type="stmt"/>
+          <line num="12" count="0" type="stmt"/>
+          <line num="13" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="18" count="2" type="stmt"/>
+          <line num="20" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="23" count="0" type="stmt"/>
+          <line num="25" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="27" count="0" type="stmt"/>
+          <line num="29" count="0" type="stmt"/>
+        </file>
+      </package>
+      <package name="final-project-ui.client.app.interceptors">
+        <metrics statements="5" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <file name="auth.interceptor.ts" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\interceptors\auth.interceptor.ts">
+          <metrics statements="5" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+          <line num="1" count="16" type="stmt"/>
+          <line num="2" count="16" type="stmt"/>
+          <line num="3" count="16" type="stmt"/>
+          <line num="4" count="0" type="stmt"/>
+          <line num="5" count="0" type="stmt"/>
+        </file>
+      </package>
+      <package name="final-project-ui.client.app.tests">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <file name="setupTests.ts" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\app\tests\setupTests.ts">
+          <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+          <line num="1" count="25" type="stmt"/>
+          <line num="2" count="25" type="stmt"/>
+          <line num="4" count="25" type="stmt"/>
+        </file>
+      </package>
+      <package name="final-project-ui.client.public.icons">
+        <metrics statements="36" coveredstatements="24" conditionals="0" coveredconditionals="0" methods="12" coveredmethods="0"/>
+        <file name="achievements-icon.svg" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\public\icons\achievements-icon.svg">
+          <metrics statements="3" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+          <line num="2" count="1" type="stmt"/>
+          <line num="4" count="0" type="stmt"/>
+          <line num="9" count="1" type="stmt"/>
+        </file>
+        <file name="add-quiz-icon.svg" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\public\icons\add-quiz-icon.svg">
+          <metrics statements="3" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+          <line num="2" count="1" type="stmt"/>
+          <line num="4" count="0" type="stmt"/>
+          <line num="9" count="1" type="stmt"/>
+        </file>
+        <file name="arrow-icon.svg" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\public\icons\arrow-icon.svg">
+          <metrics statements="3" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+          <line num="2" count="1" type="stmt"/>
+          <line num="4" count="0" type="stmt"/>
+          <line num="9" count="1" type="stmt"/>
+        </file>
+        <file name="cart-icon.svg" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\public\icons\cart-icon.svg">
+          <metrics statements="3" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+          <line num="2" count="1" type="stmt"/>
+          <line num="4" count="0" type="stmt"/>
+          <line num="9" count="1" type="stmt"/>
+        </file>
+        <file name="coin-icon.svg" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\public\icons\coin-icon.svg">
+          <metrics statements="3" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+          <line num="2" count="5" type="stmt"/>
+          <line num="4" count="0" type="stmt"/>
+          <line num="9" count="5" type="stmt"/>
+        </file>
+        <file name="double-icon.svg" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\public\icons\double-icon.svg">
+          <metrics statements="3" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+          <line num="2" count="3" type="stmt"/>
+          <line num="4" count="0" type="stmt"/>
+          <line num="9" count="3" type="stmt"/>
+        </file>
+        <file name="forgive-icon.svg" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\public\icons\forgive-icon.svg">
+          <metrics statements="3" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+          <line num="2" count="3" type="stmt"/>
+          <line num="4" count="0" type="stmt"/>
+          <line num="9" count="3" type="stmt"/>
+        </file>
+        <file name="menu-icon.svg" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\public\icons\menu-icon.svg">
+          <metrics statements="3" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+          <line num="2" count="1" type="stmt"/>
+          <line num="4" count="0" type="stmt"/>
+          <line num="9" count="1" type="stmt"/>
+        </file>
+        <file name="mouse-icon.svg" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\public\icons\mouse-icon.svg">
+          <metrics statements="3" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+          <line num="2" count="1" type="stmt"/>
+          <line num="4" count="0" type="stmt"/>
+          <line num="9" count="1" type="stmt"/>
+        </file>
+        <file name="parse-icon.svg" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\public\icons\parse-icon.svg">
+          <metrics statements="3" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+          <line num="2" count="3" type="stmt"/>
+          <line num="4" count="0" type="stmt"/>
+          <line num="9" count="3" type="stmt"/>
+        </file>
+        <file name="settings-icon.svg" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\public\icons\settings-icon.svg">
+          <metrics statements="3" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+          <line num="2" count="1" type="stmt"/>
+          <line num="4" count="0" type="stmt"/>
+          <line num="9" count="1" type="stmt"/>
+        </file>
+        <file name="view-quizzes-icon.svg" path="C:\Users\Shawn\Documents\revature\final-project-ui\client\public\icons\view-quizzes-icon.svg">
+          <metrics statements="3" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+          <line num="2" count="1" type="stmt"/>
+          <line num="4" count="0" type="stmt"/>
+          <line num="9" count="1" type="stmt"/>
+        </file>
+      </package>
+    </metrics>
+  </project>
+</coverage>

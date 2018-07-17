@@ -159,50 +159,17 @@ exports[`should render DashboardPage component 1`] = `
       <main>
         <div
           className="container"
+          key="malin20"
         >
           <p
             className="username"
           >
-            wave_forms
+            malin20
           </p>
           <p
             className="total"
           >
-            217
-          </p>
-          <SvgCoinIcon
-            className="coin"
-          />
-        </div>
-        <div
-          className="container"
-        >
-          <p
-            className="username"
-          >
-            pillowlava
-          </p>
-          <p
-            className="total"
-          >
-            138
-          </p>
-          <SvgCoinIcon
-            className="coin"
-          />
-        </div>
-        <div
-          className="container"
-        >
-          <p
-            className="username"
-          >
-            malin_2
-          </p>
-          <p
-            className="total"
-          >
-            74
+            25
           </p>
           <SvgCoinIcon
             className="coin"

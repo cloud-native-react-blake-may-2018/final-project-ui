@@ -16,9 +16,23 @@
       "<rootDir>/client",
       "<rootDir>/client/app/tests/"
     ],
+    "collectCoverage": true,
+    "coverageFormats": [
+      "json",
+      "html"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 50,
+        "functions": 50,
+        "lines": 50,
+        "statements": 50
+      }
+    },
     "setupFiles": [
       "raf/polyfill",
-      "<rootDir>/client/app/tests/setupTests.ts"
+      "<rootDir>/client/app/tests/setupTests.ts",
+      "jest-localstorage-mock"
     ],
     "setupTestFrameworkScriptFile": "<rootDir>/client/app/tests/setupTests.ts",
     "snapshotSerializers": [
@@ -99,7 +113,7 @@
     "@types/react-router-dom": "latest",
     "@types/react-sidebar": "latest",
     "@types/react-spinkit": "latest",
-    "@types/reactstrap": "latest",
+    "@types/reactstrap": "^6.0.0",
     "@types/webpack": "latest",
     "@types/webpack-dev-middleware": "latest",
     "@types/webpack-hot-middleware": "latest",
@@ -120,6 +134,8 @@
     "html-webpack-plugin": "latest",
     "identity-obj-proxy": "latest",
     "jest": "latest",
+    "jest-cli": "^23.4.1",
+    "jest-localstorage-mock": "latest",
     "jest-svg-transformer": "latest",
     "raf": "latest",
     "react-svg-loader": "latest",

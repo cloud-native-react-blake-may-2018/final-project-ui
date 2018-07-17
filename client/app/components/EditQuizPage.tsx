@@ -350,7 +350,7 @@ export class EditQuizPage extends Component<IProps> {
                   {quiz.questions.map((question, i) => {
                     if (question !== null && question.author === username)
                       return (
-                        <div key={'questions ' + i}>
+                        <div key={'question' + i}>
                           <p
                             className="question"
                             onClick={this.showQuizQuestion.bind(
