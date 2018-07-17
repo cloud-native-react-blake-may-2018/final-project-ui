@@ -199,7 +199,6 @@ export const submitQuizAttempt = (
       attemptUUID,
       answerArray
     )
-    // GO HERE!
     dispatch(startSubmitQuizAttempt(quizResults))
     dispatch(startGetUserQuizzes(user))
   }

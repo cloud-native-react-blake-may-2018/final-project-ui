@@ -40,6 +40,7 @@ const colors = [
 
 export class EditQuizPage extends Component<IProps> {
   state = {
+    errMsg: '',
     displayPhoto: '',
     page: 1,
     clickedQuestion: {
@@ -57,7 +58,8 @@ export class EditQuizPage extends Component<IProps> {
     },
     questionNumber: 0,
     updatedQuestions: [],
-    clickedAddQuestion: false
+    clickedAddQuestion: false,
+    mounted: false
   }
 
   params = window.location.href.split('/')
@@ -72,6 +74,19 @@ export class EditQuizPage extends Component<IProps> {
     this.props.history.push('/quizzes/created')
   }
 
+  public componentDidMount() {
+    this.setState({
+      ...this.state,
+      mounted: true
+    })
+  }
+
+  public componentWillUnmount() {
+    this.setState({
+      ...this.state,
+      mounted: false
+    })
+  }
   private updateArr = (e: any, arg1: number, arg2: string) => {
     let newAnswersArr = this.state.clickedQuestion.answers
     newAnswersArr[arg1][arg2] = e.target.value
@@ -83,7 +98,7 @@ export class EditQuizPage extends Component<IProps> {
     })
   }
 
-  private updateQuiz = (e: any) => {
+  private updateQuiz = async (e: any) => {
     let sendQuestionList = []
     for (let item of this.state.updatedQuestions) {
       if (item.tags) {
@@ -110,7 +125,33 @@ export class EditQuizPage extends Component<IProps> {
         quizID: window.location.href.split('/')[4],
         question: item
       }
-      this.props.startEditQuestion(data)
+
+      let testvar = await this.props.startEditQuestion(data)
+      console.log(testvar['response']['status'])
+
+      let errorHandling = () => {
+        if (testvar['response']['status'] === 400) {
+          this.setState({
+            ...this.state,
+            errMsg:
+              'Please make sure all boxes have been filled in and re-submit.'
+          })
+        } else if (testvar['response']['status'] === 502) {
+          this.setState({
+            ...this.state,
+            errMsg:
+              'Your selected image is too large. Please upload a smaller image.'
+          })
+        } else if (testvar['response']['status'] === 200) {
+          // this.setState({
+          //   ...this.state,
+          //   errMsg: 'Your quiz was successfully submitted.'
+          // })
+          console.log(this.quizUUID)
+          this.props.history.push('/quizzes/created')
+        }
+      }
+      errorHandling()
     }
   }
 
@@ -119,7 +160,8 @@ export class EditQuizPage extends Component<IProps> {
     newQArr.push(this.state.clickedQuestion)
     this.setState({
       ...this.state,
-      updatedQuestions: newQArr
+      updatedQuestions: newQArr,
+      errMsg: ''
     })
     this.page1()
     // this.updateStore(this.state.clickedQuestion);
@@ -305,10 +347,10 @@ export class EditQuizPage extends Component<IProps> {
                 </div>
                 {/* <p className="add-tag">+ tag</p> */}
                 <div className="questions">
-                  {quiz.questions.map(question => {
+                  {quiz.questions.map((question, i) => {
                     if (question !== null && question.author === username)
                       return (
-                        <div key={question.title}>
+                        <div key={'question' + i}>
                           <p
                             className="question"
                             onClick={this.showQuizQuestion.bind(
@@ -329,6 +371,7 @@ export class EditQuizPage extends Component<IProps> {
                 >
                   + question
                 </p>
+                {this.state.errMsg && this.state.errMsg}
                 <button onClick={this.updateQuiz} className="save-quiz">
                   Save Quiz
                 </button>
@@ -405,7 +448,7 @@ export class EditQuizPage extends Component<IProps> {
                   {page === 2 && (
                     <form className="options">
                       {clickedQuestion.answers.map((ans, index) => (
-                        <div key={ans.answer}>
+                        <div key={'ans' + index}>
                           <div className="group">
                             <label
                               htmlFor="true-false-answer"
