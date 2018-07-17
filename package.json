@@ -113,7 +113,7 @@
     "@types/react-router-dom": "latest",
     "@types/react-sidebar": "latest",
     "@types/react-spinkit": "latest",
-    "@types/reactstrap": "latest",
+    "@types/reactstrap": "^6.0.0",
     "@types/webpack": "latest",
     "@types/webpack-dev-middleware": "latest",
     "@types/webpack-hot-middleware": "latest",

@@ -10,6 +10,7 @@ test('should render SettingsPage component', () => {
       email="marty@slackjaw.com"
       photo="https://martyslack.jpg"
       file="https://martyslack.jpg"
+      hideModal={() => 'placeholder function'}
       startUpdateUser={() => `placeholder function`}
     />
   )

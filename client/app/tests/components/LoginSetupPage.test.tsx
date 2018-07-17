@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { shallow } from 'enzyme'
-import { LoginSetupPage } from '../../components/LoginSetupPage'
+import { SetupLogin } from '../../components/LoginSetupPage'
 
 test('should render LoginSetupPage component', () => {
-  const wrapper = shallow(<LoginSetupPage />)
+  const wrapper = shallow(<SetupLogin />)
   expect(wrapper).toMatchSnapshot()
 })
