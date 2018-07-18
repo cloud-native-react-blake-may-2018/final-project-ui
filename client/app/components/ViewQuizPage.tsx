@@ -83,6 +83,7 @@ export class ViewQuizPage extends Component<IProps> {
     const { index } = this.state
 
     const otherCount = quiz !== undefined && quiz.count && quiz.count > 0
+    
     const myCount =
       quiz !== undefined &&
       quiz.questions !== undefined &&
