@@ -42,16 +42,9 @@ export class SubmitQuizModal extends Component<IProps> {
       this.props.answerArray
     )
 
-    // this.props.submitQuizAttempt(
-    //   this.quizUUID,
-    //   this.props.username,
-    //   this.props.quiz.attemptUUID,
-    //   this.props.answerArray
-    // )
-
     //PROMISE THAT STOPS ASYNCH ISSUE OF SUBMITTING QUIZ AND THEN ONCE SUBMITTED, THEN CLEARS QUIZ INFO
-    let parameterSubmit = function(e) {
-      let waitSubmit = new Promise(function(resolve, reject) {
+    let parameterSubmit = e => {
+      let waitSubmit = new Promise((resolve, reject) => {
         e.props.submitQuizAttempt(
           e.quizUUID,
           e.props.username,
