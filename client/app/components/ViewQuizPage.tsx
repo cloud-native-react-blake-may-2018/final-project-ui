@@ -161,7 +161,6 @@ export class ViewQuizPage extends Component<IProps> {
     )
   }
 }
-
 const mapStateToProps = (state, props) => ({
   username: state.auth.username,
   results: state.takeQuiz.results,
@@ -170,7 +169,6 @@ const mapStateToProps = (state, props) => ({
     state.quizzes.all.find(quiz => quiz.uuid === props.match.params.uuid),
   quizzes: state.quizzes.all
 })
-
 export default connect<any, any>(
   mapStateToProps,
   { startGetSearchedQuiz, startQuizAttempt, loadModal, clearResults }
