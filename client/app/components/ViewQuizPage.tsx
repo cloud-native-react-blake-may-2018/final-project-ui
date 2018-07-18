@@ -81,6 +81,15 @@ export class ViewQuizPage extends Component<IProps> {
   render = () => {
     const { quiz } = this.props
     const { index } = this.state
+
+    const otherCount = quiz !== undefined && quiz.count && quiz.count > 0
+    const myCount =
+      quiz !== undefined &&
+      quiz.questions !== undefined &&
+      quiz.questions.length > 0
+    // {quiz.count ? (
+    //   quiz.count > 0
+    // ) : quiz.questions.length > 0 ?
     return (
       <div className="view-quiz-page">
         {(quiz === undefined ||
@@ -124,12 +133,12 @@ export class ViewQuizPage extends Component<IProps> {
                 </h2>
               </main>
               <footer>
-                <Link to={`/edit-quiz/${quiz.uuid}`} className="link">
-                  <p className="edit-button">Edit quiz</p>
-                </Link>
-                {quiz.count ? (
-                  quiz.count > 0
-                ) : quiz.questions.length > 0 ? (
+                {quiz.author === this.props.username && (
+                  <Link to={`/edit-quiz/${quiz.uuid}`} className="link">
+                    <p className="edit-button">Edit quiz</p>
+                  </Link>
+                )}
+                {otherCount || myCount ? (
                   <Link
                     to={`/take-quiz/${quiz.uuid}`}
                     onClick={this.startQuizAttempt}
