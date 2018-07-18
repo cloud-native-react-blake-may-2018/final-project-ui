@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import moment from 'moment'
+import ImageGallery from 'react-image-gallery'
 import numeral from 'numeral'
 import { connect } from 'react-redux'
 import { RouteProps } from 'react-router'
@@ -58,8 +59,8 @@ export class QuizAttemptReviewPage extends Component<IProps, any> {
   }
 
   params = window.location.href.split('/')
-  quizUUID = this.params[4]
   reatakeIndex = this.params[5]
+  quizUUID = this.params[4]
 
   submitQuizModal = () => this.props.loadModal(SUBMIT_QUIZ_MODAL)
 
@@ -79,12 +80,12 @@ export class QuizAttemptReviewPage extends Component<IProps, any> {
     this.props.changeQuestionNumber(this.props.questionNumber + 1)
   }
 
-  componentWillUnmount() {
-    if (this.props.history.action === 'POP') {
-      console.log('user has left page')
-      this.props.clearQuizAttempt(0)
-    }
-  }
+  // componentWillUnmount() {
+  //   if (this.props.history.action === 'POP') {
+  //     console.log('user has left page')
+  //     this.props.clearQuizAttempt(0)
+  //   }
+  // }
 
   // @ts-ignore
   render = () => {
@@ -139,6 +140,20 @@ export class QuizAttemptReviewPage extends Component<IProps, any> {
                       )
                     )}
                   </div>
+                  {quiz.questions[questionNumber].image !== undefined && (
+                    <ImageGallery
+                      items={[
+                        {
+                          original: quiz.questions[questionNumber].image,
+                          thumbnail: quiz.questions[questionNumber].image
+                        }
+                      ]}
+                      showThumbnails={false}
+                      showPlayButton={false}
+                      showImageFullScreenButton
+                      alt="question image"
+                    />
+                  )}
                   <div className="buttons">
                     {questionNumber !== 0 && (
                       <button
