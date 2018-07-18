@@ -10,6 +10,14 @@ import Axios from '../../../node_modules/axios'
 import { authInterceptor } from '../interceptors/auth.interceptor';
 import { environment } from '../../../environment';
 // import { startUpdateUser } from '../actions/auth'
+
+const corbs = {
+  headers: {
+    'Access-Control-Allow-Headers': '*'
+  }
+}
+
+let profileUrl = ""
 interface ClassProps {
   email: string
   username: string
@@ -71,16 +79,75 @@ if (localStorage.getItem('refresh_token') !== 'undefined') {
         console.log('session validity: ' + session.isValid());
 
       var attributeList = [];
-      cognitoUser.getUserAttributes((err, result) => {
-        if (err) {
-          console.log(err);
-          return;
-        }
-        for (let i = 0; i < result.length; i++) {
-          attributeList.push({ Name: result[i].getName(), Value: result[i].getValue() });
-        }
-      })
-      console.log(attributeList)
+      /*****
+       * 
+       * Get Attributes for facebook user
+       */
+      if (cognitoUser.getUsername().includes('Facebook_')) {
+        // let valueObj = JSON.parse(attributeList[6].Value).data.url
+        cognitoUser.getUserAttributes((err, result) => {
+          if (err) {
+            console.log(err);
+            return;
+          }
+          for (let i = 0; i < result.length; i++) {
+            attributeList.push({ Name: result[i].getName(), Value: result[i].getValue() });
+            if (i === 6) {
+              /**get profile page photo URL  */
+              profileUrl = JSON.parse(result[i].getValue()).data.url
+              localStorage.setItem('profilePhoto', profileUrl)
+
+            }
+          }
+          console.log(attributeList)
+        })
+      } // get attribute for facebook end 
+
+      /*****
+      * 
+      * Get Attributes for Google user
+      */
+      else if (cognitoUser.getUsername().includes('Google_')) {
+        // let valueObj = JSON.parse(attributeList[6].Value).data.url
+        cognitoUser.getUserAttributes((err, result) => {
+          if (err) {
+            console.log(err);
+            return;
+          }
+          for (let i = 0; i < result.length; i++) {
+            attributeList.push({ Name: result[i].getName(), Value: result[i].getValue() });
+            if (i === 4) {
+
+              profileUrl = result[i].getValue()
+              localStorage.setItem('profilePhoto', profileUrl)
+
+            }
+          }
+          console.log(attributeList)
+        })
+      } // get attribute for google end 
+
+
+      /*****
+       * 
+       * Get Attributes for Cognito User
+       */
+      else
+        // let valueObj = JSON.parse(attributeList[6].Value).data.url
+        cognitoUser.getUserAttributes((err, result) => {
+          if (err) {
+            console.log(err);
+            return;
+          }
+          for (let i = 0; i < result.length; i++) {
+            attributeList.push({ Name: result[i].getName(), Value: result[i].getValue() });
+            if (i === 4) {
+              var pictureName = result[i].getValue()
+              console.log(pictureName);
+            }
+          }
+          console.log(attributeList)
+        })
     })
   }
 }
@@ -96,6 +163,34 @@ export class SettingsPage extends Component<ClassProps> {
     url: '',
     file: ''
   }
+
+  componentDidMount() {
+    let attributeList = []
+    cognitoUser.getUserAttributes((err, result) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      for (let i = 0; i < result.length; i++) {
+        attributeList.push({ Name: result[i].getName(), Value: result[i].getValue() });
+        if (i === 4) {
+          var pictureName = result[i].getValue()
+          authInterceptor.get('https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/image/' + pictureName)
+            .then(resp => {
+              console.log(resp);
+              localStorage.setItem('profilePhoto', resp.data)
+              this.setState({
+                url: resp.data
+              })
+            })
+          console.log(pictureName);
+        }
+      }
+      console.log(attributeList)
+    })
+
+  }
+
   // declare ref
   private photoUpload: HTMLInputElement
   private isAuthenticated: boolean = false
@@ -146,20 +241,21 @@ export class SettingsPage extends Component<ClassProps> {
 
   onDrop = (files: any) => {
     // get most recent file
+    console.log(files)
     const file = files[0]
     // build url to s3 bucket
     const profileUrl =
-      'http://vocab-app-pics.s3.amazonaws.com/' +
-      this.props.username +
-      '/' +
+      'http://cloud-native-project-3-profile.s3-website.us-east-2.amazonaws.com' +
+      // this.props.username +
+      // '/' +
       file.name
     this.setState({
       file,
-      url: profileUrl
+      url: file.name
     })
     const formObj = {
       Name: 'picture',
-      Value: profileUrl
+      Value: file.name
     }
     if (cognitoUser !== null) {
       cognitoUser.updateAttributes([formObj], (err, result) => {
@@ -167,6 +263,7 @@ export class SettingsPage extends Component<ClassProps> {
           alert(err);
           return;
         }
+        this.uploader(file);
         console.log('call result: ' + result);
       })
     }
@@ -174,16 +271,21 @@ export class SettingsPage extends Component<ClassProps> {
 
   uploader = (filez: any) => {
     // alert("uploading")
-    authInterceptor.get(environment.context + 'upload-file/' + filez.name)
+    authInterceptor.post('https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/image/' + filez.name, corbs)
       .then(resp => {
-        Axios.put(resp.data, filez)
+        console.log(resp.data)
+        localStorage.setItem('profilePicture', resp.data)
+        axios.put(resp.data, filez)
           .then(uploadResp => {
             // Profile should be changed, do rerender
-            authInterceptor.get(environment.context + 'get-file/' + filez.name)
+            console.log(filez.name)
+            authInterceptor.get('https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/image/' + filez.name)
               .then(resp1 => {
+                console.log(resp1)
                 this.setState({
                   url: resp1.data
                 })
+                console.log(this.state.url)
               })
               .catch(err => {
                 console.log(err);
@@ -236,43 +338,143 @@ export class SettingsPage extends Component<ClassProps> {
     return (
       <div className="settings-page">
         <div className="main">
-          <aside>
-            <p
-              className={page === 'general' ? 'active' : null}
-              onClick={this.setPage}
-            >
-              General
+          {(JSON.parse(localStorage.getItem('userInfoToken')).username.includes('Facebook_') ||
+            JSON.parse(localStorage.getItem('userInfoToken')).username.includes('Google_')) &&
+            <aside>
+              <p
+                className={page === 'general' ? 'active' : null}
+                onClick={this.setPage}
+              >
+                General
             </p>
-            <p
-              className={page === 'password' ? 'active' : null}
-              onClick={this.setPage}
-            >
-              Password
+
+              <p
+                className={page === 'transfers' ? 'active' : null}
+                onClick={this.setPage}
+              >
+                Themes
             </p>
-            <p
-              className={page === 'transfers' ? 'active' : null}
-              onClick={this.setPage}
-            >
-              Themes
+            </aside>
+          }
+
+          {!(JSON.parse(localStorage.getItem('userInfoToken')).username.includes('Facebook_') ||
+            JSON.parse(localStorage.getItem('userInfoToken')).username.includes('Google_')) &&
+            <aside>
+
+              <p
+                className={page === 'general' ? 'active' : null}
+                onClick={this.setPage}
+              >
+                General
             </p>
-          </aside>
-          {this.state.page.toLowerCase() == 'general' && (
-            <main>
-              {/* <div className="input-group"> */}
+              <p
+                className={page === 'password' ? 'active' : null}
+                onClick={this.setPage}
+              >
+                Password
+            </p>
+              <p
+                className={page === 'transfers' ? 'active' : null}
+                onClick={this.setPage}
+              >
+                Themes
+            </p>
+            </aside>
+          }
+          {this.state.page.toLowerCase() == 'general' && (JSON.parse(localStorage.getItem('userInfoToken')).username.includes('Facebook_') ||
+            JSON.parse(localStorage.getItem('userInfoToken')).username.includes('Google_')) &&
+
+            (
+              <main>
+                <label htmlFor="photo">Photo</label>
+                <div className="photo-container">
+                  <img
+                    src={profileUrl}
+                  />
+                </div>
+                <form
+                  className="settings-form"
+                  onChange={this.onFieldChange}
+                  onSubmit={this.updateProfile}
+                >
+                  <div className="input-group">
+                    <label htmlFor="fullname">Full Name</label>
+                    <input
+                      type="text"
+                      name="fullname"
+                      placeholder={name}
+                      id="namefield"
+                    // onChange={(e: any) => {
+                    //   this.updateName(e)
+                    // }}
+                    // value={this.state.name}
+                    />
+                  </div>
+                  <div className="input-group">
+                    <label htmlFor="email">Email</label>
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder={email}
+                      readOnly
+                      value={this.state.email}
+                    />
+                  </div>
+
+                  {JSON.parse(localStorage.getItem('userInfoToken')).username.includes('Facebook_') &&
+                    <div className="input-group">
+                      <a
+
+                        className="save-button"
+                        href="https://www.facebook.com/settings" target='_blank'
+                      >
+                        Facebook Settings
+                </a>
+                    </div>
+                  }
+                  {JSON.parse(localStorage.getItem('userInfoToken')).username.includes('Google_') &&
+
+
+                    <div className="input-group">
+                      <a
+
+                        className="save-button"
+                        href="https://plus.google.com" target='_blank'
+                      >
+                        Google Settings
+                </a>
+
+                    </div>
+                  }
+                </form>
+              </main>
+            )}
+
+          {this.state.page.toLowerCase() == 'general' && !(JSON.parse(localStorage.getItem('userInfoToken')).username.includes('Facebook_') ||
+            JSON.parse(localStorage.getItem('userInfoToken')).username.includes('Google_')) &&
+            (
+              <main>
+                {/* <div className="input-group"> */}
                 <label htmlFor="photo">Photo</label>
                 {/* <div
                   className="photo-container"
                   onClick={() => this.photoUpload.click()}
                 > */}
-                  <div onDrop={this.onDrop} className="dropzone">
-                    <input type="file" multiple={false}/>
-                    <div
-                      className="photo"
-                      style={{
-                        background: `url(${photo}) center / cover no-repeat`
-                      }}
-                    />
-                  </div>
+                <Dropzone onDrop={this.onDrop} >
+                  {/* <input
+                      type="file" 
+                      id="fileinput" 
+                      multiple={false} 
+                      accept="image/jpg, image/jpeg, image/png, image/gif"
+                    /> */}
+                  <img src={this.state.url}
+                  // className="photo"
+                  // style={{
+                  //   background: 'url(http://soappotions.com/wp-content/uploads/2017/10/orange.jpg)'
+                  //   //${localStorage.getItem('profilePhoto')}
+                  // }}
+                  />
+                </Dropzone>
                 {/* </div> */}
                 {/* <input
                   className="file-upload"
@@ -284,46 +486,47 @@ export class SettingsPage extends Component<ClassProps> {
                   data-cloudinary-field="image_id" // ?
                 />
               </div> */}
-              <form
-                className="settings-form"
-                onChange={this.onFieldChange}
-                onSubmit={this.updateProfile}
-              >
-                <div className="input-group">
-                  <label htmlFor="fullname">Full Name</label>
-                  <input
-                    type="text"
-                    name="fullname"
-                    placeholder={name}
-                    id="namefield"
-                  // onChange={(e: any) => {
-                  //   this.updateName(e)
-                  // }}
-                  // value={this.state.name}
-                  />
-                </div>
-                <div className="input-group">
-                  <label htmlFor="email">Email</label>
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder={email}
-                    readOnly
-                    value={this.state.email}
-                  />
-                </div>
-                <div className="input-group">
-                  <button
-                    className="save-button"
-                    type="submit"
-                    onSubmit={this.updateProfile}
-                  >
-                    Save changes
+                <form
+                  className="settings-form"
+                  onChange={this.onFieldChange}
+                  onSubmit={this.updateProfile}
+                >
+                  <div className="input-group">
+                    <label htmlFor="fullname">Full Name</label>
+                    <input
+                      type="text"
+                      name="fullname"
+                      placeholder={name}
+                      id="namefield"
+                    // onChange={(e: any) => {
+                    //   this.updateName(e)
+                    // }}
+                    // value={this.state.name}
+                    />
+                  </div>
+                  <div className="input-group">
+                    <label htmlFor="email">Email</label>
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder={email}
+                      readOnly
+                      value={this.state.email}
+                    />
+                  </div>
+                  <div className="input-group">
+                    <button
+                      className="save-button"
+                      type="submit"
+                      onSubmit={this.updateProfile}
+                    >
+                      Save changes
                   </button>
-                </div>
-              </form>
-            </main>
-          )}
+                  </div>
+                </form>
+              </main>
+            )}
+
           {this.state.page.toLowerCase() == 'password' && (
             <main>
               <form className="settings-form" onChange={this.onFieldChange}>

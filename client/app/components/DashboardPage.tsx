@@ -128,7 +128,9 @@ export class DashboardPage extends Component<IProps> {
                   {top3 !== undefined &&
                     top3.map(user => (
                       <div key={user.username} className="container">
+                      {
                         <p className="username">{user.username}</p>
+                      }
                         <p className="total">{user.points}</p>
                         <CoinIcon className="coin" />
                       </div>

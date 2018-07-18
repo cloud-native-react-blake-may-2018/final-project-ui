@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import Dropzone from 'react-dropzone'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+
 interface IProps {
   bio
   name
@@ -24,26 +25,32 @@ export class ProfilePage extends Component<IProps> {
       <div className="profile-page">
         <div className="main">
           <section className="profile-top">
-            <Dropzone className="dropzone">
-              <div className="image">
-                <p className="text">Image here</p>
+            
+              <div>
+                 
+                
+                 <img  className="img-circle" src={localStorage.getItem('profilePhoto')}                   
+                  
+                />
+                 
               </div>
-            </Dropzone>
+            
             <div className="bio">
               <div className="name-container">
+              
                 <p className="name">{name}</p>
-                <FontAwesomeIcon icon="pencil-alt" className="name-edit" />
+                {/* <FontAwesomeIcon icon="pencil-alt" className="name-edit" /> */}
               </div>
-              <div className="about-container">
+              {/* <div className="about-container">
                 <p className="about">Javascript developer</p>
                 <FontAwesomeIcon icon="pencil-alt" className="about-edit" />
-              </div>
+              </div> */}
               {/* <p className="about">{bio}</p> */}
             </div>
           </section>
-          <section className="profile-bottom">
+          {/* <section className="profile-bottom">
             <p className="info">Profile data</p>
-          </section>
+          </section> */}
         </div>
 
         {/* <div className="profile-pic-div">
