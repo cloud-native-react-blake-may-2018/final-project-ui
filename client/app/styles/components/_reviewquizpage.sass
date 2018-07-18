@@ -84,7 +84,7 @@
         grid-row-gap: 20px
 
         .choice
-          padding: 10px 30px
+          padding: 8px 30px
           border-radius: 8px
           font: normal 18px Asap
           color: $grey
@@ -94,20 +94,31 @@
 
           &:hover
             transition: .3s all ease-in-out
-            border: 3px dotted lighten($blue, 5%)
-
-        
-        .selected-and-correct
-          border: 3px dotted darken($teal, 5%)
-  
-        .selected-and-incorrect
-          color: $red
-          background-color: $red
-          border: 3px dotted lighten($blue, 5%)
+            filter: brightness(95%)
+            // border: 3px dotted lighten($blue, 5%)
 
         .correct
+          padding: 5px 30px
+          border: 5px dotted $light-teal
+          font-weight: 500
           color: darken($teal, 5%)
           background-color: $light-teal
+
+        .selected-and-correct
+          padding: 5px 30px
+          font-weight: 500
+          color: darken($teal, 5%)
+          background-color: $light-teal
+          border: 5px dotted darken($teal, 5%)
+  
+        .selected-and-incorrect
+          padding: 5px 30px
+          font-weight: 500
+          color: $burgundy
+          background-color: $red
+          border: 5px dotted $burgundy
+
+
 
       .image-gallery-div
         grid-column: 2

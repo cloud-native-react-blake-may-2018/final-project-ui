@@ -18,6 +18,8 @@ interface IProps {
   quiz: any
   quizzes: any[]
   editStoreQuiz: (any) => any
+  adding?: (any) => any
+  editFunc?: (any) => any
   startEditQuestion: (any) => any
   startDeleteQuestion: (author: string, title: any) => any
   loadModal?: (type: string, title: string, uuid: any) => any
@@ -58,7 +60,8 @@ export class EditQuizPage extends Component<IProps> {
     },
     questionNumber: 0,
     updatedQuestions: [],
-    clickedAddQuestion: false
+    clickedAddQuestion: false,
+    edited: false
   }
 
   params = window.location.href.split('/')
@@ -77,12 +80,16 @@ export class EditQuizPage extends Component<IProps> {
     let newAnswersArr = this.state.clickedQuestion.answers
     newAnswersArr[arg1][arg2] = e.target.value
     this.setState({
+      edited: true,
       currentQuestion: {
         ...this.state.clickedQuestion,
         answers: newAnswersArr
       }
     })
   }
+
+  public editFunc = () => this.setState({ edited: true })
+  public adding = () => this.setState({ clickedAddQuestion: false })
 
   private updateQuiz = async (e: any) => {
     let sendQuestionList = []
@@ -143,7 +150,8 @@ export class EditQuizPage extends Component<IProps> {
     this.setState({
       ...this.state,
       updatedQuestions: newQArr,
-      errMsg: ''
+      errMsg: '',
+      edited: false
     })
     this.page1()
     // this.updateStore(this.state.clickedQuestion);
@@ -269,15 +277,18 @@ export class EditQuizPage extends Component<IProps> {
 
   // @ts-ignore
   render = () => {
-    const { username } = this.props
+    const { username, quizzes } = this.props
     let quiz
-    for (let testQuiz of this.props.quizzes) {
-      if (
-        testQuiz.uuid !== null &&
-        testQuiz.uuid === window.location.href.split('/')[4]
-      ) {
-        console.log('inside quiz assignment')
-        quiz = testQuiz
+
+    if (quizzes) {
+      for (let testQuiz of quizzes) {
+        if (
+          testQuiz !== null &&
+          testQuiz.uuid === window.location.href.split('/')[4]
+        ) {
+          console.log('inside quiz assignment')
+          quiz = testQuiz
+        }
       }
     }
     console.log('this is the quiz being passed', quiz)
@@ -501,6 +512,7 @@ export class EditQuizPage extends Component<IProps> {
                   </div>
                   {page === 2 && (
                     <button
+                      disabled={this.state.edited ? false : true}
                       onClick={this.saveChangeToState}
                       className="save-question"
                     >
@@ -511,7 +523,13 @@ export class EditQuizPage extends Component<IProps> {
               )}
 
               {clickedAddQuestion && (
-                <AddQuestion quizID={this.props.quiz.uuid} />
+                <AddQuestion
+                  adding={this.adding}
+                  edited={this.state.edited}
+                  clickedAddQuestion={this.state.clickedAddQuestion}
+                  editFunc={this.editFunc}
+                  quizID={this.props.quiz.uuid}
+                />
               )}
             </main>
           )}
@@ -526,8 +544,8 @@ const mapStateToProps = (state, props) => ({
     state.quizzes.all !== undefined &&
     state.quizzes.all.find(
       quiz =>
-        quiz.uuid === props.match.params.uuid ||
-        quiz.uuid === window.location.href.split('/')[4]
+        (quiz !== null && quiz.uuid === props.match.params.uuid) ||
+        (quiz !== null && quiz.uuid === window.location.href.split('/')[4])
     ),
   quizzes: state.quizzes.all
 })

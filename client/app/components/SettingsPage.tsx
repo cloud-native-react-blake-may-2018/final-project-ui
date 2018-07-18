@@ -260,7 +260,6 @@ export class SettingsPage extends Component<ClassProps> {
     if (cognitoUser !== null) {
       cognitoUser.updateAttributes([formObj], (err, result) => {
         if (err) {
-          alert(err);
           return;
         }
         this.uploader(file);
@@ -310,7 +309,6 @@ export class SettingsPage extends Component<ClassProps> {
     if (cognitoUser !== null) {
       cognitoUser.updateAttributes([formObj], (err, result) => {
         if (err) {
-          alert(err);
           return;
         }
         console.log('call result: ' + result);

@@ -32,7 +32,7 @@
       position: relative
       grid-template-columns: 1fr
       align-items: center
-      justify-item: center
+      justify-items: center
       padding: 20px 30px
       margin: 0
       text-align: center
@@ -40,19 +40,29 @@
       // background: linear-gradient(40deg, $red, $orange)
 
       .author
-        margin: 30px 0 60px
-        font: italic 500 28px Asap
+        width: max-content
+        margin: 30px 0 20px
+        font: italic 500 21px Asap
         color: lighten(black, 15%)
         mix-blend-mode: overlay
+        z-index: 0
         // color: $dark-red
 
       .title
-        margin: 0 0 15px
+        margin: 0 0 10px
         font: 700 60px Asap
         color: $white
 
+      .description
+        margin: 0 0 30px
+        font: 400 24px Asap
+        color: lighten($sidebar-black,15%)
+        mix-blend-mode: overlay
+
+
+
       .total
-        margin: 0 0 60px
+        margin: 0 0 30px
         font: 900 36px Asap
         color: black
         mix-blend-mode: overlay
