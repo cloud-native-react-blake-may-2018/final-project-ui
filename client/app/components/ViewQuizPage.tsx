@@ -83,11 +83,12 @@ export class ViewQuizPage extends Component<IProps> {
     const { index } = this.state
     return (
       <div className="view-quiz-page">
-        {(quiz === undefined || quiz.count === undefined) && (
+        {(quiz === undefined ||
+          (quiz.count === undefined || quiz.questions === undefined)) && (
           <Spinner className="loading-indicator" name="ball-spin-fade-loader" />
         )}
         {quiz !== undefined &&
-          quiz.count !== undefined && (
+          (quiz.count !== undefined || quiz.questions !== undefined) && (
             <div className="main">
               <main className={this.randomGradient[index]}>
                 <ArrowIcon className="back" onClick={this.goBack} />
@@ -118,13 +119,17 @@ export class ViewQuizPage extends Component<IProps> {
                 </div>
                 <p className="author">By: {quiz.author}</p>
                 <h1 className="title">{quiz.title}</h1>
-                <h2 className="total">{quiz.count} questions</h2>
+                <h2 className="total">
+                  {quiz.count ? quiz.count : quiz.questions.length} questions
+                </h2>
               </main>
               <footer>
                 <Link to={`/edit-quiz/${quiz.uuid}`} className="link">
                   <p className="edit-button">Edit quiz</p>
                 </Link>
-                {quiz.count > 0 ? (
+                {quiz.count ? (
+                  quiz.count > 0
+                ) : quiz.questions.length > 0 ? (
                   <Link
                     to={`/take-quiz/${quiz.uuid}`}
                     onClick={this.startQuizAttempt}
