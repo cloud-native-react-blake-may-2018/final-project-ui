@@ -11,25 +11,7 @@ exports[`should render AddQuestion component 1`] = `
   </p>
   <div
     className="close"
-  >
-    <FontAwesomeIcon
-      border={false}
-      className=""
-      fixedWidth={false}
-      flip={null}
-      icon="times"
-      inverse={false}
-      listItem={false}
-      mask={null}
-      pull={null}
-      pulse={false}
-      rotation={null}
-      size={null}
-      spin={false}
-      symbol={false}
-      transform={null}
-    />
-  </div>
+  />
   <div
     className="details"
   >

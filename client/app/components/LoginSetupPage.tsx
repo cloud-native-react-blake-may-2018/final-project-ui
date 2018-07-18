@@ -120,7 +120,9 @@ export class SetupLogin extends Component {
           textColor="#ffffff"
           logoSrc="https://vignette.wikia.nocookie.net/2007scape/images/5/59/Blue_wizard_hat_%28t%29_detail.png/revision/latest?cb=20180514220409"
           text="Welcome to the World of Quizzard!"
-        />
+        >
+          <div />
+        </LoadingScreen>
       </div>
     )
   }

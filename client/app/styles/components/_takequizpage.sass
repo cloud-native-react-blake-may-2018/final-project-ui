@@ -1,3 +1,5 @@
+
+  
 .take-quiz-page
 
   .main
@@ -6,7 +8,7 @@
     margin: auto
     width: 75%
     min-width: 700px
-    max-width: 800px
+    max-width: 1200px
     
     header
       display: grid
@@ -71,11 +73,14 @@
 
     main
       display: grid
-      grid-template-columns: repeat(2, 1fr)
+      grid-template-columns: minmax(200px, 3fr) minmax(1fr, 2fr)
+      grid-template-rows: 1fr
+      grid-column-gap: 25px
 
       .choices
         display: grid
         grid-column: 1
+        grid-row: 1
         grid-row-gap: 20px
 
         .choice
@@ -86,17 +91,54 @@
           background-color: $white
           border: 3px solid $white
           box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
-          transition: .3s all
 
           &:hover
-            border: 3px solid lighten($blue, 5%)
+            transition: .3s all ease-in-out
+            border: 3px dotted lighten($blue, 5%)
+
+        .selected
+          color: $blue
+          border: 3px solid lighten($blue, 5%)
+  
+
+      .image-gallery-div
+        grid-column: 2
+        grid-row: 1
+        height: max-content
+        z-index: 0
+
+        .image-gallery
+
+        .image-gallery-slide img
+          width: 100%
+          max-height: 42vh
+          object-fit: cover
+      
+
+          // svg
+          //   border: 1px solid green
+
+          //   .rect-border
+          //     animation: marching_ants 0.34s steps(12) infinite
+          //     stroke-dasharray: 8
+          //     border: 3px solid blue
+            
+          //   .text
+          //     border: 1px solid red
+          //     color: $blue
+          //     background-color: orange
+          //     z-index: 1000
+
 
       .buttons
         display: grid
+        grid-column: 2
+        grid-row: 1
         grid-template-columns: repeat(2, max-content)
         grid-column-gap: 10px
         justify-self: end
         align-self: end
+        z-index: 50
 
         .previous-button
           justify-self: end
@@ -166,3 +208,10 @@
             cursor: pointer
             transform: scale(.95)
             filter: brightness(93%)
+
+
+@keyframes marching_ants
+  0%
+    stroke-dashoffset: 0
+  100%
+    stroke-dashoffset: 16
