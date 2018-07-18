@@ -385,64 +385,10 @@ export class TakeQuizPage extends Component<IProps, any> {
         return className
       })
 
-      console.log('array', arr)
       return arr.includes('choice selected') ? 'choice selected' : 'choice'
-
-      // finalClass = [...new Set(finalClass)].join('')
-      // console.log('finalClass: ', finalClass)
-      // return finalClass
     }
-    // if (aarr) {
-    //   // console.log('here is answers array', ansArr)
-    //   let finalClass = ansArr.map(answer => {
-    //     // console.log('is array? ', Array.isArray(answer.answer))
-    //     let className = ''
-    //     if (!Array.isArray(answer.answer)) {
-    //       if (ansArr.some(ans1 => ans1.answer === choice)) {
-    //         className = answer.answer === choice ? 'choice selected' : 'choice'
-    //         console.log('not an array, some, className: ', className)
-    //       }
-    //       if (!ansArr.some(ans1 => ans1.answer === choice)) {
-    //         className = 'choice'
-    //         console.log('not an array, !some, className is now: ', className)
-    //       }
-    //     }
-    //     if (Array.isArray(answer.answer)) {
-    //       if (answer.answer.includes(choice)) className = 'choice selected'
-    //       console.log('is an array, className is now: ', className)
-    //     }
-    //     return className
-    //   })
-
-    //   finalClass = [...new Set(finalClass)].join('')
-    //   console.log('finalClass: ', finalClass)
-    //   return finalClass
-    // }
-    // const finalClass = ansArr.map(answer => {
-    //   console.log('is array? ', Array.isArray(answer.answer))
-    //   // a. if instance of user answer is a string,
-    //   !Array.isArray(answer.answer)
-    //     ? // b1. then, if question choice matches some user answer in ansArr
-    //       ansArr.some(ans1 => ans1.answer === choice)
-    //       ? // c1. then, if answer
-    //         answer.answer === choice && 'choice selected'
-    //       : // ansArr
-    //         //   .map(answer => answer.answer === choice && 'choice selected')
-    //         //   .join('')
-    //         // c2. else, if question choice not in ansArray, set default styling
-    //         'choice'
-    //     : // b2. else if answer is an array
-    //       answer.answer
-    //         .map(ans2 => (ans2 === choice ? 'choice selected' : 'choice'))
-    //         .join('')
-    // })
-
-    //   console.log('final class value', finalClass)
-    //   return finalClass
-    // }
 
     if (choose) {
-      console.log('setting defaults')
       return 'choice'
     }
   }
@@ -548,7 +494,7 @@ export class TakeQuizPage extends Component<IProps, any> {
                   </div>
                 ))}
               </div>
-              <div>
+              <div className="image-gallery-div">
                 {quiz.questions[questionNumber].image !== undefined && (
                   <ImageGallery
                     items={[
@@ -559,7 +505,6 @@ export class TakeQuizPage extends Component<IProps, any> {
                     ]}
                     showThumbnails={false}
                     showPlayButton={false}
-                    showImageFullScreenButton
                     alt="question image"
                   />
                 )}

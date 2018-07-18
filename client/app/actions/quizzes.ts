@@ -35,15 +35,28 @@ export const startGetUserQuizzes = author => {
 
       console.log('UUID of url:', uuid)
 
-      if (uuid) await dispatch(startGetSearchedQuiz(uuid))
+      console.log('my quizzes', all)
+
+      const otherQuiz =
+        uuid && uuid.length === 36
+          ? await pathList.quizzes.getForeignQuiz(uuid)
+          : null
+
+      const inPossession =
+        otherQuiz !== null &&
+        all.some((quiz: any) => quiz.uuid === otherQuiz.uuid)
+
+      console.log('other quiz', otherQuiz, inPossession)
 
       const points = await pathList.points.getUserPoints(author)
       const allPoints = await pathList.points.getAllPoints()
       const quizAttempts = await pathList.quizzes.displayQuizAttempts(author)
 
-      // if url not in all, dispatch(startGetSearchedQuiz(history.match.params.uuid))
-
+      // store quizzes
       dispatch(getUserQuizzes(all))
+      !inPossession && dispatch(getSearchedQuiz(otherQuiz))
+
+      // store user data
       dispatch(getUserPoints(points))
       dispatch(getAllPoints(allPoints))
       return dispatch(getQuizAttempts(quizAttempts))
@@ -70,19 +83,29 @@ export const getAllPoints = points => ({
   points
 })
 
-export const startGetSearchedQuiz = quiz => async dispatch => {
-  // quize = { uuid: "quiz uuid", username: "quiz username" }
-  const result = await pathList.quizzes.getForeignQuiz(quiz)
-  const tags = await pathList.questions.displayTags(quiz.uuid)
+export const startGetSearchedQuiz = uuid => async dispatch => {
+  const result = await pathList.quizzes.getForeignQuiz(uuid)
+  const tags = await pathList.questions.displayTags(uuid)
   const final = {
     ...result,
-    author: quiz.username,
-    uuid: quiz.uuid,
     tags
   }
-  console.log('got the quiz!', final)
   dispatch(getSearchedQuiz(final))
 }
+
+// export const startGetSearchedQuiz = quiz => async dispatch => {
+//   // quize = { uuid: "quiz uuid", username: "quiz username" }
+//   const result = await pathList.quizzes.getForeignQuiz(quiz)
+//   const tags = await pathList.questions.displayTags(quiz.uuid)
+//   const final = {
+//     ...result,
+//     author: quiz.username,
+//     uuid: quiz.uuid,
+//     tags
+//   }
+//   console.log('got the quiz!', final)
+//   dispatch(getSearchedQuiz(final))
+// }
 
 export const getSearchedQuiz = quiz => ({
   type: 'SEARCHED_QUIZ',

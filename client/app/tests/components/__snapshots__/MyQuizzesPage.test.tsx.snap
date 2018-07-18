@@ -7,5 +7,16 @@ exports[`should render MyQuizzesPage component 1`] = `
   <div
     className="blocks"
   />
+  <div>
+    <Pagination
+      initialPage={1}
+      items={
+        Array [
+          "quizAttempts array placeholder",
+        ]
+      }
+      onChangePage={[Function]}
+    />
+  </div>
 </div>
 `;

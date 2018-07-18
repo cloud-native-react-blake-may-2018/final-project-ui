@@ -55,7 +55,7 @@ export class SearchResults extends Component<IProps, IState> {
     // const username = e.currentTarget.dataset.author
     const ownQuiz = quizzes.some(quiz => quiz.uuid === uuid)
 
-    if (!ownQuiz) startGetSearchedQuiz({ username, title })
+    if (!ownQuiz) startGetSearchedQuiz(uuid)
     // if (!ownQuiz) startGetSearchedQuiz({ uuid, username })
   }
 
