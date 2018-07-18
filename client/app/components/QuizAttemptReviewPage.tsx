@@ -33,7 +33,7 @@ interface IProps extends RouteProps {
   multipleChoiceAnswer: any[]
   answerArray: any
   history?: any
-  quizResults: any
+  quizResults?: any
   clearQuizAttempt: (reset: number) => void
   loadModal: (any) => any
   changeQuestionNumber: (questionNumber: number) => void
@@ -41,7 +41,7 @@ interface IProps extends RouteProps {
   addMultipleChoiceAnswer: (answerObj: {}) => void
   addMultipleSelectAnswer: (answerObj: {}) => void
   updateMultipleSelectAnswer: (answerArray: any) => void
-  handleSelection: (choice?: any, title?: any) => any
+  handleSelection?: (choice?: any, title?: any) => any
   updateAnswerArray: (answerArray: any[]) => void
   submitQuizAttempt: (
     quizUUID: string,
