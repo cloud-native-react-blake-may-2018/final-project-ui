@@ -165,8 +165,7 @@ export class MyQuizzesPage extends Component<IProps, any> {
                       <h1 className="name">{quizAttempt.title}</h1>
                       {quizAttempt.questions !== undefined && (
                         <p className="amount">
-                          {quizAttempt.questions.length}
-                          questions
+                          {quizAttempt.questions.length} questions
                         </p>
                       )}
                       <p className="score">Your Score: {quizAttempt.score}</p>
