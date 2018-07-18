@@ -86,50 +86,148 @@ export class QuizAttemptReviewPage extends Component<IProps, any> {
   handleSelection = (choice, title) => {
     const { quizResults } = this.props
 
-    // state.takeQuiz.results.questions
     const quizTitles = quizResults.map(question => question.title)
 
-    /* check previous answers */
-    const aarr = quizTitles.some(ans => quizTitles.includes(title))
+    const quizQuestion = quizResults.find(question => question.title === title)
 
-    let classNames = 'choice'
-    const classes = quizResults.map(
-      question =>
-        question.title === title &&
-        question.answers.map(answer => {
-          // if (question.format === 'true-false') {
-          // console.log('now in true false')
-          // console.log('titles', question.title, title)
-          console.log('current answer', question.answer)
-          if (!answer.selected) return 'choice'
+    console.log('on question ', quizQuestion)
+    console.log('choice ', choice)
 
-          if (parseInt(answer.percentPoints) > 0 && !answer.selected)
-            return 'choice correct'
-
-          if (parseInt(answer.percentPoints) > 0 && answer.selected)
-            return (classNames = 'choice selected-and-correct')
-
-          if (parseInt(answer.percentPoints) === 0 && answer.selected)
-            return (classNames = 'choice selected-and-incorrect')
-        })
+    const rightAnswer = quizQuestion.answers.some(
+      answer =>
+        answer.answer === choice &&
+        parseInt(answer.percentPoints) > 0 &&
+        answer.selected
     )
-    console.log('classes array', classes)
-    // return classes
-    if (classNames.includes('choice selected-and-correct'))
-      return 'choice selected-and-correct'
 
-    if (classNames.includes('choice correct')) return 'choice correct'
+    if (rightAnswer) return 'choice selected-and-correct'
 
-    if (classNames.includes('choice selected-and-incorrect'))
-      return 'choice selected-and-incorrect'
-
-    if (
-      !classNames.includes('choice selected-and-incorrect') &&
-      !classNames.includes('choice selected-and-correct') &&
-      !classNames.includes('choice correct')
+    const wrongAnswer = quizQuestion.answers.some(
+      answer =>
+        answer.answer === choice &&
+        parseInt(answer.percentPoints) === 0 &&
+        answer.selected
     )
-      return 'choice'
+
+    if (wrongAnswer) return 'choice selected-and-incorrect'
+
+    const theAnswer = quizQuestion.answers.some(
+      answer =>
+        answer.answer === choice &&
+        parseInt(answer.percentPoints) > 0 &&
+        !answer.selected
+    )
+    if (theAnswer) return 'choice correct'
+
+    if (!theAnswer && !rightAnswer && !wrongAnswer) return 'choice'
   }
+
+  // const final = quizQuestion.answers.map(answer => {
+  //   if (
+  //     answer.answer === choice &&
+  //     parseInt(answer.percentPoints) > 0 &&
+  //     answer.selected
+  //   )
+  //     return 'choice selected-and-correct'
+
+  //   if (
+  //     answer.answer === choice &&
+  //     parseInt(answer.percentPoints) === 0 &&
+  //     answer.selected
+  //   )
+  //     return 'choice selected-and-incorrect'
+
+  //   if (
+  //     answer.answer === choice &&
+  //     parseInt(answer.percentPoints) &&
+  //     !answer.selected
+  //   )
+  //     return 'choice'
+  // })
+
+  // console.log('final ', final)
+  // return final
+  // const classes = quizResults.map(
+  //   (question, i) => {
+  //     // question.title === title &&
+
+  //     console.log('checking answer of: ', i, question.answer)
+  //     // if (!answer.selected) return 'choice'
+
+  //     if (parseInt(answer.percentPoints) > 0 && !answer.selected)
+  //       return 'choice correct'
+
+  //     if (parseInt(answer.percentPoints) > 0 && answer.selected)
+  //     return 'choice selected-and-correct'
+
+  //     if (parseInt(answer.percentPoints) === 0 && answer.selected)
+  //       return (classNames = 'choice selected-and-incorrect')
+  //   }
+  // )
+  // console.log('classes array', classes)
+  // return classes
+  // if (classNames.includes('choice selected-and-correct'))
+  //   return 'choice selected-and-correct'
+
+  // if (classNames.includes('choice correct')) return 'choice correct'
+
+  // if (classNames.includes('choice selected-and-incorrect'))
+  //   return 'choice selected-and-incorrect'
+
+  // if (
+  //   !classNames.includes('choice selected-and-incorrect') &&
+  //   !classNames.includes('choice selected-and-correct') &&
+  //   !classNames.includes('choice correct')
+  // )
+  //   return 'choice'
+  // }
+  // handleSelection = (choice, title) => {
+  //   const { quizResults } = this.props
+
+  //   // state.takeQuiz.results.questions
+  //   const quizTitles = quizResults.map(question => question.title)
+
+  //   /* check previous answers */
+  //   const aarr = quizTitles.some(ans => quizTitles.includes(title))
+
+  //   let classNames = 'choice'
+  //   const classes = quizResults.map(
+  //     question =>
+  //       question.title === title &&
+  //       question.answers.map(answer => {
+  //         // if (question.format === 'true-false') {
+  //         // console.log('now in true false')
+  //         // console.log('titles', question.title, title)
+  //         console.log('current answer', question.answer)
+  //         if (!answer.selected) return 'choice'
+
+  //         if (parseInt(answer.percentPoints) > 0 && !answer.selected)
+  //           return 'choice correct'
+
+  //         if (parseInt(answer.percentPoints) > 0 && answer.selected)
+  //           return (classNames = 'choice selected-and-correct')
+
+  //         if (parseInt(answer.percentPoints) === 0 && answer.selected)
+  //           return (classNames = 'choice selected-and-incorrect')
+  //       })
+  //   )
+  //   console.log('classes array', classes)
+  //   // return classes
+  //   if (classNames.includes('choice selected-and-correct'))
+  //     return 'choice selected-and-correct'
+
+  //   if (classNames.includes('choice correct')) return 'choice correct'
+
+  //   if (classNames.includes('choice selected-and-incorrect'))
+  //     return 'choice selected-and-incorrect'
+
+  //   if (
+  //     !classNames.includes('choice selected-and-incorrect') &&
+  //     !classNames.includes('choice selected-and-correct') &&
+  //     !classNames.includes('choice correct')
+  //   )
+  //     return 'choice'
+  // }
 
   //   if (question.format === 'multiple-choice') {
   //     console.log('in multiple choice')
