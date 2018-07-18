@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { clearResults, clearQuizAttempt } from '../actions/quizzes'
 import { loadModal } from '../actions/modal'
 import { DELETE_QUIZ_MODAL } from '../constants/modaltypes'
+import Pagination from './Pagination'
 
 interface IProps {
   username: string
@@ -33,12 +34,22 @@ const colors = [
   '#f2c94c'
 ]
 
-export class MyQuizzesPage extends Component<IProps> {
+export class MyQuizzesPage extends Component<IProps, any> {
   constructor(props) {
     super(props)
+    this.state = {
+      quizItems: this.props.quizzes,
+      attemptItems: this.props.quizAttempts,
+      pageOfItems: []
+    }
   }
   params = window.location.href.split('/')
   pageType = this.params[4]
+
+  onChangePage = pageOfItems => {
+    // update state with new page of items
+    this.setState({ pageOfItems: pageOfItems })
+  }
 
   clearResults = (e: any) => {
     this.props.clearResults()
@@ -54,6 +65,7 @@ export class MyQuizzesPage extends Component<IProps> {
   //@ts-ignore
   render = () => {
     const { quizzes, type, quizAttempts, username } = this.props
+    const { pageOfItems, quizItems, attemptItems } = this.state
     return (
       <div className="my-quizzes-page">
         {type === 'created' && (
@@ -79,12 +91,15 @@ export class MyQuizzesPage extends Component<IProps> {
             </Link>
           </p>
         )}
-
+        {this.state.pageOfItems.map(item => (
+          <div key={item.id}>{item.name}</div>
+        ))}
         <div className="blocks">
           {this.pageType === 'created' &&
             quizzes !== undefined &&
             quizzes.map((quiz: any) => {
-              if (quiz.author === username)
+              // pageOfItems.map((quiz: any) => {
+              if (quiz !== null && quiz.author === username)
                 return (
                   <div key={quiz.uuid} className="block">
                     <div
@@ -138,6 +153,7 @@ export class MyQuizzesPage extends Component<IProps> {
           {this.pageType === 'taken' &&
             quizAttempts !== undefined &&
             quizAttempts.length > 0 &&
+            // quizAttempts.length > 0 &&
             quizAttempts.map(
               (quizAttempt: any, index) =>
                 quizAttempt.timings.finished !== undefined && (
@@ -168,6 +184,19 @@ export class MyQuizzesPage extends Component<IProps> {
                 You have not taken any quizzes yet.
               </p>
             )}
+        </div>
+        <div>
+          {/* {this.pageType === 'created' &&
+            quizzes !== undefined &&
+            quizzes.length > 6 &&
+            quizzes.map((quiz, i) => {
+              return <p className="page-number">{Math.ceil(i / 6)}</p>
+            })} */}
+          <Pagination
+            items={type === 'taken' ? quizItems : attemptItems}
+            onChangePage={this.onChangePage}
+            initialPage={1}
+          />
         </div>
       </div>
     )

@@ -45,14 +45,18 @@ export class SearchResults extends Component<IProps, IState> {
       this.setState(prevState => ({ results }))
     }
   }
+  // quiz/get/{uuid}
 
   fetchQuiz = e => {
     const { quizzes, startGetSearchedQuiz } = this.props
     const uuid = e.currentTarget.dataset.uuid
+    const title = e.currentTarget.dataset.title
     const username = e.currentTarget.dataset.author
+    // const username = e.currentTarget.dataset.author
     const ownQuiz = quizzes.some(quiz => quiz.uuid === uuid)
 
-    if (!ownQuiz) startGetSearchedQuiz({ uuid, username })
+    if (!ownQuiz) startGetSearchedQuiz(uuid)
+    // if (!ownQuiz) startGetSearchedQuiz({ uuid, username })
   }
 
   // @ts-ignore
@@ -77,6 +81,7 @@ export class SearchResults extends Component<IProps, IState> {
                   key={quiz.uuid + new Date()}
                   to={`/view-quiz/${quiz.uuid}`}
                   data-uuid={quiz.uuid}
+                  data-title={quiz.title}
                   data-author={quiz.author}
                   onClick={this.fetchQuiz}
                 >
