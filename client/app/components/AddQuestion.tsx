@@ -428,35 +428,41 @@ export class AddQuestion extends Component<IProps, any> {
             {this.state.mainView.questionToDisplay.answers.map((item, i) => {
               return (
                 <div>
-                  <label htmlFor="true-false-answer">Answer</label>
-                  <input
-                    type="text"
-                    id="true-false-answer"
-                    value={item.answer}
-                    onChange={e => {
-                      this.editQuizAnswers(e, 'answer', i)
-                    }}
-                  />
-                  <label htmlFor="true-false-percent-points">
-                    Percent Points
-                  </label>
-                  <input
-                    type="text"
-                    id="true-false-percent-points"
-                    value={item.percentPoints}
-                    onChange={e => {
-                      this.editQuizAnswers(e, 'percentPoints', i)
-                    }}
-                  />
-                  <label htmlFor="true-false-feed-back">feed Back</label>
-                  <input
-                    type="text"
-                    id="true-false-feed-back"
-                    value={item.feedback}
-                    onChange={e => {
-                      this.editQuizAnswers(e, 'feedback', i)
-                    }}
-                  />
+                  <div className="group">
+                    <label htmlFor="true-false-answer">Answer</label>
+                    <input
+                      type="text"
+                      id="true-false-answer"
+                      value={item.answer}
+                      onChange={e => {
+                        this.editQuizAnswers(e, 'answer', i)
+                      }}
+                    />
+                  </div>
+                  <div className="group">
+                    <label htmlFor="true-false-percent-points">
+                      Percent Points
+                    </label>
+                    <input
+                      type="text"
+                      id="true-false-percent-points"
+                      value={item.percentPoints}
+                      onChange={e => {
+                        this.editQuizAnswers(e, 'percentPoints', i)
+                      }}
+                    />
+                  </div>
+                  <div className="group">
+                    <label htmlFor="true-false-feed-back">feed Back</label>
+                    <input
+                      type="text"
+                      id="true-false-feed-back"
+                      value={item.feedback}
+                      onChange={e => {
+                        this.editQuizAnswers(e, 'feedback', i)
+                      }}
+                    />
+                  </div>
                 </div>
               )
             })}
@@ -480,62 +486,78 @@ export class AddQuestion extends Component<IProps, any> {
         return (
           <div>
             <div className="row">
-              <label htmlFor="true-false-answer">Answer</label>
-              <input
-                type="text"
-                id="true-false-answer"
-                value={this.state.currentQuestion.answers[0].answer}
-                onChange={(e: any) => {
-                  this.updateArr(e, 0, 'answer')
-                }}
-              />
-              <label htmlFor="true-false-percent-points">Percent Points</label>
-              <input
-                type="text"
-                id="true-false-percent-points"
-                value={this.state.currentQuestion.answers[0].percentPoints}
-                onChange={(e: any) => {
-                  this.updateArr(e, 0, 'percentPoints')
-                }}
-              />
-              <label htmlFor="true-false-feed-back">feed Back</label>
-              <input
-                type="text"
-                id="true-false-feed-back"
-                value={this.state.currentQuestion.answers[0].feedback}
-                onChange={(e: any) => {
-                  this.updateArr(e, 0, 'feedback')
-                }}
-              />
+              <div className="group">
+                <label htmlFor="true-false-answer">Answer</label>
+                <input
+                  type="text"
+                  id="true-false-answer"
+                  value={this.state.currentQuestion.answers[0].answer}
+                  onChange={(e: any) => {
+                    this.updateArr(e, 0, 'answer')
+                  }}
+                />
+              </div>
+              <div className="group">
+                <label htmlFor="true-false-percent-points">
+                  Percent Points
+                </label>
+                <input
+                  type="text"
+                  id="true-false-percent-points"
+                  value={this.state.currentQuestion.answers[0].percentPoints}
+                  onChange={(e: any) => {
+                    this.updateArr(e, 0, 'percentPoints')
+                  }}
+                />
+              </div>
+              <div className="group">
+                <label htmlFor="true-false-feed-back">feed Back</label>
+                <input
+                  type="text"
+                  id="true-false-feed-back"
+                  value={this.state.currentQuestion.answers[0].feedback}
+                  onChange={(e: any) => {
+                    this.updateArr(e, 0, 'feedback')
+                  }}
+                />
+              </div>
             </div>
             <div className="row">
-              <label htmlFor="true-false-answer">Answer</label>
-              <input
-                type="text"
-                id="true-false-answer"
-                value={this.state.currentQuestion.answers[1].answer}
-                onChange={(e: any) => {
-                  this.updateArr(e, 1, 'answer')
-                }}
-              />
-              <label htmlFor="true-false-percent-points">Percent Points</label>
-              <input
-                type="text"
-                id="true-false-percent-points"
-                value={this.state.currentQuestion.answers[1].percentPoints}
-                onChange={(e: any) => {
-                  this.updateArr(e, 1, 'percentPoints')
-                }}
-              />
-              <label htmlFor="true-false-feed-back">feed Back</label>
-              <input
-                type="text"
-                id="true-false-feed-back"
-                value={this.state.currentQuestion.answers[1].feedback}
-                onChange={(e: any) => {
-                  this.updateArr(e, 1, 'feedback')
-                }}
-              />
+              <div className="group">
+                <label htmlFor="true-false-answer">Answer</label>
+                <input
+                  type="text"
+                  id="true-false-answer"
+                  value={this.state.currentQuestion.answers[1].answer}
+                  onChange={(e: any) => {
+                    this.updateArr(e, 1, 'answer')
+                  }}
+                />
+              </div>
+              <div className="group">
+                <label htmlFor="true-false-percent-points">
+                  Percent Points
+                </label>
+                <input
+                  type="text"
+                  id="true-false-percent-points"
+                  value={this.state.currentQuestion.answers[1].percentPoints}
+                  onChange={(e: any) => {
+                    this.updateArr(e, 1, 'percentPoints')
+                  }}
+                />
+              </div>
+              <div className="group">
+                <label htmlFor="true-false-feed-back">feed Back</label>
+                <input
+                  type="text"
+                  id="true-false-feed-back"
+                  value={this.state.currentQuestion.answers[1].feedback}
+                  onChange={(e: any) => {
+                    this.updateArr(e, 1, 'feedback')
+                  }}
+                />
+              </div>
             </div>
             <button type="button" onClick={this.addToList}>
               Add Question
