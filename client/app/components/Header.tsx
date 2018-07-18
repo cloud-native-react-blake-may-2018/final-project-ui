@@ -128,7 +128,17 @@ export class Header extends Component<Props> {
                 background: `url(${photo}) center / cover no-repeat`
               }}
             />
+            {
+             ( JSON.parse(localStorage.getItem('userInfoToken')).username.includes('Facebook_')||
+              JSON.parse(localStorage.getItem('userInfoToken')).username.includes('Google_'))&&
+              <p className="nav-username">{JSON.parse(localStorage.getItem('userInfoToken')).name}</p>
+            }
+            {
+            !( JSON.parse(localStorage.getItem('userInfoToken')).username.includes('Facebook_')||
+            JSON.parse(localStorage.getItem('userInfoToken')).username.includes('Google_'))&&
             <p className="nav-username">{username}</p>
+            }
+            
             <FontAwesomeIcon icon="angle-down" className="icon fa-angle-down" />
           </DropdownToggle>
           <DropdownMenu

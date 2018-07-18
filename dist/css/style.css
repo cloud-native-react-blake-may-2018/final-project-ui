@@ -5685,5 +5685,17 @@ a {
   -moz-box-shadow: 0px 0px 5px 5px #0099E0;
   box-shadow: 0px 0px 5px 5px #0099E0; }
 
+  .circletag {
+    display: block;
+    width: 40px;
+    height: 40px;
+    background: #E6E7ED;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;    
+    text-align:center;
+}
 
+.img-circle {
+  border-radius: 50%;
+}
 /*# sourceMappingURL=style.css.map*/
