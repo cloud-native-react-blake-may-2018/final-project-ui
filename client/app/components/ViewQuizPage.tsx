@@ -50,20 +50,7 @@ export class ViewQuizPage extends Component<IProps> {
     }))
 
   params = window.location.href.split('/')
-  // quizUUID = this.params[4]
-  public paramsCheck = () => {
-    if (this.params[1] === 'dwea2klqp52vb.cloudfront.net') {
-      console.log(this.params)
-      console.log('params 3 for cloudfront', this.params[3])
-      return this.params[3]
-    } else {
-      console.log(this.params)
-      console.log('params 4 for localhost', this.params[4])
-      return this.params[4]
-    }
-  }
-
-  quizUUID = this.paramsCheck()
+  quizUUID = this.params[4]
 
   reportQuizModal = () => this.props.loadModal(REPORT_QUIZ_MODAL)
 
@@ -134,9 +121,11 @@ export class ViewQuizPage extends Component<IProps> {
                 <h2 className="total">{quiz.questions.length} questions</h2>
               </main>
               <footer>
-                <Link to={`/edit-quiz/${quiz.uuid}`} className="link">
-                  <p className="edit-button">Edit quiz</p>
-                </Link>
+                {quiz.author === this.props.username && (
+                  <Link to={`/edit-quiz/${quiz.uuid}`} className="link">
+                    <p className="edit-button">Edit quiz</p>
+                  </Link>
+                )}
                 {quiz.questions.length > 0 ? (
                   <Link
                     to={`/take-quiz/${quiz.uuid}`}
