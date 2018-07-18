@@ -81,13 +81,6 @@ export class EditQuizPage extends Component<IProps> {
     });
   }
 
-  public componentDidMount() {
-    this.setState({
-      ...this.state,
-      mounted: true
-    })
-  }
-
   public componentWillUnmount() {
     this.setState({
       ...this.state,
