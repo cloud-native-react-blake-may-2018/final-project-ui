@@ -11,8 +11,8 @@ test('should render SettingsPage component', () => {
       name="Marty"
       file="https://martyslack.jpg"
       startUpdateUser={() => `placeholder function`}
-      startUpdateName={(name: string) => void}
-      startUpdateEmail={(email: string) => void}
+      startUpdateName={(name: string) => `void`}
+      startUpdateEmail={(email: string) => `void`}
     />
   )
   expect(wrapper).toMatchSnapshot()

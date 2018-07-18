@@ -7,6 +7,8 @@ import * as AWS from 'aws-sdk'
 import { Modal } from './Modal'
 import { startUpdateEmail, startUpdateName } from '../actions/auth'
 import Axios from '../../../node_modules/axios'
+import { authInterceptor } from '../interceptors/auth.interceptor';
+import { environment } from '../../../environment';
 // import { startUpdateUser } from '../actions/auth'
 interface ClassProps {
   email: string
@@ -63,19 +65,19 @@ if (localStorage.getItem('refresh_token') !== 'undefined') {
 
     cognitoUser.getSession((err, session) => {
       if (err) {
-          console.log(err);
-          return;
+        console.log(err);
+        return;
       } else
-      console.log('session validity: ' + session.isValid());
-        
+        console.log('session validity: ' + session.isValid());
+
       var attributeList = [];
       cognitoUser.getUserAttributes((err, result) => {
         if (err) {
           console.log(err);
           return;
         }
-        for (let i=0; i < result.length; i++) {
-          attributeList.push({Name: result[i].getName(), Value: result[i].getValue()});
+        for (let i = 0; i < result.length; i++) {
+          attributeList.push({ Name: result[i].getName(), Value: result[i].getValue() });
         }
       })
       console.log(attributeList)
@@ -102,35 +104,6 @@ export class SettingsPage extends Component<ClassProps> {
     console.log('target: ', e.target.textContent)
     this.setState({ page: e.target.textContent })
   }
-
-  // updateProfile = e => {
-  //   let password: string = '';
-  //   if (!this.isAuthenticated) {
-  //     return (
-  //       <Modal onClose={this.onClose}>
-  //         <div className="report-question-modal">
-  //           <div className="close">
-  //             <FontAwesomeIcon icon="times" />
-  //           </div>
-  //           <p className="title">Enter your password</p>
-  //           <form>
-  //             <label className="container">
-  //               <input type="password" id="password" />
-  //               <p className="confirm">Password</p>
-  //               <span className="checkmark" />
-  //             </label>
-  //           </form>
-  //           <div className="button-group">
-  //             <button onClick={this.onClose} type="button" className="cancel">
-  //               Cancel
-  //             </button>
-  //             <button type="submit" onSubmit={this.authenticate} className="submit">Report</button>
-  //           </div>
-  //         </div>
-  //       </Modal>
-  //     )
-  //   }
-  // }
 
   onFieldChange = e => {
     e.props = ({
@@ -170,6 +143,7 @@ export class SettingsPage extends Component<ClassProps> {
       console.log('error uploading to lambda', e)
     }
   }
+
   onDrop = (files: any) => {
     // get most recent file
     const file = files[0]
@@ -183,6 +157,45 @@ export class SettingsPage extends Component<ClassProps> {
       file,
       url: profileUrl
     })
+    const formObj = {
+      Name: 'picture',
+      Value: profileUrl
+    }
+    if (cognitoUser !== null) {
+      cognitoUser.updateAttributes([formObj], (err, result) => {
+        if (err) {
+          alert(err);
+          return;
+        }
+        console.log('call result: ' + result);
+      })
+    }
+  }
+
+  uploader = (filez: any) => {
+    // alert("uploading")
+    authInterceptor.get(environment.context + 'upload-file/' + filez.name)
+      .then(resp => {
+        Axios.put(resp.data, filez)
+          .then(uploadResp => {
+            // Profile should be changed, do rerender
+            authInterceptor.get(environment.context + 'get-file/' + filez.name)
+              .then(resp1 => {
+                this.setState({
+                  url: resp1.data
+                })
+              })
+              .catch(err => {
+                console.log(err);
+              })
+          })
+          .catch(err => {
+            console.log(err);
+          })
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
 
   updateProfile = e => {
@@ -192,7 +205,7 @@ export class SettingsPage extends Component<ClassProps> {
       Name: 'name',
       Value: e.target.namefield.value
     }
-    if(cognitoUser !== null) {
+    if (cognitoUser !== null) {
       cognitoUser.updateAttributes([formObj], (err, result) => {
         if (err) {
           alert(err);
@@ -201,9 +214,6 @@ export class SettingsPage extends Component<ClassProps> {
         console.log('call result: ' + result);
       })
     }
-    // const fullName = document.getElementById('fullname').value;
-    // const email = document.getElementById('email').value;
-    // console.log(`Name: ${fullName}\nEmail: ${email}`);
   }
 
   /*updateName = (e: any) => {
@@ -248,21 +258,23 @@ export class SettingsPage extends Component<ClassProps> {
           </aside>
           {this.state.page.toLowerCase() == 'general' && (
             <main>
-              <div className="input-group">
+              {/* <div className="input-group"> */}
                 <label htmlFor="photo">Photo</label>
-                <div
+                {/* <div
                   className="photo-container"
                   onClick={() => this.photoUpload.click()}
-                >
-                  <Dropzone onDrop={this.onDrop} className="dropzone" />
-                  {/* <div
-                    className="photo"
-                    style={{
-                      background: `url(${photo}) center / cover no-repeat`
-                    }}
-                  /> */}
-                </div>
-                <input
+                > */}
+                  <div onDrop={this.onDrop} className="dropzone">
+                    <input type="file" multiple={false}/>
+                    <div
+                      className="photo"
+                      style={{
+                        background: `url(${photo}) center / cover no-repeat`
+                      }}
+                    />
+                  </div>
+                {/* </div> */}
+                {/* <input
                   className="file-upload"
                   style={{ display: 'none' }}
                   name="file"
@@ -271,7 +283,7 @@ export class SettingsPage extends Component<ClassProps> {
                   ref={photoUpload => (this.photoUpload = photoUpload)}
                   data-cloudinary-field="image_id" // ?
                 />
-              </div>
+              </div> */}
               <form
                 className="settings-form"
                 onChange={this.onFieldChange}
@@ -284,10 +296,10 @@ export class SettingsPage extends Component<ClassProps> {
                     name="fullname"
                     placeholder={name}
                     id="namefield"
-                    // onChange={(e: any) => {
-                    //   this.updateName(e)
-                    // }}
-                    // value={this.state.name}
+                  // onChange={(e: any) => {
+                  //   this.updateName(e)
+                  // }}
+                  // value={this.state.name}
                   />
                 </div>
                 <div className="input-group">
