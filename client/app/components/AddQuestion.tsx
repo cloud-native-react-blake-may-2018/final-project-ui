@@ -16,6 +16,10 @@ interface IProps {
   quizID?: string;
   quizUUID?: string;
   quizzes?: any[];
+  editFunc?: () => any;
+  edited?: boolean;
+  clickedAddQuestion?: boolean;
+  adding?: (any) => any;
   quiz?: any;
   page?: 1;
   editStoreQuiz?: (any) => any;
@@ -71,7 +75,9 @@ export class AddQuestion extends Component<IProps, any> {
       }
     },
     editQuestion: 0,
-    page: 1
+    page: 1,
+    edited: this.props.edited,
+    clickedAddQuestion: this.props.clickedAddQuestion
   };
 
   page1 = () => this.setState({ page: 1 });
@@ -86,6 +92,7 @@ export class AddQuestion extends Component<IProps, any> {
         title
       }
     });
+    this.props.editFunc()
   };
 
   updateReducerStore = async () => {
@@ -674,8 +681,9 @@ export class AddQuestion extends Component<IProps, any> {
       <div className="add-question-container">
         <p className="title">Add Question</p>
         <div className="close">
-          {/* <div className="close" onClick={this.deleteQuestion}> */}
-          {/* <FontAwesomeIcon icon="times" /> */}
+          <div className="close" onClick={this.props.adding}> 
+           <FontAwesomeIcon icon="trash" /> 
+           </div>
         </div>
         {page === 1 && (
           <div className="details">
@@ -742,7 +750,7 @@ export class AddQuestion extends Component<IProps, any> {
           </p>
         </div>
         {page === 2 && (
-          <button onClick={this.updateReducerStore} className="save-question">
+          <button disabled={this.props.edited ? false :true} onClick={this.updateReducerStore} className="save-question">
             Save
           </button>
         )}
