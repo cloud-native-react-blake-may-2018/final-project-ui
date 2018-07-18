@@ -8,20 +8,30 @@ import { FontAwesomeIcon } from '../../../node_modules/@fortawesome/react-fontaw
 import { Modal } from './Modal'
 import { startUpdateEmail, startUpdateName } from '../actions/auth'
 import Axios from '../../../node_modules/axios'
+import {AlertComponent} from './Alert'
+import Alert from '../../../node_modules/@types/reactstrap/lib/Alert';
 // import { startUpdateUser } from '../actions/auth'
- 
+let msg =''
 let profileUrl=""
 interface ClassProps {
   email: string
   username: string
   photo: string
   name: string
+  newPassword: string,
+  oldPassword: string,
+  reconfirmPassword:string,
   file
+  message:string,
+  
   startUpdateUser?: (any) => any
   startUpdateName?: (name: string) => void
   startUpdateEmail?: (email: string) => void
   hideModal: () => any
+  
 }
+
+
 
 if (localStorage.getItem('refresh_token') !== 'undefined') {
   const data = {
@@ -36,7 +46,7 @@ if (localStorage.getItem('refresh_token') !== 'undefined') {
     Pool: userPool
   }
 
-  const cognitoUser = new awsCognito.CognitoUser(userData)
+  var cognitoUser = new awsCognito.CognitoUser(userData)
   // const cognitoUser = userPool.getCurrentUser();
   console.log(cognitoUser)
 
@@ -148,16 +158,24 @@ if (localStorage.getItem('refresh_token') !== 'undefined') {
   }
 }
 
+
+
 export class SettingsPage extends Component<ClassProps> {
   constructor(props) {
     super(props)
+    
   }
   state = {
     page: 'General',
     name: this.props.name,
     email: this.props.email,
     url: '',
-    file: ''
+    file: '',
+    oldPassword:'',
+   newPassword:'',
+   reconfirmPassword:'',
+   message:'',
+   show:false
   }
   // declare ref
   private photoUpload: HTMLInputElement
@@ -215,14 +233,27 @@ export class SettingsPage extends Component<ClassProps> {
     const file = files[0]
     // build url to s3 bucket
     const profileUrl =
-      'http://vocab-app-pics.s3.amazonaws.com/' +
+    'http://cloud-native-project-3-profile.s3-website.us-east-2.amazonaws.com' +
       this.props.username +
       '/' +
       file.name
     this.setState({
       file,
-      url: profileUrl
+      url: profileUrl 
     })
+    const formObj = {
+      Name: 'picture',
+      Value: profileUrl
+    }
+    if (cognitoUser !== null) {
+      cognitoUser.updateAttributes([formObj], (err, result) => {
+        if (err) {
+          alert(err);
+          return;
+        }
+        console.log('call result: ' + result);
+      })
+    }
   }
 
   updateProfile = e => {
@@ -252,6 +283,79 @@ export class SettingsPage extends Component<ClassProps> {
     //   email: email
     // })
   }
+
+  handleChange = e => {
+    // const {newPassword} = this.state
+    this.setState({
+      newPassword: e.target.value
+    })
+  }
+
+  handleSubmit = e => {
+    e.preventDefault()
+    console.log(
+      'stopping submission. When code is done, will submit new password: ',
+      this.state.newPassword
+    )
+  }
+
+  public changePassword = (e:any) => {
+    e.preventDefault()
+    let arr=[];
+
+    let data = {
+      UserPoolId : 'us-east-2_fMMquWRem', // Your user pool id here
+      ClientId : '1q83lmu6khfnc0v8jjdrde9291' // Your client id here
+    };
+    let userPool = new awsCognito.CognitoUserPool(data);
+    let cognitoUser = userPool.getCurrentUser();
+    console.log(cognitoUser)
+
+    // console.log(this.getUser())
+    cognitoUser.getSession((err, session) => {
+      if (err) {
+        console.log('error getting session: ', err)
+      }
+      
+      if(this.state.newPassword !== this.state.reconfirmPassword){
+
+        console.log(' new password mismatch')
+        msg=`password mismatch`
+        this.setState({message:'new password mismatch'})
+        this.setState({oldPassword:''})
+        this.setState({reconfirmPassword:''})
+        this.setState({newPassword:''})
+      }
+      else {
+ 
+      cognitoUser.changePassword(this.state.oldPassword, this.state.newPassword, function (err ,result) {
+        if (err) alert(err['message'])
+        else alert(result)
+        
+        //console.log('call result: ' + result);
+               
+         
+         
+        
+       
+    });   
+    console.log(arr)
+     
+    console.log(msg)
+    this.setState({message:arr[0]})      
+    this.setState({oldPassword:''})
+    this.setState({reconfirmPassword:''})
+    this.setState({newPassword:''})
+  }
+    })
+}
+
+onFieldChangePass = ({ target }) => {
+  const { name, value } : { name: keyof ClassProps; value: string } = target
+  this.setState({
+    [name]: value
+  } as any)
+}
 
   // @ts-ignore
   render = () => {
@@ -401,13 +505,15 @@ export class SettingsPage extends Component<ClassProps> {
                   className="photo-container"
                   onClick={() => this.photoUpload.click()}
                 >
-                  <Dropzone onDrop={this.onDrop} className="dropzone" />
-                  <div
-                    className="photo"
-                    style={{
-                      background: `url(${photo}) center / cover no-repeat`
-                    }}
-                  />
+                  <div onChange={this.onDrop} className="dropzone">
+                  <input type="file" multiple={false}/>
+                    <div
+                      className="photo"
+                      style={{
+                        background: `url(${photo}) center / cover no-repeat`
+                      }}
+                      />
+                    </div>
                 </div>
                 <input
                   className="file-upload"
@@ -430,10 +536,11 @@ export class SettingsPage extends Component<ClassProps> {
                     type="text"
                     name="fullname"
                     placeholder={name}
-                    onChange={(e: any) => {
-                      this.updateName(e)
-                    }}
-                    value={this.state.name}
+                    id="namefield"
+                  onChange={(e: any) => {
+                    this.updateName(e)
+                  }}
+                  value={this.state.name}
                   />
                 </div>
                 <div className="input-group">
@@ -442,11 +549,8 @@ export class SettingsPage extends Component<ClassProps> {
                     type="email"
                     name="email"
                     placeholder={email}
-                    onChange={(e: any) => {
-                      this.updateEmail(e)
-                    }}
-                    value={this.state.email}
                     readOnly
+                    value={this.state.email}
                   />
                 </div>
                 <div className="input-group">
@@ -462,27 +566,47 @@ export class SettingsPage extends Component<ClassProps> {
             </main>
           )}
 
+           {/* <div className="input-group">
+                <label htmlFor="password">Enter a old password</label>
+                <input type="password" name="oldPassword" value={this.state.oldPassword}/>
+                <label htmlFor="password">Enter new password </label>
+                <input type="password" name="newpassword" value={this.state.newPassword}/>
+                <label htmlFor="password">Reconfirm password</label>
+                <input type="password" name="reconfirmPassword" value={this.state.reconfirmPassword} />
+                <div className="input-group">
+                <button  className="save-button" type="submit">Submit</button>
+                {this.state.message}
+            </div> */}
+
           {this.state.page.toLowerCase() == 'password' && (
             <main>
-              <form className="settings-form" onChange={this.onFieldChange}>
-                <div className="input-group">
-                  <label htmlFor="old">Old Password</label>
-                  <input type="text" name="old" />
-                </div>
-                <div className="input-group">
-                  <label htmlFor="new">New Password</label>
-                  <input type="text" name="new" />
-                </div>
-                <div className="input-group">
-                  <label htmlFor="retype">Retype Password</label>
-                  <input type="text" name="retype" />
-                </div>
-                <div className="input-group">
-                  <button className="save-button" type="submit">
-                    Save changes
-                  </button>
-                </div>
-              </form>
+              <form 
+              className="settings-form"
+              onSubmit={this.changePassword}
+              onChange={this.onFieldChangePass}
+              >
+          <div className="input-group">
+          <label htmlFor="password">Enter a old password</label>
+          <input type="password" name="oldPassword" value={this.state.oldPassword}/>
+          </div>
+          <div className="input-group">
+          <label htmlFor="password">Enter new password</label>
+          <input type="password" name="reconfirmPassword" value={this.state.reconfirmPassword}/>
+          </div>
+          <div className="input-group">
+          <label htmlFor="password">Reconfirm password</label>
+          <input type="password" name="newPassword" value={this.state.newPassword} />
+          </div>
+          <div className="input-group">
+          <button className="save-button" type="submit">Submit</button>
+          </div>
+          <AlertComponent/>
+        </form>
+        <div className="input-group">
+           
+          
+          </div>
+              
             </main>
           )}
           {this.state.page.toLowerCase() == 'themes' && (
@@ -502,6 +626,7 @@ export class SettingsPage extends Component<ClassProps> {
                   </button>
                 </div>
               </form>
+              
             </main>
           )}
         </div>
