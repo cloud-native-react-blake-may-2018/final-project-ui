@@ -35,8 +35,6 @@ export const startGetUserQuizzes = author => {
 
       console.log('UUID of url:', uuid)
 
-      console.log('my quizzes', all)
-
       const otherQuiz =
         uuid && uuid.length === 36
           ? await pathList.quizzes.getForeignQuiz(uuid)
@@ -45,8 +43,6 @@ export const startGetUserQuizzes = author => {
       const inPossession =
         otherQuiz !== null &&
         all.some((quiz: any) => quiz.uuid === otherQuiz.uuid)
-
-      console.log('other quiz', otherQuiz, inPossession)
 
       const points = await pathList.points.getUserPoints(author)
       const allPoints = await pathList.points.getAllPoints()

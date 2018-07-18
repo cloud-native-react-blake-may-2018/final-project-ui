@@ -83,7 +83,7 @@ export class ViewQuizPage extends Component<IProps> {
     const { index } = this.state
 
     const otherCount = quiz !== undefined && quiz.count && quiz.count > 0
-    
+
     const myCount =
       quiz !== undefined &&
       quiz.questions !== undefined &&
@@ -129,6 +129,7 @@ export class ViewQuizPage extends Component<IProps> {
                 </div>
                 <p className="author">By: {quiz.author}</p>
                 <h1 className="title">{quiz.title}</h1>
+                <p className="description">{quiz.description}</p>
                 <h2 className="total">
                   {quiz.count ? quiz.count : quiz.questions.length} questions
                 </h2>

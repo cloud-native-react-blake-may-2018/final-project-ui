@@ -2,14 +2,6 @@
 
 exports[`should render QuizAttemptReviewPage component 1`] = `
 <div
-  className="take-quiz-page"
->
-  <Spinner
-    className="loading-indicator"
-    fadeIn="full"
-    name="ball-spin-fade-loader"
-    noFadeIn={false}
-    overrideSpinnerClassName=""
-  />
-</div>
+  className="review-quiz-page"
+/>
 `;

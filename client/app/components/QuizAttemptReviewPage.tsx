@@ -33,6 +33,7 @@ interface IProps extends RouteProps {
   multipleChoiceAnswer: any[]
   answerArray: any
   history?: any
+  quizResults: any
   clearQuizAttempt: (reset: number) => void
   loadModal: (any) => any
   changeQuestionNumber: (questionNumber: number) => void
@@ -40,6 +41,7 @@ interface IProps extends RouteProps {
   addMultipleChoiceAnswer: (answerObj: {}) => void
   addMultipleSelectAnswer: (answerObj: {}) => void
   updateMultipleSelectAnswer: (answerArray: any) => void
+  handleSelection: (choice?: any, title?: any) => any
   updateAnswerArray: (answerArray: any[]) => void
   submitQuizAttempt: (
     quizUUID: string,
@@ -59,7 +61,7 @@ export class QuizAttemptReviewPage extends Component<IProps, any> {
   }
 
   params = window.location.href.split('/')
-  reatakeIndex = this.params[5]
+  retakeIndex = this.params[5] || 0
   quizUUID = this.params[4]
 
   submitQuizModal = () => this.props.loadModal(SUBMIT_QUIZ_MODAL)
@@ -80,10 +82,296 @@ export class QuizAttemptReviewPage extends Component<IProps, any> {
     this.props.changeQuestionNumber(this.props.questionNumber + 1)
   }
 
-  // componentWillUnmount() {
-  //   if (this.props.history.action === 'POP') {
-  //     console.log('user has left page')
-  //     this.props.clearQuizAttempt(0)
+  // choice === current 1 in 4 option
+  handleSelection = (choice, title) => {
+    const { quizResults } = this.props
+
+    // state.takeQuiz.results.questions
+    const quizTitles = quizResults.map(question => question.title)
+
+    /* check previous answers */
+    const aarr = quizTitles.some(ans => quizTitles.includes(title))
+
+    let classNames = 'choice'
+    const classes = quizResults.map(
+      question =>
+        question.title === title &&
+        question.answers.map(answer => {
+          // if (question.format === 'true-false') {
+          // console.log('now in true false')
+          // console.log('titles', question.title, title)
+          console.log('current answer', question.answer)
+          if (!answer.selected) return 'choice'
+
+          if (parseInt(answer.percentPoints) > 0 && !answer.selected)
+            return 'choice correct'
+
+          if (parseInt(answer.percentPoints) > 0 && answer.selected)
+            return (classNames = 'choice selected-and-correct')
+
+          if (parseInt(answer.percentPoints) === 0 && answer.selected)
+            return (classNames = 'choice selected-and-incorrect')
+        })
+    )
+    console.log('classes array', classes)
+    // return classes
+    if (classNames.includes('choice selected-and-correct'))
+      return 'choice selected-and-correct'
+
+    if (classNames.includes('choice correct')) return 'choice correct'
+
+    if (classNames.includes('choice selected-and-incorrect'))
+      return 'choice selected-and-incorrect'
+
+    if (
+      !classNames.includes('choice selected-and-incorrect') &&
+      !classNames.includes('choice selected-and-correct') &&
+      !classNames.includes('choice correct')
+    )
+      return 'choice'
+  }
+
+  //   if (question.format === 'multiple-choice') {
+  //     console.log('in multiple choice')
+
+  //     return (classNames =
+  //       // const multArr =
+  //       question.title === title &&
+  //       question.answers.map(answer => {
+  //         if (!answer.selected) return (classNames = 'choice')
+
+  //         if (parseInt(answer.percentPoints) > 0 && answer.selected)
+  //           return (classNames = 'choice selected-and-correct')
+
+  //         if (parseInt(answer.percentPoints) === 0 && answer.selected)
+  //           return (classNames = 'choice selected-and-incorrect')
+
+  //         if (parseInt(answer.percentPoints) > 0 && !answer.selected)
+  //           return (classNames = 'choice correct')
+
+  //         console.log('class name is now:', classNames)
+  //       }))
+  //     // console.log('multArr', multArr)
+  //   }
+
+  //   if (question.format === 'multiple-select') {
+  //     console.log('now in multi select')
+  //     return (classNames =
+  //       question.title === title &&
+  //       question.answers.map(answer => {
+  //         if (!answer.selected) return (classNames = ' choice')
+
+  //         if (parseInt(answer.percentPoints) > 0 && answer.selected)
+  //           return (classNames = 'choice selected-and-correct')
+
+  //         if (parseInt(answer.percentPoints) === 0 && answer.selected)
+  //           return (classNames = 'choice selected-and-incorrect')
+
+  //         console.log('class names is now', classNames)
+  //       }))
+  //   }
+  // })
+  // console.log('classNames array', classNames)
+  // // return classNames
+
+  // if (classNames.includes('choice selected-and-correct'))
+  //   return 'choice selected-and-correct'
+
+  // if (classNames.includes('choice correct')) return 'choice correct'
+
+  // if (classNames.includes('choice selected-and-incorrect'))
+  //   return 'choice selected-and-incorrect'
+
+  // if (
+  //   !classNames.includes('choice selected-and-incorrect') &&
+  //   !classNames.includes('choice selected-and-correct') &&
+  //   !classNames.includes('choice correct')
+  // )
+  // return 'choice'
+  // })
+  // handleSelection = (choice, title) => {
+  //   const { quizResults } = this.props
+
+  //   // state.takeQuiz.results.questions
+  //   const quizTitles = quizResults.map(question => question.title)
+
+  //   /* check previous answers */
+  //   const aarr = quizTitles.some(ans => quizTitles.includes(title))
+
+  //   let classNames = 'choice'
+  //   const classes = quizResults.map(question => {
+  //     if (question.format === 'true-false') {
+  //       console.log('now in true false')
+  //       console.log('titles', question.title, title)
+  //       question.title === title &&
+  //         question.answers.map(answer => {
+  //           if (!answer.selected) {
+  //             classNames = ' choice'
+  //           }
+
+  //           if (parseInt(answer.percentPoints) > 0 && !answer.selected) {
+  //             classNames = 'choice correct'
+  //           }
+
+  //           if (answer.percentPoints > 0 && answer.selected) {
+  //             classNames = 'choice selected-and-correct'
+  //           }
+
+  //           if (parseInt(answer.percentPoints) === 0 && answer.selected) {
+  //             classNames = 'choice selected-and-incorrect'
+  //           }
+
+  //           console.log('classnames aftermap', classNames)
+  //         })
+  //     }
+
+  //     if (question.format === 'multiple-choice') {
+  //       console.log('in multiple choice')
+
+  //       return (classNames =
+  //         // const multArr =
+  //         question.title === title &&
+  //         question.answers.map(answer => {
+  //           if (!answer.selected) return (classNames = 'choice')
+
+  //           if (parseInt(answer.percentPoints) > 0 && answer.selected)
+  //             return (classNames = 'choice selected-and-correct')
+
+  //           if (parseInt(answer.percentPoints) === 0 && answer.selected)
+  //             return (classNames = 'choice selected-and-incorrect')
+
+  //           if (parseInt(answer.percentPoints) > 0 && !answer.selected)
+  //             return (classNames = 'choice correct')
+
+  //           console.log('class name is now:', classNames)
+  //         }))
+  //       // console.log('multArr', multArr)
+  //     }
+
+  //     if (question.format === 'multiple-select') {
+  //       console.log('now in multi select')
+  //       return (classNames =
+  //         question.title === title &&
+  //         question.answers.map(answer => {
+  //           if (!answer.selected) return (classNames = ' choice')
+
+  //           if (parseInt(answer.percentPoints) > 0 && answer.selected)
+  //             return (classNames = 'choice selected-and-correct')
+
+  //           if (parseInt(answer.percentPoints) === 0 && answer.selected)
+  //             return (classNames = 'choice selected-and-incorrect')
+
+  //           console.log('class names is now', classNames)
+  //         }))
+  //     }
+  //   })
+  //   console.log('classNames array', classNames)
+  //   // return classNames
+
+  //   if (classNames.includes('choice selected-and-correct'))
+  //     return 'choice selected-and-correct'
+
+  //   if (classNames.includes('choice correct')) return 'choice correct'
+
+  //   if (classNames.includes('choice selected-and-incorrect'))
+  //     return 'choice selected-and-incorrect'
+
+  //   if (
+  //     !classNames.includes('choice selected-and-incorrect') &&
+  //     !classNames.includes('choice selected-and-correct') &&
+  //     !classNames.includes('choice correct')
+  //   )
+  //     return 'choice'
+  // }
+
+  // handleSelection = (choice, title) => {
+  //   const {
+  //     multipleChoiceAnswer: multCh,
+  //     multipleSelectAnswer: multSe,
+  //     answerArray: ansArr,
+  //     questionNumber: curr,
+  //     quiz
+  //   } = this.props
+
+  //   const quizTitles = quiz.questions.map(question => question.title)
+
+  //   /*birth check*/
+  //   const mca = multCh !== null && multCh !== undefined
+
+  //   const msa =
+  //     multCh === null && multSe !== undefined && multSe.answer.length > 0
+
+  //   /* check previous answers */
+  //   const aarr =
+  //     !mca &&
+  //     multSe !== undefined &&
+  //     multSe.answer.length === 0 &&
+  //     ansArr.length > 0 &&
+  //     ansArr.some(ans => quizTitles.includes(title))
+  //   // ansArr.length >= curr
+  //   // ansArr[curr] !== undefined
+
+  //   /* display defaults */
+  //   const choose =
+  //     !mca &&
+  //     multSe !== undefined &&
+  //     multSe.answer.length === 0 &&
+  //     ansArr.every(ans => !quizTitles.includes(title))
+
+  //   // check multiple choice object
+  //   if (mca) {
+  //     console.log('checking multiple choice...')
+  //     return multCh.answer === choice ? 'choice selected' : 'choice'
+  //   }
+
+  //   // check multiple select object
+  //   if (msa) {
+  //     // if (msa && multSe.answers !== undefined) {
+  //     console.log(
+  //       'checking multiple select...',
+  //       multSe.answer.some(answer => answer === choice)
+  //     )
+  //     return multSe.answer.some(answer => answer === choice)
+  //       ? multSe.answer
+  //           .map(answer => {
+  //             if (answer === choice) return 'choice selected'
+  //           })
+  //           .join('')
+  //       : 'choice'
+  //   }
+
+  //   // check answer array
+  //   if (aarr) {
+  //     // console.log('here is answers array', ansArr)
+  //     const arr = ansArr.map(answer => {
+  //       // let finalClass = ansArr.map(answer => {
+  //       console.log('logging tritle? ', answer.title)
+  //       let className = ''
+  //       if (!Array.isArray(answer)) {
+  //         if (answer.answer === choice && answer.title === title) {
+  //           className = 'choice selected'
+  //           console.log('not an array, className: ', className)
+  //         }
+  //         if (answer.answer !== choice) {
+  //           className = 'choice'
+  //           console.log('not an array, className: ', className)
+  //         }
+  //       }
+  //       if (Array.isArray(answer.answer) && answer.title === title) {
+  //         answer.answer.includes(choice)
+  //           ? (className = 'choice selected')
+  //           : (className = 'choice')
+  //         console.log('is an array, className is now: ', className)
+  //       }
+  //       console.log('before submission, className is', className)
+  //       return className
+  //     })
+
+  //     return arr.includes('choice selected') ? 'choice selected' : 'choice'
+  //   }
+
+  //   if (choose) {
+  //     return 'choice'
   //   }
   // }
 
@@ -91,15 +379,15 @@ export class QuizAttemptReviewPage extends Component<IProps, any> {
   render = () => {
     const { quiz, questionNumber, quizAttempt } = this.props
     return (
-      <div className="take-quiz-page">
-        {quiz !== null
+      <div className="review-quiz-page">
+        {quiz !== null && quiz === undefined
           ? quiz.questions === undefined && (
               <Spinner
                 className="loading-indicator"
                 name="ball-spin-fade-loader"
               />
             )
-          : quizAttempt[this.reatakeIndex].questions === undefined && (
+          : quizAttempt === undefined && (
               <Spinner
                 className="loading-indicator"
                 name="ball-spin-fade-loader"
@@ -133,27 +421,34 @@ export class QuizAttemptReviewPage extends Component<IProps, any> {
                         <div
                           key={i}
                           // key={answers.answer.answer}
-                          className="choice"
+
+                          className={this.handleSelection(
+                            answers.answer,
+                            quiz.questions[questionNumber].title
+                          )}
+                          // className="choice"
                         >
                           <p>{answers.answer}</p>
                         </div>
                       )
                     )}
                   </div>
-                  {quiz.questions[questionNumber].image !== undefined && (
-                    <ImageGallery
-                      items={[
-                        {
-                          original: quiz.questions[questionNumber].image,
-                          thumbnail: quiz.questions[questionNumber].image
-                        }
-                      ]}
-                      showThumbnails={false}
-                      showPlayButton={false}
-                      showImageFullScreenButton
-                      alt="question image"
-                    />
-                  )}
+                  <div className="image-gallery-div">
+                    {quiz.questions[questionNumber].image !== undefined && (
+                      <ImageGallery
+                        items={[
+                          {
+                            original: quiz.questions[questionNumber].image,
+                            thumbnail: quiz.questions[questionNumber].image
+                          }
+                        ]}
+                        showThumbnails={false}
+                        showPlayButton={false}
+                        showImageFullScreenButton
+                        alt="question image"
+                      />
+                    )}
+                  </div>
                   <div className="buttons">
                     {questionNumber !== 0 && (
                       <button
@@ -179,7 +474,8 @@ export class QuizAttemptReviewPage extends Component<IProps, any> {
                 </main>
               </div>
             )
-          : quizAttempt[this.reatakeIndex].questions !== undefined && (
+          : quizAttempt !== undefined &&
+            quizAttempt[this.retakeIndex].questions !== undefined && (
               <div className="main">
                 <header>
                   <div className="meta">
@@ -190,17 +486,17 @@ export class QuizAttemptReviewPage extends Component<IProps, any> {
                       </div>
                     </div>
                     <p className="title">
-                      {quizAttempt[this.reatakeIndex].title}
+                      {quizAttempt[this.retakeIndex].title}
                     </p>
                     <p className="progress">
                       Question {questionNumber + 1}/{
-                        quizAttempt[this.reatakeIndex].questions.length
+                        quizAttempt[this.retakeIndex].questions.length
                       }
                     </p>
                   </div>
                   <p className="question">
                     {
-                      quizAttempt[this.reatakeIndex].questions[questionNumber]
+                      quizAttempt[this.retakeIndex].questions[questionNumber]
                         .title
                     }
                   </p>
@@ -208,7 +504,7 @@ export class QuizAttemptReviewPage extends Component<IProps, any> {
                 {/* DISPLAYS THE CHOICES */}
                 <main>
                   <div className="choices">
-                    {quizAttempt[this.reatakeIndex].questions[
+                    {quizAttempt[this.retakeIndex].questions[
                       questionNumber
                     ].answers.map((answers, i) => (
                       <div
@@ -230,7 +526,7 @@ export class QuizAttemptReviewPage extends Component<IProps, any> {
                       </button>
                     )}
                     {questionNumber + 1 !==
-                    quizAttempt[this.reatakeIndex].questions.length ? (
+                    quizAttempt[this.retakeIndex].questions.length ? (
                       <button
                         onClick={this.nextQuizQuestion}
                         className="next-button"
@@ -255,6 +551,8 @@ const mapStateToProps = (state, props) => ({
   username: state.auth.username,
   quiz: state.takeQuiz.results,
   quizAttempt: state.quizzes.allAttempts,
+  quizResults:
+    state.takeQuiz.results !== null && state.takeQuiz.results.questions,
   answers: state.takeQuiz.answers,
   answerArray: state.takeQuiz.answerArray,
   questionNumber: state.takeQuiz.questionNumber,
