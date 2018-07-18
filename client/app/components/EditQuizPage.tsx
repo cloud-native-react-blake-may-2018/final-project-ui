@@ -60,7 +60,7 @@ export class EditQuizPage extends Component<IProps> {
     updatedQuestions: [],
     clickedAddQuestion: false,
     mounted: false
-  }
+  };
 
   params = window.location.href.split("/");
   quizUUID = this.params[4];
@@ -85,7 +85,7 @@ export class EditQuizPage extends Component<IProps> {
     this.setState({
       ...this.state,
       mounted: false
-    })
+    });
   }
   private updateArr = (e: any, arg1: number, arg2: string) => {
     let newAnswersArr = this.state.clickedQuestion.answers;
@@ -99,7 +99,7 @@ export class EditQuizPage extends Component<IProps> {
   };
 
   private updateQuiz = async (e: any) => {
-    let sendQuestionList = []
+    let sendQuestionList = [];
     for (let item of this.state.updatedQuestions) {
       if (item.tags) {
         let set = new Set(
@@ -143,18 +143,8 @@ export class EditQuizPage extends Component<IProps> {
               "Your selected image is too large. Please upload a smaller image."
           });
         } else if (testvar["response"]["status"] === 200) {
-          this.setState({
-            ...this.state,
-            errMsg: "Your quiz was successfully submitted."
-          });
-        } else {
-          console.log("it was submitted successfully yeah");
-          this.setState({
-            ...this.state,
-            errMsg: "Your quiz was successfully submitted."
-          });
+          this.props.history.push("/quizzes/created");
         }
-        console.log("it was submitted successfully yeah");
       };
       if (!this.state.mounted) {
         setTimeout(errorHandling, 1000);
@@ -170,9 +160,9 @@ export class EditQuizPage extends Component<IProps> {
     this.setState({
       ...this.state,
       updatedQuestions: newQArr,
-      errMsg: ''
-    })
-    this.page1()
+      errMsg: ""
+    });
+    this.page1();
     // this.updateStore(this.state.clickedQuestion);
   };
 
@@ -359,7 +349,7 @@ export class EditQuizPage extends Component<IProps> {
                   {quiz.questions.map((question, i) => {
                     if (question !== null && question.author === username)
                       return (
-                        <div key={'question' + i}>
+                        <div key={"question" + i}>
                           <p
                             className="question"
                             onClick={this.showQuizQuestion.bind(
@@ -457,7 +447,7 @@ export class EditQuizPage extends Component<IProps> {
                   {page === 2 && (
                     <form className="options">
                       {clickedQuestion.answers.map((ans, index) => (
-                        <div key={'ans' + index}>
+                        <div key={"ans" + index}>
                           <div className="group">
                             <label
                               htmlFor="true-false-answer"
