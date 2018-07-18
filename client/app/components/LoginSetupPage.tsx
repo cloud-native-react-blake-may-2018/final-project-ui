@@ -115,7 +115,7 @@ export class SetupLogin extends Component {
       <div>
         <LoadingScreen
           loading={true}
-          bgColor="#42a6a6"
+          bgColor="#1a3b66"
           spinnerColor="#fcfeff"
           textColor="#ffffff"
           logoSrc="https://vignette.wikia.nocookie.net/2007scape/images/5/59/Blue_wizard_hat_%28t%29_detail.png/revision/latest?cb=20180514220409"

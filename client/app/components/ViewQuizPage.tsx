@@ -129,7 +129,6 @@ export class ViewQuizPage extends Component<IProps> {
                 </div>
                 <p className="author">By: {quiz.author}</p>
                 <h1 className="title">{quiz.title}</h1>
-                <p className="description">{quiz.description}</p>
                 <h2 className="total">
                   {quiz.count
                     ? quiz.count
@@ -138,6 +137,7 @@ export class ViewQuizPage extends Component<IProps> {
                       : 0}{' '}
                   questions
                 </h2>
+                <p className="description">{quiz.description}</p>
               </main>
               <footer>
                 {quiz.author === this.props.username && (
@@ -173,7 +173,7 @@ const mapStateToProps = (state, props) => ({
   quiz:
     state.quizzes.all !== undefined &&
     state.quizzes.all.find(quiz => quiz.uuid === props.match.params.uuid),
-  quizzes: state.quizzes.all
+  quizzes: state.quizzes.all.filter(quiz => quiz !== null)
 })
 export default connect<any, any>(
   mapStateToProps,

@@ -4,7 +4,12 @@ import numeral from 'numeral'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { clearResults, clearQuizAttempt } from '../actions/quizzes'
+import {
+  clearResults,
+  clearQuizAttempt,
+  startGetUserQuizzes,
+  getUserQuizzes
+} from '../actions/quizzes'
 import { loadModal } from '../actions/modal'
 import { DELETE_QUIZ_MODAL } from '../constants/modaltypes'
 import Pagination from './Pagination'
@@ -14,6 +19,8 @@ interface IProps {
   quizzes: any[]
   type: string
   quizAttempts: any[]
+  getUserQuizzes?: (author: string) => any
+  startGetUserQuizzes?: (author: string) => any
   clearResults?: () => any
   clearQuizAttempt?: (reset: number) => void
   loadModal?: (type: string, title: string, uuid: any) => any
@@ -45,6 +52,10 @@ export class MyQuizzesPage extends Component<IProps, any> {
   }
   params = window.location.href.split('/')
   pageType = this.params[4]
+
+  getUserQuizzes = (author: string) => e => {
+    this.props.startGetUserQuizzes(author)
+  }
 
   onChangePage = pageOfItems => {
     // update state with new page of items
@@ -158,6 +169,9 @@ export class MyQuizzesPage extends Component<IProps, any> {
               (quizAttempt: any, index) =>
                 quizAttempt.timings.finished !== undefined && (
                   <Link
+                    // to={`/review-quiz/${quizAttempt.quizUUID}/${index}`}
+                    // key={index}
+                    onClick={this.getUserQuizzes(this.props.username)}
                     to={`/review-quiz/${quizAttempt.quizUUID}/${index}`}
                     key={index}
                   >
@@ -214,6 +228,7 @@ export default connect(
   {
     clearResults,
     loadModal,
-    clearQuizAttempt
+    clearQuizAttempt,
+    startGetUserQuizzes
   }
 )(MyQuizzesPage)

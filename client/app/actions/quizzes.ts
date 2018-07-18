@@ -30,30 +30,30 @@ export const startGetUserQuizzes = author => {
         })
       )
 
-      const url = window.location.href.split('/')
-      const uuid = url[4] !== undefined ? url[4] : null
+      const url = window.location.href.split('/')[4]
+      const uuid = url !== undefined ? url[4] : null
 
-      // console.log('UUID of url:', uuid)
+      console.log('UUID of url:', uuid)
 
       const otherQuiz =
         uuid && uuid.length === 36
           ? await pathList.quizzes.getForeignQuiz(uuid)
           : null
 
-      // const inPossession =
-      //   otherQuiz !== null &&
-      //   all.some((quiz: any) => quiz.uuid === otherQuiz.uuid)
+      const inPossession =
+        otherQuiz !== null &&
+        all.some((quiz: any) => quiz.uuid === otherQuiz.uuid)
 
       const points = await pathList.points.getUserPoints(author)
       const allPoints = await pathList.points.getAllPoints()
       const quizAttempts = await pathList.quizzes.displayQuizAttempts(author)
 
-      // store quizzes
-      // dispatch(getUserQuizzes(all));
-      // !inPossession && dispatch(getSearchedQuiz(otherQuiz));
+      // get other users quiz
+      dispatch(getUserQuizzes(all))
+      !inPossession && dispatch(getSearchedQuiz(otherQuiz))
 
       // store user data
-      dispatch(getUserQuizzes(all))
+      // dispatch(getUserQuizzes(all)) // was overwriting  
       dispatch(getUserPoints(points))
       dispatch(getAllPoints(allPoints))
       return dispatch(getQuizAttempts(quizAttempts))
