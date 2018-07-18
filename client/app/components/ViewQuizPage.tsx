@@ -124,9 +124,11 @@ export class ViewQuizPage extends Component<IProps> {
                 </h2>
               </main>
               <footer>
-                <Link to={`/edit-quiz/${quiz.uuid}`} className="link">
-                  <p className="edit-button">Edit quiz</p>
-                </Link>
+                {this.props.username === quiz.author && (
+                  <Link to={`/edit-quiz/${quiz.uuid}`} className="link">
+                    <p className="edit-button">Edit quiz</p>
+                  </Link>
+                )}
                 {quiz.count ? (
                   quiz.count > 0
                 ) : quiz.questions.length > 0 ? (
