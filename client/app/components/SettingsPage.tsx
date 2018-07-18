@@ -173,7 +173,7 @@ export class SettingsPage extends Component<ClassProps> {
       }
       for (let i = 0; i < result.length; i++) {
         attributeList.push({ Name: result[i].getName(), Value: result[i].getValue() });
-        if (i === 4) {
+        if (result[i].getName() === 'picture') {
           var pictureName = result[i].getValue()
           authInterceptor.get('https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/image/' + pictureName)
             .then(resp => {
@@ -456,26 +456,26 @@ export class SettingsPage extends Component<ClassProps> {
               <main>
                 {/* <div className="input-group"> */}
                 <label htmlFor="photo">Photo</label>
-                {/* <div
+                <div
                   className="photo-container"
-                  onClick={() => this.photoUpload.click()}
-                > */}
-                <Dropzone onDrop={this.onDrop} >
-                  {/* <input
-                      type="file" 
-                      id="fileinput" 
-                      multiple={false} 
-                      accept="image/jpg, image/jpeg, image/png, image/gif"
-                    /> */}
-                  <img src={this.state.url}
-                  // className="photo"
-                  // style={{
-                  //   background: 'url(http://soappotions.com/wp-content/uploads/2017/10/orange.jpg)'
-                  //   //${localStorage.getItem('profilePhoto')}
-                  // }}
-                  />
-                </Dropzone>
-                {/* </div> */}
+                  // onClick={() => this.photoUpload.click()}
+                >
+                  <Dropzone onDrop={this.onDrop} >
+                    {/* <input
+                        type="file" 
+                        id="fileinput" 
+                        multiple={false} 
+                        accept="image/jpg, image/jpeg, image/png, image/gif"
+                      /> */}
+                    <img src={this.state.url}
+                    // className="photo"
+                    // style={{
+                    //   background: 'url(http://soappotions.com/wp-content/uploads/2017/10/orange.jpg)'
+                    //   //${localStorage.getItem('profilePhoto')}
+                    // }}
+                    />
+                  </Dropzone>
+                </div>
                 {/* <input
                   className="file-upload"
                   style={{ display: 'none' }}
