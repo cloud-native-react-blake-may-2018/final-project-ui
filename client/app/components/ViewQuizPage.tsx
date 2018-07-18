@@ -124,22 +124,12 @@ export class ViewQuizPage extends Component<IProps> {
                 </h2>
               </main>
               <footer>
-<<<<<<< HEAD
                 {quiz.author === this.props.username && (
-=======
-                {this.props.username === quiz.author && (
->>>>>>> d81bb0e11d2facf3d82a24dbc441a2c4b91bf192
                   <Link to={`/edit-quiz/${quiz.uuid}`} className="link">
                     <p className="edit-button">Edit quiz</p>
                   </Link>
                 )}
-<<<<<<< HEAD
                 {quiz.questions.length > 0 ? (
-=======
-                {quiz.count ? (
-                  quiz.count > 0
-                ) : quiz.questions.length > 0 ? (
->>>>>>> d81bb0e11d2facf3d82a24dbc441a2c4b91bf192
                   <Link
                     to={`/take-quiz/${quiz.uuid}`}
                     onClick={this.startQuizAttempt}

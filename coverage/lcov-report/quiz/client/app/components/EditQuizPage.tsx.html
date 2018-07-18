@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">31.34% </span>
+        <span class="strong">32.31% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>42/134</span>
+        <span class='fraction'>42/130</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">8.82% </span>
+        <span class="strong">9.09% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>6/68</span>
+        <span class='fraction'>6/66</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">8.11% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>3/37</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">33.07% </span>
+        <span class="strong">34.15% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>42/127</span>
+        <span class='fraction'>42/123</span>
       </div>
     </div>
     <p class="quiet">
@@ -604,16 +604,7 @@
 <a name='L556'></a><a href='#L556'>556</a>
 <a name='L557'></a><a href='#L557'>557</a>
 <a name='L558'></a><a href='#L558'>558</a>
-<a name='L559'></a><a href='#L559'>559</a>
-<a name='L560'></a><a href='#L560'>560</a>
-<a name='L561'></a><a href='#L561'>561</a>
-<a name='L562'></a><a href='#L562'>562</a>
-<a name='L563'></a><a href='#L563'>563</a>
-<a name='L564'></a><a href='#L564'>564</a>
-<a name='L565'></a><a href='#L565'>565</a>
-<a name='L566'></a><a href='#L566'>566</a>
-<a name='L567'></a><a href='#L567'>567</a>
-<a name='L568'></a><a href='#L568'>568</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L559'></a><a href='#L559'>559</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -758,7 +749,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -767,15 +757,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1180,61 +1162,61 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React, { Component } from "react";
-import moment from "moment";
-import numeral from "numeral";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import Spinner from "react-spinkit";
-import Dropzone from "react-dropzone";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { startDeleteQuestion, startEditQuestion } from "../actions/questions";
-import { editStoreQuiz, startUpdateQuestionsDisplay } from "../actions/quizzes";
-import AddQuestion from "./AddQuestion";
-import { loadModal } from "../actions/modal";
-import { DELETE_QUIZ_MODAL } from "../constants/modaltypes";
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React, { Component } from 'react'
+import moment from 'moment'
+import numeral from 'numeral'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import Spinner from 'react-spinkit'
+import Dropzone from 'react-dropzone'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { startDeleteQuestion, startEditQuestion } from '../actions/questions'
+import { editStoreQuiz, startUpdateQuestionsDisplay } from '../actions/quizzes'
+import AddQuestion from './AddQuestion'
+import { loadModal } from '../actions/modal'
+import { DELETE_QUIZ_MODAL } from '../constants/modaltypes'
 &nbsp;
 interface IProps {
-  history?: any;
-  username: any;
-  quiz: any;
-  quizzes: any[];
-  editStoreQuiz: (any) =&gt; any;
-  startEditQuestion: (any) =&gt; any;
-  startDeleteQuestion: (author: string, title: any) =&gt; any;
-  loadModal?: (type: string, title: string, uuid: any) =&gt; any;
+  history?: any
+  username: any
+  quiz: any
+  quizzes: any[]
+  editStoreQuiz: (any) =&gt; any
+  startEditQuestion: (any) =&gt; any
+  startDeleteQuestion: (author: string, title: any) =&gt; any
+  loadModal?: (type: string, title: string, uuid: any) =&gt; any
 }
 &nbsp;
 const colors = [
-  "#f26161",
-  "#cc5252",
-  "#e573b1",
-  "#ff9d66",
-  "#2ddbbc",
-  "#42a6a6",
-  "#2d9cdb",
-  "#3f388c",
-  "#4775b2",
-  "#b866cc",
-  "#333ea6",
-  "#f2c94c"
-];
+  '#f26161',
+  '#cc5252',
+  '#e573b1',
+  '#ff9d66',
+  '#2ddbbc',
+  '#42a6a6',
+  '#2d9cdb',
+  '#3f388c',
+  '#4775b2',
+  '#b866cc',
+  '#333ea6',
+  '#f2c94c'
+]
 &nbsp;
 export class EditQuizPage extends Component&lt;IProps&gt; {
   state = {
-    errMsg: "",
-    displayPhoto: "",
+    errMsg: '',
+    displayPhoto: '',
     page: 1,
     clickedQuestion: {
-      author: "",
-      title: "",
-      uuid: "",
-      format: "",
+      author: '',
+      title: '',
+      uuid: '',
+      format: '',
       answers: [
         {
-          answer: "",
+          answer: '',
           percentPoints: 0,
-          feedback: ""
+          feedback: ''
         }
       ]
     },
@@ -1242,259 +1224,250 @@ export class EditQuizPage extends Component&lt;IProps&gt; {
     updatedQuestions: [],
     clickedAddQuestion: false,
     mounted: false
-  };
+  }
 &nbsp;
-  params = window.location.href.split("/");
-  quizUUID = this.params[4];
+  params = window.location.href.split('/')
+  quizUUID = this.params[4]
 &nbsp;
-  page1 = <span class="fstat-no" title="function not covered" >() </span>=&gt; <span class="cstat-no" title="statement not covered" >this.setState({ page: 1 });</span>
+  page1 = <span class="fstat-no" title="function not covered" >() </span>=&gt; <span class="cstat-no" title="statement not covered" >this.setState({ page: 1 })</span>
 &nbsp;
-  page2 = <span class="fstat-no" title="function not covered" >() </span>=&gt; <span class="cstat-no" title="statement not covered" >this.setState({ page: 2 });</span>
+  page2 = <span class="fstat-no" title="function not covered" >() </span>=&gt; <span class="cstat-no" title="statement not covered" >this.setState({ page: 2 })</span>
 &nbsp;
   deleteQuizModal = <span class="fstat-no" title="function not covered" >title</span> =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    this.props.loadModal(DELETE_QUIZ_MODAL, title, null);</span>
-<span class="cstat-no" title="statement not covered" >    this.props.history.push("/quizzes/created");</span>
-  };
+<span class="cstat-no" title="statement not covered" >    this.props.loadModal(DELETE_QUIZ_MODAL, title, null)</span>
+<span class="cstat-no" title="statement not covered" >    this.props.history.push('/quizzes/created')</span>
+  }
 &nbsp;
   public componentDidMount() {
     this.setState({
       ...this.state,
       mounted: true
-    });
+    })
   }
 &nbsp;
   public <span class="fstat-no" title="function not covered" >componentWillUnmount</span>() {
 <span class="cstat-no" title="statement not covered" >    this.setState({</span>
       ...this.state,
       mounted: false
-    });
+    })
   }
   private updateArr = <span class="fstat-no" title="function not covered" >(e</span>: any, arg1: number, arg2: string) =&gt; {
-    let newAnswersArr = <span class="cstat-no" title="statement not covered" >this.state.clickedQuestion.answers;</span>
-<span class="cstat-no" title="statement not covered" >    newAnswersArr[arg1][arg2] = e.target.value;</span>
+    let newAnswersArr = <span class="cstat-no" title="statement not covered" >this.state.clickedQuestion.answers</span>
+<span class="cstat-no" title="statement not covered" >    newAnswersArr[arg1][arg2] = e.target.value</span>
 <span class="cstat-no" title="statement not covered" >    this.setState({</span>
       currentQuestion: {
         ...this.state.clickedQuestion,
         answers: newAnswersArr
       }
-    });
-  };
+    })
+  }
 &nbsp;
   private updateQuiz = <span class="fstat-no" title="function not covered" >async (e</span>: any) =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
-    let sendQuestionList = <span class="cstat-no" title="statement not covered" >[];</span>
+    let sendQuestionList = <span class="cstat-no" title="statement not covered" >[]</span>
 <span class="cstat-no" title="statement not covered" >    for (let item of this.state.updatedQuestions) {</span>
 <span class="cstat-no" title="statement not covered" >      if (item.tags) {</span>
         let set = <span class="cstat-no" title="statement not covered" >new Set(</span>
-          item.tags.split(",").map(<span class="fstat-no" title="function not covered" >string</span> =&gt; {
-<span class="cstat-no" title="statement not covered" >            return string.trim();</span>
+          item.tags.split(',').map(<span class="fstat-no" title="function not covered" >string</span> =&gt; {
+<span class="cstat-no" title="statement not covered" >            return string.trim()</span>
           })
-        );
+        )
 &nbsp;
-        let testArr: any[] = <span class="cstat-no" title="statement not covered" >[...set];</span>
+        let testArr: any[] = <span class="cstat-no" title="statement not covered" >[...set]</span>
 <span class="cstat-no" title="statement not covered" >        sendQuestionList.push({</span>
           ...item,
           tags: testArr
-        });
+        })
       } else {
 <span class="cstat-no" title="statement not covered" >        sendQuestionList.push({</span>
           ...item
-        });
+        })
       }
     }
 <span class="cstat-no" title="statement not covered" >    for (let item of sendQuestionList) {</span>
-<span class="cstat-no" title="statement not covered" >      console.log("here");</span>
+<span class="cstat-no" title="statement not covered" >      console.log('here')</span>
       const data = <span class="cstat-no" title="statement not covered" >{</span>
-        quizID: window.location.href.split("/")[4],
+        quizID: window.location.href.split('/')[4],
         question: item
-      };
+      }
 &nbsp;
-      let testvar = <span class="cstat-no" title="statement not covered" >await this.props.startEditQuestion(data);</span>
-<span class="cstat-no" title="statement not covered" >      console.log(testvar["response"]["status"]);</span>
+      let testvar = <span class="cstat-no" title="statement not covered" >await this.props.startEditQuestion(data)</span>
+<span class="cstat-no" title="statement not covered" >      console.log(testvar['response']['status'])</span>
 &nbsp;
       let errorHandling = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() </span>=&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        if (testvar["response"]["status"] === 400) {</span>
+<span class="cstat-no" title="statement not covered" >        if (testvar['response']['status'] === 400) {</span>
 <span class="cstat-no" title="statement not covered" >          this.setState({</span>
             ...this.state,
             errMsg:
-              "Please make sure all boxes have been filled in and re-submit."
-          });
-        } else <span class="cstat-no" title="statement not covered" >if (testvar["response"]["status"] === 502) {</span>
+              'Please make sure all boxes have been filled in and re-submit.'
+          })
+        } else <span class="cstat-no" title="statement not covered" >if (testvar['response']['status'] === 502) {</span>
 <span class="cstat-no" title="statement not covered" >          this.setState({</span>
             ...this.state,
             errMsg:
-              "Your selected image is too large. Please upload a smaller image."
-          });
-        } else <span class="cstat-no" title="statement not covered" >if (testvar["response"]["status"] === 200) {</span>
-<span class="cstat-no" title="statement not covered" >          this.setState({</span>
-            ...this.state,
-            errMsg: "Your quiz was successfully submitted."
-          });
-        } else {
-<span class="cstat-no" title="statement not covered" >          console.log("it was submitted successfully yeah");</span>
-<span class="cstat-no" title="statement not covered" >          this.setState({</span>
-            ...this.state,
-            errMsg: "Your quiz was successfully submitted."
-          });
+              'Your selected image is too large. Please upload a smaller image.'
+          })
+        } else <span class="cstat-no" title="statement not covered" >if (testvar['response']['status'] === 200) {</span>
+          // this.setState({
+          //   ...this.state,
+          //   errMsg: 'Your quiz was successfully submitted.'
+          // })
+<span class="cstat-no" title="statement not covered" >          console.log(this.quizUUID)</span>
+<span class="cstat-no" title="statement not covered" >          this.props.history.push('/quizzes/created')</span>
         }
-<span class="cstat-no" title="statement not covered" >        console.log("it was submitted successfully yeah");</span>
-      };
-<span class="cstat-no" title="statement not covered" >      if (!this.state.mounted) {</span>
-<span class="cstat-no" title="statement not covered" >        setTimeout(errorHandling, 1000);</span>
-      } else {
-<span class="cstat-no" title="statement not covered" >        errorHandling();</span>
       }
+<span class="cstat-no" title="statement not covered" >      errorHandling()</span>
     }
-  };
+  }
 &nbsp;
   private saveChangeToState = <span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; {
-    let newQArr = <span class="cstat-no" title="statement not covered" >this.state.updatedQuestions;</span>
-<span class="cstat-no" title="statement not covered" >    newQArr.push(this.state.clickedQuestion);</span>
+    let newQArr = <span class="cstat-no" title="statement not covered" >this.state.updatedQuestions</span>
+<span class="cstat-no" title="statement not covered" >    newQArr.push(this.state.clickedQuestion)</span>
 <span class="cstat-no" title="statement not covered" >    this.setState({</span>
       ...this.state,
       updatedQuestions: newQArr,
-      errMsg: ""
-    });
-<span class="cstat-no" title="statement not covered" >    this.page1();</span>
+      errMsg: ''
+    })
+<span class="cstat-no" title="statement not covered" >    this.page1()</span>
     // this.updateStore(this.state.clickedQuestion);
-  };
+  }
 &nbsp;
   private deleteQuestion = <span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; {
-<span class="cstat-no" title="statement not covered" >    this.deleteFromStore();</span>
+<span class="cstat-no" title="statement not covered" >    this.deleteFromStore()</span>
 <span class="cstat-no" title="statement not covered" >    this.props.startDeleteQuestion(</span>
       this.state.clickedQuestion.author,
       this.state.clickedQuestion.title
-    );
-  };
+    )
+  }
 &nbsp;
   private deleteFromStore = <span class="fstat-no" title="function not covered" >() </span>=&gt; {
-    let modQuiz = <span class="cstat-no" title="statement not covered" >this.props.quiz;</span>
+    let modQuiz = <span class="cstat-no" title="statement not covered" >this.props.quiz</span>
 <span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; modQuiz.questions.length; i++) {</span>
 <span class="cstat-no" title="statement not covered" >      if (modQuiz.questions[i].uuid === this.state.clickedQuestion.uuid) {</span>
-<span class="cstat-no" title="statement not covered" >        modQuiz.questions.splice(i, 1);</span>
+<span class="cstat-no" title="statement not covered" >        modQuiz.questions.splice(i, 1)</span>
         //here is where we delete a question
       }
     }
-    let quizList = <span class="cstat-no" title="statement not covered" >this.props.quizzes;</span>
+    let quizList = <span class="cstat-no" title="statement not covered" >this.props.quizzes</span>
 <span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; quizList.length; i++) {</span>
 <span class="cstat-no" title="statement not covered" >      if (quizList[i].uuid === this.props.quiz.uuid) {</span>
-<span class="cstat-no" title="statement not covered" >        quizList.splice(i, 1, modQuiz);</span>
+<span class="cstat-no" title="statement not covered" >        quizList.splice(i, 1, modQuiz)</span>
       }
     }
-<span class="cstat-no" title="statement not covered" >    this.props.editStoreQuiz(quizList);</span>
-  };
+<span class="cstat-no" title="statement not covered" >    this.props.editStoreQuiz(quizList)</span>
+  }
 &nbsp;
   private updateStore = <span class="fstat-no" title="function not covered" >clickedQuestion</span> =&gt; {
 <span class="cstat-no" title="statement not covered" >    if (this.props.quizzes !== [] &amp;&amp; this.props.quiz) {</span>
-      let modQuiz = <span class="cstat-no" title="statement not covered" >this.props.quiz;</span>
+      let modQuiz = <span class="cstat-no" title="statement not covered" >this.props.quiz</span>
 <span class="cstat-no" title="statement not covered" >      for (let i = 0; i &lt; modQuiz.questions.length; i++) {</span>
 <span class="cstat-no" title="statement not covered" >        if (modQuiz.questions[i].uuid === this.state.clickedQuestion.uuid) {</span>
-<span class="cstat-no" title="statement not covered" >          modQuiz.questions = modQuiz.questions.concat(clickedQuestion);</span>
+<span class="cstat-no" title="statement not covered" >          modQuiz.questions = modQuiz.questions.concat(clickedQuestion)</span>
         }
       }
 &nbsp;
-      let quizList = <span class="cstat-no" title="statement not covered" >this.props.quizzes;</span>
+      let quizList = <span class="cstat-no" title="statement not covered" >this.props.quizzes</span>
 <span class="cstat-no" title="statement not covered" >      for (let i = 0; i &lt; quizList.length; i++) {</span>
 <span class="cstat-no" title="statement not covered" >        if (quizList[i].uuid === this.props.quiz.uuid) {</span>
-<span class="cstat-no" title="statement not covered" >          quizList.splice(i, 1, modQuiz);</span>
+<span class="cstat-no" title="statement not covered" >          quizList.splice(i, 1, modQuiz)</span>
         }
       }
-<span class="cstat-no" title="statement not covered" >      this.props.editStoreQuiz(quizList);</span>
+<span class="cstat-no" title="statement not covered" >      this.props.editStoreQuiz(quizList)</span>
     }
-  };
+  }
 &nbsp;
   public showQuizQuestion = <span class="fstat-no" title="function not covered" >(q</span>uestion: any, count: number, e: any) =&gt; {
-<span class="cstat-no" title="statement not covered" >    e.preventDefault();</span>
+<span class="cstat-no" title="statement not covered" >    e.preventDefault()</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    this.setState({</span>
       ...this.state,
       questionNumber: count,
       clickedQuestion: question,
       clickedAddQuestion: false,
-      displayPhoto: question.image || ""
-    });
-  };
+      displayPhoto: question.image || ''
+    })
+  }
 &nbsp;
   private setAddQuestion = <span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; {
 <span class="cstat-no" title="statement not covered" >    this.setState({</span>
       // we may not need this because if the component reloads this will be cleared anyway
       ...this.state,
       clickedQuestion: {
-        author: "",
-        title: "",
-        uuid: "",
-        format: "",
+        author: '',
+        title: '',
+        uuid: '',
+        format: '',
         answers: [
           {
-            answer: "",
+            answer: '',
             percentPoints: 0,
-            feedback: ""
+            feedback: ''
           }
         ]
       },
       clickedAddQuestion: true
-    });
-  };
+    })
+  }
 &nbsp;
-  private photoUpload: HTMLInputElement;
+  private photoUpload: HTMLInputElement
 &nbsp;
-  fileSelectedHandler = <span class="fstat-no" title="function not covered" >e </span>=&gt; <span class="cstat-no" title="statement not covered" >this.setState({ selectedFile: e.target.files[0] });</span>
+  fileSelectedHandler = <span class="fstat-no" title="function not covered" >e </span>=&gt; <span class="cstat-no" title="statement not covered" >this.setState({ selectedFile: e.target.files[0] })</span>
 &nbsp;
   private updateTags = <span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; {
-    const tags = <span class="cstat-no" title="statement not covered" >e.target.value;</span>
+    const tags = <span class="cstat-no" title="statement not covered" >e.target.value</span>
 <span class="cstat-no" title="statement not covered" >    this.setState({</span>
       clickedQuestion: {
         ...this.state.clickedQuestion,
         tags: tags
       }
-    });
-  };
+    })
+  }
 &nbsp;
   private onDrop = <span class="fstat-no" title="function not covered" >(f</span>iles: any) =&gt; {
-    const file = <span class="cstat-no" title="statement not covered" >files[0];</span>
+    const file = <span class="cstat-no" title="statement not covered" >files[0]</span>
     const getBase64 = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async f</span>ile =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span></span>
-      var reader = <span class="cstat-no" title="statement not covered" >new FileReader();</span>
-<span class="cstat-no" title="statement not covered" >      reader.readAsDataURL(file);</span>
-      let codeString;
+      var reader = <span class="cstat-no" title="statement not covered" >new FileReader()</span>
+<span class="cstat-no" title="statement not covered" >      reader.readAsDataURL(file)</span>
+      let codeString
 <span class="cstat-no" title="statement not covered" >      reader.onload = <span class="fstat-no" title="function not covered" >function() {</span></span>
-<span class="cstat-no" title="statement not covered" >        codeString = reader.result;</span>
-<span class="cstat-no" title="statement not covered" >        codeString = codeString.split(",", 2);</span>
+<span class="cstat-no" title="statement not covered" >        codeString = reader.result</span>
+<span class="cstat-no" title="statement not covered" >        codeString = codeString.split(',', 2)</span>
 <span class="cstat-no" title="statement not covered" >        this.setState({</span>
           ...this.state,
           clickedQuestion: {
             ...this.state.clickedQuestion,
             image: codeString[1],
-            newImage: "yes"
+            newImage: 'yes'
           },
-          displayPhoto: codeString.join(",")
-        });
-      }.bind(this);
+          displayPhoto: codeString.join(',')
+        })
+      }.bind(this)
 <span class="cstat-no" title="statement not covered" >      reader.onerror = <span class="fstat-no" title="function not covered" >function(</span>error) {</span>
-<span class="cstat-no" title="statement not covered" >        console.log("Error: ", error);</span>
-      };
-<span class="cstat-no" title="statement not covered" >      return codeString;</span>
-    };
-<span class="cstat-no" title="statement not covered" >    getBase64(file);</span>
-  };
+<span class="cstat-no" title="statement not covered" >        console.log('Error: ', error)</span>
+      }
+<span class="cstat-no" title="statement not covered" >      return codeString</span>
+    }
+<span class="cstat-no" title="statement not covered" >    getBase64(file)</span>
+  }
 &nbsp;
   // @ts-ignore
   render = () =&gt; {
-    const { username } = this.props;
-    let quiz;
+    const { username } = this.props
+    let quiz
     for (let testQuiz of this.props.quizzes) {
-      <span class="missing-if-branch" title="else path not taken" >E</span>if (testQuiz.uuid === window.location.href.split("/")[4]) {
-        console.log("inside quiz assignment");
-        quiz = testQuiz;
+      <span class="missing-if-branch" title="else path not taken" >E</span>if (testQuiz.uuid === window.location.href.split('/')[4]) {
+        console.log('inside quiz assignment')
+        quiz = testQuiz
       }
     }
-    console.log("this is the quiz being passed", quiz);
+    console.log('this is the quiz being passed', quiz)
     const {
       page,
       clickedQuestion,
       questionNumber,
       clickedAddQuestion,
       displayPhoto
-    } = this.state;
-    let count = 0;
+    } = this.state
+    let count = 0
     return (
       &lt;div className="edit-quiz-page"&gt;
         {(quiz === undefined || quiz.tags === undefined) &amp;&amp; (
@@ -1538,10 +1511,10 @@ export class EditQuizPage extends Component&lt;IProps&gt; {
                 &lt;/div&gt;
                 {/* &lt;p className="add-tag"&gt;+ tag&lt;/p&gt; */}
                 &lt;div className="questions"&gt;
-                  {quiz.questions.map(<span class="fstat-no" title="function not covered" >question</span> =&gt; {
+                  {quiz.questions.map(<span class="fstat-no" title="function not covered" >(q</span>uestion, i) =&gt; {
 <span class="cstat-no" title="statement not covered" >                    if (question !== null &amp;&amp; question.author === username)</span>
 <span class="cstat-no" title="statement not covered" >                      return (</span>
-                        &lt;div key={question.title}&gt;
+                        &lt;div key={'question' + i}&gt;
                           &lt;p
                             className="question"
                             onClick={this.showQuizQuestion.bind(
@@ -1553,7 +1526,7 @@ export class EditQuizPage extends Component&lt;IProps&gt; {
                             Question {(count += 1)}
                           &lt;/p&gt;
                         &lt;/div&gt;
-                      );
+                      )
                   })}
                 &lt;/div&gt;
                 &lt;p
@@ -1612,10 +1585,10 @@ export class EditQuizPage extends Component&lt;IProps&gt; {
                           &lt;Dropzone
                             onDrop={this.onDrop}
                             className={
-                              displayPhoto ? "dropzone" : "dropzone with-dots"
+                              displayPhoto ? 'dropzone' : 'dropzone with-dots'
                             }
                           &gt;
-                            &lt;p className={displayPhoto ? "white-text" : ""}&gt;
+                            &lt;p className={displayPhoto ? 'white-text' : ''}&gt;
                               + Upload
                             &lt;/p&gt;
                             {displayPhoto &amp;&amp; (
@@ -1624,7 +1597,7 @@ export class EditQuizPage extends Component&lt;IProps&gt; {
                           &lt;/Dropzone&gt;
                           &lt;input
                             className="file-upload"
-                            style={{ display: "none" }}
+                            style={{ display: 'none' }}
                             name="file"
                             type="file"
                             onChange={this.fileSelectedHandler}
@@ -1639,7 +1612,7 @@ export class EditQuizPage extends Component&lt;IProps&gt; {
                   {page === 2 &amp;&amp; (
                     &lt;form className="options"&gt;
                       {clickedQuestion.answers.map(<span class="fstat-no" title="function not covered" >(a</span>ns, index) =&gt; (
-<span class="cstat-no" title="statement not covered" >                        &lt;div key={ans.answer}&gt;</span>
+<span class="cstat-no" title="statement not covered" >                        &lt;div key={'ans' + index}&gt;</span>
                           &lt;div className="group"&gt;
                             &lt;label
                               htmlFor="true-false-answer"
@@ -1652,7 +1625,7 @@ export class EditQuizPage extends Component&lt;IProps&gt; {
                               value={ans.answer}
                               className="input"
                               onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; {
-<span class="cstat-no" title="statement not covered" >                                this.updateArr(e, index, "answer");</span>
+<span class="cstat-no" title="statement not covered" >                                this.updateArr(e, index, 'answer')</span>
                               }}
                               data-enable-grammarly="false"
                             /&gt;
@@ -1668,7 +1641,7 @@ export class EditQuizPage extends Component&lt;IProps&gt; {
                               id="true-false-percent-points"
                               value={ans.percentPoints}
                               onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; {
-<span class="cstat-no" title="statement not covered" >                                this.updateArr(e, index, "percentPoints");</span>
+<span class="cstat-no" title="statement not covered" >                                this.updateArr(e, index, 'percentPoints')</span>
                               }}
                               data-enable-grammarly="false"
                             /&gt;
@@ -1682,7 +1655,7 @@ export class EditQuizPage extends Component&lt;IProps&gt; {
                               value={ans.feedback}
                               className="input"
                               onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; {
-<span class="cstat-no" title="statement not covered" >                                this.updateArr(e, index, "feedback");</span>
+<span class="cstat-no" title="statement not covered" >                                this.updateArr(e, index, 'feedback')</span>
                               }}
                               data-enable-grammarly="false"
                             /&gt;
@@ -1693,13 +1666,13 @@ export class EditQuizPage extends Component&lt;IProps&gt; {
                   )}
                   &lt;div className="page-navigation"&gt;
                     &lt;p
-                      className={page === 1 ? "page-1 active" : "page-1"}
+                      className={page === 1 ? 'page-1 active' : 'page-1'}
                       onClick={this.page1}
                     &gt;
                       1
                     &lt;/p&gt;
                     &lt;p
-                      className={page === 2 ? "page-2 active" : "page-2"}
+                      className={page === 2 ? 'page-2 active' : 'page-2'}
                       onClick={this.page2}
                     &gt;
                       2
@@ -1722,8 +1695,8 @@ export class EditQuizPage extends Component&lt;IProps&gt; {
             &lt;/main&gt;
           )}
       &lt;/div&gt;
-    );
-  };
+    )
+  }
 }
 &nbsp;
 const mapStateToProps = <span class="fstat-no" title="function not covered" >(s</span>tate, props) =&gt; (<span class="cstat-no" title="statement not covered" >{</span>
@@ -1733,10 +1706,10 @@ const mapStateToProps = <span class="fstat-no" title="function not covered" >(s<
     state.quizzes.all.find(
 <span class="fstat-no" title="function not covered" >      quiz</span> =&gt;
 <span class="cstat-no" title="statement not covered" >        quiz.uuid === props.match.params.uuid ||</span>
-        quiz.uuid === window.location.href.split("/")[4]
+        quiz.uuid === window.location.href.split('/')[4]
     ),
   quizzes: state.quizzes.all
-});
+})
 &nbsp;
 export default connect(
   mapStateToProps,
@@ -1746,14 +1719,14 @@ export default connect(
     startEditQuestion,
     loadModal
   }
-)(EditQuizPage);
+)(EditQuizPage)
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Jul 17 2018 22:27:00 GMT-0400 (EDT)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Jul 17 2018 23:19:57 GMT-0400 (EDT)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
