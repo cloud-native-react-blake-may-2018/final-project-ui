@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1531883997636" clover="3.2.0">
-  <project timestamp="1531883997636" name="All files">
-    <metrics statements="1478" coveredstatements="645" conditionals="541" coveredconditionals="98" methods="522" coveredmethods="61" elements="2541" coveredelements="804" complexity="0" loc="1478" ncloc="1478" packages="10" files="53" classes="53">
+<coverage generated="1531886511210" clover="3.2.0">
+  <project timestamp="1531886511210" name="All files">
+    <metrics statements="1478" coveredstatements="645" conditionals="543" coveredconditionals="99" methods="522" coveredmethods="61" elements="2543" coveredelements="805" complexity="0" loc="1478" ncloc="1478" packages="10" files="53" classes="53">
       <package name="quiz">
         <metrics statements="3" coveredstatements="3" conditionals="2" coveredconditionals="1" methods="0" coveredmethods="0"/>
         <file name="environment.ts" path="/Users/ericmorrison/Desktop/revature/homework/quiz/environment.ts">
@@ -296,7 +296,7 @@
         </file>
       </package>
       <package name="quiz.client.app.components">
-        <metrics statements="1062" coveredstatements="467" conditionals="505" coveredconditionals="97" methods="294" coveredmethods="59"/>
+        <metrics statements="1062" coveredstatements="467" conditionals="507" coveredconditionals="98" methods="294" coveredmethods="59"/>
         <file name="AchievementsPage.tsx" path="/Users/ericmorrison/Desktop/revature/homework/quiz/client/app/components/AchievementsPage.tsx">
           <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
           <line num="1" count="1" type="stmt"/>
@@ -487,7 +487,7 @@
           <line num="169" count="1" type="stmt"/>
         </file>
         <file name="DashboardPage.tsx" path="/Users/ericmorrison/Desktop/revature/homework/quiz/client/app/components/DashboardPage.tsx">
-          <metrics statements="29" coveredstatements="26" conditionals="13" coveredconditionals="9" methods="10" coveredmethods="4"/>
+          <metrics statements="29" coveredstatements="26" conditionals="15" coveredconditionals="10" methods="10" coveredmethods="4"/>
           <line num="1" count="1" type="stmt"/>
           <line num="2" count="1" type="stmt"/>
           <line num="5" count="1" type="stmt"/>

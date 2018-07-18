@@ -129,7 +129,7 @@ export class DashboardPage extends Component<IProps> {
                     top3.map(user => (
                       <div key={user.username} className="container">
                         <p className="username">{user.username}</p>
-                        <p className="total">{user.points}</p>
+                        <p className="total">{user.points < 10000 ? user.points : 10000+'+'}</p>
                         <CoinIcon className="coin" />
                       </div>
                     ))}
