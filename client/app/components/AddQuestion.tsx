@@ -665,7 +665,7 @@ export class AddQuestion extends Component<IProps, any> {
         <p className="title">Add Question</p>
         <div className="close">
           {/* <div className="close" onClick={this.deleteQuestion}> */}
-          <FontAwesomeIcon icon="times" />
+          {/* <FontAwesomeIcon icon="times" /> */}
         </div>
         {page === 1 && (
           <div className="details">

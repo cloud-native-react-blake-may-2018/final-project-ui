@@ -143,10 +143,14 @@ export default {
     searchByUuid: uuid =>
       authInterceptor.get(searchByUuidUrl + uuid).then(res => res.data),
 
-    getForeignQuiz: quiz =>
-      authInterceptor
-        .get(`${baseUrl}quiz/${quiz.uuid}/user/${quiz.username}`)
-        .then(res => res.data),
+    // /quiz/get/{uuid}
+    getForeignQuiz: uuid =>
+      authInterceptor.get(`${baseUrl}quiz/get/${uuid}`).then(res => res.data),
+
+    // getForeignQuiz: quiz =>
+    //   authInterceptor
+    //     .get(`${baseUrl}quiz/${quiz.uuid}/user/${quiz.username}`)
+    //     .then(res => res.data),
 
     startQuizAttempt: (quizUUID, username) =>
       authInterceptor

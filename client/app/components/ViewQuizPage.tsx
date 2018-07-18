@@ -50,20 +50,7 @@ export class ViewQuizPage extends Component<IProps> {
     }))
 
   params = window.location.href.split('/')
-  // quizUUID = this.params[4]
-  public paramsCheck = () => {
-    if (this.params[1] === 'dwea2klqp52vb.cloudfront.net') {
-      console.log(this.params)
-      console.log('params 3 for cloudfront', this.params[3])
-      return this.params[3]
-    } else {
-      console.log(this.params)
-      console.log('params 4 for localhost', this.params[4])
-      return this.params[4]
-    }
-  }
-
-  quizUUID = this.paramsCheck()
+  quizUUID = this.params[4]
 
   reportQuizModal = () => this.props.loadModal(REPORT_QUIZ_MODAL)
 
@@ -94,13 +81,24 @@ export class ViewQuizPage extends Component<IProps> {
   render = () => {
     const { quiz } = this.props
     const { index } = this.state
+
+    const otherCount = quiz !== undefined && quiz.count && quiz.count > 0
+    
+    const myCount =
+      quiz !== undefined &&
+      quiz.questions !== undefined &&
+      quiz.questions.length > 0
+    // {quiz.count ? (
+    //   quiz.count > 0
+    // ) : quiz.questions.length > 0 ?
     return (
       <div className="view-quiz-page">
-        {(quiz === undefined || quiz.questions === undefined) && (
+        {(quiz === undefined ||
+          (quiz.count === undefined || quiz.questions === undefined)) && (
           <Spinner className="loading-indicator" name="ball-spin-fade-loader" />
         )}
         {quiz !== undefined &&
-          quiz.questions !== undefined && (
+          (quiz.count !== undefined || quiz.questions !== undefined) && (
             <div className="main">
               <main className={this.randomGradient[index]}>
                 <ArrowIcon className="back" onClick={this.goBack} />
@@ -131,13 +129,17 @@ export class ViewQuizPage extends Component<IProps> {
                 </div>
                 <p className="author">By: {quiz.author}</p>
                 <h1 className="title">{quiz.title}</h1>
-                <h2 className="total">{quiz.questions.length} questions</h2>
+                <h2 className="total">
+                  {quiz.count ? quiz.count : quiz.questions.length} questions
+                </h2>
               </main>
               <footer>
-                <Link to={`/edit-quiz/${quiz.uuid}`} className="link">
-                  <p className="edit-button">Edit quiz</p>
-                </Link>
-                {quiz.questions.length > 0 ? (
+                {quiz.author === this.props.username && (
+                  <Link to={`/edit-quiz/${quiz.uuid}`} className="link">
+                    <p className="edit-button">Edit quiz</p>
+                  </Link>
+                )}
+                {otherCount || myCount ? (
                   <Link
                     to={`/take-quiz/${quiz.uuid}`}
                     onClick={this.startQuizAttempt}
