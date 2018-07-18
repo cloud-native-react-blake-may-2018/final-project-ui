@@ -1,9 +1,7 @@
 import React from 'react'
 import { startGetUserQuizzes } from './quizzes'
-// import api from '../api'
-import * as awsCognito from 'amazon-cognito-identity-js'
-import Axios from '../../../node_modules/axios'
 import { environment } from '../../../environment'
+import * as awsCognito from 'amazon-cognito-identity-js'
 
 export const login = user => ({
   type: 'LOGIN',
@@ -13,7 +11,6 @@ export const login = user => ({
 export const startLogin = credentials => {
   return async dispatch => {
     await dispatch(login(credentials))
-    // localStorage.setItem('token', credentials.token)
 
     return await dispatch(startGetUserQuizzes(credentials.username))
   }

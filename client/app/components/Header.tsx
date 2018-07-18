@@ -18,6 +18,7 @@ interface RProps {
   isAuthenticated: Boolean
   username: string
   photo?: string
+  points: number
 }
 
 interface RState {
@@ -51,7 +52,7 @@ export class Header extends Component<Props> {
 
   determineClick = e => {
     // if click outside modal or not typing in input, hide search
-    if ((!e.target.closest('.section') && !e.target.dataset.search)) {
+    if (!e.target.closest('.section') && !e.target.dataset.search) {
       this.hideSearch()
     }
 
@@ -68,7 +69,8 @@ export class Header extends Component<Props> {
     } = e
     const { startSearch } = this.props
     this.setState({
-      term: value
+      term: value,
+      query: value
     } as any)
     // send term to database
     // await startSearch(query)
@@ -81,8 +83,9 @@ export class Header extends Component<Props> {
     })
   }
 
-  render() {
-    const { isAuthenticated, username, photo, startLogout } = this.props
+  // @ts-ignore
+  render = () => {
+    const { isAuthenticated, username, photo, points, startLogout } = this.props
     const { showSearch, term, query } = this.state
 
     return (
@@ -106,10 +109,12 @@ export class Header extends Component<Props> {
           </form>
         </div>
 
-        <div className="coin-group">
-          <CoinIcon className="coin-icon" />
-          <p className="coin-total">0</p>
-        </div>
+        {points !== undefined && (
+          <div className="coin-group">
+            <CoinIcon className="coin-icon" />
+            <p className="coin-total">{points > 0 ? points : points}</p>
+          </div>
+        )}
 
         <Dropdown
           isOpen={this.state.dropdownOpen}
@@ -123,7 +128,17 @@ export class Header extends Component<Props> {
                 background: `url(${photo}) center / cover no-repeat`
               }}
             />
+            {
+             ( JSON.parse(localStorage.getItem('userInfoToken')).username.includes('Facebook_')||
+              JSON.parse(localStorage.getItem('userInfoToken')).username.includes('Google_'))&&
+              <p className="nav-username">{JSON.parse(localStorage.getItem('userInfoToken')).name}</p>
+            }
+            {
+            !( JSON.parse(localStorage.getItem('userInfoToken')).username.includes('Facebook_')||
+            JSON.parse(localStorage.getItem('userInfoToken')).username.includes('Google_'))&&
             <p className="nav-username">{username}</p>
+            }
+            
             <FontAwesomeIcon icon="angle-down" className="icon fa-angle-down" />
           </DropdownToggle>
           <DropdownMenu
@@ -153,7 +168,8 @@ export class Header extends Component<Props> {
 
 const mapStateToProps = state => ({
   isAuthenticated: !!state.auth.token,
-  username: state.auth.username
+  username: state.auth.username,
+  points: state.app.points
   // photo: state.auth.profileImage
 })
 

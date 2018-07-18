@@ -17,10 +17,23 @@ export const appReducer = (state = initialState as any, action = {} as any) => {
 
     case 'SIDEBAR':
       return {
+        ...state,
         sidebarOpen: action.bool
       }
 
+    case 'USER_POINTS':
+      return {
+        ...state,
+        points: action.points.points
+      }
+
+    case 'ALL_POINTS':
+      return {
+        ...state,
+        allPoints: action.points.sort((a, b) => b.points - a.points).slice(0, 3)
+      }
+
     default:
-      return initialState
+      return state
   }
 }

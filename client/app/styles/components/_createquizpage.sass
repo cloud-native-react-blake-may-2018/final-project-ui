@@ -1,0 +1,159 @@
+.create-quiz-page
+  main
+    display: grid
+    grid-template-columns: max-content minmax(250px, 40vw)
+    grid-template-rows: repeat(2, max-content)
+    grid-column-gap: 25px
+    padding: 0 50px
+    margin: auto
+
+    .valid
+      border-bottom: 5px solid $blue
+      box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
+
+    .invalid
+      border-bottom: 5px solid lighten($light-grey, 3%)
+      box-shadow: 0 10px 24px rgba(0,0,0,.1), 0 3px 10px rgba(0,0,0,.05)
+
+    .create-quiz-container
+      display: grid
+      grid-auto-rows: max-content
+      grid-template-rows: repeat(4, max-content) 1fr max-content
+      position: relative
+      padding: 10px 30px
+      height: 70vh
+      min-width: 250px
+      width: 25vw
+      box-sizing: border-box
+      border-radius: 8px
+      background-color: $white
+
+      .title
+        margin: 10px 0
+        padding: 0
+        width: max-content
+        height: 15px
+        font: normal 24px Asap
+        color: $grey
+
+      .details
+        display: grid
+        margin-top: 15px
+
+        .group
+          display: grid
+          grid-column: 1 / span 2
+          align-items: center
+          grid-template-columns: repeat(2, 1fr)
+          position: relative
+
+          .question-text
+            margin: 0 0 25px
+            grid-column: 1 / span 2
+            font: 600 21px Asap
+            color: $light-teal
+
+          label, .label
+            grid-column: 1 / span 2
+            margin: 10px 0
+            font: normal 18px Asap
+            color: $grey          
+
+          input, textarea
+            grid-column: 1 / span 2
+            padding: 10px 15px
+            margin: 0 0 10px
+            border: none
+            border-radius: 8px
+            outline: none
+            resize: none
+            font: normal 18px Asap
+            color: $grey
+            background-color: $white-grey
+
+          select
+            grid-column: 1 / span 2
+            padding: 10px 15px
+            margin: 0 0 10px
+            -webkit-appearance: none
+            -moz-appearance: none
+            appearance: none
+            box-sizing: content-box
+            background: none
+            border: 2px solid $light-grey
+            border-radius: 20px
+            font: normal 16px Asap
+            color: $grey
+            transition: .3s all ease-in-out
+            // option
+
+          .icon
+            position: absolute
+            top: 53px
+            right: 20px
+            pointer-events: none
+            font-size: 21px
+            color: $buttongrey
+
+        .save-quiz
+          grid-row: 7
+          grid-column: 1 / span 2
+          justify-self: center
+          padding: 10px 50px
+          margin: 30px 0 10px
+          width: 92%
+          border: none
+          outline: none
+          white-space: nowrap
+          border-radius: 8px
+          font: normal 18px Asap
+          color: $white
+          background-color: $blue
+          box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
+          transition: .3s all
+
+          &:hover
+            cursor: pointer
+            transform: translateY(-2px)
+
+          &:active
+            cursor: pointer
+            transform: scale(.9)
+            filter: brightness(93%)
+
+          &:disabled
+            box-shadow: 0 10px 24px rgba(0,0,0,.1), 0 3px 10px rgba(0,0,0,.05)
+            background-color: lighten($light-grey, 3%)
+    
+
+@-ms-keyframes wiggle 
+  0%
+    -ms-transform: rotate(12deg)
+  50%
+    -ms-transform: rotate(-12deg)
+  100%
+    -ms-transform: rotate(12deg)
+
+@-moz-keyframes wiggle
+  0%
+    -moz-transform: rotate(12deg)
+  50%
+    -moz-transform: rotate(-12deg)
+  100%
+    -moz-transform: rotate(12deg)
+
+@-webkit-keyframes wiggle
+  0%
+    -webkit-transform: rotate(12deg)
+  50%
+    -webkit-transform: rotate(-12deg)
+  100%
+    -webkit-transform: rotate(12deg)
+
+@keyframes wiggle
+  0%
+    transform: rotate(12deg)
+  50%
+    transform: rotate(-12deg)
+  100%
+    transform: rotate(12deg)

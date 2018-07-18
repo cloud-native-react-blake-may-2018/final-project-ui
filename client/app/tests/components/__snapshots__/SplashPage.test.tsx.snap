@@ -1,0 +1,93 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render SplashPage component 1`] = `
+<div
+  className="splash-page"
+>
+  <header>
+    <nav
+      className="splash-nav"
+    >
+      <Link
+        className="item"
+        replace={false}
+        to="/"
+      >
+        Quizzard
+      </Link>
+      <Link
+        className="item"
+        replace={false}
+        to="/login"
+      >
+        Login
+      </Link>
+      <p>
+        or
+      </p>
+      <Link
+        className="item"
+        replace={false}
+        to="/signup"
+      >
+        Signup
+      </Link>
+    </nav>
+    <div
+      className="title-container"
+    >
+      <t
+        className="verb"
+        maxDelay={800}
+        minDelay={400}
+        onTypingEnd={[Function]}
+        typing={1}
+      >
+        make   
+      </t>
+      <p
+        className="static"
+      >
+         Quizzes
+      </p>
+    </div>
+    <form
+      className="easy-5"
+    >
+      <div
+        className="group"
+      >
+        <label
+          htmlFor="name"
+        >
+          name
+        </label>
+        <input
+          name="name"
+          type="text"
+        />
+      </div>
+      <div
+        className="group"
+      >
+        <label
+          htmlFor="date"
+        >
+          date
+        </label>
+        <input
+          name="date"
+          placeholder="DD/MM/YYYY"
+          type="text"
+        />
+      </div>
+    </form>
+    <div
+      className="scroll-link"
+    >
+      <SvgMouseIcon />
+    </div>
+  </header>
+  <main />
+</div>
+`;

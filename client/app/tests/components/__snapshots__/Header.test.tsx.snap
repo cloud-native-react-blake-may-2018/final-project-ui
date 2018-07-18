@@ -4,23 +4,20 @@ exports[`should render Header component 1`] = `
 <header
   className="nav-header"
 >
-  <FontAwesomeIcon
-    border={false}
-    className="bars"
-    fixedWidth={false}
-    flip={null}
-    icon="bars"
-    inverse={false}
-    listItem={false}
-    mask={null}
-    pull={null}
-    pulse={false}
-    rotation={null}
-    size={null}
-    spin={false}
-    symbol={false}
-    transform={null}
+  <Connect(SearchResults)
+    query=""
+    showSearch={false}
   />
+  <Link
+    replace={false}
+    to="/dashboard"
+  >
+    <h2
+      className="home-button"
+    >
+      Quizzard
+    </h2>
+  </Link>
   <div
     className="search-group"
   >
@@ -52,8 +49,21 @@ exports[`should render Header component 1`] = `
         onFocus={[Function]}
         placeholder="Search"
         type="text"
+        value=""
       />
     </form>
+  </div>
+  <div
+    className="coin-group"
+  >
+    <SvgCoinIcon
+      className="coin-icon"
+    />
+    <p
+      className="coin-total"
+    >
+      4
+    </p>
   </div>
   <Dropdown
     active={false}
@@ -82,7 +92,7 @@ exports[`should render Header component 1`] = `
       <p
         className="nav-username"
       >
-        react
+        mock-user
       </p>
       <FontAwesomeIcon
         border={false}

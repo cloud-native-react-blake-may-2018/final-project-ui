@@ -15,21 +15,20 @@ import DashboardPage from '../components/DashboardPage'
 import MyQuizzesPage from '../components/MyQuizzesPage'
 import EditQuizPage from '../components/EditQuizPage'
 import ViewQuizPage from '../components/ViewQuizPage'
-import TakeQuizPage from '../components/TakeQuiz'
-import QuizResultsPage from '../components/QuizResults'
-import QuizAttemptReview from '../components/QuizAttemptReview'
-import SignInRedirect from '../components/SignInRedirect'
+import TakeQuizPage from '../components/TakeQuizPage'
+import QuizResultsPage from '../components/QuizResultsPage'
+import QuizAttemptReviewPage from '../components/QuizAttemptReviewPage'
+import SignInRedirectPage from '../components/SignInRedirectPage'
 import AchievementsPage from '../components/AchievementsPage'
 import StorePage from '../components/StorePage'
 import ResetPasswordPage from '../components/ResetPasswordPage'
-import CreateQuiz from '../components/CreateQuiz'
 import AddQuestion from '../components/AddQuestion'
-import AddQuiz from '../components/AddQuiz'
+import CreateQuizPage from '../components/CreateQuizPage'
 
 import SettingsPage from '../components/SettingsPage'
 import ProfilePage from '../components/ProfilePage'
 import NotFoundPage from '../components/NotFoundPage'
-import { SetupLogin } from '../components/loginSetup'
+import LoginSetupPage from '../components/LoginSetupPage'
 
 export const history = createHistory()
 const mql = window.matchMedia(`(min-width: 800px)`)
@@ -89,10 +88,10 @@ export class Pages extends Component<IProps, IState> {
       <Router history={history}>
         <Switch>
           <PublicRoute exact path="/" component={SplashPage} />
-          <PublicRoute path="/signup" component={SignupPage} />
-          <PublicRoute path="/login" component={SignInRedirect} />
+          <PublicRoute path="/signup" component={SignInRedirectPage} />
+          <PublicRoute path="/login" component={SignInRedirectPage} />
           <PublicRoute path="/resetpassword" component={ResetPasswordPage} />
-          <PublicRoute path="/redirect" component={SetupLogin} />
+          <PublicRoute path="/redirect" component={LoginSetupPage} />
           <Sidebar
             sidebar={sidebar}
             docked={sidebarDocked}
@@ -109,7 +108,7 @@ export class Pages extends Component<IProps, IState> {
             <PrivateRoute path="/view-quiz/:uuid" component={ViewQuizPage} />
             <PrivateRoute
               path="/review-quiz/:attemptUUID"
-              component={QuizAttemptReview}
+              component={QuizAttemptReviewPage}
             />
             <PrivateRoute path="/edit-quiz/:uuid" component={EditQuizPage} />
             <PrivateRoute path="/take-quiz/:uuid" component={TakeQuizPage} />
@@ -117,9 +116,9 @@ export class Pages extends Component<IProps, IState> {
               path="/quiz-results/:quizUUID"
               component={QuizResultsPage}
             />
-            <PrivateRoute path="/create-quiz" component={CreateQuiz} />
+            {/* <PrivateRoute path="/create-quiz" component={CreateQuiz} /> */}
             <PrivateRoute path="/add-question" component={AddQuestion} />
-            <PrivateRoute path="/add-quiz" component={AddQuiz} />
+            <PrivateRoute path="/create-quiz" component={CreateQuizPage} />
             <PrivateRoute path="/achievements" component={AchievementsPage} />
             <PrivateRoute path="/store" component={StorePage} />
             <PrivateRoute path="/profile" component={ProfilePage} />

@@ -316,6 +316,8 @@ export class SettingsPage extends Component<ClassProps> {
             <main>
                
                 <label htmlFor="photo">Photo</label>
+                           
+                
                 
                 <div className="photo-container">
                   <img
@@ -359,15 +361,32 @@ export class SettingsPage extends Component<ClassProps> {
                     readOnly
                   />
                 </div>
+
+                {JSON.parse(localStorage.getItem('userInfoToken')).username.includes('Facebook_')&&
                 <div className="input-group">
-                  <button
-                    className="save-button"
-                    type="submit"
-                    onSubmit={this.updateProfile}
+                <a
+                 
+                 className="save-button"
+                   href ="https://www.facebook.com/settings"  target='_blank'
                   >
-                    Save changes
-                  </button>
+                    Facebook Settings
+                </a>
                 </div>
+                }
+                {JSON.parse(localStorage.getItem('userInfoToken')).username.includes('Google_')&&
+               
+                 
+               <div className="input-group">
+                <a
+                 
+                 className="save-button"
+                   href ="https://plus.google.com"  target='_blank'
+                  >
+                    Google Settings
+                </a>
+                 
+                </div>
+                }
               </form>
             </main>
           )}

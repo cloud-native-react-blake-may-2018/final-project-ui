@@ -6,7 +6,8 @@ test('should render Header component', () => {
   const wrapper = shallow(
     <Header
       isAuthenticated={true}
-      username="react"
+      username="mock-user"
+      points={4}
       startLogout={() => console.log('placeholder')}
     />
   )
