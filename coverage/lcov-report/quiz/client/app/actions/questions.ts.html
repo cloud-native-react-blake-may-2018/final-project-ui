@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">21.74% </span>
+        <span class="strong">25% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>5/23</span>
+        <span class='fraction'>5/20</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/8</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">27.78% </span>
+        <span class="strong">31.25% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>5/18</span>
+        <span class='fraction'>5/16</span>
       </div>
     </div>
     <p class="quiet">
@@ -122,14 +122,7 @@
 <a name='L74'></a><a href='#L74'>74</a>
 <a name='L75'></a><a href='#L75'>75</a>
 <a name='L76'></a><a href='#L76'>76</a>
-<a name='L77'></a><a href='#L77'>77</a>
-<a name='L78'></a><a href='#L78'>78</a>
-<a name='L79'></a><a href='#L79'>79</a>
-<a name='L80'></a><a href='#L80'>80</a>
-<a name='L81'></a><a href='#L81'>81</a>
-<a name='L82'></a><a href='#L82'>82</a>
-<a name='L83'></a><a href='#L83'>83</a>
-<a name='L84'></a><a href='#L84'>84</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L77'></a><a href='#L77'>77</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -165,13 +158,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -186,7 +173,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -244,17 +230,11 @@ export const editQuestion = <span class="fstat-no" title="function not covered" 
 //     .then(question =&gt; dispatch(editQuestion(question)));
 // };
 &nbsp;
-export const startEditQuestion = <span class="fstat-no" title="function not covered" >incoming</span> =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async d</span>ispatch =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span></span>
+export const startEditQuestion = <span class="fstat-no" title="function not covered" >incoming</span> =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >dispatch</span> =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  try {</span>
-    let response = <span class="cstat-no" title="statement not covered" >{</span>
-      response: {
-        status: 200
-      }
-    };
-<span class="cstat-no" title="statement not covered" >    await pathlist.questions.edit(incoming.question);</span>
-<span class="cstat-no" title="statement not covered" >    dispatch(editQuestion(incoming.question));</span>
-    // .then(question =&gt; dispatch(editQuestion(incoming.question)))
-    // .catch(err =&gt; (response = err));
+<span class="cstat-no" title="statement not covered" >    pathlist.questions</span>
+      .edit(incoming.question)
+      .then(<span class="fstat-no" title="function not covered" >question</span> =&gt; <span class="cstat-no" title="statement not covered" >dispatch(editQuestion(incoming.question)))</span>;
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    try {</span>
       const tagObj = <span class="cstat-no" title="statement not covered" >{</span>
@@ -267,9 +247,8 @@ export const startEditQuestion = <span class="fstat-no" title="function not cove
         incoming.question.tags
       );
     } catch (error) {}
-<span class="cstat-no" title="statement not covered" >    return response;</span>
+<span class="cstat-no" title="statement not covered" >    return;</span>
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    console.log("the error was caught by this block", error);</span>
 <span class="cstat-no" title="statement not covered" >    return error;</span>
   }
 };
@@ -301,7 +280,7 @@ export const startDeleteQuestion = <span class="fstat-no" title="function not co
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Wed Jul 18 2018 00:01:50 GMT-0400 (EDT)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Jul 16 2018 16:38:01 GMT-0400 (EDT)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>
