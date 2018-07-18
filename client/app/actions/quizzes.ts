@@ -40,20 +40,20 @@ export const startGetUserQuizzes = author => {
           ? await pathList.quizzes.getForeignQuiz(uuid)
           : null
 
-      // const inPossession =
-      //   otherQuiz !== null &&
-      //   all.some((quiz: any) => quiz.uuid === otherQuiz.uuid)
+      const inPossession =
+        otherQuiz !== null &&
+        all.some((quiz: any) => quiz.uuid === otherQuiz.uuid)
 
       const points = await pathList.points.getUserPoints(author)
       const allPoints = await pathList.points.getAllPoints()
       const quizAttempts = await pathList.quizzes.displayQuizAttempts(author)
 
       // store quizzes
-      // dispatch(getUserQuizzes(all));
-      // !inPossession && dispatch(getSearchedQuiz(otherQuiz));
+      dispatch(getUserQuizzes(all))
+      !inPossession && dispatch(getSearchedQuiz(otherQuiz))
 
       // store user data
-      dispatch(getUserQuizzes(all))
+      // dispatch(getUserQuizzes(all))
       dispatch(getUserPoints(points))
       dispatch(getAllPoints(allPoints))
       return dispatch(getQuizAttempts(quizAttempts))
