@@ -41,7 +41,7 @@
       grid-template-rows: repeat(4, max-content) 1fr max-content
       position: relative
       padding: 10px 30px
-      height: 70vh
+      height: 75vh
       min-width: 250px
       width: 25vw
       box-sizing: border-box
@@ -205,7 +205,7 @@
       grid-auto-rows: max-content
       position: relative
       padding: 10px 30px
-      height: 70vh
+      height: 75vh
       min-width: 250px
       width: 40vw
       box-sizing: border-box
@@ -412,17 +412,20 @@
     /* ADD QUESTIONS */
     .add-question-container
       display: grid
-      grid-auto-rows: max-content
+      grid-template-rows: max-content max-content 1fr max-content
+      // grid-auto-rows: max-content
       position: relative
       padding: 10px 30px
-      height: 70vh
-      min-width: 250px
+      height: 75vh
+      min-width: 450px
+      // min-width: 250px
       width: 40vw
       box-sizing: border-box
       border-radius: 8px
       border-bottom: 5px solid $light-teal
       background-color: $white
       box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
+      z-index: 0
 
       .title
         margin: 15px 0 10px
@@ -446,6 +449,58 @@
           // -ms-animation: wiggle .5s infinite
           // -moz-animation: wiggle .5s infinite
           // -webkit-animation: wiggle .5s infinite
+
+      .que-question
+        display: grid
+        position: absolute
+        align-items: center
+        justify-items: center
+        bottom: 20px
+        right: -41px
+        height: 40px
+        width: 40px
+        border-radius: 0 8px 8px 0
+        font-size: 18px
+        color: $white
+        background-color: $light-teal
+        transition: .3s all ease-in-out
+        z-index: -10
+
+        &:hover
+          // padding-right: 15px
+          cursor: pointer
+          filter: brightness(95%)
+
+      .tabs
+        position: absolute
+        left: 10px
+        top: -12px
+        width: 35vw
+
+        div
+          display: grid
+          position: relative
+          grid-auto-flow: column
+          grid-auto-columns: 40px
+
+          .tab
+            position: relative
+            height: 12px
+            width: 100%
+            max-width: 40px
+            border-radius: 8px 8px 0 0
+            background-color: $light-teal
+            box-shadow: 3px 10px 24px rgba(0,0,0,.05), 0 3px 10px rgba(0,0,0,.01)
+            transition: .3s all ease-in-out
+
+            &:hover
+              cursor: pointer
+              filter: brightness(95%)
+
+
+            
+
+
 
       .details
         display: grid
@@ -481,7 +536,7 @@
 
           select
             grid-column: 1 / span 2
-            padding: 5px 10px 4px
+            padding: 8px 10px 7px
             margin: 0 0 10px
             -webkit-appearance: none
             -moz-appearance: none
@@ -494,6 +549,9 @@
             color: $grey
             transition: .3s all ease-in-out
             // option
+
+            &:hover
+              background-color: $white-grey
 
           .icon
             position: absolute
@@ -510,10 +568,12 @@
             grid-column: 1 / span 2
             align-items: center
             justify-items: center
-            justify-self: center
+            justify-self: start
             position: relative
-            height: 110px
-            width: 22vw
+            height: 155px
+            width: 24vw
+            min-width: 250px
+            max-width: 280px
             border-radius: 8px
             transition: .3s all ease-in-out
 
@@ -547,6 +607,37 @@
               &:hover
                 filter: brightness(75%)
 
+      .question-fields
+        div
+          display: grid
+          grid-template-columns: minmax(max-content, 6fr) minmax(60px, 1fr)
+          grid-column-gap: 15px
+
+          .group
+            display: grid
+            align-items: center
+            grid-template-columns: repeat(2, 1fr)
+            grid-column-gap: 25px
+            position: relative
+
+            label, .label
+              grid-column: 1 / span 2
+              margin: 10px 0
+              width: max-content
+              font: normal 18px Asap
+              color: $grey          
+
+            input, textarea
+              grid-column: 1 / span 2
+              padding: 10px 15px
+              margin: 0 0 10px
+              border: none
+              border-radius: 8px
+              outline: none
+              resize: none
+              font: normal 18px Asap
+              color: $grey
+              background-color: $white-grey
 
 
 
@@ -554,6 +645,7 @@
         align-self: end
         justify-self: center
         padding: 10px 50px
+        margin: 0 0 10px 0
         border: none
         outline: none
         border-radius: 8px

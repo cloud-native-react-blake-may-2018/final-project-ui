@@ -277,15 +277,18 @@ export class EditQuizPage extends Component<IProps> {
 
   // @ts-ignore
   render = () => {
-    const { username } = this.props
+    const { username, quizzes } = this.props
     let quiz
-    for (let testQuiz of this.props.quizzes) {
-      if (
-        testQuiz !== null &&
-        testQuiz.uuid === window.location.href.split('/')[4]
-      ) {
-        console.log('inside quiz assignment')
-        quiz = testQuiz
+
+    if (quizzes) {
+      for (let testQuiz of quizzes) {
+        if (
+          testQuiz !== null &&
+          testQuiz.uuid === window.location.href.split('/')[4]
+        ) {
+          console.log('inside quiz assignment')
+          quiz = testQuiz
+        }
       }
     }
     console.log('this is the quiz being passed', quiz)
@@ -541,8 +544,8 @@ const mapStateToProps = (state, props) => ({
     state.quizzes.all !== undefined &&
     state.quizzes.all.find(
       quiz =>
-        quiz.uuid === props.match.params.uuid ||
-        quiz.uuid === window.location.href.split('/')[4]
+        (quiz !== null && quiz.uuid === props.match.params.uuid) ||
+        (quiz !== null && quiz.uuid === window.location.href.split('/')[4])
     ),
   quizzes: state.quizzes.all
 })

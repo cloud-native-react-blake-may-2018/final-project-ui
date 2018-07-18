@@ -413,6 +413,11 @@ export class TakeQuizPage extends Component<IProps, any> {
               <div className="meta">
                 <div className="container">
                   <p className="current">Question {questionNumber + 1}</p>
+                  <p className="format">
+                    {quiz !== undefined &&
+                      quiz[questionNumber] !== undefined &&
+                      quiz[questionNumber].format}
+                  </p>
                   <div className="icon">
                     <Dropdown
                       isOpen={this.state.dropdownOpen}
