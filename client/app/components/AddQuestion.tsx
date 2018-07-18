@@ -310,7 +310,8 @@ export class AddQuestion extends Component<IProps, any> {
       }
     }
     console.log('Inside Validator Function', percentPoints, validObject)
-    return percentPoints >= 99 ? true : false
+    return validObject
+    // return percentPoints >= 99 ? true : false
   }
 
   private printQuestionsArr = () => {

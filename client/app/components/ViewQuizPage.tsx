@@ -173,7 +173,7 @@ const mapStateToProps = (state, props) => ({
   quiz:
     state.quizzes.all !== undefined &&
     state.quizzes.all.find(quiz => quiz.uuid === props.match.params.uuid),
-  quizzes: state.quizzes.all
+  quizzes: state.quizzes.all.filter(quiz => quiz !== null)
 })
 export default connect<any, any>(
   mapStateToProps,
