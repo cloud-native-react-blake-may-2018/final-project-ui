@@ -31,9 +31,10 @@ export const startGetUserQuizzes = author => {
       )
 
       const url = window.location.href.split('/')
+      console.log('URL', url)
       const uuid = url[4] !== undefined ? url[4] : null
 
-      // console.log('UUID of url:', uuid)
+      console.log('UUID of url:', uuid)
 
       const otherQuiz =
         uuid && uuid.length === 36

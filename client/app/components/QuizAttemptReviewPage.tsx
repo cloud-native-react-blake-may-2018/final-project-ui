@@ -13,7 +13,8 @@ import {
   updateMultipleSelectAnswer,
   updateAnswerArray,
   submitQuizAttempt,
-  clearQuizAttempt
+  clearQuizAttempt,
+  startGetUserQuizzes
 } from '../actions/quizzes'
 import { loadModal } from '../actions/modal'
 import {
