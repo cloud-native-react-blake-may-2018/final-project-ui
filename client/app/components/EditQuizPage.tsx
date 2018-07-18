@@ -58,8 +58,7 @@ export class EditQuizPage extends Component<IProps> {
     },
     questionNumber: 0,
     updatedQuestions: [],
-    clickedAddQuestion: false,
-    mounted: false
+    clickedAddQuestion: false
   }
 
   params = window.location.href.split('/')
@@ -74,19 +73,6 @@ export class EditQuizPage extends Component<IProps> {
     this.props.history.push('/quizzes/created')
   }
 
-  public componentDidMount() {
-    this.setState({
-      ...this.state,
-      mounted: true
-    })
-  }
-
-  public componentWillUnmount() {
-    this.setState({
-      ...this.state,
-      mounted: false
-    })
-  }
   private updateArr = (e: any, arg1: number, arg2: string) => {
     let newAnswersArr = this.state.clickedQuestion.answers
     newAnswersArr[arg1][arg2] = e.target.value
@@ -143,14 +129,10 @@ export class EditQuizPage extends Component<IProps> {
               'Your selected image is too large. Please upload a smaller image.'
           })
         } else if (testvar['response']['status'] === 200) {
-          // this.setState({
-          //   ...this.state,
-          //   errMsg: 'Your quiz was successfully submitted.'
-          // })
-          console.log(this.quizUUID)
           this.props.history.push('/quizzes/created')
         }
       }
+
       errorHandling()
     }
   }
