@@ -13,10 +13,12 @@ test('should render QuizAttemptReviewPage component', () => {
       quizAttempt="placeholder attempt"
       questionNumber={4}
       multipleSelectAnswer="placeholder answer"
+      quizResults={['array of quizzes']}
       multipleChoiceAnswer={['placeholder array of multiple choice']}
       answerArray={['placeholder array of answers']}
-      clearQuizAttempt={() => `placeholder function`}
       loadModal={() => `placeholder function`}
+      handleSelection={() => `placeholder function`}
+      clearQuizAttempt={() => `placeholder function`}
       changeQuestionNumber={() => `placeholder function`}
       startAddAnswerToArray={() => `placeholder function`}
       addMultipleChoiceAnswer={() => `placeholder function`}

@@ -63,7 +63,7 @@ export class QuizResultsPage extends Component<IProps, any> {
               className="loading-indicator"
               name="ball-spin-fade-loader"
             />
-            <p>Grading quiz...</p>
+            <p className="grading">Grading quiz...</p>
           </div>
         )}
         {quiz !== null && (

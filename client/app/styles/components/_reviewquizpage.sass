@@ -1,0 +1,226 @@
+
+  
+.review-quiz-page
+
+  .main
+    display: grid
+    grid-row-gap: 20px
+    margin: auto
+    width: 75%
+    min-width: 700px
+    max-width: 1200px
+    
+    header
+      display: grid
+      padding: 33px 30px
+      border-radius: 8px
+      background-color: $white
+      box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
+
+      .meta
+        display: grid
+        grid-template-columns: repeat(3, 1fr)
+        justify-items: center
+      
+
+        .container
+          display: grid
+          grid-template-columns: repeat(2, max-content)
+          grid-column-gap: 10px
+          align-items: center
+          justify-self: start
+
+          // &:hover .icon
+          //   opacity: 1
+
+          .current
+            justify-self: start
+            margin: 0
+            text-transform: uppercase
+            font: normal 18px Asap
+            color: $grey
+
+          .icon
+            display: relative
+            transition: .15s all ease-in-out
+            color: $light-grey
+
+            &:hover
+              cursor: pointer
+              color: darken($light-grey, 10%)
+
+            // .app-dropdown-root
+            //   .dropdown-toggle
+            //     .menu
+
+        .title
+          justify-self: center
+          margin: 0
+          font: 700 18px Asap
+          color: $blue
+
+        .progress
+          justify-self: end
+          margin: 0
+          font: normal 18px Asap
+          color: $light-grey
+
+      .question
+          justify-self: start
+          margin: 25px 0 0
+          font: normal 18px Asap
+          color: $light-grey
+
+    main
+      display: grid
+      grid-template-columns: minmax(200px, 3fr) minmax(1fr, 2fr)
+      grid-template-rows: 1fr
+      grid-column-gap: 25px
+
+      .choices
+        display: grid
+        grid-column: 1
+        grid-row: 1
+        grid-row-gap: 20px
+
+        .choice
+          padding: 10px 30px
+          border-radius: 8px
+          font: normal 18px Asap
+          color: $grey
+          background-color: $white
+          border: 3px solid $white
+          box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
+
+          &:hover
+            transition: .3s all ease-in-out
+            border: 3px dotted lighten($blue, 5%)
+
+        
+        .selected-and-correct
+          border: 3px dotted darken($teal, 5%)
+  
+        .selected-and-incorrect
+          color: $red
+          background-color: $red
+          border: 3px dotted lighten($blue, 5%)
+
+        .correct
+          color: darken($teal, 5%)
+          background-color: $light-teal
+
+      .image-gallery-div
+        grid-column: 2
+        grid-row: 1
+        margin-bottom: 75px
+        height: max-content
+        z-index: 0
+
+        .image-gallery
+
+        .image-gallery-slide img
+          width: 100%
+          max-height: 42vh
+          object-fit: cover
+      
+
+          // svg
+          //   border: 1px solid green
+
+          //   .rect-border
+          //     animation: marching_ants 0.34s steps(12) infinite
+          //     stroke-dasharray: 8
+          //     border: 3px solid blue
+            
+          //   .text
+          //     border: 1px solid red
+          //     color: $blue
+          //     background-color: orange
+          //     z-index: 1000
+
+
+      .buttons
+        display: grid
+        grid-column: 2
+        grid-row: 1
+        grid-template-columns: repeat(2, max-content)
+        grid-column-gap: 10px
+        justify-self: end
+        align-self: end
+        z-index: 50
+
+        .previous-button
+          justify-self: end
+          grid-column: 1
+          padding: 10px 0
+          width: 120px
+          border: none
+          outline: none
+          box-sizing: border-box
+          border-radius: 8px
+          font: normal 18px Asap
+          color: $white
+          background-color: $light-grey
+          box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
+          transition: .2s all
+
+          &:hover
+            cursor: pointer
+            filter: brightness(97%)
+
+          &:active
+            cursor: pointer
+            transform: scale(.95)
+            filter: brightness(93%)
+
+        .next-button
+          justify-self: end
+          grid-column: 2
+          padding: 10px 0
+          width: 120px
+          border: none
+          outline: none
+          box-sizing: border-box
+          border-radius: 8px
+          font: normal 18px Asap
+          color: $white
+          background-color: $blue
+          box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
+          transition: .2s all
+
+          &:hover
+            cursor: pointer
+            filter: brightness(97%)
+
+          &:active
+            cursor: pointer
+            transform: scale(.95)
+            filter: brightness(93%)
+
+        .submit-button
+          justify-self: end
+          grid-column: 2
+          padding: 10px 50px
+          border: none
+          outline: none
+          border-radius: 8px
+          font: normal 18px Asap
+          color: $white
+          background-color: $light-teal
+          box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
+          transition: .2s all
+
+          &:hover
+            cursor: pointer
+
+          &:active
+            cursor: pointer
+            transform: scale(.95)
+            filter: brightness(93%)
+
+
+@keyframes marching_ants
+  0%
+    stroke-dashoffset: 0
+  100%
+    stroke-dashoffset: 16

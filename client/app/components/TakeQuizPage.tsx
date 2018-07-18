@@ -466,12 +466,12 @@ export class TakeQuizPage extends Component<IProps, any> {
                   >
                     <p>
                       {answers.answer.answer}
-                      <span>
+                      {/* prints classnames of selected answer <span>
                         &nbsp;&nbsp;{this.handleSelection(
                           answers.answer.answer,
                           quiz.questions[questionNumber].title
                         )}
-                      </span>
+                      </span> */}
                     </p>
 
                     {/* <svg

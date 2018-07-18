@@ -272,7 +272,10 @@ export class EditQuizPage extends Component<IProps> {
     const { username } = this.props
     let quiz
     for (let testQuiz of this.props.quizzes) {
-      if (testQuiz.uuid === window.location.href.split('/')[4]) {
+      if (
+        testQuiz.uuid !== null &&
+        testQuiz.uuid === window.location.href.split('/')[4]
+      ) {
         console.log('inside quiz assignment')
         quiz = testQuiz
       }
