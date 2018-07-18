@@ -9,6 +9,8 @@ import { Modal } from './Modal'
 import { startUpdateEmail, startUpdateName } from '../actions/auth'
 import Axios from '../../../node_modules/axios'
 // import { startUpdateUser } from '../actions/auth'
+ 
+let profileUrl=""
 interface ClassProps {
   email: string
   username: string
@@ -71,6 +73,12 @@ if (localStorage.getItem('refresh_token') !== 'undefined') {
       console.log('session validity: ' + session.isValid());
         
       var attributeList = [];
+      /*****
+       * 
+       * Get Attributes for facebook user
+       */
+     if (cognitoUser.getUsername().includes('Facebook_')){
+     // let valueObj = JSON.parse(attributeList[6].Value).data.url
       cognitoUser.getUserAttributes((err, result) => {
         if (err) {
           console.log(err);
@@ -78,10 +86,65 @@ if (localStorage.getItem('refresh_token') !== 'undefined') {
         }
         for (let i=0; i < result.length; i++) {
           attributeList.push({Name: result[i].getName(), Value: result[i].getValue()});
+          if (i === 6 )
+          {
+            /**get profile page photo URL  */
+            profileUrl = JSON.parse(result[i].getValue()).data.url
+            localStorage.setItem('profilePhoto',profileUrl)
+            
+          }
         }
-      })
-      console.log(attributeList)
+        console.log(attributeList)
+      })    
+    } // get attribute for facebook end 
+
+       /*****
+       * 
+       * Get Attributes for Google user
+       */
+    else if (cognitoUser.getUsername().includes('Google_')){
+      // let valueObj = JSON.parse(attributeList[6].Value).data.url
+       cognitoUser.getUserAttributes((err, result) => {
+         if (err) {
+           console.log(err);
+           return;
+         }
+         for (let i=0; i < result.length; i++) {
+           attributeList.push({Name: result[i].getName(), Value: result[i].getValue()});
+           if (i === 4 )
+           {
+            
+             profileUrl = result[i].getValue() 
+             localStorage.setItem('profilePhoto',profileUrl)
+             
+           }
+         }
+         console.log(attributeList)
+       })    
+     } // get attribute for google end 
+
+
+      /*****
+       * 
+       * Get Attributes for Cognito User
+       */
+    else  
+      // let valueObj = JSON.parse(attributeList[6].Value).data.url
+       cognitoUser.getUserAttributes((err, result) => {
+         if (err) {
+           console.log(err);
+           return;
+         }
+         for (let i=0; i < result.length; i++) {
+           attributeList.push({Name: result[i].getName(), Value: result[i].getValue()});
+            
+         }
+         console.log(attributeList)
+       })    
+      // get attribute for Cognito end 
+
     })
+    
   }
 }
 
@@ -106,59 +169,7 @@ export class SettingsPage extends Component<ClassProps> {
     console.log('target: ', e.target.textContent)
     this.setState({ page: e.target.textContent })
   }
-
-  // updateProfile = e => {
-  //   let password: string = '';
-  //   if (!this.isAuthenticated) {
-  //     return (
-  //       <Modal onClose={this.onClose}>
-  //         <div className="report-question-modal">
-  //           <div className="close">
-  //             <FontAwesomeIcon icon="times" />
-  //           </div>
-  //           <p className="title">Enter your password</p>
-  //           <form>
-  //             <label className="container">
-  //               <input type="password" id="password" />
-  //               <p className="confirm">Password</p>
-  //               <span className="checkmark" />
-  //             </label>
-  //           </form>
-  //           <div className="button-group">
-  //             <button onClick={this.onClose} type="button" className="cancel">
-  //               Cancel
-  //             </button>
-  //             <button type="submit" onSubmit={this.authenticate} className="submit">Report</button>
-  //           </div>
-  //         </div>
-  //       </Modal>
-  //     )
-  //   }
-  // }
-
-  // authenticate = (e) => {
-  //   /** Authenticate given password */
-  //   if (cognitoUser != null) {
-  //     const authenticationData = {
-  //       Username: token !== null && token.username,
-  //       Password: 'quailious'
-  //     }
-  //     const authenticationDetails = new awsCognito.AuthenticationDetails(authenticationData);
-  //     cognitoUser.authenticateUser(authenticationDetails, {
-  //       onSuccess: (result) => {
-  //         const accessToken = result.getAccessToken().getJwtToken();
-  //         const idToken = result.getIdToken;
-  //         this.isAuthenticated = true;
-  //       },
-  //       onFailure: (err) => {
-  //         console.log(err);
-  //       }
-  //     })
-
-  //     if(!this.isAuthenticated) return;
-
-  //     
-  // }
+ 
 
   onFieldChange = e => {
     // e.props = ({
@@ -248,9 +259,36 @@ export class SettingsPage extends Component<ClassProps> {
     let { page, name } = this.state
     page = page.toLowerCase()
     return (
+      
       <div className="settings-page">
+
+      
         <div className="main">
+
+        { ( JSON.parse(localStorage.getItem('userInfoToken')).username.includes('Facebook_')||
+          JSON.parse(localStorage.getItem('userInfoToken')).username.includes('Google_'))&&
           <aside>
+            
+            <p
+              className={page === 'general' ? 'active' : null}
+              onClick={this.setPage}
+            >
+              General
+            </p>
+            
+            <p
+              className={page === 'transfers' ? 'active' : null}
+              onClick={this.setPage}
+            >
+              Themes
+            </p>
+          </aside>
+        }
+
+        { !( JSON.parse(localStorage.getItem('userInfoToken')).username.includes('Facebook_')||
+          JSON.parse(localStorage.getItem('userInfoToken')).username.includes('Google_'))&&
+          <aside>
+            
             <p
               className={page === 'general' ? 'active' : null}
               onClick={this.setPage}
@@ -270,7 +308,73 @@ export class SettingsPage extends Component<ClassProps> {
               Themes
             </p>
           </aside>
-          {this.state.page.toLowerCase() == 'general' && (
+        }
+          {this.state.page.toLowerCase() == 'general' && ( JSON.parse(localStorage.getItem('userInfoToken')).username.includes('Facebook_')||
+          JSON.parse(localStorage.getItem('userInfoToken')).username.includes('Google_'))&&
+          
+          (
+            <main>
+               
+                <label htmlFor="photo">Photo</label>
+                
+                <div className="photo-container">
+                  <img
+                  
+                  src={profileUrl}                
+                
+                  
+                />
+                </div>
+                
+              
+              
+              <form
+                className="settings-form"
+                onChange={this.onFieldChange}
+                onSubmit={this.updateProfile}
+              >
+                <div className="input-group">
+                  <label htmlFor="fullname">Full Name</label>
+                  <input
+                    type="text"
+                    name="fullname"
+                    placeholder={name}
+                    onChange={(e: any) => {
+                      this.updateName(e)
+                    }}
+                    value={this.state.name}
+                    readOnly
+                  />
+                </div>
+                <div className="input-group">
+                  <label htmlFor="email">Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder={email}
+                    onChange={(e: any) => {
+                      this.updateEmail(e)
+                    }}
+                    value={this.state.email}
+                    readOnly
+                  />
+                </div>
+                <div className="input-group">
+                  <button
+                    className="save-button"
+                    type="submit"
+                    onSubmit={this.updateProfile}
+                  >
+                    Save changes
+                  </button>
+                </div>
+              </form>
+            </main>
+          )}
+
+          {this.state.page.toLowerCase() == 'general' && !( JSON.parse(localStorage.getItem('userInfoToken')).username.includes('Facebook_')||
+          JSON.parse(localStorage.getItem('userInfoToken')).username.includes('Google_'))&&
+          (
             <main>
               <div className="input-group">
                 <label htmlFor="photo">Photo</label>
@@ -279,12 +383,12 @@ export class SettingsPage extends Component<ClassProps> {
                   onClick={() => this.photoUpload.click()}
                 >
                   <Dropzone onDrop={this.onDrop} className="dropzone" />
-                  {/* <div
+                  <div
                     className="photo"
                     style={{
                       background: `url(${photo}) center / cover no-repeat`
                     }}
-                  /> */}
+                  />
                 </div>
                 <input
                   className="file-upload"
@@ -323,6 +427,7 @@ export class SettingsPage extends Component<ClassProps> {
                       this.updateEmail(e)
                     }}
                     value={this.state.email}
+                    readOnly
                   />
                 </div>
                 <div className="input-group">
@@ -337,6 +442,7 @@ export class SettingsPage extends Component<ClassProps> {
               </form>
             </main>
           )}
+
           {this.state.page.toLowerCase() == 'password' && (
             <main>
               <form className="settings-form" onChange={this.onFieldChange}>
