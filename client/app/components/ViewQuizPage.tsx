@@ -83,7 +83,7 @@ export class ViewQuizPage extends Component<IProps> {
     const { index } = this.state
 
     const otherCount = quiz !== undefined && quiz.count && quiz.count > 0
-    
+
     const myCount =
       quiz !== undefined &&
       quiz.questions !== undefined &&
@@ -130,7 +130,12 @@ export class ViewQuizPage extends Component<IProps> {
                 <p className="author">By: {quiz.author}</p>
                 <h1 className="title">{quiz.title}</h1>
                 <h2 className="total">
-                  {quiz.count ? quiz.count : quiz.questions.length} questions
+                  {quiz.count
+                    ? quiz.count
+                    : quiz.questions !== undefined && quiz.questions.length > 0
+                      ? quiz.questions.length
+                      : 0}{' '}
+                  questions
                 </h2>
               </main>
               <footer>
@@ -161,7 +166,6 @@ export class ViewQuizPage extends Component<IProps> {
     )
   }
 }
-
 const mapStateToProps = (state, props) => ({
   username: state.auth.username,
   results: state.takeQuiz.results,
@@ -170,7 +174,6 @@ const mapStateToProps = (state, props) => ({
     state.quizzes.all.find(quiz => quiz.uuid === props.match.params.uuid),
   quizzes: state.quizzes.all
 })
-
 export default connect<any, any>(
   mapStateToProps,
   { startGetSearchedQuiz, startQuizAttempt, loadModal, clearResults }

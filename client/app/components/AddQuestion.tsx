@@ -183,16 +183,23 @@ export class AddQuestion extends Component<IProps, any> {
   };
 
   private addToList = (e: any) => {
-    // let testValidator = this.formatValidator(this.state.currentQuestion)
-    // if (!testValidator) {
-    //   return
-    // }
-    if (this.state.currentQuestion.title) {
+    let testValidator = this.formatValidator(this.state.currentQuestion);
+    console.log(testValidator);
+    if (!testValidator) {
+      this.setState({
+        ...this.state,
+        errMsg:
+          "Please make sure your question awards ~100 points and all boxes are filled in."
+      });
+    }
+    // if (this.state.currentQuestion.title)
+    else {
       let questionArr = this.state.newQuestions;
       questionArr.push(this.state.currentQuestion);
       this.setState({
         ...this.state,
         newQuestions: questionArr,
+        errMsg: "",
         currentQuestion: {
           author: this.props.username,
           title: "",
@@ -289,11 +296,14 @@ export class AddQuestion extends Component<IProps, any> {
         if (!item.answer) {
           return (validObject = false);
         }
-        percentPoints = percentPoints + item.percentPoints;
+        percentPoints = percentPoints + Number(item.percentPoints);
+        if (percentPoints > 101) {
+          return false;
+        }
       }
     }
     console.log("Inside Validator Function", percentPoints, validObject);
-    return percentPoints > 99 || false;
+    return percentPoints >= 99 ? true : false;
   };
 
   private printQuestionsArr = () => {
