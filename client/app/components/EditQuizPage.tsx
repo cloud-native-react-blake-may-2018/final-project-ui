@@ -161,33 +161,6 @@ export class EditQuizPage extends Component<IProps> {
       } else {
         errorHandling();
       }
-
-      let testvar = await this.props.startEditQuestion(data)
-      console.log(testvar['response']['status'])
-
-      let errorHandling = () => {
-        if (testvar['response']['status'] === 400) {
-          this.setState({
-            ...this.state,
-            errMsg:
-              'Please make sure all boxes have been filled in and re-submit.'
-          })
-        } else if (testvar['response']['status'] === 502) {
-          this.setState({
-            ...this.state,
-            errMsg:
-              'Your selected image is too large. Please upload a smaller image.'
-          })
-        } else if (testvar['response']['status'] === 200) {
-          // this.setState({
-          //   ...this.state,
-          //   errMsg: 'Your quiz was successfully submitted.'
-          // })
-          console.log(this.quizUUID)
-          this.props.history.push('/quizzes/created')
-        }
-      }
-      errorHandling()
     }
   };
 
