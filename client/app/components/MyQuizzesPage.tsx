@@ -121,7 +121,7 @@ export class MyQuizzesPage extends Component<IProps, any> {
                       <FontAwesomeIcon icon="trash" />
                       <p className="hint">Permanently delete this quiz</p>
                     </div>
-                    <Link to={`/view-quiz/${quiz.uuid}`}>
+                    <Link className="quiz-link" to={`/view-quiz/${quiz.uuid}`}>
                       <h1 className="name">{quiz.title}</h1>
                       <p className="amount">
                         {quiz.questions.length} questions
@@ -130,28 +130,54 @@ export class MyQuizzesPage extends Component<IProps, any> {
                         {quiz.tags.length === 0 && (
                           <p className="tag-null-set">No tags</p>
                         )}
-                        {quiz.tags.length > 0 &&
-                          quiz.tags.slice(0, 3).map(tag => (
-                            <div key={tag.allLowerCase} className="tag">
-                              <div
-                                className="tag-dot"
-                                style={{
-                                  height: 8,
-                                  width: 8,
-                                  borderRadius: 50,
-                                  backgroundColor:
-                                    colors[
-                                      Math.floor(Math.random() * colors.length)
-                                    ]
-                                }}
-                              />
-                              <p className="tag-text">{tag.allLowerCase}</p>
-                            </div>
-                          ))}
+                        {quiz.tags.length > 0 && quiz.tags.length > 3
+                          ? quiz.tags.slice(0, 3).map(tag => (
+                              <div key={tag.allLowerCase} className="tag">
+                                <div
+                                  className="tag-dot"
+                                  style={{
+                                    height: 8,
+                                    width: 8,
+                                    borderRadius: 50,
+                                    backgroundColor:
+                                      colors[
+                                        Math.floor(
+                                          Math.random() * colors.length
+                                        )
+                                      ]
+                                  }}
+                                />
+                                <p className="tag-text shorten">
+                                  {tag.allLowerCase}
+                                </p>
+                              </div>
+                            ))
+                          : quiz.tags.map(tag => (
+                              <div key={tag.allLowerCase} className="tag">
+                                <div
+                                  className="tag-dot"
+                                  style={{
+                                    height: 8,
+                                    width: 8,
+                                    borderRadius: 50,
+                                    backgroundColor:
+                                      colors[
+                                        Math.floor(
+                                          Math.random() * colors.length
+                                        )
+                                      ]
+                                  }}
+                                />
+                                <p className="tag-text full">
+                                  {tag.allLowerCase}
+                                </p>
+                              </div>
+                            ))}
                         {quiz.tags.length > 3 && (
                           <p className="extra-tags">+{quiz.tags.length - 3}</p>
                         )}
                       </div>
+                      <div className="fill-block"></div>
                       {/* {quiz.tags.map(tag => (
                     <div key={tag.allLowerCase} className="tag">
                       {tag.allLowerCase}

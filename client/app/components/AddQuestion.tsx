@@ -25,6 +25,7 @@ interface IProps {
   editStoreQuiz?: (any) => any
   startCreateNewQuestion?: (any) => any
   startBatchCreateQuestions?: (any) => any
+  enableSaveAllButton?: (any) => any
 }
 // interface IProps extends RouteComponentProps<any> {
 //   startCreateNewQuestion: (any) => any
@@ -80,9 +81,12 @@ export class AddQuestion extends Component<IProps, any> {
     clickedAddQuestion: this.props.clickedAddQuestion
   }
 
-  page1 = () => this.setState({ page: 1 })
+  page1 = () => {
+    this.setState(prevState => ({ page: 1 }))
+    console.log('after page update!!!!!!')
+  }
 
-  page2 = () => this.setState({ page: 2 })
+  page2 = () => this.setState(prevState => ({ page: 2 }))
 
   private updateTitle = (e: any) => {
     const title = e.target.value
@@ -133,7 +137,6 @@ export class AddQuestion extends Component<IProps, any> {
         errMsg: 'Invalid question format. Please edit and try again.'
       })
     }
-    this.page1()
   }
 
   private updateFormat = (e: any) => {
@@ -203,29 +206,36 @@ export class AddQuestion extends Component<IProps, any> {
     else {
       let questionArr = this.state.newQuestions
       questionArr.push(this.state.currentQuestion)
-      this.setState({
-        ...this.state,
-        newQuestions: questionArr,
-        errMsg: '',
-        currentQuestion: {
-          author: this.props.username,
-          title: '',
-          tags: '',
-          answers: [
-            {
-              answer: '',
-              percentPoints: 0,
-              feedback: 'no feedback for this question'
-            },
-            {
-              answer: '',
-              percentPoints: 0,
-              feedback: 'no feedback for this question'
-            }
-          ],
-          format: 'true-false'
+      this.setState(
+        {
+          ...this.state,
+          newQuestions: questionArr,
+          errMsg: '',
+          currentQuestion: {
+            author: this.props.username,
+            title: '',
+            tags: '',
+            answers: [
+              {
+                answer: '',
+                percentPoints: 0,
+                feedback: 'no feedback for this question'
+              },
+              {
+                answer: '',
+                percentPoints: 0,
+                feedback: 'no feedback for this question'
+              }
+            ],
+            format: 'true-false'
+          }
+        },
+        () => {
+          console.log('after answer update! Now changing page')
+          this.page1()
         }
-      })
+      )
+      // this.props.enableSaveAllButton(this.state.newQuestions.length)
     } // else...
   }
 
@@ -321,7 +331,10 @@ export class AddQuestion extends Component<IProps, any> {
           return (
             <div
               key={'questions' + i}
-              onClick={event => this.changeView('questionDisplay', item, i)}
+              onClick={event => {
+                this.changeView('questionDisplay', item, i)
+                this.page2()
+              }}
               className="tab"
             >
               {/* Question {i + 1} */}
@@ -429,30 +442,31 @@ export class AddQuestion extends Component<IProps, any> {
             </div>
             {this.state.mainView.questionToDisplay.answers.map((item, i) => {
               return (
-                <div>
-                  <div className="group">
-                    <label htmlFor="true-false-answer">Answer</label>
-                    <input
-                      type="text"
-                      id="true-false-answer"
-                      value={item.answer}
-                      onChange={e => {
-                        this.editQuizAnswers(e, 'answer', i)
-                      }}
-                    />
-                  </div>
-                  <div className="group">
-                    <label htmlFor="true-false-percent-points">Score</label>
-                    <input
-                      type="text"
-                      id="true-false-percent-points"
-                      value={item.percentPoints}
-                      onChange={e => {
-                        this.editQuizAnswers(e, 'percentPoints', i)
-                      }}
-                    />
-                  </div>
-                  {/* <div className="group">
+                <div className="question-fields">
+                  <div>
+                    <div className="group">
+                      <label htmlFor="true-false-answer">Answer</label>
+                      <input
+                        type="text"
+                        id="true-false-answer"
+                        value={item.answer}
+                        onChange={e => {
+                          this.editQuizAnswers(e, 'answer', i)
+                        }}
+                      />
+                    </div>
+                    <div className="group">
+                      <label htmlFor="true-false-percent-points">Score</label>
+                      <input
+                        type="text"
+                        id="true-false-percent-points"
+                        value={item.percentPoints}
+                        onChange={e => {
+                          this.editQuizAnswers(e, 'percentPoints', i)
+                        }}
+                      />
+                    </div>
+                    {/* <div className="group">
                     <label htmlFor="true-false-feed-back">feed Back</label>
                     <input
                       type="text"
@@ -463,15 +477,19 @@ export class AddQuestion extends Component<IProps, any> {
                       }}
                     />
                   </div> */}
+                  </div>
                 </div>
               )
             })}
             <button
               onClick={() => {
                 this.changeView('inputDisplay')
+                this.page1()
               }}
+              className="back-to-create-question"
             >
-              Create New Question
+              <FontAwesomeIcon icon="arrow-left" className="icon" />
+              {/* Create New Question */}
             </button>
           </div>
         )
@@ -716,7 +734,7 @@ export class AddQuestion extends Component<IProps, any> {
         <div className="close" onClick={this.props.adding}>
           <FontAwesomeIcon icon="times" />
         </div>
-        <div className="que-question" onClick={this.addToList}>
+        <div className="que-question-button" onClick={this.addToList}>
           <FontAwesomeIcon icon="plus" />
         </div>
         {page === 1 && (
@@ -786,11 +804,15 @@ export class AddQuestion extends Component<IProps, any> {
         </div>
         {page === 2 && (
           <button
-            disabled={this.props.edited ? false : true}
+            disabled={
+              !this.props.edited || this.state.newQuestions.length === 0
+                ? true
+                : false
+            }
             onClick={this.updateReducerStore}
             className="save-question"
           >
-            Save
+            Save all questions
           </button>
         )}
         <div className="tabs">{this.printQuestionsArr()}</div>

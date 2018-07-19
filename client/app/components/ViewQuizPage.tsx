@@ -101,43 +101,46 @@ export class ViewQuizPage extends Component<IProps> {
           (quiz.count !== undefined || quiz.questions !== undefined) && (
             <div className="main">
               <main className={this.randomGradient[index]}>
-                <ArrowIcon className="back" onClick={this.goBack} />
-                <div className="icon">
-                  <Dropdown
-                    isOpen={this.state.dropdownOpen}
-                    toggle={this.toggleDropdown}
-                    className="app-dropdown-root"
-                  >
-                    <DropdownToggle className="dropdown-toggle">
-                      <FontAwesomeIcon icon="ellipsis-h" className="menu" />
-                    </DropdownToggle>
-                    <DropdownMenu
-                      right
-                      className="dropdown-menu"
-                      style={{
-                        display: this.state.dropdownOpen ? 'block' : 'none'
-                      }}
+                <div className="scroll-wrapper">
+                  <ArrowIcon className="back" onClick={this.goBack} />
+                  <div className="icon">
+                    <Dropdown
+                      isOpen={this.state.dropdownOpen}
+                      toggle={this.toggleDropdown}
+                      className="app-dropdown-root"
                     >
-                      <DropdownItem
-                        className="dropdown-item"
-                        onClick={this.reportQuizModal}
+                      <DropdownToggle className="dropdown-toggle">
+                        <FontAwesomeIcon icon="ellipsis-h" className="menu" />
+                      </DropdownToggle>
+                      <DropdownMenu
+                        right
+                        className="dropdown-menu"
+                        style={{
+                          display: this.state.dropdownOpen ? 'block' : 'none'
+                        }}
                       >
-                        Report quiz
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
+                        <DropdownItem
+                          className="dropdown-item"
+                          onClick={this.reportQuizModal}
+                        >
+                          Report quiz
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
+                  </div>
+                  <p className="author">By: {quiz.author}</p>
+                  <h1 className="title">{quiz.title}</h1>
+                  <h2 className="total">
+                    {quiz.count
+                      ? quiz.count
+                      : quiz.questions !== undefined &&
+                        quiz.questions.length > 0
+                        ? quiz.questions.length
+                        : 0}{' '}
+                    questions
+                  </h2>
+                  <p className="description">{quiz.description}</p>
                 </div>
-                <p className="author">By: {quiz.author}</p>
-                <h1 className="title">{quiz.title}</h1>
-                <h2 className="total">
-                  {quiz.count
-                    ? quiz.count
-                    : quiz.questions !== undefined && quiz.questions.length > 0
-                      ? quiz.questions.length
-                      : 0}{' '}
-                  questions
-                </h2>
-                <p className="description">{quiz.description}</p>
               </main>
               <footer>
                 {quiz.author === this.props.username && (
@@ -172,7 +175,9 @@ const mapStateToProps = (state, props) => ({
   results: state.takeQuiz.results,
   quiz:
     state.quizzes.all !== undefined &&
-    state.quizzes.all.find(quiz => quiz.uuid === props.match.params.uuid),
+    state.quizzes.all
+      .filter(quiz => quiz !== null)
+      .find(quiz => quiz.uuid === props.match.params.uuid),
   quizzes:
     state.quizzes.all !== undefined &&
     state.quizzes.all.filter(quiz => quiz !== null)

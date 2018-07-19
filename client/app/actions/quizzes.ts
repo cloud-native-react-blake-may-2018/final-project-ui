@@ -20,7 +20,7 @@ export const startGetUserQuizzes = author => {
   return async dispatch =>
     // const quizAttempts = await pathList.quizzes.displayQuizAttempts(author)
     await pathList.quizzes.display(author).then(async quizzes => {
-      const all = await Promise.all(
+      let fetched = await Promise.all(
         quizzes.map(async quiz => {
           const questions = await pathList.questions.display(quiz.uuid)
           const tags = await pathList.questions.displayTags(quiz.uuid)
@@ -29,6 +29,7 @@ export const startGetUserQuizzes = author => {
           return { ...quiz, questions, tags }
         })
       )
+      const all = fetched.filter(quiz => quiz !== null)
 
       const url = window.location.href.split('/')[4]
       const uuid = url !== undefined ? url[4] : null
@@ -53,7 +54,7 @@ export const startGetUserQuizzes = author => {
       !inPossession && dispatch(getSearchedQuiz(otherQuiz))
 
       // store user data
-      // dispatch(getUserQuizzes(all)) // was overwriting  
+      // dispatch(getUserQuizzes(all)) // was overwriting
       dispatch(getUserPoints(points))
       dispatch(getAllPoints(allPoints))
       return dispatch(getQuizAttempts(quizAttempts))
