@@ -31,7 +31,7 @@ export const startGetUserQuizzes = author => {
       )
       const all = fetched.filter(quiz => quiz !== null)
 
-      const url = window.location.href.split('/')[4]
+      const url = window.location.href.split('/')
       const uuid = url !== undefined ? url[4] : null
 
       // console.log('UUID of url:', uuid)

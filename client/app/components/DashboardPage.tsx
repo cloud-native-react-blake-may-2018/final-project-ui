@@ -50,7 +50,7 @@ export class DashboardPage extends Component<IProps> {
 
   //@ts-ignore
   render = () => {
-    const { quizzes, allAttempts, top3 } = this.props
+    const { quizzes, allAttempts, top3, username } = this.props
     const { oscillate1, oscillate2 } = this.state
     return (
       <div className="dashboard-page">
@@ -65,7 +65,13 @@ export class DashboardPage extends Component<IProps> {
                   <h2 className="quizzes-title">Quizzes</h2>
                   <main>
                     <div className="quizzes-created">
-                      <p className="count">{quizzes.length}</p>
+                      <p className="count">
+                        {
+                          quizzes
+                            .filter(quiz => quiz !== null)
+                            .filter(quiz => quiz.author === username).length
+                        }
+                      </p>
                       <p className="label">/ created</p>
                       <Link to="/quizzes/created" className="link">
                         <ArrowIcon
@@ -129,7 +135,9 @@ export class DashboardPage extends Component<IProps> {
                     top3.map(user => (
                       <div key={user.username} className="container">
                         <p className="username">{user.username}</p>
-                        <p className="total">{user.points < 10000 ? user.points : 10000+'+'}</p>
+                        <p className="total">
+                          {user.points < 10000 ? user.points : 10000 + '+'}
+                        </p>
                         <CoinIcon className="coin" />
                       </div>
                     ))}
