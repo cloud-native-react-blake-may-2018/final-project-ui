@@ -1,5 +1,6 @@
 
-.splash-page 
+.splash-page
+
   header
     display: grid
     grid-auto-rows: max-content
@@ -113,81 +114,225 @@
           transform-origin: 50% 20.5px
           will-change: transform
 
-
-  .splash-body
+  main
     display: grid
-    padding: 25px 75px
 
-    .block
+    .secret-button
+      justify-self: center
+      padding: 10px 50px
+      margin: 10px 0 50px
+      border: none
+      outline: none
+      border-radius: 8px
+      font: normal 18px Asap
+      color: $white
+      background-color: $blue
+      box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
+      transition: .3s all
+
+      &:hover
+        cursor: pointer
+        transform: translateY(-2px)
+
+      &:active
+        cursor: pointer
+        transform: scale(.9)
+        filter: brightness(93%)
+
+    .topics
+      min-height: 200px
+      width: 100%
+      background-color: $white-grey
+
+    .strip
+      min-height: 200px
+      width: 100%
+      background-color: $white-grey
+      z-index: 0
+
+    .row
       display: grid
-      grid-template-columns: repeat(4, 1fr)
+      position: relative
+      grid-template-columns: repeat(2, 1fr)
+      grid-template-rows: max-content !important
+      grid-column-gap: 10vw
+      max-height: 70vh
+      padding: 50px
 
-      &:not(:first-of-type)
-        margin: 75px0 
+      .text-block
+        justify-self: center
+        max-width: 40vw
+        padding: 15px 25px
 
-.block.-top
-  display: grid
-  grid-column: 1 / -1
+        h3
+          margin: 0 0 15px
+          height: max-content
+          width: 100%
+          text-transform: uppercase
+          box-sizing: border-box
+          font: 600 18px Asap
 
-  > .title
-    grid-column: 1 / span 3
-    padding: 0 100px 0 0
-    margin: 50px 0 0
-    font: 700 90px Amiko, Helvetica, sans-serif
-    color: $darkgrey
+        h2
+          display: block
+          margin: 0 0 15px
+          height: max-content
+          width: 100%
+          font: 500 48px/ 1.5 Asap
+          color: $dark-grey
 
-  > .subtitle
-    display: inline
-    grid-column: 1 / span 3
-    margin: 15px 0
-    padding: 0 400px 0 0
-    font: 300 36px/1.5 'Source Sans', Helvetica, sans-serif
-    color: darken($buttongrey, 10%)
-  
-  > .cta
-    grid-column: 1 / span 3
-    justify-self: start
-    margin: 35px 0 0
-    padding: 15px
-    border-radius: 5px
-    font: 300 24px 'Source Sans', Helvetica, sans-serif
-    color: $white
-    background-color: $want-green
-    transition: 300ms all
-    &:hover
-      cursor: pointer
-      background-color: darken($want-green, 5%)
+        p
+          display: block
+          margin: 0
+          height: max-content
+          width: 100%
+          font: 400 28px/ 1.5 Asap
+          color: $grey
+      
+      .panel
+        position: absolute
+        top: -50px
+        height: 320px
+        width: 40vw
+        overflow: hidden
+        border-radius: 8px
+        background-color: $white
+        box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
+        transition: .3s all ease-in-out
+
+        img
+          padding-left: -5px
+          margin-left: -5px
+          width: 101%
+
+      .question
+        display: grid
+        grid-auto-rows: max-content
+        grid-row-gap: 15px
+        align-self: end
+        width: max-content
+        margin: 300px 0 0 100px
+
+        .title
+          margin: 0
+          height: max-content
+          width: 100%
+          max-width: 25vw
+          font: 400 18px/ 1.5 Asap
+          color: $grey
+      
+        .container
+          display: grid
+          align-items: center
+          position: relative
+      
+          /* On mouse-over, add a grey background color */
+          &:hover input ~ .checkmark
+            background-color: #ccc
+
+          .reason
+            margin: 0 0 0 50px
+            max-width: 25vw
+            text-align: left
+            font: normal 18px Asap
+            color: $light-grey
+
+          /* Hide the browser's default radio button */
+          input
+            position: absolute
+            opacity: 0
+            cursor: pointer
+
+            /* When the radio button is checked, add a blue background */
+            &:checked ~ .checkmark
+              background-color: $blue
+              // background-color: #2196F3
+
+            /* Show the indicator (dot/circle) when checked */
+            &:checked ~ .checkmark:after
+              display: block
+
+            &:checked + .reason
+              color: $blue
+
+          /* Create a custom radio button */
+          .checkmark
+            position: absolute
+            top: 0
+            left: 0
+            height: 25px
+            width: 25px
+            background-color: #eee
+            border-radius: 50%
+
+            /* Create the indicator (the dot/circle - hidden when not checked) */
+            &:after
+              content: ""
+              position: absolute
+              display: none
+
+              /* Style the indicator (dot/circle) */
+              top: 9px
+              left: 9px
+              width: 8px
+              height: 8px
+              border-radius: 50%
+              background: white
 
 
-  
-.block.-middle
-  grid-column: 1 / -1
+    .top      
+      .text-block
+        grid-column: 1
 
-  > .title
-    grid-column: 3 / span 2
-    margin: 0
-    font: 700 55px Amiko, Helvetica, sans-serif
-  
-  > .list
-    grid-column: 3 / span 2
-    margin: 0
+        h3
+          color: $light-teal
 
+      .panel
+        grid-column: 2
+        border-bottom: 5px solid $light-teal
 
-.block.-bottom
-  grid-column: 1 / -1
+      .question
+        grid-column: 2
+    
+    .middle
+      .text-block
+        grid-column: 2
 
-  > .title
-    grid-column: 1 / span 2
-    margin: 0
-    font: 700 55px Amiko, Helvetica, sans-serif
+        h3
+        color: $dark-blue
 
-  > .subtitle
-    grid-column: 1 / span 2
-    margin: 0
-  
-  > .text
-    grid-column: 1 / span 2
-    margin: 0
+      .panel
+        grid-column: 1
+        border-bottom: 5px solid $dark-blue
+
+      .question
+        grid-column: 1
+        margin-top: -90px
+
+    .bottom
+      .text-block
+        grid-column: 1
+
+        h3
+          color: $violet
+
+      .panel
+        grid-column: 2
+        border-bottom: 5px solid $violet
+
+      .question
+        grid-column: 2
+
+  footer
+    display: grid
+    align-content: center
+    justify-content: center
+    min-height: 75px
+    width: 100%
+    background-color: $white-grey
+
+    p
+      color: $light-grey
+
 
 @keyframes typing
   from

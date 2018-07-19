@@ -125,6 +125,10 @@
           .tag-text
             margin: 0
             width: max-content
+            max-width: 4.5vw
+            white-space: nowrap
+            overflow: hidden
+            text-overflow: ellipsis
             font: normal 18px Asap
             color: $light-grey
         
@@ -356,7 +360,7 @@
       .options
         margin: 15px 0 65px
         padding-right: 15px
-        height: 40vh
+        height: 45vh
         overflow-y: scroll
 
         &::-webkit-scrollbar
@@ -372,42 +376,43 @@
           border-radius: 25px
 
         .question-fields
-          display: grid
-          grid-template-columns: minmax(max-content, 6fr) minmax(60px, 1fr)
-          grid-auto-flow: row
-          grid-column-gap: 15px
-
-          .group
+          div
             display: grid
-            grid-template-columns: repeat(2, 1fr)
-            grid-column: 1 / span 2
-            grid-column-gap: 25px
-            align-items: center
-            position: relative
+            grid-template-columns: minmax(max-content, 6fr) minmax(60px, 1fr)
+            grid-auto-flow: column
+            grid-column-gap: 15px
 
-            label, .label
-              grid-column: 1 / span 2
-              margin: 10px 0
-              width: max-content
-              font: normal 18px Asap
-              color: $grey    
+            .group
+              display: grid
+              grid-template-columns: repeat(2, 1fr)
+              grid-auto-rows: max-content
+              grid-column-gap: 25px
+              align-items: start
+              position: relative
 
-            input, textarea
-              grid-column: 1 / span 2
-              padding: 10px 15px
-              margin: 0 0 10px
-              border: none
-              border-radius: 8px
-              outline: none
-              resize: none
-              font: normal 18px Asap
-              color: $grey
-              background-color: $white-grey
+              label, .label
+                grid-column: 1 / span 2
+                margin: 10px 0
+                width: max-content
+                font: normal 18px Asap
+                color: $grey    
+
+              input, textarea
+                grid-column: 1 / span 2
+                padding: 10px 15px
+                margin: 0 0 10px
+                border: none
+                border-radius: 8px
+                outline: none
+                resize: none
+                font: normal 18px Asap
+                color: $grey
+                background-color: $white-grey
 
         
       .save-question
         align-self: end
-        justify-self: center
+        justify-self: start
         padding: 10px 50px
         border: none
         outline: none

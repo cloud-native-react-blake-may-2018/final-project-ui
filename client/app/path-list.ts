@@ -81,6 +81,8 @@ const getAllPointsUrl =
 
 /* GET USER POINTS */
 // '/user/{username}' to get points
+const setStartingPointsUrl =
+  'https://eyc3l7k6w1.execute-api.us-east-2.amazonaws.com/dev/user/'
 
 // 'updatePoints/post
 
@@ -210,6 +212,11 @@ export default {
       authInterceptor.get(getUserPointsUrl + username).then(res => res.data),
 
     getAllPoints: () =>
-      authInterceptor.get(getAllPointsUrl).then(res => res.data)
+      authInterceptor.get(getAllPointsUrl).then(res => res.data),
+
+    setStartingPoints: (username, points) =>
+      authInterceptor
+        .post(setStartingPointsUrl + username, { points })
+        .then(res => res.data)
   }
 }

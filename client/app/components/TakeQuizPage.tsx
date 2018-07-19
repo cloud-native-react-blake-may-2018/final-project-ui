@@ -413,11 +413,6 @@ export class TakeQuizPage extends Component<IProps, any> {
               <div className="meta">
                 <div className="container">
                   <p className="current">Question {questionNumber + 1}</p>
-                  <p className="format">
-                    {quiz !== undefined &&
-                      quiz[questionNumber] !== undefined &&
-                      quiz[questionNumber].format}
-                  </p>
                   <div className="icon">
                     <Dropdown
                       isOpen={this.state.dropdownOpen}
@@ -450,6 +445,14 @@ export class TakeQuizPage extends Component<IProps, any> {
                 <p className="progress">
                   Question {questionNumber + 1}/{quiz.questions.length}
                 </p>
+                <p className="format">
+                  {quiz !== undefined &&
+                    quiz.questions[questionNumber] !== undefined &&
+                    quiz.questions[questionNumber].format}
+                </p>
+                {/* <p className="progress">
+                  Question {questionNumber + 1}/{quiz.questions.length}
+                </p> */}
               </div>
               <p className="question">{quiz.questions[questionNumber].title}</p>
             </header>

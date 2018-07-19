@@ -347,23 +347,24 @@ export class EditQuizPage extends Component<IProps> {
                 </div>
                 {/* <p className="add-tag">+ tag</p> */}
                 <div className="questions">
-                  {quiz.questions !== undefined && quiz.questions.map((question, i) => {
-                    if (question !== null && question.author === username)
-                      return (
-                        <div key={'question' + i}>
-                          <p
-                            className="question"
-                            onClick={this.showQuizQuestion.bind(
-                              this,
-                              quiz.questions[count],
-                              count + 1
-                            )}
-                          >
-                            Question {(count += 1)}
-                          </p>
-                        </div>
-                      )
-                  })}
+                  {quiz.questions !== undefined &&
+                    quiz.questions.map((question, i) => {
+                      if (question !== null && question.author === username)
+                        return (
+                          <div key={'question' + i}>
+                            <p
+                              className="question"
+                              onClick={this.showQuizQuestion.bind(
+                                this,
+                                quiz.questions[count],
+                                count + 1
+                              )}
+                            >
+                              Question {(count += 1)}
+                            </p>
+                          </div>
+                        )
+                    })}
                 </div>
                 <p
                   onClick={e => this.setAddQuestion(e)}
@@ -518,15 +519,11 @@ export class EditQuizPage extends Component<IProps> {
                   </div>
                   {page === 2 && (
                     <button
-                      disabled={
-                        !this.state.edited || this.state.answerQue.length === 0
-                          ? true
-                          : false
-                      }
+                      disabled={this.state.edited ? false : true}
                       onClick={this.saveChangeToState}
                       className="save-question"
                     >
-                      Save
+                      Update question
                     </button>
                   )}
                 </div>

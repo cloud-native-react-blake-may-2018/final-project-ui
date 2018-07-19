@@ -36,6 +36,14 @@ export const startGetUserQuizzes = author => {
 
       console.log('UUID of url:', uuid)
 
+      if (localStorage.secretQuiz) {
+        const award = JSON.parse(localStorage.secretQuiz)
+        console.log('awarding points', award)
+        console.log('typeof', typeof award)
+        // pathList.points.setStartingPoints(award, author)
+        localStorage.removeItem('secretQuiz')
+      }
+
       const otherQuiz =
         uuid && uuid.length === 36
           ? await pathList.quizzes.getForeignQuiz(uuid)
