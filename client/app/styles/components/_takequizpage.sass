@@ -19,6 +19,7 @@
 
       .meta
         display: grid
+        position: relative
         grid-template-columns: repeat(3, 1fr)
         justify-items: center
       
@@ -65,11 +66,19 @@
           font: normal 18px Asap
           color: $light-grey
 
-      .question
-          justify-self: start
-          margin: 25px 0 0
+        .format
+          position: absolute
+          top: 25px
+          right: 0
+          margin: 0
           font: normal 18px Asap
           color: $light-grey
+
+      .question
+        justify-self: start
+        margin: 25px 0 0
+        font: normal 18px Asap
+        color: $light-grey
 
     main
       display: grid
