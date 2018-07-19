@@ -10,7 +10,6 @@
     background-color: $white
     box-shadow: 0 10px 24px rgba(0,0,0,.15), 0 3px 10px rgba(0,0,0,.1)
 
-
     .red-orange
       background: linear-gradient(40deg, $red, $orange)
 
@@ -26,7 +25,6 @@
     .midnight-orange
       background: linear-gradient(40deg, $midnight, $orange)
 
-  
     main
       display: grid
       position: relative
@@ -39,70 +37,86 @@
       border-radius: 8px 8px 0 0
       // background: linear-gradient(40deg, $red, $orange)
 
-      .author
-        width: max-content
-        margin: 30px 0 20px
-        font: italic 500 21px Asap
-        color: lighten(black, 15%)
-        mix-blend-mode: overlay
-        z-index: 0
-        // color: $dark-red
+      .scroll-wrapper
+        max-height: 400px
+        overflow-y: scroll
 
-      .title
-        margin: 0 0 10px
-        font: 700 60px Asap
-        color: $white
+        &::-webkit-scrollbar
+          // size
+          width: 7px
+          // scroll background
+          -webkit-box-shadow: none
 
-      .description
-        margin: 0 0 30px
-        font: 400 24px Asap
-        color: lighten($sidebar-black,15%)
-        mix-blend-mode: overlay
+        &::-webkit-scrollbar-thumb
+          // bar color
+          background-color: $white
+          opacity: .5
+          // bar curve
+          border-radius: 25px
 
+        .author
+          width: max-content
+          justify-self: center
+          margin: 30px auto 20px
+          font: italic 500 21px Asap
+          color: lighten(black, 15%)
+          mix-blend-mode: overlay
+          z-index: 0
+          // color: $dark-red
 
+        .title
+          margin: 0 0 10px
+          font: 700 60px Asap
+          color: $white
 
-      .total
-        margin: 0 0 30px
-        font: 900 36px Asap
-        color: black
-        mix-blend-mode: overlay
-        // color: $grey
-        // color: $burgundy
+        .description
+          margin: 0 0 30px
+          font: 400 24px Asap
+          color: lighten($sidebar-black,15%)
+          mix-blend-mode: overlay
 
-      .back
-        position: absolute
-        top: 50px
-        left: 50px
-        transform: scale(.8) scaleX(-1)
+        .total
+          margin: 0 0 30px
+          font: 900 36px Asap
+          color: black
+          mix-blend-mode: overlay
+          // color: $grey
+          // color: $burgundy
 
-        &:hover
-          transition: all 1s ease-in-out
-          animation: back-oscillate .7s infinite
-          cursor: pointer
+        .back
+          position: absolute
+          top: 50px
+          left: 50px
+          transform: scale(.8) scaleX(-1)
 
-      .back path
-        fill: $white-grey
+          &:hover
+            transition: all 1s ease-in-out
+            animation: back-oscillate .7s infinite
+            cursor: pointer
 
-      .icon
-        position: absolute
-        top: 50px
-        right: 50px
-        color: $white-grey
-        z-index: 100
+        .back path
+          fill: $white-grey
 
-        &:hover
-          cursor: pointer
+        .icon
+          position: absolute
+          top: 50px
+          right: 50px
+          color: $white-grey
+          z-index: 100
 
-        &:hover .menu
-          cursor: pointer
-          color: darken($white-grey, 10%)
-          transition: .15s all ease-in-out
+          &:hover
+            cursor: pointer
 
-        .app-dropdown-root
-          .dropdown-toggle
-            .menu
-              font-size: 24px
-              color: $white
+          &:hover .menu
+            cursor: pointer
+            color: darken($white-grey, 10%)
+            transition: .15s all ease-in-out
+
+          .app-dropdown-root
+            .dropdown-toggle
+              .menu
+                font-size: 24px
+                color: $white
 
     footer
       display: grid

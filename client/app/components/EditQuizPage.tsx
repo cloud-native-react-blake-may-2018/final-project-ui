@@ -22,6 +22,7 @@ interface IProps {
   editFunc?: (any) => any
   startEditQuestion: (any) => any
   startDeleteQuestion: (author: string, title: any) => any
+  enableSaveAllButton?: (any) => any
   loadModal?: (type: string, title: string, uuid: any) => any
 }
 
@@ -61,7 +62,8 @@ export class EditQuizPage extends Component<IProps> {
     questionNumber: 0,
     updatedQuestions: [],
     clickedAddQuestion: false,
-    edited: false
+    edited: false,
+    answerQue: ''
   }
 
   params = window.location.href.split('/')
@@ -90,6 +92,8 @@ export class EditQuizPage extends Component<IProps> {
 
   public editFunc = () => this.setState({ edited: true })
   public adding = () => this.setState({ clickedAddQuestion: false })
+
+  // public enableSaveAllButton = answerQue => this.setState({ answerQue })
 
   private updateQuiz = async (e: any) => {
     let sendQuestionList = []
@@ -397,7 +401,7 @@ export class EditQuizPage extends Component<IProps> {
                         <label>Tags</label>
                         <input
                           onChange={this.updateTags}
-                          placeholder="Assign tags to this question"
+                          placeholder="Add tags"
                           // placeholder={
                           //   clickedQuestion.tags.length > 0
                           //     ? clickedQuestion.tags.map(
@@ -443,42 +447,43 @@ export class EditQuizPage extends Component<IProps> {
                   )}
                   {page === 2 && (
                     <form className="options">
-                      {clickedQuestion.answers.map((ans, index) => (
-                        <div key={'ans' + index}>
-                          <div className="group">
-                            <label
-                              htmlFor="true-false-answer"
-                              className="label"
-                            >
-                              Choice
-                            </label>
-                            <textarea
-                              id="true-false-answer"
-                              value={ans.answer}
-                              className="input"
-                              onChange={(e: any) => {
-                                this.updateArr(e, index, 'answer')
-                              }}
-                              data-enable-grammarly="false"
-                            />
-                          </div>
-                          <div className="group">
-                            <label
-                              htmlFor="true-false-percent-points"
-                              className="input"
-                            >
-                              Percent Points
-                            </label>
-                            <textarea
-                              id="true-false-percent-points"
-                              value={ans.percentPoints}
-                              onChange={(e: any) => {
-                                this.updateArr(e, index, 'percentPoints')
-                              }}
-                              data-enable-grammarly="false"
-                            />
-                          </div>
-                          <div className="group">
+                      <div className="question-fields">
+                        {clickedQuestion.answers.map((ans, index) => (
+                          <div key={'ans' + index}>
+                            <div className="group">
+                              <label
+                                htmlFor="true-false-answer"
+                                className="label"
+                              >
+                                Choice
+                              </label>
+                              <textarea
+                                id="true-false-answer"
+                                value={ans.answer}
+                                className="input"
+                                onChange={(e: any) => {
+                                  this.updateArr(e, index, 'answer')
+                                }}
+                                data-enable-grammarly="false"
+                              />
+                            </div>
+                            <div className="group">
+                              <label
+                                htmlFor="true-false-percent-points"
+                                className="input"
+                              >
+                                Score
+                              </label>
+                              <input
+                                id="true-false-percent-points"
+                                value={ans.percentPoints}
+                                onChange={(e: any) => {
+                                  this.updateArr(e, index, 'percentPoints')
+                                }}
+                                data-enable-grammarly="false"
+                              />
+                            </div>
+                            {/* <div className="group">
                             <label htmlFor="true-false-feed-back">
                               Feedback
                             </label>
@@ -491,9 +496,10 @@ export class EditQuizPage extends Component<IProps> {
                               }}
                               data-enable-grammarly="false"
                             />
+                          </div> */}
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </form>
                   )}
                   <div className="page-navigation">
@@ -512,7 +518,11 @@ export class EditQuizPage extends Component<IProps> {
                   </div>
                   {page === 2 && (
                     <button
-                      disabled={this.state.edited ? false : true}
+                      disabled={
+                        !this.state.edited || this.state.answerQue.length === 0
+                          ? true
+                          : false
+                      }
                       onClick={this.saveChangeToState}
                       className="save-question"
                     >

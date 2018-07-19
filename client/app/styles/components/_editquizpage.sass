@@ -52,9 +52,11 @@
 
       .title
         margin: 10px 0
-        padding: 0
-        width: max-content
-        height: 15px
+        padding: 0 12px 0 0
+        height: max-content
+        box-sizing: border-box
+        width: 100%
+        word-wrap: break-word
         font: normal 24px Asap
         color: $grey
 
@@ -65,7 +67,7 @@
         cursor: pointer
         color: $light-grey
         transition: .3s all ease-in-out
-        z-index: 30
+        z-index: 15
 
         &:hover
           color: $red
@@ -267,6 +269,11 @@
       .details
         display: grid
 
+        &:hover
+          // padding-right: 15px
+          cursor: pointer
+          filter: brightness(95%)
+
         .group
           display: grid
           grid-column: 1 / span 2
@@ -274,20 +281,14 @@
           grid-template-columns: repeat(2, 1fr)
           position: relative
 
-          .question-text
-            margin: 0 0 25px
-            grid-column: 1 / span 2
-            font: 600 21px Asap
-            color: $light-teal
-
           label, .label
-            grid-column: 1 / span 2
+            grid-column: 1
             margin: 10px 0
             font: normal 18px Asap
             color: $grey          
 
           input, textarea
-            grid-column: 1 / span 2
+            grid-column: 1
             padding: 10px 15px
             margin: 0 0 10px
             border: none
@@ -298,6 +299,12 @@
             color: $grey
             background-color: $white-grey
   
+          .question-text
+            margin: 0 0 25px
+            grid-column: 1 / span 2
+            font: 600 21px Asap
+            color: $grey
+
           .with-dots
             border: 2px dotted $light-grey
 
@@ -306,10 +313,12 @@
             grid-column: 1 / span 2
             align-items: center
             justify-items: center
-            justify-self: center
+            justify-self: start
             position: relative
-            height: 110px
-            width: 22vw
+            height: 155px
+            width: 24vw
+            min-width: 250px
+            max-width: 280px
             border-radius: 8px
             transition: .3s all ease-in-out
 
@@ -362,23 +371,39 @@
           // bar curve
           border-radius: 25px
 
-        .group
+        .question-fields
+          display: grid
+          grid-template-columns: minmax(max-content, 6fr) minmax(60px, 1fr)
+          grid-auto-flow: row
+          grid-column-gap: 15px
 
-          textarea
-            padding: 10px 15px
-            border: none
-            border-radius: 8px
-            outline: none
-            resize: none
-            font: normal 18px Asap
-            color: $grey
-            background-color: $white-grey
+          .group
+            display: grid
+            grid-template-columns: repeat(2, 1fr)
+            grid-column: 1 / span 2
+            grid-column-gap: 25px
+            align-items: center
+            position: relative
 
-        .answer
-        
-        .value
+            label, .label
+              grid-column: 1 / span 2
+              margin: 10px 0
+              width: max-content
+              font: normal 18px Asap
+              color: $grey    
 
-        .feedback
+            input, textarea
+              grid-column: 1 / span 2
+              padding: 10px 15px
+              margin: 0 0 10px
+              border: none
+              border-radius: 8px
+              outline: none
+              resize: none
+              font: normal 18px Asap
+              color: $grey
+              background-color: $white-grey
+
         
       .save-question
         align-self: end
@@ -450,7 +475,7 @@
           // -moz-animation: wiggle .5s infinite
           // -webkit-animation: wiggle .5s infinite
 
-      .que-question
+      .que-question-button
         display: grid
         position: absolute
         align-items: center
@@ -498,12 +523,34 @@
               filter: brightness(95%)
 
 
-            
-
-
-
       .details
         display: grid
+
+        .back-to-create-question
+          display: grid
+          position: absolute
+          align-items: center
+          justify-items: center
+          bottom: 75px
+          right: -41px
+          height: 40px
+          width: 40px
+          border: none
+          outline: none
+          border-radius: 0 8px 8px 0
+          font-size: 18px
+          color: $white
+          background-color: $light-grey
+          transition: .3s all ease-in-out
+          z-index: -10
+          transition: .3s all ease-in-out
+
+          &:hover
+            cursor: pointer
+            filter: brightness(93%)
+
+          .icon
+            margin-left: 5px
 
         .split-group
           display: grid
@@ -640,10 +687,9 @@
               background-color: $white-grey
 
 
-
       .save-question
         align-self: end
-        justify-self: center
+        justify-self: start
         padding: 10px 50px
         margin: 0 0 10px 0
         border: none
