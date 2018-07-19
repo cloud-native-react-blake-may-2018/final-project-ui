@@ -347,7 +347,7 @@ export class EditQuizPage extends Component<IProps> {
                 </div>
                 {/* <p className="add-tag">+ tag</p> */}
                 <div className="questions">
-                  {quiz.questions.map((question, i) => {
+                  {quiz.questions !== undefined && quiz.questions.map((question, i) => {
                     if (question !== null && question.author === username)
                       return (
                         <div key={'question' + i}>

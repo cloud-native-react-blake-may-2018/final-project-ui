@@ -2,7 +2,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import api from '../path-list'
-import { startGetSearchedQuiz } from '../actions/quizzes'
+import {
+  clearResults,
+  clearQuizAttempt,
+  startGetSearchedQuiz
+} from '../actions/quizzes'
 
 interface IState {
   results: any | string
@@ -12,12 +16,20 @@ interface IProps {
   query: string
   quizzes: any
   showSearch: boolean
+  clearResults?: () => any
+  clearQuizAttempt?: (any) => any
   startGetSearchedQuiz: (quiz: any) => any
 }
 
 export class SearchResults extends Component<IProps, IState> {
   state = {
     results: []
+  }
+
+  clearResults = (e: any) => {
+    this.props.clearResults()
+    this.props.clearQuizAttempt(0)
+    console.log('clearing results')
   }
 
   // @ts-ignore
@@ -85,7 +97,10 @@ export class SearchResults extends Component<IProps, IState> {
                   data-uuid={quiz.uuid}
                   data-title={quiz.title}
                   data-author={quiz.author}
-                  onClick={this.fetchQuiz}
+                  onClick={e => {
+                    this.fetchQuiz(e)
+                    this.clearResults(0)
+                  }}
                 >
                   <div className="record">
                     <p className="title">{quiz.title}</p>
@@ -110,5 +125,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { startGetSearchedQuiz }
+  { startGetSearchedQuiz, clearResults, clearQuizAttempt }
 )(SearchResults)
