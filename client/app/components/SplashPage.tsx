@@ -53,7 +53,10 @@ export class SplashPage extends Component<any, any> {
     dir: 1,
     char: 'a',
     name: false,
-    secretQuiz: ['false', 'false', 'false']
+    secretQuiz: ['false', 'false', 'false'],
+    randomNum1: 0,
+    randomNum2: 0,
+    randomNum3: 0
   }
 
   questionPool1: any = [
@@ -62,12 +65,16 @@ export class SplashPage extends Component<any, any> {
       answers: ['0.1', '0.00001', 'a surreal number']
     },
     {
-      question: '',
-      answers: {}
+      question: 'If humans are made of 60% water, why don’t we evaporate?',
+      answers: [
+        'We do, its called sweating.',
+        'You need to be made of 61% water to evaporate'
+      ]
     },
     {
-      question: '',
-      answers: {}
+      question:
+        'Why is college one of the only products where consumers demand less than what they pay for?',
+      answers: ['Nobody demands homework', 'Its not', 'Parents']
     }
   ]
 
@@ -77,12 +84,14 @@ export class SplashPage extends Component<any, any> {
       answers: ['live forever', 'never existed at all']
     },
     {
-      question: '',
-      answers: []
+      question:
+        'If I created a wormhole that sucked up a city and all it’s inhabitants, would I be liable for damages and criminal penalties?',
+      answers: ['No because there were no witnesses', 'yes']
     },
     {
-      question: '',
-      answers: []
+      question:
+        'If all the US states were to go to war with each other, who do you think would win?',
+      answers: ['Washington D.C.', 'Texas', 'California']
     }
   ]
   questionPool3: any = [
@@ -92,12 +101,16 @@ export class SplashPage extends Component<any, any> {
       answers: ['rewind button', 'pause button']
     },
     {
-      question: '',
-      answers: []
+      question:
+        'If you were to lose access to all 5 of your senses, how would you confirm your existence?',
+      answers: [
+        'I think therefore I am.',
+        "I wouldn't be able to. Eventually reality would blur with fantasy"
+      ]
     },
     {
-      question: '',
-      answers: []
+      question: 'Would you rather lose an arm or a leg?',
+      answers: ['Arm', 'Leg']
     }
   ]
 
@@ -125,17 +138,22 @@ export class SplashPage extends Component<any, any> {
   }
 
   // @ts-ignore
-  componentDidMount = () =>
+  componentDidMount = () => {
+    const randomNum1 = Math.floor(Math.random() * 3)
+    const randomNum2 = Math.floor(Math.random() * 3)
+    const randomNum3 = Math.floor(Math.random() * 3)
+
     this.setState({
-      char: this.randomChar()
+      char: this.randomChar(),
+      randomNum1: Math.floor(Math.random() * 3),
+      randomNum2: Math.floor(Math.random() * 3),
+      randomNum3: Math.floor(Math.random() * 3)
     })
+  }
 
   // @ts-ignore
   render = () => {
-    const randomNum1 = 0
-    const randomNum2 = 0
-    const randomNum3 = 0
-    const { verb } = this.state
+    const { verb, randomNum1, randomNum2, randomNum3 } = this.state
     return (
       <div className="splash-page">
         <header>
@@ -191,7 +209,12 @@ export class SplashPage extends Component<any, any> {
                 answers.
               </p>
             </div>
-            <div className="panel" />
+            <div className="panel">
+              <img
+                src="https://image.ibb.co/mUkztd/Screen_Shot_2018_07_19_at_9_13_53_AM.png"
+                alt="Screen_Shot_2018_07_19_at_9_13_53_AM"
+              />
+            </div>
 
             <form
               className="question"
@@ -223,7 +246,12 @@ export class SplashPage extends Component<any, any> {
                 leaderboards.
               </p>
             </div>
-            <div className="panel" />
+            <div className="panel">
+              <img
+                src="https://image.ibb.co/dBsLYd/Screen_Shot_2018_07_19_at_9_21_07_AM.png"
+                alt="Screen_Shot_2018_07_19_at_9_21_07_AM"
+              />
+            </div>
 
             <form
               className="question"
@@ -254,7 +282,12 @@ export class SplashPage extends Component<any, any> {
               <h2>Use power-ups to help on difficult questions</h2>
               <p>The better you do on quizzes, the more coins you receive.</p>
             </div>
-            <div className="panel" />
+            <div className="panel">
+              <img
+                src="https://image.ibb.co/no716y/Screen_Shot_2018_07_19_at_9_16_24_AM.png"
+                alt="Screen_Shot_2018_07_19_at_9_16_24_AM"
+              />
+            </div>
 
             <form
               className="question"
@@ -276,9 +309,6 @@ export class SplashPage extends Component<any, any> {
               ))}
             </form>
           </section>
-          {/* <Link to="/signup" className="item">
-          Signup
-        </Link> */}
           {this.state.name && (
             <button
               className="secret-button"
