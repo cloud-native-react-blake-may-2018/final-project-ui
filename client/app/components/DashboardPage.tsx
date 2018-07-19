@@ -73,7 +73,11 @@ export class DashboardPage extends Component<IProps> {
                         }
                       </p>
                       <p className="label">/ created</p>
-                      <Link to="/quizzes/created" className="link">
+                      <Link
+                        to="/quizzes/created"
+                        className="link"
+                        onClick={this.clearResults}
+                      >
                         <ArrowIcon
                           className={oscillate1 ? 'arrow animate' : 'arrow'}
                           onMouseOver={this.start1}
@@ -83,12 +87,17 @@ export class DashboardPage extends Component<IProps> {
                     </div>
                     <div className="quizzes-taken">
                       <p className="count">
-                        {allAttempts.every(
+                        {
+                          allAttempts.filter(
+                            attempt => attempt.timings.finished !== undefined
+                          ).length
+                        }
+                        {/* {allAttempts.every(
                           quizAttempt =>
                             quizAttempt.timings.finished === undefined
                         )
                           ? 0
-                          : allAttempts.length}
+                          : allAttempts.length} */}
                       </p>
                       <p className="label">/ taken</p>
                       <Link to="/quizzes/taken" className="link">
@@ -96,6 +105,7 @@ export class DashboardPage extends Component<IProps> {
                           className={oscillate2 ? 'arrow animate' : 'arrow'}
                           onMouseOver={this.start2}
                           onAnimationEnd={this.stop2}
+                          onClick={this.clearResults}
                         />
                       </Link>
                     </div>

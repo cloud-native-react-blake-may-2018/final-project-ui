@@ -602,6 +602,7 @@ export class QuizAttemptReviewPage extends Component<IProps, any> {
                 {/* DISPLAYS THE CHOICES */}
                 <main>
                   <div className="choices">
+                  {/*map quiz Attempts here*/}
                     {quizAttempt[this.retakeIndex].questions[
                       questionNumber
                     ].answers.map((answers, i) => (
